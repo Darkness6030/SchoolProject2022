@@ -8,8 +8,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.Anuken.Arc:arc-core:v138")
-    compileOnly("com.github.Anuken.Arc:backend-sdl:v138")
+    implementation("com.github.Anuken.Arc:arc-core:v138")
+    implementation("com.github.Anuken.Arc:backend-sdl:v138")
 }
 
 tasks.jar {
