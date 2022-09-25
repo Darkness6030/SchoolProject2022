@@ -1,7 +1,15 @@
 package dark;
 
+import arc.backend.sdl.SdlApplication;
+import arc.backend.sdl.SdlConfig;
+import arc.graphics.Color;
+
 public class Main {
+
     public static void main(String[] args) {
-        System.out.println("H stands for H E N T A I");
+        new SdlApplication(new SpriteX(), new SdlConfig() {{
+            title = "SpriteX";
+            initialBackgroundColor = new Color(277353);
+        }});
     }
 }
