@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         new SdlApplication(new SpriteX(), new SdlConfig() {{
             title = "SpriteX";
-            setWindowIcon(FileType.internal, "S.png");
+            setWindowIcon(FileType.internal, "icon.png");
         }});
     }
 }
