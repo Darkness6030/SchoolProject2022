@@ -19,6 +19,6 @@ public class SpriteX implements ApplicationListener {
 
     @Override
     public void update() {
-        Core.graphics.clear(Color.blue.randHue());
+        Core.graphics.clear(Color.blue);
     }
 }
