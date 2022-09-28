@@ -20,12 +20,12 @@ public class SpriteX implements ApplicationListener {
         Fonts.load();
         assets.update(50);
 
-        Log.infoTag("SPRITEX", "Initialized");
+        Log.infoTag("SpriteX", "Initialized");
     }
 
     @Override
     public void dispose() {
-        Log.infoTag("SPRITEX", "Disposed");
+        Log.infoTag("SpriteX", "Disposed");
     }
 
     @Override
