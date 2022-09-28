@@ -50,17 +50,17 @@ public class Fonts {
             }
         });
 
-        assets.load("font-default", Font.class, new FreeTypeFontLoaderParameter("fonts/font.woff", new FreeTypeFontParameter() {{
+        assets.load("font", Font.class, new FreeTypeFontLoaderParameter("fonts/font.woff", new FreeTypeFontParameter() {{
             size = 18;
             shadowColor = Color.darkGray;
             shadowOffsetY = 2;
             incremental = true;
-        }})).loaded = f -> def = f;
+        }})).loaded = font -> def = font;
 
-        assets.load("font-icon", Font.class, new FreeTypeFontLoaderParameter("fonts/icon.ttf", new FreeTypeFontParameter() {{
+        assets.load("icon", Font.class, new FreeTypeFontLoaderParameter("fonts/icon.ttf", new FreeTypeFontParameter() {{
             size = 30;
             characters = "\0";
             incremental = true;
-        }})).loaded = f -> icon = f;
+        }})).loaded = font -> icon = font;
     }
 }
