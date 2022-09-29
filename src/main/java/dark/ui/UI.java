@@ -1,6 +1,7 @@
 package dark.ui;
 
 import arc.ApplicationListener;
+import arc.graphics.Color;
 import arc.scene.event.Touchable;
 import arc.scene.ui.layout.WidgetGroup;
 import arc.util.Log;
@@ -32,6 +33,7 @@ public class UI implements ApplicationListener {
 
     @Override
     public void update() {
+        graphics.clear(Color.lime);
         scene.act();
         scene.draw();
     }

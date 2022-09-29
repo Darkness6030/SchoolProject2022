@@ -18,7 +18,7 @@ public class Styles {
     public static CheckBoxStyle defc;
 
     public static void load() {
-        scene.addStyle(ButtonStyle.class, defb = new ButtonStyle() );
+        scene.addStyle(ButtonStyle.class, defb = new ButtonStyle());
 
         scene.addStyle(TextButtonStyle.class, deft = new TextButtonStyle() {{
             font = Fonts.def;

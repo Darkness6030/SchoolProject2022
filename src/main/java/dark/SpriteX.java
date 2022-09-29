@@ -2,16 +2,13 @@ package dark;
 
 import arc.ApplicationCore;
 import arc.assets.AssetManager;
-import arc.graphics.Color;
 import arc.graphics.g2d.SortedSpriteBatch;
 import arc.scene.Scene;
 import arc.util.Time;
-import dark.ui.Fonts;
-import dark.ui.Styles;
-import dark.ui.UI;
+import dark.ui.*;
 
 import static arc.Core.*;
-import static dark.Main.*;
+import static dark.Main.ui;
 
 public class SpriteX extends ApplicationCore {
 
@@ -33,19 +30,18 @@ public class SpriteX extends ApplicationCore {
         Main.info("Initialized.");
     }
 
-    public void load(Class<?> type, Runnable loadsync) {
-        assets.loadRun(type.getSimpleName(), type, () -> {}, loadsync);
+    public void load(Class<?> type, Runnable load) {
+        assets.loadRun(type.getSimpleName(), type, () -> {}, load);
     }
 
     @Override
     public void update() {
-        if (loaded) {
-            graphics.clear(Color.blue);
-            super.update();
-        } else if (assets.update(50)) {
+        if (!loaded && assets.update(50)) {
             loaded = true;
             Main.info("Total time to load: @ms", Time.elapsed());
         }
+
+        super.update();
     }
 
     @Override

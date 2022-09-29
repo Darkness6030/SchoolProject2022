@@ -1,14 +1,15 @@
 package dark;
 
-import arc.util.Log;
-import arc.util.Strings;
 import arc.Files.FileType;
 import arc.backend.sdl.SdlApplication;
 import arc.backend.sdl.SdlConfig;
+import arc.util.Strings;
 import dark.ui.UI;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import static arc.util.Log.*;
 
 public class Main {
 
@@ -17,10 +18,7 @@ public class Main {
     public static UI ui;
 
     public static void main(String[] args) {
-        Log.logger = (level, text) -> {
-            String result = Log.format("[" + dateTime.format(LocalDateTime.now()) + "] " + text);
-            System.out.println(result);
-        };
+        logger = (level, text) -> System.out.println(format("[" + dateTime.format(LocalDateTime.now()) + "] " + text));
 
         new SdlApplication(new SpriteX(), new SdlConfig() {{
             title = "SpriteX";
@@ -31,6 +29,6 @@ public class Main {
     }
 
     public static void info(String text, Object... values) {
-        Log.infoTag("SpriteX", Strings.format(text, values));
+        infoTag("SpriteX", Strings.format(text, values));
     }
 }
