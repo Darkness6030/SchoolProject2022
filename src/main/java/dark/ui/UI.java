@@ -1,5 +1,7 @@
 package dark.ui;
 
+import arc.ApplicationListener;
+import arc.assets.Loadable;
 import arc.scene.event.Touchable;
 import arc.scene.ui.Button.ButtonStyle;
 import arc.scene.ui.Label.LabelStyle;
@@ -9,11 +11,12 @@ import arc.util.Log;
 
 import static arc.Core.*;
 
-public class UI {
+public class UI implements ApplicationListener, Loadable {
 
-    public static final WidgetGroup hud = new WidgetGroup();
+    public final WidgetGroup hud = new WidgetGroup();
 
-    public static void load() {
+    @Override
+    public void loadSync() {
         scene.addStyle(TextButtonStyle.class, new TextButtonStyle() {{
             font = Fonts.def;
         }});
@@ -38,6 +41,22 @@ public class UI {
                 pad.button(String.valueOf(Icons.eraser), () -> Log.infoTag("UI", "Eraser selected."));
             }).height(40f).fillX();
         });
+    }
 
+    @Override
+    public void update(){
+        scene.act();
+        scene.draw();
+    }
+
+    @Override
+    public void resize(int width, int height){
+        int[] insets = graphics.getSafeInsets();
+        scene.marginLeft = insets[0];
+        scene.marginRight = insets[1];
+        scene.marginTop = insets[2];
+        scene.marginBottom = insets[3];
+
+        scene.resize(width, height);
     }
 }
