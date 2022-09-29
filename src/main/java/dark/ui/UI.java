@@ -1,5 +1,7 @@
 package dark.ui;
 
+import arc.ApplicationListener;
+import arc.assets.Loadable;
 import arc.scene.event.Touchable;
 import arc.scene.ui.Button.ButtonStyle;
 import arc.scene.ui.Label.LabelStyle;
@@ -9,11 +11,12 @@ import arc.util.Log;
 
 import static arc.Core.*;
 
-public class UI {
+public class UI implements ApplicationListener, Loadable {
 
-    public static final WidgetGroup hud = new WidgetGroup();
+    public final WidgetGroup hud = new WidgetGroup();
 
-    public static void load() {
+    @Override
+    public void loadSync() {
         scene.addStyle(TextButtonStyle.class, new TextButtonStyle() {{
             font = Fonts.def;
         }});
@@ -31,15 +34,29 @@ public class UI {
             cont.top();
 
             cont.table(pad -> {
-                pad.defaults().size(64f).pad(8f);
+                pad.defaults().size(32f).pad(4f);
 
-                pad.button("text because there is no icons bruh", () -> Log.infoTag("UI", "First button pressed"));
-                pad.button("TODO add Icon because text buttons go brrr", () -> Log.infoTag("UI", "Second button pressed"));
-            }).height(80f);
+                pad.button(String.valueOf(Icons.pencil), () -> Log.infoTag("UI", "Pencil selected."));
+                pad.button(String.valueOf(Icons.pick), () -> Log.infoTag("UI", "Pick selected."));
+                pad.button(String.valueOf(Icons.eraser), () -> Log.infoTag("UI", "Eraser selected."));
+            }).height(40f).fillX();
         });
+    }
 
-        hud.fill(cont -> {
-            cont.add("Anuk sucks");
-        });
+    @Override
+    public void update(){
+        scene.act();
+        scene.draw();
+    }
+
+    @Override
+    public void resize(int width, int height){
+        int[] insets = graphics.getSafeInsets();
+        scene.marginLeft = insets[0];
+        scene.marginRight = insets[1];
+        scene.marginTop = insets[2];
+        scene.marginBottom = insets[3];
+
+        scene.resize(width, height);
     }
 }
