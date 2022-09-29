@@ -7,7 +7,6 @@ import arc.assets.Loadable;
 import arc.graphics.Color;
 import arc.graphics.g2d.SortedSpriteBatch;
 import arc.scene.Scene;
-import arc.util.Log;
 import arc.util.Time;
 import dark.ui.Fonts;
 import dark.ui.UI;
@@ -17,7 +16,7 @@ import static dark.Main.*;
 
 public class SpriteX extends ApplicationCore {
 
-    public boolean finished;
+    public static boolean loaded;
 
     @Override
     public void setup() {
@@ -31,7 +30,7 @@ public class SpriteX extends ApplicationCore {
     
         add(ui = new UI());
 
-        Log.infoTag("APP", "Initialized");
+        Main.info("Initialized.");
     }
 
     @Override
@@ -42,17 +41,17 @@ public class SpriteX extends ApplicationCore {
 
     @Override
     public void update() {
-        if (finished) {
+        if (loaded) {
             graphics.clear(Color.blue);
             super.update();
         } else if (assets.update(50)) {
-            finished = true;
-            Log.info("[APP] Total time to load: @ms", Time.elapsed());
+            loaded = true;
+            Main.info("Total time to load: @ms", Time.elapsed());
         }
     }
 
     @Override
     public void dispose() {
-        Log.infoTag("APP", "Disposed");
+        Main.info("Disposed.");
     }
 }
