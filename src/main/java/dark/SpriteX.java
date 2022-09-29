@@ -27,12 +27,12 @@ public class SpriteX implements ApplicationListener {
 
         Fonts.load();            
 
-        Log.infoTag("APP", "Initialized");
+        Main.info("Initialized");
     }
 
     @Override
     public void dispose() {
-        Log.infoTag("APP", "Disposed");
+        Main.info("Disposed");
     }
 
     @Override
@@ -44,7 +44,7 @@ public class SpriteX implements ApplicationListener {
             UI.load();
 
             loaded = true;
-            Log.infoTag("APP", "Total time to load: @ms", Time.elapsed());
+            Main.info("Total time to load: @ms", Time.elapsed());
         }
     }
 }
