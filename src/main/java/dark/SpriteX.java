@@ -15,7 +15,7 @@ import static arc.Core.*;
 
 public class SpriteX implements ApplicationListener {
 
-    public static boolean finished;
+    public static boolean loaded;
 
     @Override
     public void init() {
@@ -37,14 +37,14 @@ public class SpriteX implements ApplicationListener {
 
     @Override
     public void update() {
-        if (finished) {
+        if (loaded) {
             Core.graphics.clear(Color.blue);
             Core.scene.draw();
         } else if (assets.update(50)) {
             UI.load();
 
-            finished = true;
-            Log.info("Total time to load: @ms", Time.elapsed());
+            loaded = true;
+            Log.infoTag("APP", "Total time to load: @ms", Time.elapsed());
         }
     }
 }
