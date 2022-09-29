@@ -1,8 +1,9 @@
 package dark;
 
+import arc.ApplicationCore;
 import arc.ApplicationListener;
-import arc.Core;
 import arc.assets.AssetManager;
+import arc.assets.Loadable;
 import arc.graphics.Color;
 import arc.graphics.g2d.SortedSpriteBatch;
 import arc.scene.Scene;
@@ -12,39 +13,46 @@ import dark.ui.Fonts;
 import dark.ui.UI;
 
 import static arc.Core.*;
+import static dark.Main.*;
 
-public class SpriteX implements ApplicationListener {
+public class SpriteX extends ApplicationCore {
 
-    public static boolean finished;
+    public boolean finished;
 
     @Override
-    public void init() {
+    public void setup() {
         Time.mark();
 
         batch = new SortedSpriteBatch();
-        scene = new Scene();
+        input.addProcessor(scene = new Scene());
         assets = new AssetManager();
 
-        Fonts.load();            
+        Fonts.load();
+    
+        add(ui = new UI());
 
         Log.infoTag("APP", "Initialized");
     }
 
     @Override
-    public void dispose() {
-        Log.infoTag("APP", "Disposed");
+    public void add(ApplicationListener module) {
+        super.add(module);
+        if (module instanceof Loadable l) assets.load(l);
     }
 
     @Override
     public void update() {
         if (finished) {
-            Core.graphics.clear(Color.blue);
-            Core.scene.draw();
+            graphics.clear(Color.blue);
+            super.update();
         } else if (assets.update(50)) {
-            UI.load();
-
             finished = true;
-            Log.info("Total time to load: @ms", Time.elapsed());
+            Log.info("[APP] Total time to load: @ms", Time.elapsed());
         }
+    }
+
+    @Override
+    public void dispose() {
+        Log.infoTag("APP", "Disposed");
     }
 }
