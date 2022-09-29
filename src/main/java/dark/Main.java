@@ -12,14 +12,13 @@ import java.time.format.DateTimeFormatter;
 
 public class Main {
 
-    public static final String[] tags = { "&lc&fb[D]&fr", "&lb&fb[I]&fr", "&ly&fb[W]&fr", "&lr&fb[E]", "" };
     public static final DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     public static UI ui;
 
     public static void main(String[] args) {
         Log.logger = (level, text) -> {
-            String result = Log.format("&lk&fb[" + dateTime.format(LocalDateTime.now()) + "]&fr " + tags[level.ordinal()] + " " + text + "&fr");
+            String result = Log.format("[" + dateTime.format(LocalDateTime.now()) + "] " + text);
             System.out.println(result);
         };
 

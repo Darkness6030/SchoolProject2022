@@ -18,17 +18,13 @@ public class Styles {
     public static CheckBoxStyle defc;
 
     public static void load() {
-        scene.addStyle(ButtonStyle.class, defb = new ButtonStyle() {{
-
-        }});
+        scene.addStyle(ButtonStyle.class, defb = new ButtonStyle() );
 
         scene.addStyle(TextButtonStyle.class, deft = new TextButtonStyle() {{
             font = Fonts.def;
         }});
 
-        scene.addStyle(ButtonStyle.class, defi = new ImageButtonStyle() {{
-
-        }});
+        scene.addStyle(ButtonStyle.class, defi = new ImageButtonStyle());
 
         scene.addStyle(LabelStyle.class, defl = new LabelStyle() {{
             font = Fonts.def;
