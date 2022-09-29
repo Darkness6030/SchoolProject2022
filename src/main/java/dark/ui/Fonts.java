@@ -12,8 +12,6 @@ import arc.graphics.Gl;
 import arc.graphics.Texture.TextureFilter;
 import arc.graphics.g2d.Font;
 import arc.graphics.g2d.PixmapPacker;
-import arc.scene.ui.layout.Scl;
-import arc.struct.ObjectSet;
 
 import static arc.Core.*;
 
@@ -27,21 +25,9 @@ public class Fonts {
 
         assets.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(files::internal));
         assets.setLoader(Font.class, null, new FreetypeFontLoader(files::internal) {
-            ObjectSet<FreeTypeFontParameter> scaled = new ObjectSet<>();
-
             @Override
             public Font loadSync(AssetManager manager, String fileName, Fi file, FreeTypeFontLoaderParameter parameter) {
-                FreeTypeFontParameter fontParams = parameter.fontParameters;
-
-                if (fileName.equals("outline")) {
-                    fontParams.borderWidth = Scl.scl(2f);
-                    fontParams.spaceX -= fontParams.borderWidth;
-                }
-
-                if (!scaled.contains(fontParams)) {
-                    fontParams.size = (int) (Scl.scl(fontParams.size));
-                    scaled.add(fontParams);
-                }
+                var fontParams = parameter.fontParameters;
 
                 fontParams.magFilter = fontParams.minFilter = TextureFilter.linear;
                 fontParams.packer = packer;
