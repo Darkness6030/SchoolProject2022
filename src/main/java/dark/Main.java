@@ -5,7 +5,6 @@ import arc.util.Strings;
 import arc.Files.FileType;
 import arc.backend.sdl.SdlApplication;
 import arc.backend.sdl.SdlConfig;
-import arc.util.Log;
 import dark.ui.UI;
 
 import java.time.LocalDateTime;

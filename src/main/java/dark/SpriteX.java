@@ -1,14 +1,13 @@
 package dark;
 
 import arc.ApplicationCore;
-import arc.ApplicationListener;
 import arc.assets.AssetManager;
-import arc.assets.Loadable;
 import arc.graphics.Color;
 import arc.graphics.g2d.SortedSpriteBatch;
 import arc.scene.Scene;
 import arc.util.Time;
 import dark.ui.Fonts;
+import dark.ui.Styles;
 import dark.ui.UI;
 
 import static arc.Core.*;
@@ -25,18 +24,17 @@ public class SpriteX extends ApplicationCore {
         batch = new SortedSpriteBatch();
         input.addProcessor(scene = new Scene());
         assets = new AssetManager();
+        add(ui = new UI());
 
         Fonts.load();
-    
-        add(ui = new UI());
+        load(Styles.class, Styles::load);
+        load(UI.class, ui::load);
 
         Main.info("Initialized.");
     }
 
-    @Override
-    public void add(ApplicationListener module) {
-        super.add(module);
-        if (module instanceof Loadable l) assets.load(l);
+    public void load(Class<?> type, Runnable loadsync) {
+        assets.loadRun(type.getSimpleName(), type, () -> {}, loadsync);
     }
 
     @Override
