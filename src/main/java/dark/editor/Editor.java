@@ -2,10 +2,7 @@ package dark.editor;
 
 import arc.ApplicationListener;
 import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.g2d.*;
 import arc.graphics.gl.FrameBuffer;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
@@ -51,7 +48,7 @@ public class Editor implements ApplicationListener, GestureListener {
         Draw.color(Color.black);
         Fill.crect(-camera.x - 4f, -camera.y - 4f, buffer.getWidth() + 8f, buffer.getHeight() + 8f);
         Draw.color(Color.white);
-        Draw.rect(new TextureRegion(buffer.getTexture()), buffer.getWidth() / 2 - camera.x, buffer.getHeight() / 2 - camera.y);
+        Draw.rect(new TextureRegion(buffer.getTexture()), buffer.getWidth() / 2f - camera.x, buffer.getHeight() / 2f - camera.y);
 
         Draw.flush();
     }

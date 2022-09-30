@@ -3,7 +3,7 @@ package dark.ui;
 import arc.ApplicationListener;
 import arc.scene.event.Touchable;
 import arc.scene.ui.layout.WidgetGroup;
-import arc.util.Log;
+import dark.editor.EditType;
 
 import static arc.Core.*;
 
@@ -25,9 +25,8 @@ public class UI implements ApplicationListener {
             cont.table(pad -> {
                 pad.defaults().size(32f).pad(4f);
 
-                pad.button(String.valueOf(Icons.pencil), () -> Log.infoTag("UI", "Pencil selected."));
-                pad.button(String.valueOf(Icons.pick), () -> Log.infoTag("UI", "Pick selected."));
-                pad.button(String.valueOf(Icons.eraser), () -> Log.infoTag("UI", "Eraser selected."));
+                for (var type : EditType.values())
+                    type.button(pad);
             }).height(40f).fillX();
         });
     }

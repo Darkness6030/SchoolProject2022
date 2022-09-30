@@ -27,10 +27,8 @@ public class Fonts {
         assets.setLoader(Font.class, null, new FreetypeFontLoader(files::internal) {
             @Override
             public Font loadSync(AssetManager manager, String fileName, Fi file, FreeTypeFontLoaderParameter parameter) {
-                var fontParams = parameter.fontParameters;
-
-                fontParams.magFilter = fontParams.minFilter = TextureFilter.linear;
-                fontParams.packer = packer;
+                parameter.fontParameters.magFilter = parameter.fontParameters.minFilter = TextureFilter.linear;
+                parameter.fontParameters.packer = packer;
 
                 return super.loadSync(manager, fileName, file, parameter);
             }
