@@ -9,7 +9,6 @@ import arc.graphics.g2d.TextureRegion;
 import arc.graphics.gl.FrameBuffer;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
-import arc.input.KeyCode;
 import arc.math.geom.Vec2;
 
 import static arc.Core.*;
@@ -32,18 +31,15 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void updateInput() { // temp
-        if (input.keyDown(KeyCode.d)) camera.x += 1f;
-        else if (input.keyDown(KeyCode.a)) camera.x -= 1f;
-        if (input.keyDown(KeyCode.w)) camera.y += 1f;
-        else if (input.keyDown(KeyCode.s)) camera.y -= 1f;
+        camera.add(
+                (input.keyDown(Binding.move_x.min) ? 2 : 0) + (input.keyDown(Binding.move_x.max) ? -2 : 0),
+                (input.keyDown(Binding.move_y.min) ? 2 : 0) + (input.keyDown(Binding.move_y.max) ? -2 : 0)
+        );
     }
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-        if (input.keyDown(KeyCode.mouseMiddle)){
-            camera.x -= deltaX;
-            camera.y -= deltaY;
-        }
+        if (input.keyDown(Binding.mouse_move)) camera.add(-deltaX, -deltaY);
         return false;
     }
 
