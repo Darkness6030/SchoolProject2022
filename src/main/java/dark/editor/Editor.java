@@ -18,6 +18,15 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public Editor() {
         input.addProcessor(new GestureDetector(this));
+
+        canvas.begin(Color.white); // temp
+
+        for (float i = 0; i < 600f; i++) {
+            Lines.stroke(2f, Color.purple.cpy().lerp(Color.blue, i / 600f));
+            Lines.rect(i * 1.25f, i, 800f, 600f);
+        }
+
+        canvas.end();
     }
 
     @Override
