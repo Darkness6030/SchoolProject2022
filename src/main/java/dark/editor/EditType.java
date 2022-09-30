@@ -15,7 +15,6 @@ public enum EditType {
     }
 
     public void button(Table table) {
-        // TODO checked() не работает
         table.button(String.valueOf(icon), () -> editor.type = this).checked(button -> editor.type == this);
     }
 }

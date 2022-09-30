@@ -1,5 +1,6 @@
 package dark.ui;
 
+import arc.graphics.Color;
 import arc.scene.ui.Button.ButtonStyle;
 import arc.scene.ui.CheckBox.CheckBoxStyle;
 import arc.scene.ui.ImageButton.ImageButtonStyle;
@@ -22,6 +23,10 @@ public class Styles {
 
         scene.addStyle(TextButtonStyle.class, deft = new TextButtonStyle() {{
             font = Fonts.def;
+            fontColor = Color.white;
+            downFontColor = Color.gray;
+            overFontColor = Color.lightGray;
+            checkedFontColor = Color.yellow;
         }});
 
         scene.addStyle(ButtonStyle.class, defi = new ImageButtonStyle());
