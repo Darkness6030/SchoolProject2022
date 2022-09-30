@@ -52,6 +52,7 @@ public class SpriteX extends ApplicationCore {
 
     @Override
     public void dispose() {
+        super.dispose();
         Main.info("Disposed.");
     }
 }

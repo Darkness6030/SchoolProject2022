@@ -28,10 +28,6 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void updateInput() { // temp
-        camera.add(
-                (input.keyDown(Binding.move_x.min) ? 2 : 0) + (input.keyDown(Binding.move_x.max) ? -2 : 0),
-                (input.keyDown(Binding.move_y.min) ? 2 : 0) + (input.keyDown(Binding.move_y.max) ? -2 : 0)
-        );
     }
 
     @Override
