@@ -13,6 +13,9 @@ public class Editor implements ApplicationListener, GestureListener {
     public Canvas canvas = new Canvas(800, 600); // temp
     public EditType type = EditType.pencil;
 
+    /** Used to save the edit mode during color selection with ctrl. */
+    private EditType temp = EditType.pencil;
+
     public Editor() {
         input.addProcessor(new GestureDetector(this));
     }
@@ -20,6 +23,11 @@ public class Editor implements ApplicationListener, GestureListener {
     @Override
     public void update() {
         canvas.scale(input.axis(Binding.zoom) * .01f);
+
+        if (input.keyTap(Binding.pick)) {
+            temp = type;
+            type = EditType.pick;
+        } else if (input.keyRelease(Binding.pick)) type = temp;
 
         graphics.clear(Color.lightGray);
         canvas.draw();
