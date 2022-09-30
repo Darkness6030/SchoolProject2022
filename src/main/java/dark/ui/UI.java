@@ -25,8 +25,7 @@ public class UI implements ApplicationListener {
             cont.table(pad -> {
                 pad.defaults().size(32f).pad(4f);
 
-                for (var type : EditType.values())
-                    type.button(pad);
+                for (var type : EditType.values()) type.button(pad);
             }).height(40f).fillX();
         });
     }
