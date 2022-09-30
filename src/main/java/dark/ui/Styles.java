@@ -1,12 +1,12 @@
 package dark.ui;
 
-import static arc.Core.*;
-
 import arc.scene.ui.Button.ButtonStyle;
 import arc.scene.ui.CheckBox.CheckBoxStyle;
 import arc.scene.ui.ImageButton.ImageButtonStyle;
 import arc.scene.ui.Label.LabelStyle;
 import arc.scene.ui.TextButton.TextButtonStyle;
+
+import static arc.Core.*;
 
 public class Styles {
 

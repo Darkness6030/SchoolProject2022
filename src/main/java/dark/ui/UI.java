@@ -1,7 +1,6 @@
 package dark.ui;
 
 import arc.ApplicationListener;
-import arc.graphics.Color;
 import arc.scene.event.Touchable;
 import arc.scene.ui.layout.WidgetGroup;
 import arc.util.Log;
@@ -19,7 +18,7 @@ public class UI implements ApplicationListener {
 
         hud.fill(cont -> {
             cont.name = "Menu Bar";
-            cont.top();
+            cont.top().left();
 
             cont.table(pad -> {
                 pad.defaults().size(32f).pad(4f);
@@ -33,7 +32,6 @@ public class UI implements ApplicationListener {
 
     @Override
     public void update() {
-        graphics.clear(Color.lime);
         scene.act();
         scene.draw();
     }
