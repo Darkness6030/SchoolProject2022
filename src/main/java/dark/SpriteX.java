@@ -21,7 +21,7 @@ public class SpriteX extends ApplicationCore {
         Time.mark();
 
         batch = new SortedSpriteBatch();
-        input.addProcessor(scene = new Scene());
+        scene = new Scene();
         assets = new AssetManager();
         atlas = TextureAtlas.blankAtlas();
 

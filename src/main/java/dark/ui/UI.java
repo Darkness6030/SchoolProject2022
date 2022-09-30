@@ -12,9 +12,11 @@ public class UI implements ApplicationListener {
     public final WidgetGroup hud = new WidgetGroup();
 
     public void load() {
+        input.addProcessor(scene);
+        scene.add(hud);
+
         hud.setFillParent(true);
         hud.touchable = Touchable.childrenOnly;
-        scene.add(hud);
 
         hud.fill(cont -> {
             cont.name = "Menu Bar";
