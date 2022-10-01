@@ -14,7 +14,7 @@ public class Editor implements ApplicationListener, GestureListener {
     public EditType type = EditType.pencil;
 
     /** Primary and secondary color. */
-    private Color first = Color.white, second = Color.black;
+    private final Color first = Color.white, second = Color.black;
     /** Used to save the edit mode during color selection with ctrl. */
     private EditType temp = EditType.pencil;
 
@@ -36,7 +36,7 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.scale(input.axis(Binding.zoom) * .01f);
 
         if (input.keyDown(Binding.draw)) { // TODO may be call some method in EditType?
-            if (type == EditType.pick) first = canvas.pickColor((int) canvas.mouseX(), (int) canvas.mouseY());
+            if (type == EditType.pick) first.set(canvas.pickColor((int) canvas.mouseX(), (int) canvas.mouseY()));
             else {
                 canvas.beginBind();
 

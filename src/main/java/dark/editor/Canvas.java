@@ -5,6 +5,7 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.graphics.gl.FrameBuffer;
 import arc.math.geom.Vec2;
+import arc.util.Tmp;
 
 import static arc.Core.*;
 
@@ -15,7 +16,7 @@ public class Canvas extends FrameBuffer {
 
     public Canvas(int width, int height) {
         super(width, height);
-        move(graphics.getWidth() / 2, graphics.getHeight() / 2);
+        move(graphics.getWidth() / 2f, graphics.getHeight() / 2f);
     }
 
     public void move(float x, float y) {
@@ -34,7 +35,7 @@ public class Canvas extends FrameBuffer {
         return getHeight() - input.mouseY() + position.y;
     }
 
-    public Color pickColor(int x, int y) { // TODO throrws ArcRuntimeException: This TextureData implementation does not return a Pixmap
+    public Color pickColor(int x, int y) { // TODO throws ArcRuntimeException: This TextureData implementation does not return a Pixmap
         return new Color(getTexture().getTextureData().getPixmap().get(x, y));
     }
 
