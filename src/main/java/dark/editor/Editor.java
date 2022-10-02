@@ -33,7 +33,8 @@ public class Editor implements ApplicationListener, GestureListener {
 
     @Override
     public void update() {
-        canvas.scale(input.axis(Binding.zoom) * .01f);
+        canvas.scale(input.axis(Binding.zoom) * .02f);
+        canvas.clampToScreen(256f);
 
         if (input.keyDown(Binding.draw)) { // TODO may be call some method in EditType?
             if (type == EditType.pick) first.set(canvas.pickColor((int) canvas.mouseX(), (int) canvas.mouseY()));
