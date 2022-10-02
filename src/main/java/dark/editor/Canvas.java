@@ -24,11 +24,13 @@ public class Canvas extends FrameBuffer {
     }
 
     public void clampToScreen(float margin) {
-        position.x = Mathf.clamp(position.x, graphics.getWidth() - getWidth() / 2f * scale - margin, getWidth() / 2f * scale + margin);
-        position.y = Mathf.clamp(position.y, graphics.getHeight() - getHeight() / 2f * scale - margin, getHeight() / 2f * scale + margin);
+        final float scaledWidth = getWidth() * scale, scaledHeight = getHeight() * scale;
 
-        if (getWidth() * scale < graphics.getWidth()) position.x = graphics.getWidth() / 2f;
-        if (getHeight() * scale < graphics.getHeight()) position.y = graphics.getHeight() / 2f;
+        position.x = Mathf.clamp(position.x, graphics.getWidth() - margin - scaledWidth / 2f, margin + scaledWidth / 2f);
+        position.y = Mathf.clamp(position.y, graphics.getHeight() - margin - scaledHeight / 2f, margin + scaledHeight / 2f);
+
+        if (scaledWidth < graphics.getWidth() - margin * 2f) position.x = graphics.getWidth() / 2f;
+        if (scaledHeight < graphics.getHeight() - margin * 2f) position.y = graphics.getHeight() / 2f;
     }
 
     public void scale(float scale) {
