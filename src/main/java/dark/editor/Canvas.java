@@ -14,9 +14,13 @@ public class Canvas extends FrameBuffer {
     public final Vec2 position = new Vec2();
     public float scale = 1f;
 
+    private float swidth, sheight;
+
     public Canvas(int width, int height) {
         super(width, height);
+
         move(graphics.getWidth() / 2f, graphics.getHeight() / 2f);
+        scale(0f); // cache scaled width and height
     }
 
     public void move(float x, float y) {
@@ -24,17 +28,25 @@ public class Canvas extends FrameBuffer {
     }
 
     public void clampToScreen(float margin) {
-        final float scaledWidth = getWidth() * scale, scaledHeight = getHeight() * scale;
+        position.x = Mathf.clamp(position.x, graphics.getWidth() - margin - swidth / 2f, margin + swidth / 2f);
+        position.y = Mathf.clamp(position.y, graphics.getHeight() - margin - sheight / 2f, margin + sheight / 2f);
 
-        position.x = Mathf.clamp(position.x, graphics.getWidth() - margin - scaledWidth / 2f, margin + scaledWidth / 2f);
-        position.y = Mathf.clamp(position.y, graphics.getHeight() - margin - scaledHeight / 2f, margin + scaledHeight / 2f);
-
-        if (scaledWidth < graphics.getWidth() - margin * 2f) position.x = graphics.getWidth() / 2f;
-        if (scaledHeight < graphics.getHeight() - margin * 2f) position.y = graphics.getHeight() / 2f;
+        if (swidth < graphics.getWidth() - margin * 2f) position.x = graphics.getWidth() / 2f;
+        if (sheight < graphics.getHeight() - margin * 2f) position.y = graphics.getHeight() / 2f;
     }
 
     public void scale(float scale) {
         this.scale += scale;
+        swidth = getWidth() * this.scale;
+        sheight = getHeight() * this.scale;
+    }
+
+    public float scaledWidth() {
+        return swidth;
+    }
+
+    public float scaledHeight() {
+        return sheight;
     }
 
     public float mouseX() {
