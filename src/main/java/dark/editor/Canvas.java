@@ -38,11 +38,11 @@ public class Canvas extends FrameBuffer {
     }
 
     public float mouseX() {
-        return input.mouseX() - position.x;
+        return getWidth() / 2f + input.mouseX() - position.x;
     }
 
     public float mouseY() {
-        return getHeight() - input.mouseY() + position.y;
+        return getHeight() / 2f - input.mouseY() + position.y;
     }
 
     public Color pickColor(int x, int y) { // TODO throws ArcRuntimeException: This TextureData implementation does not return a Pixmap
