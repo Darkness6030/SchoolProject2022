@@ -39,12 +39,18 @@ public class Fonts {
             shadowColor = Color.darkGray;
             shadowOffsetY = 2;
             incremental = true;
-        }})).loaded = font -> def = font;
+        }})).loaded = font -> {
+            font.getData().markupEnabled = true;
+            def = font;
+        };
 
         assets.load("icon", Font.class, new FreeTypeFontLoaderParameter("fonts/icon.ttf", new FreeTypeFontParameter() {{
             size = 30;
             characters = "\0";
             incremental = true;
-        }})).loaded = font -> icon = font;
+        }})).loaded = font -> {
+            font.getData().markupEnabled = true;
+            icon = font;
+        };
     }
 }
