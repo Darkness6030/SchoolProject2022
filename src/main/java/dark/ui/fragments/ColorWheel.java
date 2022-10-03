@@ -11,8 +11,8 @@ import dark.ui.Icons;
 
 public class ColorWheel {
 
-    public static final float radius = 256f;
-    public static final int max = 16;
+    public static final float radius = 128f;
+    public static final int max = 18;
 
     public Stack stack;
     public Seq<Color> colors;
@@ -22,27 +22,29 @@ public class ColorWheel {
     public void build(WidgetGroup parent) {
         parent.fill(cont -> {
             cont.name = "Color Wheel";
-            stack = cont.stack().size(radius).get();
+            stack = cont.stack().size(radius * 2f).get();
         });
         colors = Seq.with(Color.white, Color.lightGray, Color.gray, Color.darkGray, Color.black);
     }
 
     public void add(Color color) {
+        if (colors.contains(color)) return;
         colors.add(color);
         if (colors.size > max) colors.remove(0);
     }
 
-    public void show(Cons<Color> callback) {
+    public void show(float x, float y, Cons<Color> callback) {
         stack.clear();
-        deg = 180f;
+        deg = 90f;
 
         colors.each(color -> stack.add(new Table(table -> {
-            table.defaults().size(32f);
+            table.defaults().size(32f); // TODO replace with something
             table.button("[#" + color + "]" + Icons.block, () -> callback.get(color)).get().setTranslation(
-                    Mathf.cosDeg(deg += 20f) * radius,
+                    Mathf.cosDeg(deg += 15f) * radius,
                     Mathf.sinDeg(deg) * radius);
         })));
 
+        stack.setPosition(x, y); // TODO don't work and idk why
         stack.visible = true;
     }
 

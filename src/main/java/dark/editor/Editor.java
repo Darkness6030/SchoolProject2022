@@ -37,9 +37,8 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.scale(input.axis(Binding.zoom) * .02f);
         canvas.clampToScreen(192f);
 
-        if (input.keyDown(Binding.draw) && !scene.hasMouse()) { // TODO may be call some method in EditType?
-            if (type == EditType.pick) first.set(canvas.pickColor((int) canvas.mouseX(), (int) canvas.mouseY()));
-            else {
+        if (type == EditType.pencil) {
+            if (input.keyDown(Binding.draw)) {
                 canvas.beginBind();
 
                 Draw.color(first);
@@ -48,11 +47,17 @@ public class Editor implements ApplicationListener, GestureListener {
                 canvas.end();
             }
         }
+        if (type == EditType.pick && !scene.hasMouse()) { // TODO may be call some method in EditType?
+            if (input.keyRelease(Binding.draw)) {
+                first.set(canvas.pickColor((int) canvas.mouseX(), (int) canvas.mouseY()));
+                ui.wheelfrag.add(first);
+            }
+        }
 
         if (input.keyTap(Binding.pick)) {
             temp = type;
             type = EditType.pick;
-            ui.wheelfrag.show(first::set);
+            ui.wheelfrag.show(input.mouseX(), input.mouseY(), first::set);
         } else if (ui.wheelfrag.shown() && (input.keyRelease(Binding.pick) || input.keyRelease(Binding.draw))) {
             type = temp;
             ui.wheelfrag.hide();
