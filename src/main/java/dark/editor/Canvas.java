@@ -58,7 +58,8 @@ public class Canvas extends FrameBuffer {
     }
 
     public Color pickColor(int x, int y) { // TODO throws ArcRuntimeException: This TextureData implementation does not return a Pixmap
-        return new Color(getTexture().getTextureData().getPixmap().get(x, y));
+        // return new Color(getTexture().getTextureData().getPixmap().get(x, y));
+        return Color.purple;
     }
 
     public void draw() {

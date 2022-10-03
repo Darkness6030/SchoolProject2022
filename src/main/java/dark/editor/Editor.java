@@ -33,6 +33,8 @@ public class Editor implements ApplicationListener, GestureListener {
 
     @Override
     public void update() {
+        if (scene.hasMouse()) return;
+
         canvas.scale(input.axis(Binding.zoom) * .02f);
         canvas.clampToScreen(192f);
 
