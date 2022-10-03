@@ -7,6 +7,7 @@ import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 
 import static arc.Core.*;
+import static dark.Main.*;
 
 public class Editor implements ApplicationListener, GestureListener {
 
@@ -36,7 +37,7 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.scale(input.axis(Binding.zoom) * .02f);
         canvas.clampToScreen(192f);
 
-        if (input.keyDown(Binding.draw)) { // TODO may be call some method in EditType?
+        if (input.keyDown(Binding.draw) && !scene.hasMouse()) { // TODO may be call some method in EditType?
             if (type == EditType.pick) first.set(canvas.pickColor((int) canvas.mouseX(), (int) canvas.mouseY()));
             else {
                 canvas.beginBind();
@@ -51,7 +52,11 @@ public class Editor implements ApplicationListener, GestureListener {
         if (input.keyTap(Binding.pick)) {
             temp = type;
             type = EditType.pick;
-        } else if (input.keyRelease(Binding.pick)) type = temp;
+            ui.wheelfrag.show(first::set);
+        } else if (ui.wheelfrag.shown() && (input.keyRelease(Binding.pick) || input.keyRelease(Binding.draw))) {
+            type = temp;
+            ui.wheelfrag.hide();
+        }
 
         graphics.clear(Color.lightGray);
         canvas.draw();

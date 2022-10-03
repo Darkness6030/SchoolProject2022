@@ -4,12 +4,15 @@ import arc.ApplicationListener;
 import arc.scene.event.Touchable;
 import arc.scene.ui.layout.WidgetGroup;
 import dark.editor.EditType;
+import dark.ui.fragments.ColorWheel;
 
 import static arc.Core.*;
 
 public class UI implements ApplicationListener {
 
     public final WidgetGroup hud = new WidgetGroup();
+
+    public final ColorWheel wheelfrag = new ColorWheel();
 
     public void load() {
         input.addProcessor(scene);
@@ -28,6 +31,8 @@ public class UI implements ApplicationListener {
                 for (var type : EditType.values()) type.button(pad);
             }).height(40f).fillX();
         });
+
+        wheelfrag.build(hud);
     }
 
     @Override
