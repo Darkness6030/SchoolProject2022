@@ -29,7 +29,7 @@ public class ColorWheel {
 
     public void add(Color color) {
         if (colors.contains(color)) return;
-        colors.add(color);
+        colors.add(color.cpy());
         if (colors.size > max) colors.remove(0);
     }
 
