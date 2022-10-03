@@ -2,7 +2,6 @@ package dark.editor;
 
 import arc.ApplicationListener;
 import arc.graphics.Color;
-import arc.graphics.g2d.*;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 
@@ -21,15 +20,6 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public Editor() {
         input.addProcessor(new GestureDetector(this));
-
-        canvas.begin(Color.white); // temp
-
-        for (float i = 0; i < 600f; i++) {
-            Lines.stroke(2f, Color.purple.cpy().lerp(Color.blue, i / 600f));
-            Lines.rect(i * 1.25f, i, 800f, 600f);
-        }
-
-        canvas.end();
     }
 
     @Override
@@ -38,14 +28,7 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.clampToScreen(192f);
 
         if (type == EditType.pencil) {
-            if (input.keyDown(Binding.draw)) {
-                canvas.beginBind();
-
-                Draw.color(first);
-                Fill.rect(canvas.mouseX(), canvas.mouseY(), 3f, 3f);
-
-                canvas.end();
-            }
+            if (input.keyDown(Binding.draw)) canvas.drawRect((int) canvas.mouseX(), (int) canvas.mouseY(), 2, 2, first.rgba8888());
         }
         if (type == EditType.pick && !scene.hasMouse()) { // TODO may be call some method in EditType?
             if (input.keyRelease(Binding.draw)) {

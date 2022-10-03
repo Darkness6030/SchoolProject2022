@@ -1,15 +1,16 @@
 package dark.editor;
 
 import arc.graphics.Color;
+import arc.graphics.Pixmap;
+import arc.graphics.Texture;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
-import arc.graphics.gl.FrameBuffer;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 
 import static arc.Core.*;
 
-public class Canvas extends FrameBuffer {
+public class Canvas extends Pixmap {
 
     public final Vec2 position = new Vec2();
     public float scale = 1f;
@@ -21,6 +22,10 @@ public class Canvas extends FrameBuffer {
 
         move(graphics.getWidth() / 2f, graphics.getHeight() / 2f);
         scale(0f); // cache scaled width and height
+
+        each((x, y) -> { // temp
+            set(x, y, Color.purple.cpy().lerp(Color.blue, Mathf.sqr((x + y) / 1400f)));
+        });
     }
 
     public void move(float x, float y) {
@@ -57,15 +62,14 @@ public class Canvas extends FrameBuffer {
         return (sheight / 2f - input.mouseY() + position.y) / scale;
     }
 
-    public Color pickColor(int x, int y) { // TODO throws ArcRuntimeException: This TextureData implementation does not return a Pixmap
-        // return new Color(getTexture().getTextureData().getPixmap().get(x, y));
-        return Color.purple;
+    public Color pickColor(int x, int y) {
+        return new Color(get(x, y));
     }
 
     public void draw() {
         Draw.reset();
 
-        Draw.rect(new TextureRegion(getTexture()),
+        Draw.rect(new TextureRegion(new Texture(this)),
                 position.x,
                 position.y,
                 getWidth() * scale,
