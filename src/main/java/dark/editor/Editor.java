@@ -14,7 +14,7 @@ public class Editor implements ApplicationListener, GestureListener {
     public EditType type = EditType.pencil;
 
     /** Primary and secondary color. */
-    private final Color first = Color.white, second = Color.black;
+    private final Color first = Color.white.cpy(), second = Color.black.cpy();
     /** Used to save the edit mode during color selection with ctrl. */
     private EditType temp = EditType.pencil;
 
@@ -33,8 +33,6 @@ public class Editor implements ApplicationListener, GestureListener {
 
     @Override
     public void update() {
-        if (scene.hasMouse()) return;
-
         canvas.scale(input.axis(Binding.zoom) * .02f);
         canvas.clampToScreen(192f);
 
