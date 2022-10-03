@@ -38,12 +38,6 @@ public class UI implements ApplicationListener {
 
     @Override
     public void resize(int width, int height) {
-        int[] insets = graphics.getSafeInsets();
-        scene.marginLeft = insets[0];
-        scene.marginRight = insets[1];
-        scene.marginTop = insets[2];
-        scene.marginBottom = insets[3];
-
         scene.resize(width, height);
     }
 }
