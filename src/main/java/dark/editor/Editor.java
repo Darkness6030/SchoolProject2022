@@ -63,6 +63,8 @@ public class Editor implements ApplicationListener, GestureListener {
             ui.wheelfrag.hide();
         }
 
+        if (input.ctrl() && input.keyTap(Binding.new_canvas)) canvas = canvas.width == 800 ? new Canvas(600, 800) : new Canvas(800, 600);
+
         graphics.clear(Color.lightGray);
         canvas.draw();
     }
