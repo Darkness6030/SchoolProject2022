@@ -16,6 +16,7 @@ public class Canvas extends Pixmap {
     public float scale = 1f;
 
     private float swidth, sheight;
+    private Texture texture = new Texture(this);
 
     public Canvas(int width, int height) {
         super(width, height);
@@ -69,7 +70,8 @@ public class Canvas extends Pixmap {
     public void draw() {
         Draw.reset();
 
-        Draw.rect(new TextureRegion(new Texture(this)),
+        texture.load(texture.getTextureData());
+        Draw.rect(new TextureRegion(texture),
                 position.x,
                 position.y,
                 getWidth() * scale,
