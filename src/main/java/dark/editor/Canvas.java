@@ -13,13 +13,12 @@ public class Canvas extends Pixmap {
     public final Vec2 position = new Vec2();
     public float scale = 1f;
 
-    private final Texture texture = new Texture(this);
+    private final TextureRegion region = new TextureRegion(new Texture(this));
 
     public Canvas(int width, int height) {
         super(width, height);
 
         move(graphics.getWidth() / 2f, graphics.getHeight() / 2f);
-        scale(0f); // cache scaled width and height
 
         each((x, y) -> { // temp
             set(x, y, Color.purple.cpy().lerp(Color.blue, Mathf.sqr((x + y) / 1400f)));
@@ -65,8 +64,8 @@ public class Canvas extends Pixmap {
     public void draw() {
         Draw.reset();
 
-        texture.load(texture.getTextureData());
-        Draw.rect(new TextureRegion(texture),
+        region.texture.load(region.texture.getTextureData());
+        Draw.rect(region,
                 position.x,
                 position.y,
                 getWidth() * scale,
