@@ -30,6 +30,7 @@ public class Editor implements ApplicationListener, GestureListener {
         if (type == EditType.pencil) {
             if (input.keyDown(Binding.draw)) canvas.drawRect((int) canvas.mouseX(), (int) canvas.mouseY(), 2, 2, first.rgba8888());
         }
+
         if (type == EditType.pick && !scene.hasMouse()) { // TODO may be call some method in EditType?
             if (input.keyRelease(Binding.draw)) {
                 first.set(canvas.pickColor((int) canvas.mouseX(), (int) canvas.mouseY()));
