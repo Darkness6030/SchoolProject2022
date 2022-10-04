@@ -6,7 +6,7 @@ import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 
 import static arc.Core.*;
-import static dark.Main.*;
+import static dark.Main.ui;
 
 public class Editor implements ApplicationListener, GestureListener {
 

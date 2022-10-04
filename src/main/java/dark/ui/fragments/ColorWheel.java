@@ -24,7 +24,7 @@ public class ColorWheel {
             cont.name = "Color Wheel";
             stack = cont.stack().size(radius * 2f).get();
         });
-        colors = Seq.with(Color.white, Color.lightGray, Color.gray, Color.darkGray, Color.black);
+        colors = Seq.with(Color.white, Color.red, Color.green, Color.blue, Color.black);
     }
 
     public void add(Color color) {
