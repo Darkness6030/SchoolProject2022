@@ -1,8 +1,6 @@
 package dark.editor;
 
-import arc.graphics.Color;
-import arc.graphics.Pixmap;
-import arc.graphics.Texture;
+import arc.graphics.*;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
@@ -15,8 +13,7 @@ public class Canvas extends Pixmap {
     public final Vec2 position = new Vec2();
     public float scale = 1f;
 
-    private float swidth, sheight;
-    private Texture texture = new Texture(this);
+    private final Texture texture = new Texture(this);
 
     public Canvas(int width, int height) {
         super(width, height);
@@ -34,33 +31,31 @@ public class Canvas extends Pixmap {
     }
 
     public void clampToScreen(float margin) {
-        position.x = Mathf.clamp(position.x, graphics.getWidth() - margin - swidth / 2f, margin + swidth / 2f);
-        position.y = Mathf.clamp(position.y, graphics.getHeight() - margin - sheight / 2f, margin + sheight / 2f);
+        position.x = Mathf.clamp(position.x, graphics.getWidth() - margin - scaledWidth() / 2f, margin + scaledWidth() / 2f);
+        position.y = Mathf.clamp(position.y, graphics.getHeight() - margin - scaledHeight() / 2f, margin + scaledHeight() / 2f);
 
-        if (swidth < graphics.getWidth() - margin * 2f) position.x = graphics.getWidth() / 2f;
-        if (sheight < graphics.getHeight() - margin * 2f) position.y = graphics.getHeight() / 2f;
+        if (scaledWidth() < graphics.getWidth() - margin * 2f) position.x = graphics.getWidth() / 2f;
+        if (scaledHeight() < graphics.getHeight() - margin * 2f) position.y = graphics.getHeight() / 2f;
     }
 
     public void scale(float scale) {
         this.scale += scale;
-        swidth = getWidth() * this.scale;
-        sheight = getHeight() * this.scale;
     }
 
     public float scaledWidth() {
-        return swidth;
+        return getWidth() * scale;
     }
 
     public float scaledHeight() {
-        return sheight;
+        return getHeight() * scale;
     }
 
     public float mouseX() {
-        return (swidth / 2f + input.mouseX() - position.x) / scale;
+        return (scaledWidth() / 2f + input.mouseX() - position.x) / scale;
     }
 
     public float mouseY() {
-        return (sheight / 2f - input.mouseY() + position.y) / scale;
+        return (scaledHeight() / 2f - input.mouseY() + position.y) / scale;
     }
 
     public Color pickColor(int x, int y) {
