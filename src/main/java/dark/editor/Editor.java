@@ -6,7 +6,7 @@ import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 
 import static arc.Core.*;
-import static dark.Main.ui;
+import static dark.Main.*;
 
 public class Editor implements ApplicationListener, GestureListener {
 
@@ -27,7 +27,7 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.scale(input.axis(Binding.zoom) * .02f);
         canvas.clampToScreen(192f);
 
-        if (type == EditType.pencil) {
+        if (type == EditType.pencil && !scene.hasMouse()) {
             if (input.keyDown(Binding.draw)) canvas.drawRect((int) canvas.mouseX(), (int) canvas.mouseY(), 2, 2, first.rgba8888());
         }
 

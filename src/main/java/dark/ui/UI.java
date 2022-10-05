@@ -25,7 +25,7 @@ public class UI implements ApplicationListener {
             cont.name = "Menu Bar";
             cont.top().left();
 
-            cont.table(pad -> {
+            cont.table(Textures.aplha_bg, pad -> {
                 pad.defaults().size(32f).pad(4f);
 
                 for (var type : EditType.values()) type.button(pad);
