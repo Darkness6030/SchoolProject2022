@@ -26,7 +26,7 @@ public class Main {
             title = "SpriteX";
             maximized = true;
 
-            setWindowIcon(FileType.internal, "icon.png");
+            setWindowIcon(FileType.internal, "sprites/alpha-chan.png");
         }});
     }
 

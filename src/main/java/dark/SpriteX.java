@@ -27,6 +27,7 @@ public class SpriteX extends ApplicationCore {
         add(ui = new UI());
 
         Fonts.load();
+        Palette.load();
 
         load(Textures.class, Textures::load);
         load(Styles.class, Styles::load);

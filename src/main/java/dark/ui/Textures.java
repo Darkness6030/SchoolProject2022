@@ -8,13 +8,12 @@ import static arc.Core.*;
 
 public class Textures {
 
-    public static TextureRegionDrawable alpha_bg, alpha_bg_line, alphaaaa, alpha_chan, slider_back, slider_knob, slider_knob_over, slider_knob_down;
+    public static TextureRegionDrawable alpha_bg, alpha_bg_line, white_pane, slider_back, slider_knob, slider_knob_over, slider_knob_down;
 
     public static void load() {
         alpha_bg = load("alpha-bg");
         alpha_bg_line = load("alpha-bg-line");
-        alphaaaa = load("alphaaaa");
-        alpha_chan = load("alpha-chan");
+        white_pane = load("white-pane.9");
         slider_back = load("slider-back.9");
         slider_knob = load("slider-knob");
         slider_knob_over = load("slider-knob-over");

@@ -1,8 +1,6 @@
 package dark.ui;
 
 import arc.ApplicationListener;
-import arc.graphics.Color;
-import arc.graphics.Colors;
 import arc.scene.event.Touchable;
 import arc.scene.ui.layout.WidgetGroup;
 import dark.ui.fragments.ColorWheel;
@@ -18,8 +16,6 @@ public class UI implements ApplicationListener {
     public final ColorWheel wheelfrag = new ColorWheel();
 
     public void load() {
-        Colors.put("accent", Color.valueOf("#ffd37f"));
-
         input.addProcessor(scene);
         scene.add(hud);
 
