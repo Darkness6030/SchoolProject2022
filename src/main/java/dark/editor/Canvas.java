@@ -13,8 +13,6 @@ public class Canvas extends Pixmap {
     public final Vec2 position = new Vec2();
     public float scale = 1f;
 
-    public float drawSize = 2f;
-
     private final TextureRegion region = new TextureRegion(new Texture(this));
 
     public Canvas(int width, int height) {
