@@ -10,15 +10,15 @@ import static arc.Core.*;
 public class Textures {
 
     public static Jval splits;
-    public static Drawable alpha_bg, alpha_bg_line, white_pane, slider_back, slider_knob, slider_knob_over, slider_knob_down;
+    public static Drawable alpha_bg, alpha_bg_line, underline, slider_back, slider_knob, slider_knob_over, slider_knob_down;
 
     public static void load() {
         splits = Jval.read(files.internal("sprites/splits.json").reader());
 
         alpha_bg = load("alpha-bg");
         alpha_bg_line = load("alpha-bg-line");
-        white_pane = load("white-pane.9");
-        slider_back = load("slider-back.9");
+        underline = load("underline");
+        slider_back = load("slider-back");
         slider_knob = load("slider-knob");
         slider_knob_over = load("slider-knob-over");
         slider_knob_down = load("slider-knob-down");

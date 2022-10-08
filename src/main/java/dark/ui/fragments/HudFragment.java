@@ -14,7 +14,7 @@ public class HudFragment {
             cont.name = "Menu Bar";
             cont.top();
 
-            cont.table(Textures.white_pane, pad -> {
+            cont.table(Textures.underline, pad -> {
                 pad.left();
                 pad.defaults().pad(4f);
 
