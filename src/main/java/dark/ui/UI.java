@@ -1,13 +1,15 @@
 package dark.ui;
 
 import arc.ApplicationListener;
+import arc.graphics.Color;
+import arc.graphics.Colors;
 import arc.scene.event.Touchable;
-import arc.scene.ui.Slider;
 import arc.scene.ui.layout.WidgetGroup;
 import dark.editor.EditType;
 import dark.ui.fragments.ColorWheel;
 
-import static arc.Core.*;
+import static arc.Core.input;
+import static arc.Core.scene;
 import static dark.Main.editor;
 
 public class UI implements ApplicationListener {
@@ -17,6 +19,8 @@ public class UI implements ApplicationListener {
     public final ColorWheel wheelfrag = new ColorWheel();
 
     public void load() {
+        Colors.put("accent", Color.valueOf("#ffd37f"));
+
         input.addProcessor(scene);
         scene.add(hud);
 
@@ -37,6 +41,7 @@ public class UI implements ApplicationListener {
                 pad.slider(1f, 100f, 1f, 2f, false, value -> {
                     editor.canvas.drawSize = value;
                 });
+                pad.label(() -> "[darkgray]x" + editor.canvas.drawSize).pad(10f);
             });
         });
 
