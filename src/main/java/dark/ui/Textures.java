@@ -8,10 +8,15 @@ import static arc.Core.*;
 
 public class Textures {
 
-    public static TextureRegionDrawable aplha_bg;
+    public static TextureRegionDrawable alpha_bg, alphaaaa, sliderBack, sliderKnob, sliderKnobOver, sliderKnobDown;
 
     public static void load() {
-        aplha_bg = load("alpha-bg");
+        alpha_bg = load("alpha-bg");
+        alphaaaa = load("alphaaaa");
+        sliderBack = load("slider-back.9");
+        sliderKnob = load("slider-knob");
+        sliderKnobOver = load("slider-knob-over");
+        sliderKnobDown = load("slider-knob-down");
     }
 
     public static TextureRegionDrawable load(String name) {

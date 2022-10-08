@@ -2,11 +2,13 @@ package dark.ui;
 
 import arc.ApplicationListener;
 import arc.scene.event.Touchable;
+import arc.scene.ui.Slider;
 import arc.scene.ui.layout.WidgetGroup;
 import dark.editor.EditType;
 import dark.ui.fragments.ColorWheel;
 
 import static arc.Core.*;
+import static dark.Main.editor;
 
 public class UI implements ApplicationListener {
 
@@ -25,11 +27,17 @@ public class UI implements ApplicationListener {
             cont.name = "Menu Bar";
             cont.top().left();
 
-            cont.table(Textures.aplha_bg, pad -> {
+            cont.table(Textures.alpha_bg, pad -> {
                 pad.defaults().size(32f).pad(4f);
 
                 for (var type : EditType.values()) type.button(pad);
             }).height(40f).fillX();
+
+            cont.table(pad -> {
+                pad.slider(1f, 100f, 1f, 2f, false, value -> {
+                    editor.canvas.drawSize = value;
+                });
+            });
         });
 
         wheelfrag.build(hud);
