@@ -5,17 +5,16 @@ import arc.graphics.Color;
 import arc.graphics.Colors;
 import arc.scene.event.Touchable;
 import arc.scene.ui.layout.WidgetGroup;
-import dark.editor.EditType;
 import dark.ui.fragments.ColorWheel;
+import dark.ui.fragments.HudFragment;
 
-import static arc.Core.input;
-import static arc.Core.scene;
-import static dark.Main.editor;
+import static arc.Core.*;
 
 public class UI implements ApplicationListener {
 
     public final WidgetGroup hud = new WidgetGroup();
 
+    public final HudFragment hudfrag = new HudFragment();
     public final ColorWheel wheelfrag = new ColorWheel();
 
     public void load() {
@@ -27,24 +26,7 @@ public class UI implements ApplicationListener {
         hud.setFillParent(true);
         hud.touchable = Touchable.childrenOnly;
 
-        hud.fill(cont -> {
-            cont.name = "Menu Bar";
-            cont.top().left();
-
-            cont.table(Textures.alpha_bg, pad -> {
-                pad.defaults().size(32f).pad(4f);
-
-                for (var type : EditType.values()) type.button(pad);
-            }).height(40f).fillX();
-
-            cont.table(pad -> {
-                pad.slider(1f, 100f, 1f, 2f, false, value -> {
-                    editor.canvas.drawSize = value;
-                });
-                pad.label(() -> "[darkgray]x" + editor.canvas.drawSize).pad(10f);
-            });
-        });
-
+        hudfrag.build(hud);
         wheelfrag.build(hud);
     }
 

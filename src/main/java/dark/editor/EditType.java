@@ -15,6 +15,6 @@ public enum EditType {
     }
 
     public void button(Table table) {
-        table.button(String.valueOf(icon), () -> editor.type = this).checked(button -> editor.type == this);
+        table.button(String.valueOf(icon), () -> editor.type = this).checked(button -> editor.type == this).size(32f);
     }
 }
