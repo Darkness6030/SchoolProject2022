@@ -44,9 +44,9 @@ public class Styles {
         }});
 
         scene.addStyle(SliderStyle.class, defs = new SliderStyle() {{
-            background = sliderBack;
-            knob = alphaaaa;
-            knobOver = alphaaaa;
+            background = slider_back;
+            knob = alpha_chan;
+            knobOver = alpha_chan;
             knobDown = alphaaaa;
         }});
     }
