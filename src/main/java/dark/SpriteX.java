@@ -35,7 +35,6 @@ public class SpriteX extends ApplicationCore {
         assets.finishLoading();
 
         Main.info("Total time to load: @ms", Time.elapsed());
-
         Main.info("Initialized Application.");
     }
 

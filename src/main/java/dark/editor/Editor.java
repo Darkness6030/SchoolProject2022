@@ -13,7 +13,7 @@ public class Editor implements ApplicationListener, GestureListener {
     public Canvas canvas = new Canvas(800, 600); // temp
     public EditType type = EditType.pencil;
 
-    public float drawSize = 2f; // TODO temp move to EditType cuz pick tool have not size
+    public int drawSize = 2; // TODO temp move to EditType cuz pick tool have not size
 
     /** Primary and secondary color. */
     private final Color first = Color.white.cpy(), second = Color.black.cpy();
@@ -30,7 +30,7 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.clampToScreen(192f);
 
         if (type == EditType.pencil && !scene.hasMouse()) {
-            if (input.keyDown(Binding.draw)) canvas.drawRect((int) canvas.mouseX(), (int) canvas.mouseY(), (int) drawSize, (int) drawSize, first.rgba8888());
+            if (input.keyDown(Binding.draw)) canvas.drawRect((int) canvas.mouseX(), (int) canvas.mouseY(), drawSize, drawSize, first.rgba8888());
         }
 
         if (type == EditType.pick && !scene.hasMouse()) { // TODO may be call some method in EditType?

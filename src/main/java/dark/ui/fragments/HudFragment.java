@@ -21,7 +21,7 @@ public class HudFragment {
                 for (var type : EditType.values())
                     type.button(pad);
 
-                new TextSlider(1f, 100f, 1f, 2f, value -> "[darkgray]x" + (editor.drawSize = value)).build(pad);
+                new TextSlider(1f, 100f, 1f, 2f, value -> (editor.drawSize = value.intValue()) + "px").build(pad);
             }).height(40f).growX();
         });
     }
