@@ -8,6 +8,7 @@ import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
 import arc.struct.Seq;
 import dark.ui.Icons;
+import dark.ui.Textures;
 
 public class ColorWheel {
 
@@ -39,9 +40,10 @@ public class ColorWheel {
 
         colors.each(color -> stack.add(new Table(table -> {
             table.defaults().size(32f); // TODO replace with something
-            table.button("[#" + color + "]" + Icons.block, () -> callback.get(color)).get().setTranslation(
-                    Mathf.cosDeg(deg += 15f) * radius,
-                    Mathf.sinDeg(deg) * radius);
+            table.button(Textures.color_blob, 24f, () -> callback.get(color)).with(button -> {
+                button.setTranslation(Mathf.cosDeg(deg += 15f) * radius,Mathf.sinDeg(deg) * radius);
+                button.getImage().setColor(color);
+            });
         })));
 
         stack.setPosition(x, y); // TODO don't work and idk why

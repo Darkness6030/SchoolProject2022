@@ -1,6 +1,7 @@
 package dark.ui;
 
 import arc.graphics.Texture;
+import arc.graphics.Texture.TextureFilter;
 import arc.graphics.g2d.TextureAtlas.AtlasRegion;
 import arc.scene.style.Drawable;
 import arc.util.serialization.Jval;
@@ -27,6 +28,9 @@ public class Textures {
 
     public static Drawable load(String name) {
         Texture texture = new Texture("sprites/" + name + ".png");
+        texture.setFilter(TextureFilter.linear); // for better experience
+
+        // add texture to atlas and get region to modify splits
         AtlasRegion region = atlas.addRegion(name, texture, 0, 0, texture.width, texture.height);
 
         if (splits.has(name)) region.splits = splits.get(name).asArray().mapInt(Jval::asInt).items;
