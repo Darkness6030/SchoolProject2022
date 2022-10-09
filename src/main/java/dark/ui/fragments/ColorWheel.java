@@ -7,7 +7,6 @@ import arc.scene.ui.layout.Stack;
 import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
 import arc.struct.Seq;
-import dark.ui.Icons;
 import dark.ui.Textures;
 
 public class ColorWheel {
@@ -23,7 +22,9 @@ public class ColorWheel {
     public void build(WidgetGroup parent) {
         parent.fill(cont -> {
             cont.name = "Color Wheel";
-            stack = cont.stack().size(radius * 2f).get();
+            cont.fillParent = false;
+
+            stack = cont.stack().get();
         });
         colors = Seq.with(Color.white, Color.lightGray, Color.gray, Color.darkGray, Color.black,Color.red, Color.green, Color.blue);
     }
@@ -46,7 +47,7 @@ public class ColorWheel {
             });
         })));
 
-        stack.setPosition(x, y); // TODO don't work and idk why
+        stack.setTranslation(x, y);
         stack.visible = true;
     }
 
