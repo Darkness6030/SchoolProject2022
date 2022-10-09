@@ -3,7 +3,6 @@ package dark.utils;
 import arc.graphics.Pixmap;
 import arc.util.Log;
 
-import javax.imageio.ImageIO;
 import java.awt.Toolkit;
 import java.awt.datatransfer.*;
 import java.awt.image.BufferedImage;
@@ -14,8 +13,8 @@ public class ClipboardUtils {
         try {
             var clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             return ImageUtils.imageToPixmap((BufferedImage) clipboard.getData(DataFlavor.imageFlavor));
-        } catch (Exception e) {
-            Log.err(e);
+        } catch (Throwable error) {
+            Log.err(error);
             return null;
         }
     }
@@ -41,8 +40,6 @@ public class ClipboardUtils {
                     return image;
                 }
             }, null);
-        } catch (Exception e) {
-            Log.err(e);
-        }
+        } catch (Throwable error) { Log.err(error); }
     }
 }
