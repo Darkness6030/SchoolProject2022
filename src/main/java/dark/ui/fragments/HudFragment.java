@@ -14,7 +14,7 @@ public class HudFragment {
             cont.name = "Menu Bar";
             cont.top();
 
-            cont.table(Textures.white_pane, pad -> {
+            cont.table(Textures.underline, pad -> {
                 pad.left();
                 pad.defaults().pad(4f);
 
@@ -22,7 +22,7 @@ public class HudFragment {
                     type.button(pad);
 
                 new TextSlider(1f, 100f, 1f, 2f, value -> (editor.drawSize = value.intValue()) + "px").build(pad);
-            }).height(40f).growX();
+            }).height(64f).growX();
         });
     }
 }
