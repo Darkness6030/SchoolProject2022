@@ -4,6 +4,7 @@ import arc.ApplicationListener;
 import arc.graphics.Color;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
+import dark.utils.ClipboardUtils;
 
 import static arc.Core.*;
 import static dark.Main.*;
@@ -49,6 +50,16 @@ public class Editor implements ApplicationListener, GestureListener {
         } else if (ui.wheelfrag.shown() && (input.keyRelease(Binding.pick) || input.keyRelease(Binding.draw))) {
             type = temp;
             ui.wheelfrag.hide();
+        }
+
+        if (input.ctrl() && input.keyTap(Binding.copy)) {
+            ClipboardUtils.setImage(canvas);
+        }
+
+        if (input.ctrl() && input.keyTap(Binding.paste)) {
+            var pixmap = ClipboardUtils.getImage();
+            if (pixmap != null)
+                canvas.draw(pixmap);
         }
 
         if (input.ctrl() && input.keyTap(Binding.new_canvas)) canvas = canvas.width == 800 ? new Canvas(600, 800) : new Canvas(800, 600);
