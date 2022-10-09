@@ -1,4 +1,5 @@
 {
     "underline": [4, 4, 4, 4],
+    "sideline": [4, 4, 4, 4],
     "slider-back": [4, 4, 4, 4]
 }

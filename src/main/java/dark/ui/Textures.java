@@ -10,14 +10,13 @@ import static arc.Core.*;
 public class Textures {
 
     public static Jval splits;
-    public static Drawable alpha_bg, alpha_bg_line, underline, slider_back, slider_knob, slider_knob_over, slider_knob_down;
+    public static Drawable underline, sideline, slider_back, slider_knob, slider_knob_over, slider_knob_down;
 
     public static void load() {
         splits = Jval.read(files.internal("sprites/splits.json").reader());
 
-        alpha_bg = load("alpha-bg");
-        alpha_bg_line = load("alpha-bg-line");
         underline = load("underline");
+        sideline = load("sideline");
         slider_back = load("slider-back");
         slider_knob = load("slider-knob");
         slider_knob_over = load("slider-knob-over");

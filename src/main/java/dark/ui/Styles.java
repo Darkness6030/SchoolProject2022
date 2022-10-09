@@ -30,7 +30,7 @@ public class Styles {
             fontColor = Color.white;
             downFontColor = Color.gray;
             overFontColor = Color.lightGray;
-            checkedFontColor = Color.yellow;
+            checkedFontColor = Palette.active;
         }});
 
         scene.addStyle(ButtonStyle.class, defi = new ImageButtonStyle());
