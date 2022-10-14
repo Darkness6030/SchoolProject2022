@@ -8,12 +8,16 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.Anuken.Arc:arc-core:v138")
-    implementation("com.github.Anuken.Arc:backend-sdl:v138")
-    implementation("com.github.Anuken.Arc:freetype:v138")
+    val arcVersion = "v139"
 
-    implementation("com.github.Anuken.Arc:natives-desktop:v138")
-    implementation("com.github.Anuken.Arc:natives-freetype-desktop:v138")
+    implementation("com.github.Anuken.Arc:arc-core:$arcVersion")
+    implementation("com.github.Anuken.Arc:backend-sdl:$arcVersion")
+    implementation("com.github.Anuken.Arc:freetype:$arcVersion")
+
+    implementation("com.github.Anuken.Arc:natives-desktop:$arcVersion")
+    implementation("com.github.Anuken.Arc:natives-freetype-desktop:$arcVersion")
+
+    implementation("com.github.Anuken.Mindustry:core:$arcVersion")
 }
 
 tasks.jar {
