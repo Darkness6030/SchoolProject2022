@@ -7,4 +7,6 @@ public class Icons {
     public static char eraser = '\uF12D';
     public static char line = '\uE82B';
     public static char block = '\uE868';
+    public static char back = '\uE802';
+    public static char ok = '\uE800';
 }

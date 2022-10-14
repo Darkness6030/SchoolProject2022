@@ -3,6 +3,7 @@ package dark.ui;
 import arc.ApplicationListener;
 import arc.scene.event.Touchable;
 import arc.scene.ui.layout.WidgetGroup;
+import dark.ui.dialogs.NewCanvasDialog;
 import dark.ui.fragments.ColorWheel;
 import dark.ui.fragments.HudFragment;
 
@@ -14,6 +15,8 @@ public class UI implements ApplicationListener {
 
     public final HudFragment hudfrag = new HudFragment();
     public final ColorWheel wheelfrag = new ColorWheel();
+
+    public final NewCanvasDialog canvasdial = new NewCanvasDialog();
 
     public void load() {
         input.addProcessor(scene);
