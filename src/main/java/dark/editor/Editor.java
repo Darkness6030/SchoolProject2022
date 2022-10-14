@@ -16,7 +16,7 @@ public class Editor implements ApplicationListener, GestureListener {
     public int drawSize = 2; // TODO temp move to EditType cuz pick tool have not size
 
     /** Primary and secondary color. */
-    private final Color first = Color.white.cpy(), second = Color.black.cpy();
+    private final Color first = Color.white.cpy(); //second = Color.black.cpy();
     /** Used to save the edit mode during color selection with ctrl. */
     private EditType temp = EditType.pencil;
 

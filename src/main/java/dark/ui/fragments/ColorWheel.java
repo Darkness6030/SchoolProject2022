@@ -40,7 +40,7 @@ public class ColorWheel {
         deg = 90f;
 
         colors.each(color -> stack.add(new Table(table -> {
-            table.defaults().size(32f); // TODO replace with something
+            table.defaults().size(32f);
             table.button(Textures.color_blob, 24f, () -> callback.get(color)).with(button -> {
                 button.setTranslation(Mathf.cosDeg(deg += 15f) * radius,Mathf.sinDeg(deg) * radius);
                 button.getImage().setColor(color);
