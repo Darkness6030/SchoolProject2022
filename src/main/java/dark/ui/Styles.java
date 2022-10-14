@@ -3,6 +3,7 @@ package dark.ui;
 import arc.graphics.Color;
 import arc.scene.ui.Button.ButtonStyle;
 import arc.scene.ui.CheckBox.CheckBoxStyle;
+import arc.scene.ui.Dialog.DialogStyle;
 import arc.scene.ui.ImageButton.ImageButtonStyle;
 import arc.scene.ui.Label.LabelStyle;
 import arc.scene.ui.Slider.SliderStyle;
@@ -19,8 +20,9 @@ public class Styles {
 
     public static LabelStyle defl;
     public static CheckBoxStyle defc;
-
     public static SliderStyle defs;
+
+    public static DialogStyle defd;
 
     public static void load() {
         scene.addStyle(ButtonStyle.class, defb = new ButtonStyle());
@@ -48,6 +50,12 @@ public class Styles {
             knob = slider_knob;
             knobOver = slider_knob_over;
             knobDown = slider_knob_down;
+        }});
+
+        scene.addStyle(DialogStyle.class, defd = new DialogStyle() {{
+            stageBackground = Textures.black;
+            titleFont = Fonts.def;
+            titleFontColor = Palette.active.cpy();
         }});
     }
 }

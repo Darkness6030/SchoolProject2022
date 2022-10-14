@@ -16,7 +16,7 @@ public class UI implements ApplicationListener {
     public final HudFragment hudfrag = new HudFragment();
     public final ColorWheel wheelfrag = new ColorWheel();
 
-    public final NewCanvasDialog canvasdial = new NewCanvasDialog();
+    public NewCanvasDialog canvasdial;
 
     public void load() {
         input.addProcessor(scene);
@@ -27,6 +27,8 @@ public class UI implements ApplicationListener {
 
         hudfrag.build(hud);
         wheelfrag.build(hud);
+
+        canvasdial = new NewCanvasDialog();
     }
 
     @Override

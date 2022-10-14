@@ -11,7 +11,6 @@ public class BaseDialog extends Dialog {
 
     public BaseDialog(String title, DialogStyle style) {
         super(title, style);
-        setFillParent(true);
 
         titleTable.row(); // horizontal gap
         titleTable.image(Textures.whiteui, Palette.active).growX().height(3f).pad(4f);
