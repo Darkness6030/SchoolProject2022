@@ -15,7 +15,7 @@ import static dark.ui.Textures.*;
 public class Styles {
 
     public static ButtonStyle defb;
-    public static TextButtonStyle deft;
+    public static TextButtonStyle deft, checkt;
     public static ImageButtonStyle defi;
 
     public static LabelStyle defl;
@@ -30,10 +30,14 @@ public class Styles {
         scene.addStyle(TextButtonStyle.class, deft = new TextButtonStyle() {{
             font = Fonts.def;
             fontColor = Color.white;
-            downFontColor = Color.gray;
+            downFontColor = Palette.active;
             overFontColor = Color.lightGray;
-            checkedFontColor = Palette.active;
         }});
+
+        checkt = new TextButtonStyle(deft) {{
+            downFontColor = Color.gray;
+            checkedFontColor = Palette.active;
+        }};
 
         scene.addStyle(ImageButtonStyle.class, defi = new ImageButtonStyle());
 
@@ -55,7 +59,7 @@ public class Styles {
         scene.addStyle(DialogStyle.class, defd = new DialogStyle() {{
             stageBackground = Textures.black;
             titleFont = Fonts.def;
-            titleFontColor = Palette.active.cpy();
+            titleFontColor = Palette.active;
         }});
     }
 }
