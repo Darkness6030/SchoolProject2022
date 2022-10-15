@@ -44,7 +44,7 @@ public class TextSlider extends Table implements Disableable {
     @Override
     public void setDisabled(boolean isDisabled) {
         slider.setDisabled(isDisabled);
-        Color color = isDisabled ? Color.gray : Color.white;
+        var color = isDisabled ? Color.gray : Color.white;
         slider.setColor(color);
         label.setColor(color);
     }

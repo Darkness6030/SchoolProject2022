@@ -13,7 +13,7 @@ public class NewCanvasDialog extends BaseDialog {
     public int lastHeight = 600;
 
     public NewCanvasDialog() {
-        super("New Canvas"); // TODO add bundle
+        super("New Canvas"); // TODO add bundleM
 
         new TextSlider(0f, 1000f, 10f, lastWidth, value -> "Width: " + (lastWidth = value.intValue()) + "px").build(cont).growX().row();
         new TextSlider(0f, 1000f, 10f, lastHeight, value -> "Height: " + (lastHeight = value.intValue()) + "px").build(cont).growX().row();

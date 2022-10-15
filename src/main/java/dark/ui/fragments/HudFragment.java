@@ -17,8 +17,7 @@ public class HudFragment {
             cont.table(Textures.underline, pad -> {
                 pad.left();
 
-                pad.button("save", () -> {}).size(64f);
-                pad.button("load", () -> {}).size(64f);
+                pad.button("Menu", () -> ui.menuDialog.show()).size(64f);
 
                 new TextSlider(1f, 100f, 1f, 2f, value -> (editor.drawSize = value.intValue()) + "px").build(pad);
             }).height(64f).growX();
