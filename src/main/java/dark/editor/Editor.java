@@ -38,20 +38,20 @@ public class Editor implements ApplicationListener, GestureListener {
         if (type == EditType.pick && !scene.hasMouse()) { // TODO may be call some method in EditType?
             if (input.keyRelease(Binding.draw)) {
                 first.set(canvas.pickColor((int) canvas.mouseX(), (int) canvas.mouseY()));
-                ui.wheelfrag.add(first);
+                ui.colorWheel.add(first);
             }
         }
 
         if (input.keyTap(Binding.pick)) {
             temp = type;
             type = EditType.pick;
-            ui.wheelfrag.show(input.mouseX(), input.mouseY(), first::set);
-        } else if (ui.wheelfrag.shown() && (input.keyRelease(Binding.pick) || input.keyRelease(Binding.draw))) {
+            ui.colorWheel.show(input.mouseX(), input.mouseY(), first::set);
+        } else if (ui.colorWheel.shown() && (input.keyRelease(Binding.pick) || input.keyRelease(Binding.draw))) {
             type = temp;
-            ui.wheelfrag.hide();
+            ui.colorWheel.hide();
         }
 
-        if (input.ctrl() && input.keyTap(Binding.new_canvas)) ui.canvasdial.show();
+        if (input.ctrl() && input.keyTap(Binding.new_canvas)) ui.canvasDialog.show();
 
         graphics.clear(Color.lightGray);
         canvas.draw();

@@ -1,12 +1,15 @@
 package dark.editor;
 
-import arc.graphics.*;
+import arc.graphics.Color;
+import arc.graphics.Pixmap;
+import arc.graphics.Texture;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 
-import static arc.Core.*;
+import static arc.Core.graphics;
+import static arc.Core.input;
 
 public class Canvas extends Pixmap {
 

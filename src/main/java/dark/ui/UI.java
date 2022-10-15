@@ -13,10 +13,10 @@ public class UI implements ApplicationListener {
 
     public final WidgetGroup hud = new WidgetGroup();
 
-    public final HudFragment hudfrag = new HudFragment();
-    public final ColorWheel wheelfrag = new ColorWheel();
+    public final HudFragment hudFragment = new HudFragment();
+    public final ColorWheel colorWheel = new ColorWheel();
 
-    public NewCanvasDialog canvasdial;
+    public NewCanvasDialog canvasDialog;
 
     public void load() {
         input.addProcessor(scene);
@@ -25,10 +25,10 @@ public class UI implements ApplicationListener {
         hud.setFillParent(true);
         hud.touchable = Touchable.childrenOnly;
 
-        hudfrag.build(hud);
-        wheelfrag.build(hud);
+        hudFragment.build(hud);
+        colorWheel.build(hud);
 
-        canvasdial = new NewCanvasDialog();
+        canvasDialog = new NewCanvasDialog();
     }
 
     @Override

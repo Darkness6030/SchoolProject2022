@@ -6,9 +6,9 @@ import arc.graphics.Colors;
 public class Palette {
 
     public static final Color 
-            main = Color.valueOf("#1E1E28"),
-            darkmain = Color.valueOf("#14141E"),
-            active = Color.valueOf("#1EC864"),
+            main = Color.valueOf("#1e1e28"),
+            darkmain = Color.valueOf("#14141e"),
+            active = Color.valueOf("#1ec864"),
             accent = Color.valueOf("#ffd37f"),
             unlaunched = Color.valueOf("#8982ed");
 
