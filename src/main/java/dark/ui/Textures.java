@@ -12,16 +12,20 @@ import static arc.Core.*;
 public class Textures {
 
     public static Jval splits;
-    public static Drawable whiteui, black, color_blob, underline, sideline, slider_back, slider_knob, slider_knob_over, slider_knob_down;
+    public static Drawable circle, whiteui, black, color_blob, underline, sideline, slider_back, slider_knob, slider_knob_over, slider_knob_down;
 
     public static void load() {
         splits = Jval.read(files.internal("sprites/splits.json").reader());
 
+        circle = load("circle");
+
         whiteui = load("whiteui");
         black = ((TextureRegionDrawable) whiteui).tint(0f, 0f, 0f, .5f);
         color_blob = load("color-blob");
+
         underline = load("underline");
         sideline = load("sideline");
+
         slider_back = load("slider-back");
         slider_knob = load("slider-knob");
         slider_knob_over = load("slider-knob-over");

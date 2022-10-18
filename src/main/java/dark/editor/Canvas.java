@@ -2,30 +2,26 @@ package dark.editor;
 
 import arc.graphics.Color;
 import arc.graphics.Pixmap;
-import arc.graphics.Texture;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.g2d.*;
+import arc.graphics.gl.FrameBuffer;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
+import arc.util.ScreenUtils;
 
-import static arc.Core.graphics;
-import static arc.Core.input;
+import static arc.Core.*;
 
-public class Canvas extends Pixmap {
+public class Canvas extends FrameBuffer {
 
     public final Vec2 position = new Vec2();
     public float scale = 1f;
-
-    private final TextureRegion region = new TextureRegion(new Texture(this));
 
     public Canvas(int width, int height) {
         super(width, height);
 
         move(graphics.getWidth() / 2f, graphics.getHeight() / 2f);
 
-        each((x, y) -> { // temp
-            set(x, y, Color.gray);
-        });
+        begin(Color.purple);
+        end();
     }
 
     public void move(float x, float y) {
@@ -44,31 +40,40 @@ public class Canvas extends Pixmap {
         this.scale += scale;
     }
 
-    public float scaledWidth() {
-        return getWidth() * scale;
+    public int scaledWidth() {
+        return (int) (getWidth() * scale);
     }
 
-    public float scaledHeight() {
-        return getHeight() * scale;
+    public int scaledHeight() {
+        return (int) (getHeight() * scale);
     }
 
-    public float mouseX() {
-        return (scaledWidth() / 2f + input.mouseX() - position.x) / scale;
+    public int mouseX() {
+        return (int) ((scaledWidth() / 2f + input.mouseX() - position.x) / scale);
     }
 
-    public float mouseY() {
-        return (scaledHeight() / 2f - input.mouseY() + position.y) / scale;
+    public int mouseY() {
+        return (int) ((scaledHeight() / 2f - input.mouseY() + position.y) / scale);
+    }
+
+    public Pixmap toPixmap() {
+        return ScreenUtils.getFrameBufferPixmap((int) (position.x - scaledWidth() / 2), (int) (position.y - scaledHeight() / 2), scaledWidth(), scaledHeight());
     }
 
     public Color pickColor(int x, int y) {
-        return new Color(get(x, y));
+        return new Color(toPixmap().get(x, y));
+    }
+
+    public void draw(Runnable runnable) {
+        beginBind();
+        runnable.run();
+        end();
     }
 
     public void draw() {
         Draw.reset();
 
-        region.texture.load(region.texture.getTextureData());
-        Draw.rect(region,
+        Draw.rect(new TextureRegion(getTexture()),
                 position.x,
                 position.y,
                 getWidth() * scale,

@@ -2,6 +2,8 @@ package dark.editor;
 
 import arc.ApplicationListener;
 import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Fill;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 
@@ -31,13 +33,16 @@ public class Editor implements ApplicationListener, GestureListener {
 
         if (type == EditType.pencil && !scene.hasMouse()) {
             if (input.keyDown(Binding.draw)) {
-                canvas.fillCircle((int) canvas.mouseX(), (int) canvas.mouseY(), drawSize, first.rgba8888());
+                canvas.draw(() -> {
+                    Draw.color(first);
+                    Fill.circle(canvas.mouseX(), canvas.mouseY(), drawSize);
+                });
             }
         }
 
         if (type == EditType.pick && !scene.hasMouse()) { // TODO may be call some method in EditType?
             if (input.keyRelease(Binding.draw)) {
-                first.set(canvas.pickColor((int) canvas.mouseX(), (int) canvas.mouseY()));
+                first.set(canvas.pickColor(canvas.mouseX(), canvas.mouseY()));
                 ui.colorWheel.add(first);
             }
         }
