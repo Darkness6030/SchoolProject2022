@@ -48,12 +48,12 @@ public class Canvas extends FrameBuffer {
         return (int) (getHeight() * scale);
     }
 
-    public int mouseX() {
-        return (int) ((scaledWidth() / 2f + input.mouseX() - position.x) / scale);
+    public int mouseX(int screenX) {
+        return (int) ((scaledWidth() / 2f + screenX - position.x) / scale);
     }
 
-    public int mouseY() {
-        return (int) ((scaledHeight() / 2f - input.mouseY() + position.y) / scale);
+    public int mouseY(int screenY) {
+        return (int) ((scaledHeight() / 2f - screenY + position.y) / scale);
     }
 
     public Pixmap toPixmap() {
@@ -64,8 +64,9 @@ public class Canvas extends FrameBuffer {
         return new Color(toPixmap().get(x, y));
     }
 
-    public void draw(Runnable runnable) {
+    public void draw(Color color, Runnable runnable) {
         beginBind();
+        Draw.color(color);
         runnable.run();
         end();
     }
@@ -76,8 +77,8 @@ public class Canvas extends FrameBuffer {
         Draw.rect(new TextureRegion(getTexture()),
                 position.x,
                 position.y,
-                getWidth() * scale,
-                getHeight() * scale);
+                scaledWidth(),
+                scaledHeight());
 
         Draw.flush();
     }

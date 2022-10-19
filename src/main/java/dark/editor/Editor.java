@@ -2,28 +2,29 @@ package dark.editor;
 
 import arc.ApplicationListener;
 import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
+import arc.graphics.g2d.Lines;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
+import arc.input.InputProcessor;
+import dark.Main;
 
 import static arc.Core.*;
 import static dark.Main.ui;
 
-public class Editor implements ApplicationListener, GestureListener {
+public class Editor implements ApplicationListener, GestureListener, InputProcessor {
 
     public Canvas canvas = new Canvas(800, 600); // temp
-    public EditType type = EditType.pencil;
+    public EditType type = EditType.pencil, temp = EditType.pencil;
 
     public int drawSize = 2; // TODO temp move to EditType cuz pick tool have not size
+    public int lastX = -1, lastY = -1;
 
     /** Primary and secondary color. */
     private final Color first = Color.white.cpy(); //second = Color.black.cpy();
-    /** Used to save the edit mode during color selection with ctrl. */
-    private EditType temp = EditType.pencil;
 
     public Editor() {
         input.addProcessor(new GestureDetector(this));
+        input.addProcessor(this);
     }
 
     @Override
@@ -31,18 +32,9 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.scale(input.axis(Binding.zoom) * .02f);
         canvas.clampToScreen(192f);
 
-        if (type == EditType.pencil && !scene.hasMouse()) {
-            if (input.keyDown(Binding.draw)) {
-                canvas.draw(() -> {
-                    Draw.color(first);
-                    Fill.circle(canvas.mouseX(), canvas.mouseY(), drawSize);
-                });
-            }
-        }
-
         if (type == EditType.pick && !scene.hasMouse()) { // TODO may be call some method in EditType?
             if (input.keyRelease(Binding.draw)) {
-                first.set(canvas.pickColor(canvas.mouseX(), canvas.mouseY()));
+                first.set(canvas.pickColor(canvas.mouseX(input.mouseX()), canvas.mouseY(input.mouseY())));
                 ui.colorWheel.add(first);
             }
         }
@@ -66,5 +58,18 @@ public class Editor implements ApplicationListener, GestureListener {
     public boolean pan(float x, float y, float deltaX, float deltaY) {
         if (input.keyDown(Binding.mouse_move)) canvas.move(deltaX, deltaY);
         return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if (type == EditType.pencil && input.keyDown(Binding.draw) && !scene.hasMouse()) {
+            canvas.draw(first, () -> Lines.line(lastX, lastY, screenX, screenY));
+            lastX = screenX;
+            lastY = screenY;
+            return true;
+        }
+
+        lastX = lastY = -1;
+        return true;
     }
 }
