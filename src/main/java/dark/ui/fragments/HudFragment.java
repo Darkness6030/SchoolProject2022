@@ -20,6 +20,9 @@ public class HudFragment {
                 pad.button("Menu", () -> ui.menuDialog.show()).size(64f);
 
                 new TextSlider(1f, 100f, 1f, 2f, value -> (editor.drawSize = value.intValue()) + "px").build(pad);
+
+                pad.button(Textures.color_blob, () -> {}).update(button -> button.getImage().setColor(editor.first));
+                pad.button(Textures.color_blob, () -> {}).update(button -> button.getImage().setColor(editor.second));
             }).height(64f).growX();
         });
 

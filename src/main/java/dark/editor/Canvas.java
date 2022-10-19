@@ -48,11 +48,11 @@ public class Canvas extends FrameBuffer {
         return (int) (getHeight() * scale);
     }
 
-    public int mouseX(int screenX) {
+    public int canvasX(int screenX) {
         return (int) ((scaledWidth() / 2f + screenX - position.x) / scale);
     }
 
-    public int mouseY(int screenY) {
+    public int canvasY(int screenY) {
         return (int) ((scaledHeight() / 2f - screenY + position.y) / scale);
     }
 
