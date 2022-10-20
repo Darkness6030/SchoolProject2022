@@ -40,7 +40,7 @@ public class UI implements ApplicationListener {
         scene.act();
         scene.draw();
 
-        if (input.keyTap(KeyCode.escape)) menuDialog.show();
+        if (input.keyTap(KeyCode.escape) && !scene.hasMouse()) menuDialog.show();
     }
 
     @Override
