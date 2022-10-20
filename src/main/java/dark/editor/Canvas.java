@@ -48,6 +48,14 @@ public class Canvas extends FrameBuffer {
         return (int) (getHeight() * scale);
     }
 
+    public int bottomLeftX() {
+        return (int) position.x - scaledWidth() / 2;
+    }
+
+    public int bottomLeftY() {
+        return (int) position.y - scaledHeight() / 2;
+    }
+
     public int canvasX(int screenX) {
         return (int) ((scaledWidth() / 2f + screenX - position.x) / scale);
     }
@@ -56,8 +64,16 @@ public class Canvas extends FrameBuffer {
         return (int) ((scaledHeight() / 2f - screenY + position.y) / scale);
     }
 
+    public int canvasX() {
+        return canvasX(input.mouseX());
+    }
+
+    public int canvasY() {
+        return canvasY(input.mouseY());
+    }
+
     public Pixmap toPixmap() {
-        return ScreenUtils.getFrameBufferPixmap((int) (position.x - scaledWidth() / 2), (int) (position.y - scaledHeight() / 2), scaledWidth(), scaledHeight());
+        return ScreenUtils.getFrameBufferPixmap(bottomLeftX(), bottomLeftY(), scaledWidth(), scaledHeight());
     }
 
     public Color pickColor(int x, int y) {

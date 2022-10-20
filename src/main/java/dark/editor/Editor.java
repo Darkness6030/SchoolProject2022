@@ -16,6 +16,8 @@ public class Editor implements ApplicationListener, GestureListener, InputProces
     public EditType type = EditType.pencil, temp = EditType.pencil;
 
     public int drawSize = 2; // TODO temp move to EditType cuz pick tool have not size
+
+    /** Last known mouse position. */
     public int lastX = -1, lastY = -1;
 
     /** Primary and secondary color. */
@@ -33,7 +35,7 @@ public class Editor implements ApplicationListener, GestureListener, InputProces
 
         if (type == EditType.pick && !scene.hasMouse()) { // TODO may be call some method in EditType?
             if (input.keyRelease(Binding.draw)) {
-                first.set(canvas.pickColor(canvas.canvasX(input.mouseX()), canvas.canvasY(input.mouseY())));
+                first.set(canvas.pickColor(canvas.canvasX(), canvas.canvasY()));
                 ui.colorWheel.add(first);
             }
         }
