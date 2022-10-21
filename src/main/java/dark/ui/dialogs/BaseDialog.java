@@ -1,11 +1,9 @@
 package dark.ui.dialogs;
 
 import arc.scene.ui.Dialog;
-import dark.ui.Icons;
-import dark.ui.Palette;
-import dark.ui.Textures;
+import dark.ui.*;
 
-import static arc.Core.*;
+import static arc.Core.scene;
 
 public class BaseDialog extends Dialog {
 

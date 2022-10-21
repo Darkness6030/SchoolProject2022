@@ -34,13 +34,13 @@ public class HudFragment {
                 }
 
                 pad.stack(
-                    new Table(table -> table.button(String.valueOf(Icons.swap), () -> {
-                        var temp = editor.first.cpy();
-                        editor.first.set(editor.second);
-                        editor.second.set(temp);
-                    }).size(16f).with(button -> button.setTranslation(18f, 18f))),
-                    new ColorBlob(editor.second, 8f, -8f),
-                    new ColorBlob(editor.first, -8f, 8f)
+                        new Table(table -> table.button(String.valueOf(Icons.swap), () -> {
+                            var temp = editor.first.cpy();
+                            editor.first.set(editor.second);
+                            editor.second.set(temp);
+                        }).size(16f).with(button -> button.setTranslation(18f, 18f))),
+                        new ColorBlob(editor.second, 8f, -8f),
+                        new ColorBlob(editor.first, -8f, 8f)
                 ).size(64f);
             }).height(64f).growX();
         });

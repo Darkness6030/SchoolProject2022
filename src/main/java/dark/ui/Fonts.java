@@ -11,7 +11,7 @@ import arc.graphics.g2d.PixmapPacker;
 import static arc.Core.*;
 
 public class Fonts {
-    
+
     public static PixmapPacker packer;
     public static Font def, icon;
 

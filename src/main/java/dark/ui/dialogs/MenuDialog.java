@@ -1,8 +1,8 @@
 package dark.ui.dialogs;
 
-import static arc.Core.app;
-
 import dark.ui.Icons;
+
+import static arc.Core.app;
 
 public class MenuDialog extends BaseDialog {
 

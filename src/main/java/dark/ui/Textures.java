@@ -2,7 +2,6 @@ package dark.ui;
 
 import arc.graphics.Texture;
 import arc.graphics.Texture.TextureFilter;
-import arc.graphics.g2d.TextureAtlas.AtlasRegion;
 import arc.scene.style.Drawable;
 import arc.scene.style.TextureRegionDrawable;
 import arc.util.serialization.Jval;
@@ -12,12 +11,13 @@ import static arc.Core.*;
 public class Textures {
 
     public static Jval splits;
-    public static Drawable circle, whiteui, black, color_blob, underline, sideline, slider_back, slider_knob, slider_knob_over, slider_knob_down;
+    public static Drawable circle, error, whiteui, black, color_blob, underline, sideline, slider_back, slider_knob, slider_knob_over, slider_knob_down;
 
     public static void load() {
         splits = Jval.read(files.internal("sprites/splits.json").reader());
 
-        circle = load("circle");
+        circle = load("circle", false);
+        error = load("error");
 
         whiteui = load("whiteui");
         black = ((TextureRegionDrawable) whiteui).tint(0f, 0f, 0f, .5f);
@@ -30,14 +30,20 @@ public class Textures {
         slider_knob = load("slider-knob");
         slider_knob_over = load("slider-knob-over");
         slider_knob_down = load("slider-knob-down");
+
+        atlas.setErrorRegion("error");
     }
 
     public static Drawable load(String name) {
-        Texture texture = new Texture("sprites/" + name + ".png");
-        texture.setFilter(TextureFilter.linear); // for better experience
+        return load(name, true);
+    }
+
+    public static Drawable load(String name, boolean linear) {
+        var texture = new Texture("sprites/" + name + ".png");
+        if (linear) texture.setFilter(TextureFilter.linear); // for better experience
 
         // add texture to atlas and get region to modify splits
-        AtlasRegion region = atlas.addRegion(name, texture, 0, 0, texture.width, texture.height);
+        var region = atlas.addRegion(name, texture, 0, 0, texture.width, texture.height);
 
         if (splits.has(name)) region.splits = splits.get(name).asArray().mapInt(Jval::asInt).items;
         return atlas.drawable(name);

@@ -6,9 +6,7 @@ import arc.graphics.Color;
 import arc.scene.event.Touchable;
 import arc.scene.ui.Label;
 import arc.scene.ui.Slider;
-import arc.scene.ui.layout.Cell;
-import arc.scene.ui.layout.Stack;
-import arc.scene.ui.layout.Table;
+import arc.scene.ui.layout.*;
 import arc.scene.utils.Disableable;
 
 public class TextSlider extends Table implements Disableable {

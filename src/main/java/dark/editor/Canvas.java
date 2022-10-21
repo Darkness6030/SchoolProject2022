@@ -2,7 +2,8 @@ package dark.editor;
 
 import arc.graphics.Color;
 import arc.graphics.Pixmap;
-import arc.graphics.g2d.*;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.TextureRegion;
 import arc.graphics.gl.FrameBuffer;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
