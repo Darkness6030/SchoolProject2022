@@ -12,4 +12,7 @@ public class Icons {
     public static char exit = '\uE85F';
 
     public static char swap = '\uE823';
+
+    public static char save = '\uE81B';
+    public static char load = '\uE87B';
 }

@@ -11,7 +11,9 @@ public class BaseDialog extends Dialog {
         super(title, style);
 
         titleTable.row(); // horizontal gap
-        titleTable.image(Textures.whiteui, Palette.active).growX().height(3f).pad(4f);
+        titleTable.image(Textures.whiteui, Palette.accent).growX().height(3f).pad(4f);
+
+        buttons.defaults().size(210f, 64f);
     }
 
     public BaseDialog(String title) {
@@ -20,9 +22,11 @@ public class BaseDialog extends Dialog {
 
     @Override
     public void addCloseButton() {
-        buttons.defaults().size(210f, 64f);
-        buttons.button(String.valueOf(Icons.back), this::hide);
-
+        addButton(Icons.back, "Back", this::hide);
         closeOnBack();
+    }
+
+    public void addButton(char icon, String text, Runnable listener) {
+        buttons.button(icon + " " + text, listener);
     }
 }

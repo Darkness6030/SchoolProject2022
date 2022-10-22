@@ -14,12 +14,12 @@ public class NewCanvasDialog extends BaseDialog {
     public NewCanvasDialog() {
         super("New Canvas");
 
-        new TextSlider(0f, 1000f, 10f, lastWidth, value -> "Width: " + (lastWidth = value.intValue()) + "px").build(cont).growX().row();
-        new TextSlider(0f, 1000f, 10f, lastHeight, value -> "Height: " + (lastHeight = value.intValue()) + "px").build(cont).growX().row();
+        new TextSlider(100f, 1000f, 10f, lastWidth, value -> "Width: " + (lastWidth = value.intValue()) + "px").build(cont).growX().row();
+        new TextSlider(100f, 1000f, 10f, lastHeight, value -> "Height: " + (lastHeight = value.intValue()) + "px").build(cont).growX().row();
 
         addCloseButton();
-        buttons.button(String.valueOf(Icons.ok), () -> {
-            this.hide();
+        addButton(Icons.ok, "Ok", () -> {
+            hide();
             editor.canvas = new Canvas(lastWidth, lastHeight);
         });
     }

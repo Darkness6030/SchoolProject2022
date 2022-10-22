@@ -10,8 +10,11 @@ public class MenuDialog extends BaseDialog {
         super("Menu");
 
         addCloseButton();
-        buttons.button(String.valueOf(Icons.exit), () -> { // TODO временно
-            app.exit();
-        });
+        addButton(Icons.exit, "Exit", app::exit);
+
+        buttons.row();
+
+        addButton(Icons.save, "Save", () -> {});
+        addButton(Icons.load, "Load", () -> {});
     }
 }
