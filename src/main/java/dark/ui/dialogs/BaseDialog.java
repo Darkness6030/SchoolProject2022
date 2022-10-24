@@ -3,7 +3,7 @@ package dark.ui.dialogs;
 import arc.scene.ui.Dialog;
 import dark.ui.*;
 
-import static arc.Core.scene;
+import static arc.Core.*;
 
 public class BaseDialog extends Dialog {
 

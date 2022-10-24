@@ -4,10 +4,8 @@ import arc.ApplicationListener;
 import arc.input.KeyCode;
 import arc.scene.event.Touchable;
 import arc.scene.ui.layout.WidgetGroup;
-import dark.ui.dialogs.MenuDialog;
-import dark.ui.dialogs.NewCanvasDialog;
-import dark.ui.fragments.ColorWheel;
-import dark.ui.fragments.HudFragment;
+import dark.ui.dialogs.*;
+import dark.ui.fragments.*;
 
 import static arc.Core.*;
 
@@ -20,6 +18,7 @@ public class UI implements ApplicationListener {
 
     public MenuDialog menuDialog;
     public NewCanvasDialog canvasDialog;
+    public ColorPickerDialog pickerDialog;
 
     public void load() {
         input.addProcessor(scene);
@@ -33,6 +32,7 @@ public class UI implements ApplicationListener {
 
         menuDialog = new MenuDialog();
         canvasDialog = new NewCanvasDialog();
+        pickerDialog = new ColorPickerDialog();
     }
 
     @Override

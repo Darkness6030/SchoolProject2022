@@ -27,7 +27,7 @@ public class HudFragment {
                 class ColorBlob extends Table {
 
                     public ColorBlob(Color color, float x, float y) {
-                        button(Textures.color_blob, () -> { /* TODO color pick dialog */ })
+                        button(Textures.color_blob, () -> ui.pickerDialog.show(color))
                                 .with(button -> button.setTranslation(x, y))
                                 .update(button -> button.getImage().setColor(color));
                     }

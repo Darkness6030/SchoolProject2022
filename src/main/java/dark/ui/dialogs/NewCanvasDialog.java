@@ -4,7 +4,7 @@ import dark.editor.Canvas;
 import dark.ui.Icons;
 import dark.ui.elements.TextSlider;
 
-import static dark.Main.editor;
+import static dark.Main.*;
 
 public class NewCanvasDialog extends BaseDialog {
 

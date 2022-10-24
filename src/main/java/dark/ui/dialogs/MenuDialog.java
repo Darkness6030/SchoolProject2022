@@ -2,7 +2,7 @@ package dark.ui.dialogs;
 
 import dark.ui.Icons;
 
-import static arc.Core.app;
+import static arc.Core.*;
 
 public class MenuDialog extends BaseDialog {
 
