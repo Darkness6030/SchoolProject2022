@@ -1,26 +1,15 @@
 package dark.editor;
 
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.TextureAtlas.AtlasRegion;
-import arc.math.Mathf;
-
-import static arc.Core.atlas;
+import arc.graphics.Color;
+import arc.math.geom.Bresenham2;
 
 public class Paint {
 
-    public static void line(float x, float y, float x2, float y2, float drawSize) {
-        float length = Mathf.len(x2 - x, y2 - y);
-        float drawX = (x2 - x) / length * drawSize / 2f, drawY = (y2 - y) / length * drawSize / 2f;
-
-        Fill.quad(circleRegion(),
-                x - drawX - drawY, y - drawY + drawX,
-                x - drawX + drawY, y - drawY - drawX,
-                x2 + drawX + drawY, y2 + drawY - drawX,
-                x2 + drawX - drawY, y2 + drawY + drawX
-        );
+    public static void line(Layer layer, int x1, int y1, int x2, int y2, int drawSize, Color color) {
+        Bresenham2.line(x1, y1, x2, y2, (x, y) -> layer.fillCircle(x, y, drawSize, color.rgba()));
     }
 
-    public static AtlasRegion circleRegion() {
-        return atlas.find("circle");
+    public static void circle(Layer layer, int x, int y, int drawSize, Color color) {
+        layer.fillCircle(x, y, drawSize, color.rgba());
     }
 }

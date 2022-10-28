@@ -10,10 +10,14 @@ import static dark.Main.ui;
 
 public class Editor implements ApplicationListener, GestureListener {
 
+    public static final int none = Integer.MIN_VALUE;
+
     /** Primary and secondary color. */
     public final Color first = Color.white.cpy(), second = Color.black.cpy();
-    public Canvas canvas = new Canvas(800, 600); // temp
+
+    public LayerCanvas canvas = new LayerCanvas(800, 600); // temp
     public EditType type = EditType.pencil, temp = EditType.pencil;
+
     public int drawSize = 2; // TODO temp move to EditType cuz pick tool have not size
     /** Last known mouse position. */
     public int lastX = -1, lastY = -1;
@@ -25,27 +29,43 @@ public class Editor implements ApplicationListener, GestureListener {
     @Override
     public void update() {
         canvas.scale(input.axis(Binding.zoom) * .02f);
-        canvas.clampToScreen(192f);
+        canvas.clampToScreen(192);
 
-        if (type == EditType.pencil && input.keyDown(Binding.draw) && !scene.hasMouse()) {
-            if (lastX > 0 && lastY > 0)
-                canvas.draw(first, () -> Paint.line(lastX, lastY, canvas.canvasX(), canvas.canvasY(), drawSize));
-            lastX = canvas.canvasX();
-            lastY = canvas.canvasY();
-        } else lastX = lastY = -1;
+        if (type.isTapped()) {
+            switch (type) {
+                case pencil -> {
+                    if (lastX != none && lastY != none)
+                        Paint.line(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, first);
+                    else
+                        Paint.circle(canvas.layer(), canvas.mouseX(), canvas.mouseY(), drawSize, first);
 
-        if (type == EditType.pick && !scene.hasMouse()) { // TODO may be call some method in EditType?
-            if (input.keyRelease(Binding.draw)) {
-                first.set(canvas.pickColor(canvas.canvasX(), canvas.canvasY()));
-                ui.colorWheel.add(first);
+                    lastX = canvas.mouseX();
+                    lastY = canvas.mouseY();
+                }
+                case pick -> {
+                    if (input.keyRelease(Binding.pencil)) {
+                        first.set(canvas.pickColor(canvas.mouseX(), canvas.mouseY()));
+                        ui.colorWheel.add(first);
+                    }
+                }
+                case eraser -> {
+                    if (lastX != none && lastY != none)
+                        Paint.line(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, Color.clear);
+                    else
+                        Paint.circle(canvas.layer(), canvas.mouseX(), canvas.mouseY(), drawSize, Color.clear);
+
+                    lastX = canvas.mouseX();
+                    lastY = canvas.mouseY();
+                }
             }
-        }
+        } else lastX = lastY = none;
+
 
         if (input.keyTap(Binding.pick)) {
             temp = type;
             type = EditType.pick;
             ui.colorWheel.show(input.mouseX(), input.mouseY(), first::set);
-        } else if (ui.colorWheel.shown() && (input.keyRelease(Binding.pick) || input.keyRelease(Binding.draw))) {
+        } else if (ui.colorWheel.shown() && (input.keyRelease(Binding.pick) || input.keyRelease(Binding.pencil))) {
             type = temp;
             ui.colorWheel.hide();
         }
@@ -58,7 +78,7 @@ public class Editor implements ApplicationListener, GestureListener {
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-        if (input.keyDown(Binding.mouse_move)) canvas.move(deltaX, deltaY);
+        if (input.keyDown(Binding.mouse_move)) canvas.move((int) deltaX, (int) deltaY);
         return false;
     }
 }
