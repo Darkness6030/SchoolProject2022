@@ -13,8 +13,6 @@ public class Layer extends Pixmap {
 
     public Layer(int width, int height) {
         super(width, height);
-
-        fill(Color.white);
     }
 
     public void scale(float scale) {

@@ -1,32 +1,30 @@
 package dark.editor;
 
-import arc.input.KeyCode;
 import arc.scene.ui.layout.Table;
+import arc.util.Scaling;
 import dark.ui.Icons;
 import dark.ui.Styles;
 
-import static arc.Core.*;
+import static arc.Core.scene;
 import static dark.Main.editor;
 
 public enum EditType {
-    pencil(Icons.pencil, Binding.pencil),
-    pick(Icons.pick, Binding.pick),
-    eraser(Icons.eraser, Binding.eraser),
-    line(Icons.line, Binding.line);
+    pencil(Icons.pencil),
+    pick(Icons.pick),
+    eraser(Icons.eraser),
+    line(Icons.line);
 
     public final char icon;
-    public final KeyCode code;
 
-    EditType(char icon, KeyCode code) {
+    EditType(char icon) {
         this.icon = icon;
-        this.code = code;
     }
 
     public void button(Table table) {
-        table.button(String.valueOf(icon), Styles.checkButtonStyle, () -> editor.type = this).checked(button -> editor.type == this).size(64f).row();
+        table.button(String.valueOf(icon), Styles.checkButtonStyle, () -> editor.type = this).checked(button -> editor.type == this).size(64).scaling(Scaling.fit).row();
     }
 
-    public boolean isTapped() {
-        return input.keyDown(code) && !scene.hasMouse();
+    public boolean isSelected() {
+        return editor.type == this && !scene.hasMouse();
     }
 }

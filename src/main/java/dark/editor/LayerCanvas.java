@@ -1,5 +1,6 @@
 package dark.editor;
 
+import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import arc.struct.Seq;
@@ -9,6 +10,8 @@ import static arc.Core.*;
 public class LayerCanvas extends Layer {
 
     public final Seq<Layer> layers = new Seq<>(10);
+    public final Layer background;
+
     public int currentLayer;
 
     public int x, y;
@@ -17,6 +20,9 @@ public class LayerCanvas extends Layer {
         super(width, height);
         this.move(graphics.getWidth() / 2, graphics.getHeight() / 2);
         this.addLayer(width, height);
+
+        background = new Layer(width, height);
+        background.fill(Color.valueOf("#577187"));
     }
 
     public void move(int x, int y) {
@@ -62,6 +68,7 @@ public class LayerCanvas extends Layer {
     public void draw() {
         Draw.reset();
 
+        background.draw(x, y, scaledWidth(), scaledHeight());
         layers.each(layer -> layer.draw(x, y, scaledWidth(), scaledHeight()));
 
         Draw.flush();
