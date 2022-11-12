@@ -48,25 +48,25 @@ public class Editor implements ApplicationListener, GestureListener {
             } else lastX = lastY = none;
         }
 
-        if (pick.isSelected() && input.keyRelease(Binding.pencil1)) {
+        if (pick.isSelected() && input.keyRelease(Binding.pickMouse)) {
             first.set(canvas.pickColor(canvas.mouseX(), canvas.mouseY()));
             ui.colorWheel.add(first);
         }
 
         if (eraser.isSelected()) {
-            Paint.draw(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, Color.clear);
+            if (input.keyDown(Binding.eraser)) {
+                Paint.draw(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, Color.clear);
 
-            lastX = canvas.mouseX();
-            lastY = canvas.mouseY();
+                lastX = canvas.mouseX();
+                lastY = canvas.mouseY();
+            } else lastX = lastY = none;
         }
-
-        if (!pencil.isSelected() && !eraser.isSelected()) lastX = lastY = none;
 
         if (input.keyTap(Binding.pick)) {
             temp = type;
             type = EditType.pick;
             ui.colorWheel.show(input.mouseX(), input.mouseY(), first::set);
-        } else if (ui.colorWheel.shown() && (input.keyRelease(Binding.pick) || input.keyRelease(Binding.pencil1))) {
+        } else if (ui.colorWheel.shown() && (input.keyRelease(Binding.pick) || input.keyRelease(Binding.pickMouse))) {
             type = temp;
             ui.colorWheel.hide();
         }
