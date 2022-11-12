@@ -13,35 +13,28 @@ import static dark.Main.*;
 public class HudFragment {
 
     public void build(WidgetGroup parent) {
-        parent.fill(cont -> {
-            cont.name = "Menu Bar";
-            cont.top();
+        parent.fill(content -> {
+            content.name = "Menu Bar";
+            content.top();
 
-            cont.table(Textures.underline, pad -> {
-                pad.left();
+            content.table(Textures.underline, table -> {
+                table.left();
 
-                pad.button("Menu", () -> ui.menuDialog.show()).size(64f);
+                table.button("Menu", () -> ui.menuDialog.show()).size(64f).pad(32f);
 
-                new TextSlider(1f, 100f, 1f, 2f, value -> (editor.drawSize = value.intValue()) + "px").build(pad).padRight(16f);
+                new TextSlider(1f, 100f, 1f, editor.drawSize, value -> (editor.drawSize = value.intValue()) + "px").build(table).padRight(32f);
 
-                class ColorBlob extends Table {
-
-                    public ColorBlob(Color color, float x, float y) {
-                        button(Textures.color_blob, () -> ui.pickerDialog.show(color))
-                                .with(button -> button.setTranslation(x, y))
-                                .update(button -> button.getImage().setColor(color));
-                    }
-                }
-
-                pad.stack(
-                        new Table(table -> table.button(String.valueOf(Icons.swap), () -> {
+                table.stack(
+                        new Table(color -> color.button(String.valueOf(Icons.swap), () -> {
                             var temp = editor.first.cpy();
                             editor.first.set(editor.second);
                             editor.second.set(temp);
                         }).size(16f).with(button -> button.setTranslation(18f, 18f))),
                         new ColorBlob(editor.second, 8f, -8f),
                         new ColorBlob(editor.first, -8f, 8f)
-                ).size(64f);
+                ).size(64f).padRight(32f);
+
+                table.label(() -> "Layer " + (editor.canvas.currentLayer + 1) + "/" + editor.canvas.layers.size);
             }).height(64f).growX();
         });
 
@@ -56,5 +49,14 @@ public class HudFragment {
                     type.button(pad);
             }).width(64f).growY().padTop(64f);
         });
+    }
+
+    public static class ColorBlob extends Table {
+
+        public ColorBlob(Color color, float x, float y) {
+            button(Textures.color_blob, () -> ui.pickerDialog.show(color))
+                    .with(button -> button.setTranslation(x, y))
+                    .update(button -> button.getImage().setColor(color));
+        }
     }
 }

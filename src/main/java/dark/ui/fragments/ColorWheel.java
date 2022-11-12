@@ -18,11 +18,11 @@ public class ColorWheel {
     private float deg;
 
     public void build(WidgetGroup parent) {
-        parent.fill(cont -> {
-            cont.name = "Color Wheel";
-            cont.fillParent = false;
+        parent.fill(content -> {
+            content.name = "Color Wheel";
+            content.fillParent = false;
 
-            stack = cont.stack().get();
+            stack = content.stack().get();
         });
         colors = Seq.with(Color.white, Color.lightGray, Color.gray, Color.darkGray, Color.black, Color.red, Color.green, Color.blue);
     }

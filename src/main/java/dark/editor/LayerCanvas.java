@@ -19,10 +19,12 @@ public class LayerCanvas extends Layer {
     public LayerCanvas(int width, int height) {
         super(width, height);
         this.move(graphics.getWidth() / 2, graphics.getHeight() / 2);
-        this.addLayer(width, height);
 
-        background = new Layer(width, height);
-        background.fill(Color.valueOf("#577187"));
+        // Добавляем слой по умолчанию
+        this.addLayer();
+
+        this.background = new Layer(width, height);
+        this.background.fill(Color.valueOf("#577187"));
     }
 
     public void move(int x, int y) {
@@ -30,7 +32,7 @@ public class LayerCanvas extends Layer {
         this.y += y;
     }
 
-    public void addLayer(int width, int height) {
+    public void addLayer() {
         currentLayer = layers.add(new Layer(width, height)).size - 1;
     }
 
@@ -49,7 +51,7 @@ public class LayerCanvas extends Layer {
     }
 
     public void layer(int currentLayer) {
-        this.currentLayer = currentLayer;
+        this.currentLayer = Mathf.clamp(currentLayer, 0, layers.size - 1);
     }
 
     @Override

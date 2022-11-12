@@ -9,25 +9,24 @@ import dark.ui.elements.TextSlider;
 public class ColorPickerDialog extends BaseDialog {
 
     public Table sliders;
-    public Color tmp = Color.white.cpy(), callback;
+    public Color tmp = Color.white.cpy(), color;
 
     public ColorPickerDialog() {
         super("Color Picker");
 
         // TODO square gradient
-
         cont.image().size(256f).update(image -> image.setColor(tmp)).row();
         sliders = cont.table().get();
 
         addCloseButton();
         addButton(Icons.ok, "Ok", () -> {
             this.hide();
-            callback.set(tmp);
+            this.color.set(tmp);
         });
     }
 
     public void show(Color color) {
-        tmp.set(callback = color);
+        tmp.set(this.color = color);
         sliders.clear();
 
         slider(tmp.r, 'R', tmp::r);

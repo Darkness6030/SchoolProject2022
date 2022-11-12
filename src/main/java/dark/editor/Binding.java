@@ -13,4 +13,7 @@ public class Binding {
     public static KeyCode line = KeyCode.unknown;
 
     public static KeyCode new_canvas = KeyCode.q;
+    public static KeyCode new_layer = KeyCode.plus;
+
+    public static KeyCode layer_up = KeyCode.up, layer_down = KeyCode.down;
 }
