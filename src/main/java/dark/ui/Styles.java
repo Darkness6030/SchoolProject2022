@@ -39,7 +39,9 @@ public class Styles {
             checkedFontColor = Palette.active;
         }};
 
-        scene.addStyle(ImageButtonStyle.class, imageButtonStyle = new ImageButtonStyle());
+        scene.addStyle(ImageButtonStyle.class, imageButtonStyle = new ImageButtonStyle() {{
+
+        }});
 
         scene.addStyle(LabelStyle.class, labelStyle = new LabelStyle() {{
             font = Fonts.def;

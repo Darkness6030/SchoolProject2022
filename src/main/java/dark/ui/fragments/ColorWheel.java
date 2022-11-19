@@ -24,6 +24,7 @@ public class ColorWheel {
 
             stack = content.stack().get();
         });
+
         colors = Seq.with(Color.white, Color.lightGray, Color.gray, Color.darkGray, Color.black, Color.red, Color.green, Color.blue);
     }
 

@@ -50,6 +50,10 @@ public class LayerCanvas extends Layer {
         return layers.get(currentLayer);
     }
 
+    public void layer(Layer layer) {
+        layer(layers.indexOf(layer));
+    }
+
     public void layer(int currentLayer) {
         this.currentLayer = Mathf.clamp(currentLayer, 0, layers.size - 1);
     }

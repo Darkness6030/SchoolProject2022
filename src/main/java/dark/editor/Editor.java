@@ -14,7 +14,7 @@ import static dark.editor.EditType.*;
 
 public class Editor implements ApplicationListener, GestureListener {
 
-    public static final int none = Integer.MIN_VALUE, max_layers = 8;
+    public static final int none = Integer.MIN_VALUE, max_layers = 6;
 
     public final Color first = Color.white.cpy(), second = Color.black.cpy();
 
