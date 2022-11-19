@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    val arcVersion = "v139"
+    val arcVersion = "v140.4"
 
     implementation("com.github.Anuken.Arc:arc-core:$arcVersion")
     implementation("com.github.Anuken.Arc:backend-sdl:$arcVersion")

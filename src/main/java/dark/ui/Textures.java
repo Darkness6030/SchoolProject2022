@@ -11,7 +11,7 @@ import static arc.Core.*;
 public class Textures {
 
     public static Jval splits;
-    public static Drawable circle, error, whiteui, black, color_blob, underline, sideline, slider_back, slider_knob, slider_knob_over, slider_knob_down;
+    public static Drawable circle, error, whiteui, black, color_blob, underline, sideline, sideline_left, slider_back, slider_knob, slider_knob_over, slider_knob_down;
 
     public static void load() {
         splits = Jval.read(files.internal("sprites/splits.json").reader());
@@ -25,6 +25,7 @@ public class Textures {
 
         underline = load("underline");
         sideline = load("sideline");
+        sideline_left = load("sideline-left");
 
         slider_back = load("slider-back");
         slider_knob = load("slider-knob");

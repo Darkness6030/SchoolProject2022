@@ -4,8 +4,6 @@ import arc.graphics.*;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 
-import static arc.util.Tmp.tr1;
-
 public class Layer extends Pixmap {
 
     public final TextureRegion region = new TextureRegion(new Texture(this));

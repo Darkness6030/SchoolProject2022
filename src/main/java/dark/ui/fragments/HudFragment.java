@@ -1,15 +1,13 @@
 package dark.ui.fragments;
 
 import arc.graphics.Color;
-import arc.scene.style.TextureRegionDrawable;
-import arc.scene.ui.ImageButton;
 import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
 import arc.struct.Seq;
-import arc.util.Log;
 import dark.editor.EditType;
 import dark.ui.Icons;
 import dark.ui.Textures;
+import dark.ui.elements.LayerButton;
 import dark.ui.elements.TextSlider;
 
 import static dark.Main.editor;
@@ -17,7 +15,7 @@ import static dark.Main.ui;
 
 public class HudFragment {
 
-    public final Seq<ImageButton> layerButtons = new Seq<>();
+    public final Seq<LayerButton> layerButtons = new Seq<>();
 
     public void build(WidgetGroup parent) {
         parent.fill(content -> {
@@ -61,33 +59,30 @@ public class HudFragment {
             cont.name = "Layers";
             cont.right();
 
-            cont.table(Textures.sideline, pad -> {
-                pad.top();
+            cont.table(Textures.sideline_left, pad -> {
+                pad.top().marginLeft(8f);
+                pad.defaults().size(128f).padBottom(4f);
 
                 pad.update(() -> {
                     if (layerButtons.size == editor.canvas.layers.size) return;
 
-                    for (int i = layerButtons.size; i < editor.canvas.layers.size; i++) {
-                        var layer = editor.canvas.layers.get(i);
-
-                        var button = new ImageButton(new TextureRegionDrawable(layer.getRegion()));
+                    layerButtons.clear();
+                    editor.canvas.layers.each(layer -> {
+                        var button = new LayerButton(layer);
                         button.clicked(() -> editor.canvas.layer(layer));
 
                         layerButtons.add(button);
-                    }
-
-                    layerButtons.setSize(editor.canvas.layers.size);
+                    });
 
                     pad.clear();
-                    layerButtons.each(button -> {
-                        pad.add(button).size(128f);
-                    });
+                    layerButtons.each(button -> pad.add(button).row());
                 });
-            });
+            }).growY().padTop(64f);
         });
     }
 
     public static class ColorBlob extends Table {
+
         public ColorBlob(Color color, float x, float y) {
             button(Textures.color_blob, () -> ui.pickerDialog.show(color))
                     .with(button -> button.setTranslation(x, y))
