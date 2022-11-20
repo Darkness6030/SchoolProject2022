@@ -1,24 +1,24 @@
 package dark.editor;
 
 import arc.graphics.Color;
+import arc.graphics.Pixmap;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import arc.struct.Seq;
+import arc.util.ScreenUtils;
 
 import static arc.Core.*;
 
 public class LayerCanvas extends Layer {
 
-    public final Seq<Layer> layers = new Seq<>(10);
+    public final Seq<Layer> layers = new Seq<>(8);
     public final Layer background;
 
     public int currentLayer;
-
     public int x, y;
 
     public LayerCanvas(int width, int height) {
         super(width, height);
-        this.move(graphics.getWidth() / 2, graphics.getHeight() / 2);
 
         // Добавляем слой по умолчанию
         this.addLayer();
@@ -50,12 +50,13 @@ public class LayerCanvas extends Layer {
         return layers.get(currentLayer);
     }
 
-    public void layer(Layer layer) {
-        layer(layers.indexOf(layer));
-    }
-
     public void layer(int currentLayer) {
         this.currentLayer = Mathf.clamp(currentLayer, 0, layers.size - 1);
+    }
+
+    // TODO да, это работает, но есть ли способ лучше?
+    public Pixmap pixmap() {
+        return ScreenUtils.getFrameBufferPixmap(x - scaledWidth() / 2, y - scaledHeight() / 2, scaledWidth(), scaledHeight(), true);
     }
 
     @Override

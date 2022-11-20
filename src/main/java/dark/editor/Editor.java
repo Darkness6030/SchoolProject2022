@@ -2,9 +2,7 @@ package dark.editor;
 
 import arc.ApplicationListener;
 import arc.files.Fi;
-import arc.graphics.Color;
-import arc.graphics.Pixmap;
-import arc.graphics.PixmapIO;
+import arc.graphics.*;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 
@@ -14,7 +12,7 @@ import static dark.editor.EditType.*;
 
 public class Editor implements ApplicationListener, GestureListener {
 
-    public static final int none = Integer.MIN_VALUE, max_layers = 7;
+    public static final int none = -2147483648, max_layers = 7;
 
     public final Color first = Color.white.cpy(), second = Color.black.cpy();
 
@@ -22,11 +20,15 @@ public class Editor implements ApplicationListener, GestureListener {
     public EditType type = pencil, temp = pencil;
 
     public int drawSize = 2;
-
     public int lastX = -1, lastY = -1;
 
     public Editor() {
         input.addProcessor(new GestureDetector(this));
+    }
+
+    public void resetCanvas(int width, int height) {
+        this.canvas = new LayerCanvas(width, height);
+        this.canvas.move(graphics.getWidth() / 2, graphics.getHeight() / 2);
     }
 
     @Override
@@ -54,7 +56,6 @@ public class Editor implements ApplicationListener, GestureListener {
         if (eraser.isSelected()) {
             if (input.keyDown(Binding.eraser)) {
                 Paint.draw(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, Color.clear);
-
                 lastX = canvas.mouseX();
                 lastY = canvas.mouseY();
             } else lastX = lastY = none;
@@ -93,9 +94,7 @@ public class Editor implements ApplicationListener, GestureListener {
     public void save() {
         // TODO окно выбора файла
         var file = Fi.get("save.png");
-        var pixmap = new Pixmap(canvas.width, canvas.height);
-
-        // TODO сохранить холст в файл
+        var pixmap = canvas.pixmap();
 
         PixmapIO.writePng(file, pixmap);
     }

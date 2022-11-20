@@ -67,12 +67,8 @@ public class HudFragment {
                     if (layerButtons.size == editor.canvas.layers.size) return;
 
                     layerButtons.clear();
-                    editor.canvas.layers.each(layer -> {
-                        var button = new LayerButton(layer);
-                        button.clicked(() -> editor.canvas.layer(layer));
-
-                        layerButtons.add(button);
-                    });
+                    for (int layer = 0; layer < editor.canvas.layers.size; layer++)
+                        layerButtons.add(new LayerButton(layer));
 
                     pad.clear();
                     layerButtons.each(button -> pad.add(button).row());

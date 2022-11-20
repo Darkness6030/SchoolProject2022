@@ -4,7 +4,7 @@ import dark.editor.LayerCanvas;
 import dark.ui.Icons;
 import dark.ui.elements.TextSlider;
 
-import static dark.Main.editor;
+import static dark.Main.*;
 
 public class NewCanvasDialog extends BaseDialog {
 
@@ -20,7 +20,7 @@ public class NewCanvasDialog extends BaseDialog {
         addCloseButton();
         addButton(Icons.ok, "Ok", () -> {
             hide();
-            editor.canvas = new LayerCanvas(lastWidth, lastHeight);
+            editor.resetCanvas(lastWidth, lastHeight);
         });
     }
 }
