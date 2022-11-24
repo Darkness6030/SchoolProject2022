@@ -8,6 +8,7 @@ import arc.scene.ui.ImageButton.ImageButtonStyle;
 import arc.scene.ui.Label.LabelStyle;
 import arc.scene.ui.Slider.SliderStyle;
 import arc.scene.ui.TextButton.TextButtonStyle;
+import arc.scene.ui.TextField.TextFieldStyle;
 
 import static arc.Core.scene;
 import static dark.ui.Textures.*;
@@ -21,6 +22,7 @@ public class Styles {
     public static LabelStyle labelStyle;
     public static CheckBoxStyle checkBoxStyle;
     public static SliderStyle sliderStyle;
+    public static TextFieldStyle fieldStyle;
 
     public static DialogStyle dialogStyle;
 
@@ -56,6 +58,11 @@ public class Styles {
             knob = slider_knob;
             knobOver = slider_knob_over;
             knobDown = slider_knob_down;
+        }});
+
+        scene.addStyle(TextFieldStyle.class, fieldStyle = new TextFieldStyle() {{
+            font = Fonts.def;
+            fontColor = Color.white;
         }});
 
         scene.addStyle(DialogStyle.class, dialogStyle = new DialogStyle() {{
