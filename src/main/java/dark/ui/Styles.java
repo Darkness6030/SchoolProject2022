@@ -11,13 +11,13 @@ import arc.scene.ui.TextButton.TextButtonStyle;
 import arc.scene.ui.TextField.TextFieldStyle;
 
 import static arc.Core.scene;
-import static dark.ui.Textures.*;
+import static dark.ui.Drawables.*;
 
 public class Styles {
 
     public static ButtonStyle buttonStyle;
-    public static TextButtonStyle textButtonStyle, checkButtonStyle;
-    public static ImageButtonStyle imageButtonStyle;
+    public static TextButtonStyle textButtonStyle, checkTextButtonStyle;
+    public static ImageButtonStyle imageButtonStyle, checkImageButtonStyle;
 
     public static LabelStyle labelStyle;
     public static CheckBoxStyle checkBoxStyle;
@@ -36,14 +36,20 @@ public class Styles {
             overFontColor = Color.lightGray;
         }});
 
-        checkButtonStyle = new TextButtonStyle(textButtonStyle) {{
+        checkTextButtonStyle = new TextButtonStyle(textButtonStyle) {{
             downFontColor = Color.gray;
             checkedFontColor = Palette.active;
         }};
 
-        scene.addStyle(ImageButtonStyle.class, imageButtonStyle = new ImageButtonStyle() {{
+        scene.addStyle(ImageButtonStyle.class, imageButtonStyle = new ImageButtonStyle());
 
-        }});
+        checkImageButtonStyle = new ImageButtonStyle() {{
+            imageDownColor = Color.gray;
+            imageUpColor = Color.white;
+            imageCheckedColor = Palette.active;
+
+
+        }};
 
         scene.addStyle(LabelStyle.class, labelStyle = new LabelStyle() {{
             font = Fonts.def;
@@ -66,7 +72,7 @@ public class Styles {
         }});
 
         scene.addStyle(DialogStyle.class, dialogStyle = new DialogStyle() {{
-            stageBackground = Textures.black;
+            stageBackground = Drawables.black;
             titleFont = Fonts.def;
             titleFontColor = Palette.active;
         }});

@@ -5,7 +5,7 @@ import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
 import dark.editor.EditType;
 import dark.ui.Icons;
-import dark.ui.Textures;
+import dark.ui.Drawables;
 import dark.ui.elements.LayerButton;
 import dark.ui.elements.TextSlider;
 
@@ -20,7 +20,7 @@ public class HudFragment {
             hud.name = "Menu Bar";
             hud.top();
 
-            hud.table(Textures.underline, underline -> {
+            hud.table(Drawables.underline, underline -> {
                 underline.defaults().pad(24f);
 
                 underline.left();
@@ -47,7 +47,7 @@ public class HudFragment {
             sideline.name = "Tools Bar";
             sideline.left();
 
-            sideline.table(Textures.sideline, pad -> {
+            sideline.table(Drawables.sideline, pad -> {
                 pad.top();
 
                 for (var type : EditType.values())
@@ -59,7 +59,7 @@ public class HudFragment {
             layers.name = "Layers";
             layers.right();
 
-            layers.table(Textures.sideline_left, sideline -> {
+            layers.table(Drawables.sideline_left, sideline -> {
                 sideline.top().marginLeft(8f);
                 sideline.defaults().size(128f).padBottom(4f);
 
@@ -75,7 +75,7 @@ public class HudFragment {
     public static class ColorBlob extends Table {
 
         public ColorBlob(Color color, float x, float y) {
-            button(Textures.color_blob, () -> ui.pickerDialog.show(color))
+            button(Drawables.color_blob, () -> ui.pickerDialog.show(color))
                     .with(button -> button.setTranslation(x, y))
                     .update(button -> button.getImage().setColor(color));
         }

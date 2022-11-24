@@ -13,7 +13,7 @@ public class BaseDialog extends Dialog {
         super(title, style);
 
         titleTable.row(); // horizontal gap
-        titleTable.image(Textures.whiteui, Palette.accent).growX().height(3f).pad(4f);
+        titleTable.image(Drawables.whiteui, Palette.accent).growX().height(3f).pad(4f);
 
         buttons.defaults().size(210f, 64f);
     }

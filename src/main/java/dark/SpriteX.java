@@ -36,7 +36,7 @@ public class SpriteX extends ApplicationCore {
         Fonts.load();
         Palette.load();
 
-        load(Textures.class, Textures::load);
+        load(Drawables.class, Drawables::load);
         load(Styles.class, Styles::load);
         load(UI.class, ui::load);
 
