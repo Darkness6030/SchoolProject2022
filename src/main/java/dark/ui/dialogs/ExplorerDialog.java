@@ -7,6 +7,8 @@ import arc.scene.ui.TextField;
 import arc.scene.ui.layout.Table;
 import dark.ui.Icons;
 
+import static arc.Core.*;
+
 public class ExplorerDialog extends BaseDialog {
 
     protected Table list;
@@ -29,14 +31,14 @@ public class ExplorerDialog extends BaseDialog {
         currentFolder = Core.files.local(""); // move to current folder
     }
 
-    public void rebuild(boolean create) {
+    public void rebuild() {
         buttons.clear();
         addCloseButton();
 
         if (create)
-            addButton(Icons.save, "Save", callback::run).disabled(button -> input.getText().isEmpty());
+            addButton(Icons.save, "Save", () -> callback.run()).disabled(button -> input.getText().isEmpty());
         else
-            addButton(Icons.load, "Load", callback::run).disabled(button -> selectedFile == null);
+            addButton(Icons.load, "Load", () -> callback.run()).disabled(button -> selectedFile == null);
 
         rebuildList();
     }
@@ -49,12 +51,13 @@ public class ExplorerDialog extends BaseDialog {
             rebuildList();
         }).row();
 
-        currentFolder.seq().each(file -> {
-            list.button(Icons.file + " " + file.name(), () -> {
-                if (file.isDirectory()) currentFolder = file;
-                else currentFile(file);
-                rebuildList();
-            }).row();
+        currentFolder.seq().sort(file -> file.isDirectory() ? 0 : 1).each(file -> {
+            if (file.isDirectory())
+                list.button(Icons.folder + " " + file.name(), () -> {
+                    currentFolder = file;
+                    rebuildList();
+                }).row();
+            else list.button(Icons.file + " " + file.name(), () -> currentFile(file)).row();
         });
     }
 
@@ -76,8 +79,7 @@ public class ExplorerDialog extends BaseDialog {
         this.create = create;
         this.selectedFile = null;
 
-        rebuild(create);
-        super.show();
+        rebuild();
+        app.post(super::show);
     }
-
 }
