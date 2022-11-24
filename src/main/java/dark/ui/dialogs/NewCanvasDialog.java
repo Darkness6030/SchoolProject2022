@@ -1,6 +1,5 @@
 package dark.ui.dialogs;
 
-import dark.editor.LayerCanvas;
 import dark.ui.Icons;
 import dark.ui.elements.TextSlider;
 
@@ -21,7 +20,7 @@ public class NewCanvasDialog extends BaseDialog {
         addButton(Icons.ok, "Ok", () -> {
             hide();
             editor.resetCanvas(lastWidth, lastHeight);
-            ui.hudFragment.needRebuildLayers = true;
+            ui.hudFragment.rebuildLayers.run();
         });
     }
 }

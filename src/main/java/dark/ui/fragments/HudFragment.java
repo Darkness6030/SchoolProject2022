@@ -13,7 +13,7 @@ import static dark.Main.*;
 
 public class HudFragment {
 
-    public boolean needRebuildLayers = true;
+    public Runnable rebuildLayers;;
 
     public void build(WidgetGroup parent) {
         parent.fill(hud -> {
@@ -63,14 +63,10 @@ public class HudFragment {
                 sideline.top().marginLeft(8f);
                 sideline.defaults().size(128f).padBottom(4f);
 
-                sideline.update(() -> {
-                    if (!needRebuildLayers) return;
-
+                rebuildLayers = () -> {
                     sideline.clear();
                     editor.canvas.layers.map(LayerButton::new).each(button -> sideline.add(button).tooltip("Layer #" + button.layer.index()).row());
-
-                    needRebuildLayers = false;
-                });
+                };
             }).growY().padTop(64f);
         });
     }

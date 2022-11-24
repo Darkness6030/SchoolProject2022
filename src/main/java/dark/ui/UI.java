@@ -8,7 +8,6 @@ import dark.ui.dialogs.*;
 import dark.ui.fragments.*;
 
 import static arc.Core.*;
-import static dark.Main.editor;
 
 public class UI implements ApplicationListener {
 

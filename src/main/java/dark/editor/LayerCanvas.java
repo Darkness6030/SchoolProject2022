@@ -8,7 +8,6 @@ import arc.struct.Seq;
 import arc.util.ScreenUtils;
 
 import static arc.Core.*;
-import static dark.Main.ui;
 
 public class LayerCanvas extends Layer {
 
