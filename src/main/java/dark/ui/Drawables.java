@@ -15,8 +15,7 @@ public class Drawables {
     public static Drawable circle, error,
             whiteui, black, color_blob,
             underline, sideline, sideline_left,
-            slider_back, slider_knob, slider_knob_over, slider_knob_down,
-            pencil, eraser, pick, fill;
+            slider_back, slider_knob, slider_knob_over, slider_knob_down;
 
     public static void load() {
         splits = reader.parse(files.internal("sprites/splits.json"));

@@ -13,11 +13,13 @@ import arc.scene.ui.TextField.TextFieldStyle;
 import static arc.Core.scene;
 import static dark.ui.Drawables.*;
 
+
 public class Styles {
 
     public static ButtonStyle buttonStyle;
     public static TextButtonStyle textButtonStyle, checkTextButtonStyle;
-    public static ImageButtonStyle imageButtonStyle, checkImageButtonStyle;
+    public static ImageButtonStyle imageButtonStyle;
+    public static ImageButtonStyle checkImageButtonStyle;
 
     public static LabelStyle labelStyle;
     public static CheckBoxStyle checkBoxStyle;
@@ -47,8 +49,6 @@ public class Styles {
             imageDownColor = Color.gray;
             imageUpColor = Color.white;
             imageCheckedColor = Palette.active;
-
-
         }};
 
         scene.addStyle(LabelStyle.class, labelStyle = new LabelStyle() {{

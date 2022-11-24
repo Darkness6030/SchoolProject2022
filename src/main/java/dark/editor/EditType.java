@@ -1,21 +1,27 @@
 package dark.editor;
 
 import arc.scene.ui.layout.Table;
-import arc.util.Scaling;
 import dark.ui.*;
+import mindustry.ui.Fonts;
 
-import static arc.Core.*;
+import static arc.Core.scene;
 import static dark.Main.editor;
+import static dark.ui.Fonts.def;
 
 public enum EditType {
-    pencil,
-    eraser,
-    pick,
-    fill;
+    pencil(Icons.pencil),
+    eraser(Icons.eraser),
+    pick(Icons.pencil),
+    fill(Icons.fill);
+
+    public final char icon;
+
+    EditType(char icon) {
+        this.icon = icon;
+    }
 
     public void button(Table table) {
-        // TODO а как получить вообще эту иконку
-        table.button(mindustry.ui.Fonts.getGlyph(mindustry.ui.Fonts.icon, Icons.pencil), Styles.checkImageButtonStyle, 24f, () -> editor.type = this).checked(button -> editor.type == this).size(64f).row();
+        table.button(Fonts.getGlyph(def, icon), Styles.checkImageButtonStyle, 64f, () -> editor.type = this).checked(button -> editor.type == this).fontScale(32f).row();
     }
 
     public boolean isSelected() {
