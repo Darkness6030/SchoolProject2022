@@ -3,7 +3,7 @@ package dark.ui.dialogs;
 import dark.ui.Icons;
 
 import static arc.Core.*;
-import static dark.Main.editor;
+import static dark.Main.*;
 
 public class MenuDialog extends BaseDialog {
 
@@ -15,7 +15,7 @@ public class MenuDialog extends BaseDialog {
 
         buttons.row();
 
-        addButton(Icons.save, "Save", editor::save);
-        addButton(Icons.load, "Load", editor::load);
+        addButton(Icons.save, "Save", () -> ui.explorerDialog.show(editor::save, true));
+        addButton(Icons.load, "Load", () -> ui.explorerDialog.show(editor::load, false));
     }
 }

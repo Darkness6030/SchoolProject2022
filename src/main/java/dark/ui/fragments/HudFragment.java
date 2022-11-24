@@ -67,6 +67,7 @@ public class HudFragment {
                     sideline.clear();
                     editor.canvas.layers.map(LayerButton::new).each(button -> sideline.add(button).tooltip("Layer #" + button.layer.index()).row());
                 };
+                rebuildLayers.run();
             }).growY().padTop(64f);
         });
     }

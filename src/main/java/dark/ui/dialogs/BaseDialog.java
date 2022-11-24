@@ -1,6 +1,8 @@
 package dark.ui.dialogs;
 
 import arc.scene.ui.Dialog;
+import arc.scene.ui.TextButton;
+import arc.scene.ui.layout.Cell;
 import dark.ui.*;
 
 import static arc.Core.*;
@@ -26,7 +28,7 @@ public class BaseDialog extends Dialog {
         closeOnBack();
     }
 
-    public void addButton(char icon, String text, Runnable listener) {
-        buttons.button(icon + " " + text, listener);
+    public Cell<TextButton> addButton(char icon, String text, Runnable listener) {
+        return buttons.button(icon + " " + text, listener);
     }
 }

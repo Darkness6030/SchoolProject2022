@@ -17,6 +17,7 @@ public class UI implements ApplicationListener {
     public final ColorWheel colorWheel = new ColorWheel();
 
     public MenuDialog menuDialog;
+    public ExplorerDialog explorerDialog;
     public NewCanvasDialog canvasDialog;
     public ColorPickerDialog pickerDialog;
 
@@ -31,6 +32,7 @@ public class UI implements ApplicationListener {
         colorWheel.build(hud);
 
         menuDialog = new MenuDialog();
+        explorerDialog = new ExplorerDialog();
         canvasDialog = new NewCanvasDialog();
         pickerDialog = new ColorPickerDialog();
     }

@@ -93,15 +93,12 @@ public class Editor implements ApplicationListener, GestureListener {
         return false;
     }
 
-    public void save() {
-        // TODO окно выбора файла
-        var file = Fi.get("save.png");
+    public void save(Fi file) {
         var pixmap = canvas.pixmap();
-
         PixmapIO.writePng(file, pixmap);
     }
 
-    public void load() {
+    public void load(Fi file) {
 
     }
 }
