@@ -4,6 +4,8 @@ import arc.graphics.*;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 
+import static dark.Main.editor;
+
 public class Layer extends Pixmap {
 
     public final TextureRegion region = new TextureRegion(new Texture(this));
@@ -16,6 +18,10 @@ public class Layer extends Pixmap {
 
     public void scale(float scale) {
         this.scale += scale;
+    }
+
+    public int index() {
+        return editor.canvas.layers.indexOf(this);
     }
 
     public int scaledWidth() {

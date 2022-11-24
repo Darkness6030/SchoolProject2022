@@ -72,8 +72,10 @@ public class Editor implements ApplicationListener, GestureListener {
 
         if (input.keyTap(Binding.new_canvas)) ui.canvasDialog.show();
 
-        if (input.keyTap(Binding.new_layer) && canvas.layers.size < max_layers)
+        if (input.keyTap(Binding.new_layer) && canvas.layers.size < max_layers) {
             canvas.addLayer();
+            ui.hudFragment.needRebuildLayers = true;
+        }
 
         if (input.keyTap(Binding.layer_up))
             canvas.layer(canvas.currentLayer + 1);
