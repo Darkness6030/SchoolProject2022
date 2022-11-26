@@ -7,6 +7,7 @@ import arc.graphics.Color;
 import arc.graphics.Gl;
 import arc.graphics.g2d.Font;
 import arc.graphics.g2d.PixmapPacker;
+import arc.scene.style.Drawable;
 
 import static arc.Core.*;
 
@@ -39,5 +40,9 @@ public class Fonts {
             font.getData().markupEnabled = true;
             icon = font;
         };
+    }
+
+    public static Drawable getGlyph(char glyph) {
+        return mindustry.ui.Fonts.getGlyph(def, glyph);
     }
 }

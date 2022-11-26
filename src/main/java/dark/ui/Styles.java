@@ -18,8 +18,7 @@ public class Styles {
 
     public static ButtonStyle buttonStyle;
     public static TextButtonStyle textButtonStyle, checkTextButtonStyle;
-    public static ImageButtonStyle imageButtonStyle;
-    public static ImageButtonStyle checkImageButtonStyle;
+    public static ImageButtonStyle imageButtonStyle, checkImageButtonStyle, alphaStyle;
 
     public static LabelStyle labelStyle;
     public static CheckBoxStyle checkBoxStyle;
@@ -49,6 +48,12 @@ public class Styles {
             imageDownColor = Color.gray;
             imageUpColor = Color.white;
             imageCheckedColor = Palette.active;
+        }};
+
+        alphaStyle = new ImageButtonStyle() {{
+            imageUp = alpha_chan;
+            imageDown = alpha_chan_dizzy;
+            imageChecked = alpha_chan_dizzy;
         }};
 
         scene.addStyle(LabelStyle.class, labelStyle = new LabelStyle() {{

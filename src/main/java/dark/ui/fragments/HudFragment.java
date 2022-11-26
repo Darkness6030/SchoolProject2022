@@ -1,15 +1,20 @@
 package dark.ui.fragments;
 
 import arc.graphics.Color;
-import arc.scene.ui.layout.Table;
+import arc.scene.ui.ImageButton;
+import arc.scene.ui.TextButton;
 import arc.scene.ui.layout.WidgetGroup;
 import dark.editor.EditType;
-import dark.ui.Icons;
 import dark.ui.Drawables;
+import dark.ui.Icons;
 import dark.ui.elements.LayerButton;
 import dark.ui.elements.TextSlider;
 
-import static dark.Main.*;
+import static arc.Core.bundle;
+import static dark.Main.editor;
+import static dark.Main.ui;
+import static dark.ui.Drawables.alpha_chan;
+import static dark.ui.Styles.alphaStyle;
 
 public class HudFragment {
 
@@ -22,24 +27,19 @@ public class HudFragment {
 
             hud.table(Drawables.underline, underline -> {
                 underline.defaults().pad(24f);
-
                 underline.left();
 
-                underline.button("Menu", () -> ui.menuDialog.show()).size(64f);
+                underline.button(alpha_chan, alphaStyle, () -> ui.menuDialog.show()).checked(button -> ui.menuDialog.isShown());
 
-                new TextSlider(1f, 100f, 1f, editor.drawSize, value -> (editor.drawSize = value.intValue()) + "px").build(underline);
+                new TextSlider(1f, 100f, 1f, editor.drawSize, value -> bundle.format("hud.drawSize", editor.drawSize = value.intValue())).build(underline);
 
                 underline.stack(
-                        new Table(color -> color.button(String.valueOf(Icons.swap), () -> {
-                            var temp = editor.first.cpy();
-                            editor.first.set(editor.second);
-                            editor.second.set(temp);
-                        }).size(16f).with(button -> button.setTranslation(18f, 18f))),
+                        new SwapButton(editor.first, editor.second, 18f, 18f),
                         new ColorBlob(editor.second, 8f, -8f),
                         new ColorBlob(editor.first, -8f, 8f)
                 ).size(64f);
 
-                underline.label(() -> "Layer " + (editor.canvas.currentLayer + 1) + "/" + editor.canvas.layers.size);
+                underline.label(() -> bundle.format("hud.layer", editor.canvas.currentLayer + 1, editor.canvas.layers.size));
             }).height(64f).growX();
         });
 
@@ -67,17 +67,32 @@ public class HudFragment {
                     sideline.clear();
                     editor.canvas.layers.map(LayerButton::new).each(button -> sideline.add(button).tooltip("Layer #" + button.layer.index()).row());
                 };
+
                 rebuildLayers.run();
             }).growY().padTop(64f);
         });
     }
 
-    public static class ColorBlob extends Table {
+    public static class SwapButton extends TextButton {
+        public SwapButton(Color first, Color second, float x, float y) {
+            super(String.valueOf(Icons.swap));
+            setTranslation(x, y);
 
+            clicked(() -> {
+                var temp = first.cpy();
+                first.set(second.cpy());
+                second.set(temp);
+            });
+        }
+    }
+
+    public static class ColorBlob extends ImageButton {
         public ColorBlob(Color color, float x, float y) {
-            button(Drawables.color_blob, () -> ui.pickerDialog.show(color))
-                    .with(button -> button.setTranslation(x, y))
-                    .update(button -> button.getImage().setColor(color));
+            super(Drawables.color_blob);
+            setTranslation(x, y);
+
+            clicked(() -> ui.pickerDialog.show(color));
+            update(() -> getImage().setColor(color));
         }
     }
 }

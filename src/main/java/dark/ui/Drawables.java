@@ -15,7 +15,8 @@ public class Drawables {
     public static Drawable circle, error,
             whiteui, black, color_blob,
             underline, sideline, sideline_left,
-            slider_back, slider_knob, slider_knob_over, slider_knob_down;
+            slider_back, slider_knob, slider_knob_over, slider_knob_down,
+            alpha_chan, alpha_chan_dizzy;
 
     public static void load() {
         splits = reader.parse(files.internal("sprites/splits.json"));
@@ -35,6 +36,9 @@ public class Drawables {
         slider_knob = load("slider-knob");
         slider_knob_over = load("slider-knob-over");
         slider_knob_down = load("slider-knob-down");
+
+        alpha_chan = load("alpha-chan");
+        alpha_chan_dizzy = load("alpha-chan-dizzy");
 
         atlas.setErrorRegion("error");
     }

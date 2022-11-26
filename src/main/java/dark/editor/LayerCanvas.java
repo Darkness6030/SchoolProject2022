@@ -5,9 +5,9 @@ import arc.graphics.Pixmap;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import arc.struct.Seq;
-import arc.util.ScreenUtils;
 
-import static arc.Core.*;
+import static arc.Core.graphics;
+import static arc.Core.input;
 
 public class LayerCanvas extends Layer {
 
@@ -54,9 +54,10 @@ public class LayerCanvas extends Layer {
         this.currentLayer = Mathf.clamp(currentLayer, 0, layers.size - 1);
     }
 
-    // TODO да, это работает, но есть ли способ лучше?
-    public Pixmap pixmap() {
-        return ScreenUtils.getFrameBufferPixmap(x - scaledWidth() / 2, y - scaledHeight() / 2, scaledWidth(), scaledHeight(), true);
+    public Pixmap toPixmap() {
+        var pixmap = background.copy();
+        layers.each(layer -> layer.each((x, y) -> pixmap.set(x, y, layer.get(x, y) == 0 ? pixmap.get(x, y) : layer.get(x, y))));
+        return pixmap;
     }
 
     @Override

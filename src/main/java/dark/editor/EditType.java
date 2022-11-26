@@ -1,17 +1,17 @@
 package dark.editor;
 
 import arc.scene.ui.layout.Table;
-import dark.ui.*;
-import mindustry.ui.Fonts;
+import dark.ui.Fonts;
+import dark.ui.Icons;
+import dark.ui.Styles;
 
 import static arc.Core.scene;
 import static dark.Main.editor;
-import static dark.ui.Fonts.def;
 
 public enum EditType {
     pencil(Icons.pencil),
     eraser(Icons.eraser),
-    pick(Icons.pencil),
+    pick(Icons.pick),
     fill(Icons.fill);
 
     public final char icon;
@@ -21,7 +21,10 @@ public enum EditType {
     }
 
     public void button(Table table) {
-        table.button(Fonts.getGlyph(def, icon), Styles.checkImageButtonStyle, 64f, () -> editor.type = this).checked(button -> editor.type == this).fontScale(32f).row();
+        table.button(Fonts.getGlyph(icon), Styles.checkImageButtonStyle, 72f, () -> editor.type = this)
+                .checked(button -> editor.type == this)
+                .tooltip("@" + name() + ".tooltip")
+                .fontScale(32f).row();
     }
 
     public boolean isSelected() {

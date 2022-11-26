@@ -5,6 +5,7 @@ import arc.assets.AssetManager;
 import arc.graphics.g2d.SortedSpriteBatch;
 import arc.graphics.g2d.TextureAtlas;
 import arc.scene.Scene;
+import arc.scene.ui.Tooltip;
 import arc.scene.ui.Tooltip.Tooltips;
 import arc.util.*;
 import dark.editor.Editor;
@@ -32,6 +33,7 @@ public class SpriteX extends ApplicationCore {
         add(ui = new UI());
 
         Tooltips.getInstance().animations = true;
+        Tooltips.getInstance().textProvider = text -> new Tooltip(table -> table.background(Drawables.black).margin(4f).add(text));
 
         Fonts.load();
         Palette.load();

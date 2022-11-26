@@ -77,12 +77,6 @@ public class Editor implements ApplicationListener, GestureListener {
             ui.hudFragment.rebuildLayers.run();
         }
 
-        if (input.keyTap(Binding.layer_up))
-            canvas.layer(canvas.currentLayer + 1);
-
-        if (input.keyTap(Binding.layer_down))
-            canvas.layer(canvas.currentLayer - 1);
-
         graphics.clear(Color.lightGray);
         canvas.draw();
     }
@@ -94,7 +88,7 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void save(Fi file) {
-        var pixmap = canvas.pixmap();
+        var pixmap = canvas.toPixmap();
         PixmapIO.writePng(file, pixmap);
     }
 
