@@ -37,35 +37,42 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.clampToScreen(192);
 
         if (pencil.isSelected()) {
-            if (input.keyDown(Binding.pencil1)) {
-                Paint.draw(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, first);
+            if (input.keyDown(Binding.draw1)) {
+                Paint.draw(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, first.rgba());
                 lastX = canvas.mouseX();
                 lastY = canvas.mouseY();
-            } else if (input.keyDown(Binding.pencil2)) {
-                Paint.draw(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, second);
+            } else if (input.keyDown(Binding.draw2)) {
+                Paint.draw(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, second.rgba());
                 lastX = canvas.mouseX();
                 lastY = canvas.mouseY();
             } else lastX = lastY = none;
         }
 
-        if (pick.isSelected() && input.keyRelease(Binding.pickMouse)) {
+        if (eraser.isSelected()) {
+            if (input.keyDown(Binding.draw1)) {
+                Paint.draw(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, Color.clearRgba);
+                lastX = canvas.mouseX();
+                lastY = canvas.mouseY();
+            } else lastX = lastY = none;
+        }
+
+        if (pick.isSelected() && input.keyRelease(Binding.draw1)) {
             first.set(canvas.pickColor(canvas.mouseX(), canvas.mouseY()));
             ui.colorWheel.add(first);
         }
 
-        if (eraser.isSelected()) {
-            if (input.keyDown(Binding.eraser)) {
-                Paint.draw(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, Color.clear);
-                lastX = canvas.mouseX();
-                lastY = canvas.mouseY();
-            } else lastX = lastY = none;
+        if (fill.isSelected()) {
+            if (input.keyDown(Binding.draw1))
+                Paint.fill(canvas.layer(), canvas.mouseX(), canvas.mouseY(), first.rgba());
+            else if (input.keyDown(Binding.draw2))
+                Paint.fill(canvas.layer(), canvas.mouseX(), canvas.mouseY(), second.rgba());
         }
 
         if (input.keyTap(Binding.pick)) {
             temp = type;
             type = EditType.pick;
             ui.colorWheel.show(input.mouseX(), input.mouseY(), first::set);
-        } else if (ui.colorWheel.shown() && (input.keyRelease(Binding.pick) || input.keyRelease(Binding.pickMouse))) {
+        } else if (ui.colorWheel.shown() && (input.keyRelease(Binding.pick) || input.keyRelease(Binding.draw1))) {
             type = temp;
             ui.colorWheel.hide();
         }

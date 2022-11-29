@@ -5,6 +5,7 @@ import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.ImageButton;
 import dark.editor.Layer;
 import dark.ui.Palette;
+import mindustry.editor.EditorTool;
 
 import static dark.Main.editor;
 
