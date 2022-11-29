@@ -36,6 +36,14 @@ public class LayerCanvas extends Layer {
         currentLayer = layers.add(new Layer(width, height)).size - 1;
     }
 
+    public void removeLayer(Layer layer) {
+
+    }
+
+    public void moveLayer(Layer layer, boolean top) {
+
+    }
+
     public void clampToScreen(int margin) {
         x = Mathf.clamp(x, graphics.getWidth() - margin - scaledWidth() / 2, margin + scaledWidth() / 2);
         y = Mathf.clamp(y, graphics.getHeight() - margin - scaledHeight() / 2, margin + scaledHeight() / 2);

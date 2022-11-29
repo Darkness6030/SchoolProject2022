@@ -5,9 +5,8 @@ import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.ImageButton;
 import dark.editor.Layer;
 import dark.ui.Palette;
-import mindustry.editor.EditorTool;
 
-import static dark.Main.editor;
+import static dark.Main.*;
 
 public class LayerButton extends ImageButton {
 
@@ -18,6 +17,7 @@ public class LayerButton extends ImageButton {
 
         this.layer = layer;
         this.clicked(() -> editor.canvas.layer(layer.index()));
+        this.hovered(() -> ui.hudFragment.sideButtons.show(layer, y + height / 2f));
     }
 
     @Override

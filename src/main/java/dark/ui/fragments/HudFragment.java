@@ -3,22 +3,25 @@ package dark.ui.fragments;
 import arc.graphics.Color;
 import arc.scene.ui.ImageButton;
 import arc.scene.ui.TextButton;
+import arc.scene.ui.layout.Scl;
+import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
 import dark.editor.EditType;
+import dark.editor.Layer;
 import dark.ui.Drawables;
 import dark.ui.Icons;
 import dark.ui.elements.LayerButton;
 import dark.ui.elements.TextSlider;
 
-import static arc.Core.bundle;
-import static dark.Main.editor;
-import static dark.Main.ui;
+import static arc.Core.*;
+import static dark.Main.*;
 import static dark.ui.Drawables.alpha_chan;
 import static dark.ui.Styles.alphaStyle;
 
 public class HudFragment {
 
-    public Runnable rebuildLayers;;
+    public Runnable rebuildLayers;
+    public SideButtons sideButtons;
 
     public void build(WidgetGroup parent) {
         parent.fill(hud -> {
@@ -71,9 +74,18 @@ public class HudFragment {
                 rebuildLayers.run();
             }).growY().padTop(64f);
         });
+
+        parent.fill(cont -> {
+            cont.name = "Layer Buttons";
+            cont.right();
+
+            cont.fillParent = false;
+            sideButtons = new SideButtons(cont);
+        });
     }
 
     public static class SwapButton extends TextButton {
+
         public SwapButton(Color first, Color second, float x, float y) {
             super(String.valueOf(Icons.swap));
             setTranslation(x, y);
@@ -87,12 +99,40 @@ public class HudFragment {
     }
 
     public static class ColorBlob extends ImageButton {
+
         public ColorBlob(Color color, float x, float y) {
             super(Drawables.color_blob);
             setTranslation(x, y);
 
             clicked(() -> ui.pickerDialog.show(color));
             update(() -> getImage().setColor(color));
+        }
+    }
+
+    public static class SideButtons extends Table {
+
+        public static final float sideBarWidth = Scl.scl(128f + 8f);
+
+        public Layer layer;
+
+        public SideButtons(Table parent) {
+            super(Drawables.sideline_left);
+            parent.add(this);
+
+            defaults().size(128f / 3f);
+            visible(() ->
+                    input.mouseX() > this.x + translation.x &&
+                    input.mouseY() > this.y + translation.y &&
+                    input.mouseY() < this.y + translation.y + height);
+
+            button(Icons.back + "",   () -> editor.canvas.moveLayer(layer, true)).tooltip("Move Up").row();
+            button(Icons.eraser + "", () -> editor.canvas.removeLayer(layer)).tooltip("Remove").row();
+            button(Icons.back + "",   () -> editor.canvas.moveLayer(layer, false)).tooltip("Move Down").row();
+        }
+
+        public void show(Layer layer, float ty) {
+            this.layer = layer;
+            setTranslation(graphics.getWidth() - sideBarWidth, ty);
         }
     }
 }
