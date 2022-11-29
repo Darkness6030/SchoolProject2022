@@ -16,7 +16,7 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public final Color first = Color.white.cpy(), second = Color.black.cpy();
 
-    public LayerCanvas canvas = new LayerCanvas(800, 600);
+    public Canvas canvas = new Canvas(800, 600);
     public EditType type = pencil, temp = pencil;
 
     public int drawSize = 2;
@@ -27,7 +27,7 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void resetCanvas(int width, int height) {
-        this.canvas = new LayerCanvas(width, height);
+        this.canvas = new Canvas(width, height);
         this.canvas.move(graphics.getWidth() / 2, graphics.getHeight() / 2);
     }
 
@@ -81,7 +81,6 @@ public class Editor implements ApplicationListener, GestureListener {
 
         if (input.keyTap(Binding.new_layer) && canvas.layers.size < max_layers) {
             canvas.addLayer();
-            ui.hudFragment.rebuildLayers.run();
         }
 
         graphics.clear(Color.lightGray);

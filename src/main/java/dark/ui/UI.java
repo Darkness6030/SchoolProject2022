@@ -2,10 +2,14 @@ package dark.ui;
 
 import arc.ApplicationListener;
 import arc.input.KeyCode;
+import arc.math.Interp;
+import arc.scene.actions.Actions;
 import arc.scene.event.Touchable;
+import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
 import dark.ui.dialogs.*;
-import dark.ui.fragments.*;
+import dark.ui.fragments.ColorWheel;
+import dark.ui.fragments.HudFragment;
 
 import static arc.Core.*;
 
@@ -48,5 +52,14 @@ public class UI implements ApplicationListener {
     @Override
     public void resize(int width, int height) {
         scene.resize(width, height);
+    }
+
+    public void showInfoFade(String text, float duration){
+        var table = new Table();
+        table.touchable = Touchable.disabled;
+        table.setFillParent(true);
+        table.actions(Actions.fadeOut(duration, Interp.fade), Actions.remove());
+        table.top().add(text).padTop(10f);
+        scene.add(table);
     }
 }

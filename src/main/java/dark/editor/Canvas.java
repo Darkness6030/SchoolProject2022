@@ -8,20 +8,21 @@ import arc.struct.Seq;
 
 import static arc.Core.graphics;
 import static arc.Core.input;
+import static dark.Main.ui;
 
-public class LayerCanvas extends Layer {
+public class Canvas extends Layer {
 
     public final Seq<Layer> layers = new Seq<>(8);
     public final Layer background;
 
-    public int currentLayer;
+    public Layer current;
     public int x, y;
 
-    public LayerCanvas(int width, int height) {
+    public Canvas(int width, int height) {
         super(width, height);
 
         // Добавляем слой по умолчанию
-        this.addLayer();
+        this.layers.add(current = new Layer(width, height));
 
         this.background = new Layer(width, height);
         this.background.fill(Color.valueOf("#577187"));
@@ -33,15 +34,28 @@ public class LayerCanvas extends Layer {
     }
 
     public void addLayer() {
-        currentLayer = layers.add(new Layer(width, height)).size - 1;
+        layers.add(current = new Layer(width, height));
+
+        ui.hudFragment.rebuildLayers.run();
     }
 
     public void removeLayer(Layer layer) {
+        if (layers.size == 1) return;
 
+        int currentIndex = layers.indexOf(current), index = layers.indexOf(layer);
+        if (currentIndex >= index && currentIndex > 0) current = layers.get(currentIndex - 1);
+        layers.remove(layer);
+
+        ui.hudFragment.rebuildLayers.run();
     }
 
-    public void moveLayer(Layer layer, boolean top) {
+    public void moveLayer(Layer layer, int direction) {
+        int index = layers.indexOf(layer), newIndex = index + direction;
+        if (newIndex < 0 || newIndex >= layers.size) return;
 
+        layers.swap(index, newIndex);
+
+        ui.hudFragment.rebuildLayers.run();
     }
 
     public void clampToScreen(int margin) {
@@ -55,11 +69,11 @@ public class LayerCanvas extends Layer {
     }
 
     public Layer layer() {
-        return layers.get(currentLayer);
+        return current;
     }
 
-    public void layer(int currentLayer) {
-        this.currentLayer = Mathf.clamp(currentLayer, 0, layers.size - 1);
+    public void layer(Layer layer) {
+        this.current = layer;
     }
 
     public Pixmap toPixmap() {

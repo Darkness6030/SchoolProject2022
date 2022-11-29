@@ -6,6 +6,8 @@ import arc.scene.ui.layout.Table;
 import dark.ui.Icons;
 import dark.ui.elements.TextSlider;
 
+import static arc.Core.bundle;
+
 public class ColorPickerDialog extends BaseDialog {
 
     public Table sliders;
@@ -29,18 +31,18 @@ public class ColorPickerDialog extends BaseDialog {
         tmp.set(this.color = color);
         sliders.clear();
 
-        slider(tmp.r, 'R', tmp::r);
-        slider(tmp.g, 'G', tmp::g);
-        slider(tmp.b, 'B', tmp::b);
-        slider(tmp.a, 'A', tmp::a);
+        slider(tmp.r, "color.red", tmp::r);
+        slider(tmp.g, "color.green", tmp::g);
+        slider(tmp.b, "color.blue", tmp::b);
+        slider(tmp.a, "color.alpha", tmp::a);
 
         super.show();
     }
 
-    private void slider(float def, char component, Floatc setter) {
+    private void slider(float def, String key, Floatc setter) {
         new TextSlider(0f, 255f, 1f, def * 255f, value -> {
             setter.get(value / 255f);
-            return component + ": " + value.intValue();
+            return bundle.format(key, value.intValue());
         }).build(sliders).growX().row();
     }
 }

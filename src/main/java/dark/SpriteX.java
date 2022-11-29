@@ -33,7 +33,7 @@ public class SpriteX extends ApplicationCore {
         add(ui = new UI());
 
         Tooltips.getInstance().animations = true;
-        Tooltips.getInstance().textProvider = text -> new Tooltip(table -> table.background(Drawables.black).margin(4f).add(text));
+        Tooltips.getInstance().textProvider = text -> new Tooltip(table -> table.background(Drawables.blackui).margin(4f).add(text));
 
         Fonts.load();
         Palette.load();

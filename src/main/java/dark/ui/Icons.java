@@ -17,4 +17,6 @@ public class Icons {
     public static char load = '\uE87B';
     public static char folder = '\uE81D';
     public static char file = '\uF15C';
+
+    public static char up = '\uE804', down = '\uE805';
 }

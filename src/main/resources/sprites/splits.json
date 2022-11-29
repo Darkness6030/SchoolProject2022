@@ -2,5 +2,6 @@
     "underline": [4, 4, 4, 4],
     "sideline": [4, 4, 4, 4],
     "sideline-left": [4, 4, 4, 4],
-    "slider-back": [4, 4, 4, 4]
+    "slider-back": [4, 4, 4, 4],
+    "flat-down-base": [13, 13, 13, 13]
 }

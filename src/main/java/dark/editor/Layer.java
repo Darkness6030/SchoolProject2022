@@ -1,10 +1,9 @@
 package dark.editor;
 
-import arc.graphics.*;
+import arc.graphics.Pixmap;
+import arc.graphics.Texture;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
-
-import static dark.Main.editor;
 
 public class Layer extends Pixmap {
 
@@ -18,10 +17,6 @@ public class Layer extends Pixmap {
 
     public void scale(float scale) {
         this.scale += scale;
-    }
-
-    public int index() {
-        return editor.canvas.layers.indexOf(this);
     }
 
     public int scaledWidth() {

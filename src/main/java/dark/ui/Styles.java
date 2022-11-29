@@ -11,14 +11,12 @@ import arc.scene.ui.TextButton.TextButtonStyle;
 import arc.scene.ui.TextField.TextFieldStyle;
 
 import static arc.Core.scene;
-import static dark.ui.Drawables.*;
-
 
 public class Styles {
 
     public static ButtonStyle buttonStyle;
     public static TextButtonStyle textButtonStyle, checkTextButtonStyle;
-    public static ImageButtonStyle imageButtonStyle, checkImageButtonStyle, alphaStyle;
+    public static ImageButtonStyle imageButtonStyle, checkImageButtonStyle, layerImageButtonStyle, alphaStyle;
 
     public static LabelStyle labelStyle;
     public static CheckBoxStyle checkBoxStyle;
@@ -45,15 +43,27 @@ public class Styles {
         scene.addStyle(ImageButtonStyle.class, imageButtonStyle = new ImageButtonStyle());
 
         checkImageButtonStyle = new ImageButtonStyle() {{
+            down = Drawables.flatdown;
+            checked = Drawables.flatdown;
+            up = Drawables.blackui;
+            over = Drawables.grayui;
+
             imageDownColor = Color.gray;
             imageUpColor = Color.white;
             imageCheckedColor = Palette.active;
         }};
 
+        layerImageButtonStyle = new ImageButtonStyle() {{
+            down = Drawables.flatdown;
+            checked = Drawables.flatdown;
+            up = Drawables.blackui;
+            over = Drawables.grayui;
+        }};
+
         alphaStyle = new ImageButtonStyle() {{
-            imageUp = alpha_chan;
-            imageDown = alpha_chan_dizzy;
-            imageChecked = alpha_chan_dizzy;
+            imageUp = Drawables.alpha_chan;
+            imageDown = Drawables.alpha_chan_dizzy;
+            imageChecked = Drawables.alpha_chan_dizzy;
         }};
 
         scene.addStyle(LabelStyle.class, labelStyle = new LabelStyle() {{
@@ -65,10 +75,10 @@ public class Styles {
         }});
 
         scene.addStyle(SliderStyle.class, sliderStyle = new SliderStyle() {{
-            background = slider_back;
-            knob = slider_knob;
-            knobOver = slider_knob_over;
-            knobDown = slider_knob_down;
+            background = Drawables.slider_back;
+            knob = Drawables.slider_knob;
+            knobOver = Drawables.slider_knob_over;
+            knobDown = Drawables.slider_knob_down;
         }});
 
         scene.addStyle(TextFieldStyle.class, fieldStyle = new TextFieldStyle() {{
@@ -77,7 +87,7 @@ public class Styles {
         }});
 
         scene.addStyle(DialogStyle.class, dialogStyle = new DialogStyle() {{
-            stageBackground = Drawables.black;
+            stageBackground = Drawables.blackui;
             titleFont = Fonts.def;
             titleFontColor = Palette.active;
         }});

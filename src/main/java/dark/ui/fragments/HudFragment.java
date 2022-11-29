@@ -1,16 +1,11 @@
 package dark.ui.fragments;
 
 import arc.graphics.Color;
-import arc.scene.ui.ImageButton;
-import arc.scene.ui.TextButton;
-import arc.scene.ui.layout.Scl;
-import arc.scene.ui.layout.Table;
-import arc.scene.ui.layout.WidgetGroup;
+import arc.scene.ui.*;
+import arc.scene.ui.layout.*;
 import dark.editor.EditType;
 import dark.editor.Layer;
-import dark.ui.Drawables;
-import dark.ui.Icons;
-import dark.ui.elements.LayerButton;
+import dark.ui.*;
 import dark.ui.elements.TextSlider;
 
 import static arc.Core.*;
@@ -21,7 +16,7 @@ import static dark.ui.Styles.alphaStyle;
 public class HudFragment {
 
     public Runnable rebuildLayers;
-    public SideButtons sideButtons;
+    public SideLayerTable sideLayerTable;
 
     public void build(WidgetGroup parent) {
         parent.fill(hud -> {
@@ -42,7 +37,7 @@ public class HudFragment {
                         new ColorBlob(editor.first, -8f, 8f)
                 ).size(64f);
 
-                underline.label(() -> bundle.format("hud.layer", editor.canvas.currentLayer + 1, editor.canvas.layers.size));
+                underline.label(() -> bundle.format("hud.layer", editor.canvas.layers.indexOf(editor.canvas.current) + 1, editor.canvas.layers.size));
             }).height(64f).growX();
         });
 
@@ -55,7 +50,7 @@ public class HudFragment {
 
                 for (var type : EditType.values())
                     type.button(pad);
-            }).width(64f).growY().padTop(64f);
+            }).width(64f).growY().padTop(60f);
         });
 
         parent.fill(layers -> {
@@ -68,7 +63,7 @@ public class HudFragment {
 
                 rebuildLayers = () -> {
                     sideline.clear();
-                    editor.canvas.layers.map(LayerButton::new).each(button -> sideline.add(button).tooltip("Layer #" + button.layer.index()).row());
+                    editor.canvas.layers.map(LayerButton::new).each(layerButton -> sideline.add(layerButton).row());
                 };
 
                 rebuildLayers.run();
@@ -80,7 +75,7 @@ public class HudFragment {
             cont.right();
 
             cont.fillParent = false;
-            sideButtons = new SideButtons(cont);
+            sideLayerTable = new SideLayerTable(cont);
         });
     }
 
@@ -94,6 +89,8 @@ public class HudFragment {
                 var temp = first.cpy();
                 first.set(second.cpy());
                 second.set(temp);
+
+                ui.showInfoFade("@swapped", 2f);
             });
         }
     }
@@ -109,13 +106,29 @@ public class HudFragment {
         }
     }
 
-    public static class SideButtons extends Table {
+    public static class LayerButton extends ImageButton {
+
+        public LayerButton(Layer layer) {
+            super(layer.getRegion(), Styles.layerImageButtonStyle);
+
+            resizeImage(118f);
+
+            clicked(() -> editor.canvas.layer(layer));
+            hovered(() -> ui.hudFragment.sideLayerTable.show(layer, y + height / 2f));
+            update(() -> {
+                setChecked(editor.canvas.layer() == layer);
+                getImage().setDrawable(layer.getRegion());
+            });
+        }
+    }
+
+    public static class SideLayerTable extends Table {
 
         public static final float sideBarWidth = Scl.scl(128f + 8f);
 
         public Layer layer;
 
-        public SideButtons(Table parent) {
+        public SideLayerTable(Table parent) {
             super(Drawables.sideline_left);
             parent.add(this);
 
@@ -125,9 +138,9 @@ public class HudFragment {
                     input.mouseY() > this.y + translation.y &&
                     input.mouseY() < this.y + translation.y + height);
 
-            button(Icons.back + "",   () -> editor.canvas.moveLayer(layer, true)).tooltip("Move Up").row();
-            button(Icons.eraser + "", () -> editor.canvas.removeLayer(layer)).tooltip("Remove").row();
-            button(Icons.back + "",   () -> editor.canvas.moveLayer(layer, false)).tooltip("Move Down").row();
+            button(Fonts.getGlyph(Icons.up),     () -> editor.canvas.moveLayer(layer, -1)).tooltip("Move Up").row();
+            button(Fonts.getGlyph(Icons.eraser), () -> editor.canvas.removeLayer(layer)).tooltip("Remove").row();
+            button(Fonts.getGlyph(Icons.down),   () -> editor.canvas.moveLayer(layer, 1)).tooltip("Move Down").row();
         }
 
         public void show(Layer layer, float ty) {

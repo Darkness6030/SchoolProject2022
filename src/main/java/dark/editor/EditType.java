@@ -21,7 +21,7 @@ public enum EditType {
     }
 
     public void button(Table table) {
-        table.button(Fonts.getGlyph(icon), Styles.checkImageButtonStyle, 72f, () -> editor.type = this)
+        table.button(Fonts.getGlyph(icon), Styles.checkImageButtonStyle, 64f, () -> editor.type = this)
                 .checked(button -> editor.type == this)
                 .tooltip("@" + name() + ".tooltip")
                 .fontScale(32f).row();
