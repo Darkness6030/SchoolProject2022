@@ -6,6 +6,7 @@ import arc.scene.ui.CheckBox.CheckBoxStyle;
 import arc.scene.ui.Dialog.DialogStyle;
 import arc.scene.ui.ImageButton.ImageButtonStyle;
 import arc.scene.ui.Label.LabelStyle;
+import arc.scene.ui.ScrollPane.ScrollPaneStyle;
 import arc.scene.ui.Slider.SliderStyle;
 import arc.scene.ui.TextButton.TextButtonStyle;
 import arc.scene.ui.TextField.TextFieldStyle;
@@ -22,6 +23,7 @@ public class Styles {
     public static CheckBoxStyle checkBoxStyle;
     public static SliderStyle sliderStyle;
     public static TextFieldStyle fieldStyle;
+    public static ScrollPaneStyle scrollPaneStyle;
 
     public static DialogStyle dialogStyle;
 
@@ -36,6 +38,17 @@ public class Styles {
         }});
 
         checkTextButtonStyle = new TextButtonStyle(textButtonStyle) {{
+            font = Fonts.def;
+            fontColor = Color.white;
+
+            checked = Drawables.flatdown;
+            down = Drawables.flatdown;
+            up = Drawables.blackui;
+            over = Drawables.grayui;
+            disabled = Drawables.blackui;
+
+            disabledFontColor = Color.gray;
+
             downFontColor = Color.gray;
             checkedFontColor = Palette.active;
         }};
@@ -85,6 +98,8 @@ public class Styles {
             font = Fonts.def;
             fontColor = Color.white;
         }});
+
+        scene.addStyle(ScrollPaneStyle.class, scrollPaneStyle = new ScrollPaneStyle());
 
         scene.addStyle(DialogStyle.class, dialogStyle = new DialogStyle() {{
             stageBackground = Drawables.blackui;

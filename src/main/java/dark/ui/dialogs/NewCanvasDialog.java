@@ -1,6 +1,6 @@
 package dark.ui.dialogs;
 
-import dark.ui.Icons;
+import dark.ui.Icon;
 import dark.ui.elements.TextSlider;
 
 import static arc.Core.bundle;
@@ -18,7 +18,7 @@ public class NewCanvasDialog extends BaseDialog {
         new TextSlider(100f, 1000f, 10f, lastHeight, value -> bundle.format("canvas.height", lastHeight = value.intValue())).build(cont).growX().row();
 
         addCloseButton();
-        addButton(Icons.ok, "Ok", () -> {
+        addButton("Ok", Icon.load, () -> {
             hide();
             editor.resetCanvas(lastWidth, lastHeight);
             ui.hudFragment.rebuildLayers.run();

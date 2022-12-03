@@ -1,5 +1,6 @@
 package dark.ui.dialogs;
 
+import arc.scene.style.Drawable;
 import arc.scene.ui.Dialog;
 import arc.scene.ui.TextButton;
 import arc.scene.ui.layout.Cell;
@@ -24,11 +25,11 @@ public class BaseDialog extends Dialog {
 
     @Override
     public void addCloseButton() {
-        addButton(Icons.back, "Back", this::hide);
+        addButton("Back", Icon.back, this::hide);
         closeOnBack();
     }
 
-    public Cell<TextButton> addButton(char icon, String text, Runnable listener) {
-        return buttons.button(icon + " " + text, listener);
+    public Cell<TextButton> addButton(String text, Drawable image, Runnable clicked) {
+        return buttons.buttonRow(text, image, clicked);
     }
 }

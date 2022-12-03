@@ -42,9 +42,8 @@ public class Canvas extends Layer {
     public void removeLayer(Layer layer) {
         if (layers.size == 1) return;
 
-        int currentIndex = layers.indexOf(current), index = layers.indexOf(layer);
-        if (currentIndex >= index && currentIndex > 0) current = layers.get(currentIndex - 1);
         layers.remove(layer);
+        if (current == layer) current = layers.first();
 
         ui.hudFragment.rebuildLayers.run();
     }
