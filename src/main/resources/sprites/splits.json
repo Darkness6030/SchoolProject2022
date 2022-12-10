@@ -1,4 +1,8 @@
 {
+    "button": [13, 13, 13, 13],
+    "button-disabled": [13, 13, 13, 13],
+    "button-down": [13, 13, 13, 13],
+    "button-over": [13, 13, 13, 13],
     "underline": [4, 4, 4, 4],
     "sideline": [4, 4, 4, 4],
     "sideline-left": [4, 4, 4, 4],

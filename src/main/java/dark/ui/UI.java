@@ -59,7 +59,7 @@ public class UI implements ApplicationListener {
     }
 
     public void showFileChooser(boolean open, String title, String extension, Cons<Fi> cons) {
-        new FileChooser(title, extension, open, cons).show();
+        new FileChooser(title, fi -> fi.extEquals(extension), open, cons).show();
     }
 
     public void showInfoFade(String text, float duration) {

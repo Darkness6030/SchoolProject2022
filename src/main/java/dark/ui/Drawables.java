@@ -4,7 +4,6 @@ import arc.graphics.Color;
 import arc.graphics.Texture;
 import arc.graphics.Texture.TextureFilter;
 import arc.graphics.g2d.NinePatch;
-import arc.graphics.g2d.TextureAtlas;
 import arc.graphics.g2d.TextureAtlas.AtlasRegion;
 import arc.scene.style.*;
 import arc.util.serialization.JsonValue;
@@ -15,8 +14,9 @@ import static dark.Main.reader;
 public class Drawables {
 
     public static JsonValue splits;
-    public static Drawable circle, error, flatdown,
-            whiteui, blackui, grayui, color_blob,
+    public static Drawable circle, error, flatDown,
+            white, black, gray, color_blob,
+            button, button_disabled, button_down, button_over,
             underline, sideline, sideline_left,
             slider_back, slider_knob, slider_knob_over, slider_knob_down,
             alpha_chan, alpha_chan_dizzy;
@@ -27,13 +27,18 @@ public class Drawables {
         circle = load("circle", false);
         error = load("error");
 
-        flatdown = createFlatDown();
+        flatDown = createFlatDown();
 
-        whiteui = load("whiteui");
-        blackui = ((TextureRegionDrawable) whiteui).tint(0f, 0f, 0f, .5f);
-        grayui = ((TextureRegionDrawable) whiteui).tint(Color.valueOf("454545"));
+        white = load("whiteui");
+        black = ((TextureRegionDrawable) white).tint(0f, 0f, 0f, .5f);
+        gray = ((TextureRegionDrawable) white).tint(Color.valueOf("454545"));
 
         color_blob = load("color-blob");
+
+        button = load("button");
+        button_disabled = load("button-disabled");
+        button_down = load("button-down");
+        button_over = load("button-over");
 
         underline = load("underline");
         sideline = load("sideline");

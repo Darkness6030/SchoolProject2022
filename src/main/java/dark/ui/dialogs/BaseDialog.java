@@ -2,8 +2,7 @@ package dark.ui.dialogs;
 
 import arc.scene.style.Drawable;
 import arc.scene.ui.Dialog;
-import arc.scene.ui.TextButton;
-import arc.scene.ui.layout.Cell;
+import arc.util.Align;
 import dark.ui.*;
 
 import static arc.Core.*;
@@ -13,10 +12,11 @@ public class BaseDialog extends Dialog {
     public BaseDialog(String title, DialogStyle style) {
         super(title, style);
 
-        titleTable.row(); // horizontal gap
-        titleTable.image(Drawables.whiteui, Palette.accent).growX().height(3f).pad(4f);
+        this.titleTable.row(); // horizontal gap
+        this.titleTable.image(Drawables.white, Palette.accent).growX().height(3f).pad(4f);
 
-        buttons.defaults().size(210f, 64f);
+        this.title.setAlignment(Align.center);
+        this.buttons.defaults().size(210f, 64f);
     }
 
     public BaseDialog(String title) {
@@ -29,7 +29,7 @@ public class BaseDialog extends Dialog {
         closeOnBack();
     }
 
-    public Cell<TextButton> addButton(String text, Drawable image, Runnable clicked) {
-        return buttons.buttonRow(text, image, clicked);
+    public void addButton(String text, Drawable image, Runnable clicked) {
+        buttons.buttonRow(text, image, clicked);
     }
 }
