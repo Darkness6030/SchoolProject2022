@@ -6,6 +6,7 @@ import arc.math.Mathf;
 import arc.scene.ui.layout.*;
 import arc.struct.Seq;
 import dark.ui.Drawables;
+import dark.ui.Styles;
 
 public class ColorWheel {
 
@@ -40,7 +41,7 @@ public class ColorWheel {
 
         colors.each(color -> stack.add(new Table(table -> {
             table.defaults().size(32f);
-            table.button(Drawables.color_blob, 24f, () -> callback.get(color)).with(button -> {
+            table.button(Drawables.color_blob, Styles.imageNoneStyle, 24f, () -> callback.get(color)).with(button -> {
                 button.setTranslation(Mathf.cosDeg(deg += 15f) * radius, Mathf.sinDeg(deg) * radius);
                 button.getImage().setColor(color);
             });
