@@ -1,6 +1,6 @@
 package dark.ui.dialogs;
 
-import dark.ui.Icon;
+import dark.ui.Icons;
 
 import static arc.Core.*;
 import static dark.Main.*;
@@ -11,11 +11,11 @@ public class MenuDialog extends BaseDialog {
         super("Menu");
 
         addCloseButton();
-        addButton("Exit", Icon.exit, app::exit);
+        addButton("Exit", Icons.exit, app::exit);
 
         buttons.row();
 
-        addButton("Save", Icon.save, () -> ui.showFileChooser(false, "@select.save", "png", editor::save));
-        addButton("Load", Icon.load, () -> ui.showFileChooser(false, "@select.load", "png", editor::load));
+        addButton("Save", Icons.save, () -> ui.showFileChooser(false, "@file.save", "png", editor::save));
+        addButton("Load", Icons.load, () -> ui.showFileChooser(false, "@file.load", "png", editor::load));
     }
 }

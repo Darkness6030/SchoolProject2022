@@ -58,11 +58,11 @@ public class UI implements ApplicationListener {
         scene.resize(width, height);
     }
 
-    public void showFileChooser(boolean open, String title, String extension, Cons<Fi> cons){
-        new FileChooser(title, fi -> fi.extEquals(extension), open, cons).show();
+    public void showFileChooser(boolean open, String title, String extension, Cons<Fi> cons) {
+        new FileChooser(title, extension, open, cons).show();
     }
 
-    public void showInfoFade(String text, float duration){
+    public void showInfoFade(String text, float duration) {
         var table = new Table();
         table.touchable = Touchable.disabled;
         table.setFillParent(true);

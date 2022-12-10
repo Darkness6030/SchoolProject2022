@@ -40,7 +40,7 @@ public class SpriteX extends ApplicationCore {
 
         load(Drawables.class, Drawables::load);
         load(Styles.class, Styles::load);
-        load(Icon.class, Icon::load);
+        load(Icons.class, Icons::load);
         load(UI.class, ui::load);
 
         assets.finishLoading();

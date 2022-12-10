@@ -82,7 +82,7 @@ public class HudFragment {
     public static class SwapButton extends ImageButton {
 
         public SwapButton(Color first, Color second, float x, float y) {
-            super(Icon.swap);
+            super(Icons.swap);
             setTranslation(x, y);
 
             clicked(() -> {
@@ -138,9 +138,9 @@ public class HudFragment {
                     input.mouseY() > this.y + translation.y &&
                     input.mouseY() < this.y + translation.y + height);
 
-            button(Icon.up,     () -> editor.canvas.moveLayer(layer, -1)).tooltip("Move Up").row();
-            button(Icon.eraser, () -> editor.canvas.removeLayer(layer)).tooltip("Remove").row();
-            button(Icon.down,   () -> editor.canvas.moveLayer(layer, 1)).tooltip("Move Down").row();
+            button(Icons.up,     () -> editor.canvas.moveLayer(layer, -1)).tooltip("Move Up").row();
+            button(Icons.eraser, () -> editor.canvas.removeLayer(layer)).tooltip("Remove").row();
+            button(Icons.down,   () -> editor.canvas.moveLayer(layer, 1)).tooltip("Move Down").row();
         }
 
         public void show(Layer layer, float ty) {

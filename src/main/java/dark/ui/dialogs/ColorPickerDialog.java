@@ -3,7 +3,7 @@ package dark.ui.dialogs;
 import arc.func.Floatc;
 import arc.graphics.Color;
 import arc.scene.ui.layout.Table;
-import dark.ui.Icon;
+import dark.ui.Icons;
 import dark.ui.elements.TextSlider;
 
 import static arc.Core.bundle;
@@ -21,7 +21,7 @@ public class ColorPickerDialog extends BaseDialog {
         sliders = cont.table().get();
 
         addCloseButton();
-        addButton("Ok", Icon.ok, () -> {
+        addButton("Ok", Icons.ok, () -> {
             this.hide();
             this.color.set(tmp);
         });

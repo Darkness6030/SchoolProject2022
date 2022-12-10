@@ -25,7 +25,7 @@ public class BaseDialog extends Dialog {
 
     @Override
     public void addCloseButton() {
-        addButton("Back", Icon.back, this::hide);
+        addButton("Back", Icons.back, this::hide);
         closeOnBack();
     }
 
