@@ -12,8 +12,8 @@ public class BaseDialog extends Dialog {
     public BaseDialog(String title, DialogStyle style) {
         super(title, style);
 
-        this.titleTable.row(); // horizontal gap
-        this.titleTable.image(Drawables.white, Palette.accent).growX().height(3f).pad(4f);
+        this.titleTable.row().row(); // horizontal gap
+        this.titleTable.image(Drawables.white, Palette.active).growX().height(3f).pad(4f);
 
         this.title.setAlignment(Align.center);
         this.buttons.defaults().size(210f, 64f);

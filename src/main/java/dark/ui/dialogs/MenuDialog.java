@@ -16,6 +16,6 @@ public class MenuDialog extends BaseDialog {
         buttons.row();
 
         addButton("Save", Icons.save, () -> ui.showFileChooser(false, "@file.save", "png", editor::save));
-        addButton("Load", Icons.load, () -> ui.showFileChooser(false, "@file.load", "png", editor::load));
+        addButton("Load", Icons.load, () -> ui.showFileChooser(true, "@file.load", "png", editor::load));
     }
 }

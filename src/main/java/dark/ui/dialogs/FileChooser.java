@@ -5,28 +5,24 @@ import arc.files.Fi;
 import arc.func.Boolf;
 import arc.func.Cons;
 import arc.graphics.g2d.GlyphLayout;
-import arc.input.KeyCode;
 import arc.scene.event.Touchable;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Align;
-import arc.util.pooling.Pools;
 import dark.ui.*;
 
-import java.util.Arrays;
+import java.util.Comparator;
 
 public class FileChooser extends BaseDialog {
     public static final Fi homeDirectory = Core.files.absolute(Core.files.getExternalStoragePath());
-    public static Fi lastDirectory = Core.files.absolute(Core.settings.getString("lastDirectory", homeDirectory.absolutePath()));
 
-    public Fi directory = lastDirectory;
+    public Fi directory = homeDirectory;
     public Table table;
     public ScrollPane pane;
-    public TextField navigation, field;
-    public TextButton ok;
+    public TextField field, navigation;
 
-    public final FileHistory stack = new FileHistory();
+    public final FileHistory history = new FileHistory();
     public final Boolf<Fi> filter;
     public final boolean open;
     public final Cons<Fi> result;
@@ -39,53 +35,15 @@ public class FileChooser extends BaseDialog {
         this.filter = filter;
         this.result = result;
 
-        if (!lastDirectory.exists()) {
-            lastDirectory = homeDirectory;
-            directory = lastDirectory;
-        }
-
         shown(() -> {
             cont.clear();
             setupWidgets();
         });
 
-        keyDown(KeyCode.enter, () -> ok.fireClick());
         closeOnBack();
     }
 
-    public static void setLastDirectory(Fi directory) {
-        lastDirectory = directory;
-        Core.settings.put("lastDirectory", directory.absolutePath());
-    }
-
-    private void setupWidgets() {
-        cont.margin(-10);
-
-        var content = new Table();
-
-        field = new TextField();
-        field.setOnlyFontChars(false);
-        if (!open) field.addInputDialog();
-        field.setDisabled(open);
-
-        ok = new TextButton(open ? "@load" : "@save");
-
-        ok.clicked(() -> {
-            if (ok.isDisabled()) return;
-            if (result != null)
-                result.get(directory.child(field.getText()));
-            hide();
-        });
-
-        field.changed(() -> ok.setDisabled(field.getText().isBlank()));
-        field.change();
-
-        var cancel = new TextButton("@cancel");
-        cancel.clicked(this::hide);
-
-        navigation = new TextField("");
-        navigation.touchable = Touchable.disabled;
-
+    public void setupWidgets() {
         table = new Table();
         table.marginRight(10);
         table.marginLeft(3);
@@ -94,154 +52,102 @@ public class FileChooser extends BaseDialog {
         pane.setOverscroll(false, false);
         pane.setFadeScrollBars(false);
 
+        field = new TextField();
+        field.setOnlyFontChars(false);
+        field.setDisabled(open);
+
+        navigation = new TextField();
+        navigation.touchable = Touchable.disabled;
+
         updateFiles(true);
 
-        var iconTable = new Table();
+        var icons = new Table();
+        icons.defaults().growX().height(60f).padTop(5f).uniform();
+        icons.button(Icons.home, () -> {
+            directory = homeDirectory;
+            updateFiles(true);
+        });
 
-        var up = new ImageButton(Icons.up);
-        up.clicked(() -> {
+        icons.button(Icons.left, history::back).disabled(button -> history.noBack());
+        icons.button(Icons.right, history::forward).disabled(button -> history.noForward());
+        icons.button(Icons.up, () -> {
             directory = directory.parent();
             updateFiles(true);
         });
 
-        var back = new ImageButton(Icons.left);
-        var forward = new ImageButton(Icons.right);
-
-        forward.clicked(stack::forward);
-        back.clicked(stack::back);
-        forward.setDisabled(stack::noForward);
-        back.setDisabled(stack::noBack);
-
-        var home = new ImageButton(Icons.home);
-        home.clicked(() -> {
-            directory = homeDirectory;
-            setLastDirectory(directory);
-            updateFiles(true);
-        });
-
-        iconTable.defaults().height(60).growX().padTop(5).uniform();
-        iconTable.add(home);
-        iconTable.add(back);
-        iconTable.add(forward);
-        iconTable.add(up);
-
         var fileName = new Table();
-        fileName.bottom().left().add(new Label("@filename"));
-        fileName.add(field).height(40f).fillX().expandX().padLeft(10f);
+        fileName.bottom().left().add(new Label("@file.name"));
+        fileName.add(field).growX().height(40f).padLeft(10f);
 
-        var buttons = new Table();
-        buttons.defaults().growX().height(60);
-        buttons.add(cancel);
-        buttons.add(ok);
+        buttons.defaults().grow().height(60f);
+        buttons.button("@cancel", this::hide);
+        buttons.button("@ok", () -> {
+            result.get(directory.child(field.getText()));
+            hide();
+        }).disabled(button -> open ? !directory.child(field.getText()).exists() || directory.child(field.getText()).isDirectory() : field.getText().isBlank());
 
-        content.top().left();
-        content.add(iconTable).expandX().fillX();
-        content.row();
+        cont.top().left().add(icons).growX();
+        cont.row();
 
-        content.center().add(pane).colspan(3).grow();
-        content.row();
+        cont.center().add(pane).colspan(3).grow();
+        cont.row();
 
-        if (!open) {
-            content.bottom().left().add(fileName).colspan(3).grow().padTop(-2).padBottom(2);
-            content.row();
-        }
+        cont.bottom().left().add(fileName).colspan(3).grow().padTop(-2f).padBottom(2f);
+        cont.row();
 
-        content.add(buttons).growX();
-
-        cont.add(content).grow();
+        cont.add(buttons).grow().fill();
     }
 
-    private void updateFileFieldStatus() {
-        if (!open) {
-            ok.setDisabled(field.getText().isBlank());
-        } else {
-            ok.setDisabled(!directory.child(field.getText()).exists() || directory.child(field.getText()).isDirectory());
-        }
+    public Seq<Fi> getAvailableFiles() {
+        return directory.seq()
+                .filter(fi -> fi.isDirectory() || filter.get(fi))
+                .sort(Comparator.comparing(Fi::isDirectory))
+                .sort(Comparator.comparing(Fi::name));
     }
 
-    private Fi[] getFileNames() {
-        var handles = directory.list(file -> !file.getName().startsWith("."));
-
-        Arrays.sort(handles, (a, b) -> {
-            if (a.isDirectory() && !b.isDirectory()) return -1;
-            if (!a.isDirectory() && b.isDirectory()) return 1;
-            return String.CASE_INSENSITIVE_ORDER.compare(a.name(), b.name());
-        });
-
-        return handles;
-    }
-
-    void updateFiles(boolean push) {
-        if (push) stack.push(directory);
+    public void updateFiles(boolean push) {
+        if (push) history.push(directory);
         navigation.setText(directory.toString());
 
-        var layout = Pools.obtain(GlyphLayout.class, GlyphLayout::new);
+        var layout = new GlyphLayout();
         layout.setText(Fonts.def, navigation.getText());
 
-        if (layout.width < navigation.getWidth())
-            navigation.setCursorPosition(0);
-        else
-            navigation.setCursorPosition(navigation.getText().length());
-
-        Pools.free(layout);
+        navigation.setCursorPosition(layout.width < navigation.getWidth() ? 0 : navigation.getText().length());
 
         table.clearChildren();
         table.top().left();
-        var names = getFileNames();
 
-        var buttonUp = new TextButton(".." + directory.toString(), Styles.checkTextButtonStyle);
-        buttonUp.clicked(() -> {
+        var up = table.button(".." + directory.toString(), Styles.checkTextButtonStyle, () -> {
             directory = directory.parent();
-            setLastDirectory(directory);
             updateFiles(true);
+        }).align(Align.topLeft).colspan(2).growX().height(50f).pad(2f).get();
+
+        up.image(Icons.up).padLeft(4f).padRight(4f);
+        up.getLabel().setAlignment(Align.left);
+        up.getCells().reverse();
+
+        table.row();
+        table.top().left();
+
+        getAvailableFiles().each(fi -> {
+            var button = table.button(fi.name().replace("[", "[["), Styles.checkTextButtonStyle, () -> {
+                if (fi.isDirectory()) {
+                    directory = directory.child(fi.name());
+                    updateFiles(true);
+                } else field.setText(fi.name());
+            }).checked(textButton -> field.getText().equals(fi.name()))
+                    .align(Align.topLeft).colspan(2).growX()
+                    .height(50f).padLeft(2f).padRight(2f)
+                    .get();
+
+            button.image(fi.isDirectory() ? Icons.folder : Icons.file).padLeft(4f).padRight(4f);
+            button.getLabel().setAlignment(Align.left);
+            button.getCells().reverse();
+
+            table.row();
         });
 
-        buttonUp.left().add(new Image(Icons.up)).padRight(4f).padLeft(4);
-        buttonUp.getLabel().setAlignment(Align.left);
-        buttonUp.getCells().reverse();
-
-        table.add(buttonUp).align(Align.topLeft).fillX().expandX().height(50).pad(2).colspan(2);
-        table.row();
-
-        var group = new ButtonGroup<>();
-        group.setMinCheckCount(0);
-
-        for (var file : names) {
-            if (!file.isDirectory() && !filter.get(file)) continue; //skip non-filtered files
-
-            var filename = file.name();
-
-            var button = new TextButton(filename.replace("[", "[["), Styles.checkTextButtonStyle);
-            button.getLabel().setWrap(false);
-            button.getLabel().setEllipsis(true);
-            group.add(button);
-
-            button.clicked(() -> {
-                if (!file.isDirectory()) {
-                    field.setText(filename);
-                    updateFileFieldStatus();
-                } else {
-                    directory = directory.child(filename);
-                    setLastDirectory(directory);
-                    updateFiles(true);
-                }
-            });
-
-            field.changed(() -> button.setChecked(filename.equals(field.getText())));
-
-            var image = new Image(file.isDirectory() ? Icons.folder : Icons.file);
-
-            button.add(image).padRight(4f).padLeft(4);
-            button.getCells().reverse();
-            table.top().left().add(button).align(Align.topLeft).fillX().expandX()
-                    .height(50).pad(2).padTop(0).padBottom(0).colspan(2);
-            
-            button.getLabel().setAlignment(Align.left);
-            table.row();
-        }
-
         pane.setScrollY(0f);
-        updateFileFieldStatus();
 
         if (open) field.clearText();
     }
@@ -259,14 +165,14 @@ public class FileChooser extends BaseDialog {
         public void back() {
             if (noBack()) return;
 
-            setLastDirectory(directory = get(--index - 1));
+            directory = get(--index - 1);
             updateFiles(false);
         }
 
         public void forward() {
             if (noForward()) return;
 
-            setLastDirectory(directory = get(index++));
+            directory = get(index++);
             updateFiles(false);
         }
 
@@ -275,7 +181,7 @@ public class FileChooser extends BaseDialog {
         }
 
         public boolean noBack() {
-            return index == 1 || index <= 0;
+            return index <= 1;
         }
     }
 }
