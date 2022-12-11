@@ -4,13 +4,13 @@ import arc.Core;
 import arc.files.Fi;
 import arc.func.Boolf;
 import arc.func.Cons;
-import arc.graphics.g2d.GlyphLayout;
 import arc.scene.event.Touchable;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Align;
-import dark.ui.*;
+import dark.ui.Icons;
+import dark.ui.Styles;
 
 import java.util.Comparator;
 
@@ -34,6 +34,8 @@ public class FileChooser extends BaseDialog {
         this.open = open;
         this.filter = filter;
         this.result = result;
+
+        this.buttons.defaults().size(0f);
 
         shown(() -> {
             cont.clear();
@@ -63,17 +65,11 @@ public class FileChooser extends BaseDialog {
 
         var icons = new Table();
         icons.defaults().growX().height(60f).padTop(5f).uniform();
-        icons.button(Icons.home, () -> {
-            directory = homeDirectory;
-            updateFiles(true);
-        });
 
+        icons.button(Icons.home, this::openHomeDirectory);
         icons.button(Icons.left, history::back).disabled(button -> history.noBack());
         icons.button(Icons.right, history::forward).disabled(button -> history.noForward());
-        icons.button(Icons.up, () -> {
-            directory = directory.parent();
-            updateFiles(true);
-        });
+        icons.button(Icons.up, this::openParentDirectory);
 
         var fileName = new Table();
         fileName.bottom().left().add(new Label("@file.name"));
@@ -105,50 +101,52 @@ public class FileChooser extends BaseDialog {
                 .sort(Comparator.comparing(Fi::name));
     }
 
+    public void openHomeDirectory() {
+        directory = homeDirectory;
+        updateFiles(true);
+    }
+
+    public void openParentDirectory() {
+        directory = directory.parent();
+        updateFiles(true);
+    }
+
+    public void openChildDirectory(String name) {
+        directory = directory.child(name);
+        updateFiles(true);
+    }
+
     public void updateFiles(boolean push) {
         if (push) history.push(directory);
         navigation.setText(directory.toString());
 
-        var layout = new GlyphLayout();
-        layout.setText(Fonts.def, navigation.getText());
-
-        navigation.setCursorPosition(layout.width < navigation.getWidth() ? 0 : navigation.getText().length());
-
-        table.clearChildren();
+        table.clear();
         table.top().left();
 
-        var up = table.button(".." + directory.toString(), Styles.checkTextButtonStyle, () -> {
-            directory = directory.parent();
-            updateFiles(true);
-        }).align(Align.topLeft).colspan(2).growX().height(50f).pad(2f).get();
-
-        up.image(Icons.up).padLeft(4f).padRight(4f);
-        up.getLabel().setAlignment(Align.left);
-        up.getCells().reverse();
-
-        table.row();
-        table.top().left();
-
-        getAvailableFiles().each(fi -> {
-            var button = table.button(fi.name().replace("[", "[["), Styles.checkTextButtonStyle, () -> {
-                if (fi.isDirectory()) {
-                    directory = directory.child(fi.name());
-                    updateFiles(true);
-                } else field.setText(fi.name());
-            }).checked(textButton -> field.getText().equals(fi.name()))
-                    .align(Align.topLeft).colspan(2).growX()
-                    .height(50f).padLeft(2f).padRight(2f)
-                    .get();
-
-            button.image(fi.isDirectory() ? Icons.folder : Icons.file).padLeft(4f).padRight(4f);
+        table.button(".." + directory.toString(), Styles.checkTextButtonStyle, this::openParentDirectory).with(button -> {
+            button.image(Icons.up).padLeft(4f).padRight(4f);
             button.getLabel().setAlignment(Align.left);
             button.getCells().reverse();
+        }).align(Align.topLeft).colspan(2).growX().height(50f).pad(2f);
+
+        table.row();
+
+        getAvailableFiles().each(fi -> {
+            table.button(fi.name().replace("[", "[["), Styles.checkTextButtonStyle, () -> {
+                if (fi.isDirectory()) openChildDirectory(fi.name());
+                else field.setText(fi.name());
+            }).with(button -> {
+                button.image(fi.isDirectory() ? Icons.folder : Icons.file).padLeft(4f).padRight(4f);
+                button.getLabel().setAlignment(Align.left);
+                button.getCells().reverse();
+            }).checked(button -> field.getText().equals(fi.name()))
+                    .align(Align.topLeft).colspan(2).growX()
+                    .height(50f).padLeft(2f).padRight(2f);
 
             table.row();
         });
 
         pane.setScrollY(0f);
-
         if (open) field.clearText();
     }
 
