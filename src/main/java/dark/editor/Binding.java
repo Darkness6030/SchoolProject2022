@@ -1,15 +1,40 @@
 package dark.editor;
 
+import arc.KeyBinds.*;
+import arc.input.InputDevice.DeviceType;
 import arc.input.KeyCode;
 
-public class Binding {
+import static arc.Core.*;
 
-    public static KeyCode mouse_move = KeyCode.mouseMiddle;
-    public static KeyCode zoom = KeyCode.scroll;
+public enum Binding implements KeyBind {
 
-    public static KeyCode draw1 = KeyCode.mouseLeft, draw2 = KeyCode.mouseRight;
-    public static KeyCode pick = KeyCode.controlLeft;
+    pan(KeyCode.mouseMiddle),
+    zoom(KeyCode.scroll),
 
-    public static KeyCode new_canvas = KeyCode.tab;
-    public static KeyCode new_layer = KeyCode.plus;
+    draw1(KeyCode.mouseLeft),
+    draw2(KeyCode.mouseRight),
+    pick(KeyCode.controlLeft),
+
+    move_x(new Axis(KeyCode.a, KeyCode.d)),
+    move_y(new Axis(KeyCode.w, KeyCode.s)),
+
+    new_canvas(KeyCode.tab),
+    new_layer(KeyCode.plus);
+
+    public final KeybindValue value;
+
+    Binding(KeybindValue value) {
+        this.value = value;
+    }
+
+    @Override
+    public KeybindValue defaultValue(DeviceType type) {
+        return value;
+    }
+
+    public float axis() {
+        return value instanceof Axis axis
+                ? (input.keyDown(axis.min) && input.keyDown(axis.max) ? 0 : input.keyDown(axis.min) ? -1 : input.keyDown(axis.max) ? 1 : 0f)
+                : 0f;
+    }
 }

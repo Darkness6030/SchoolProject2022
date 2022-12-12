@@ -1,104 +1,127 @@
 package dark.editor;
 
-import arc.ApplicationListener;
 import arc.files.Fi;
-import arc.graphics.*;
+import arc.graphics.Color;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
+import arc.input.KeyCode;
+import arc.math.geom.*;
+import arc.scene.Element;
+import arc.scene.event.InputEvent;
+import arc.scene.event.InputListener;
+import arc.util.Tmp;
+import dark.util.Utils;
 
 import static arc.Core.*;
-import static dark.Main.ui;
-import static dark.editor.EditType.*;
+import static dark.editor.EditTool.pencil;
 
-public class Editor implements ApplicationListener, GestureListener {
+public class Editor extends Element implements GestureListener {
 
-    public static final int none = -2147483648, max_layers = 7;
+    public static final float minZoom = 0.2f, maxZoom = 20f;
 
-    public final Color first = Color.white.cpy(), second = Color.black.cpy();
+    public int width, height;
+    public int lastX, lastY, startX, startY;
+    public int brushSize = 1;
 
-    public Canvas canvas = new Canvas(800, 600);
-    public EditType type = pencil, temp = pencil;
+    public float offsetX, offsetY, mouseX, mouseY;
+    public float zoom = 1f;
 
-    public int drawSize = 2;
-    public int lastX = -1, lastY = -1;
+    public boolean drawing;
+
+    public Renderer renderer = new Renderer(800, 600);
+    public EditTool tool = pencil, temp = pencil;
+
+    public Color first = Color.white.cpy(), second = Color.black.cpy();
 
     public Editor() {
         input.addProcessor(new GestureDetector(this));
-    }
 
-    public void resetCanvas(int width, int height) {
-        this.canvas = new Canvas(width, height);
-        this.canvas.move(graphics.getWidth() / 2, graphics.getHeight() / 2);
+        scene.addListener(new InputListener() {
+            @Override
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+                mouseX = x;
+                mouseY = y;
+                requestScroll();
+
+                return false;
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Element fromActor) {
+                requestScroll();
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, KeyCode code) {
+                if (!Utils.isMouse(code)) return true;
+
+                drawing = true;
+
+                var point = convert(mouseX = x, mouseY = y);
+                tool.touched(lastX = startX = point.x, lastY = startY = point.y);
+
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, KeyCode code) {
+                if (!Utils.isMouse(code)) return;
+
+                drawing = false;
+
+                var point = convert(x, y);
+                tool.touchedLine(startX, startY, point.x, point.y);
+            }
+
+            @Override
+            public void touchDragged(InputEvent event, float x, float y, int pointer) {
+                mouseX = x;
+                mouseY = y;
+
+                var point = convert(x, y);
+
+                if (drawing && tool.draggable)
+                    Bresenham2.line(lastX, lastY, point.x, point.y, (cx, cy) -> tool.touched(cx, cy));
+
+                lastX = point.x;
+                lastY = point.y;
+            }
+        });
     }
 
     @Override
-    public void update() {
-        canvas.scale(input.axis(Binding.zoom) * .02f);
-        canvas.clampToScreen(192);
+    public void act(float delta) {
+        super.act(delta);
 
-        if (pencil.isSelected()) {
-            if (input.keyDown(Binding.draw1)) {
-                Paint.draw(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, first.rgba());
-                lastX = canvas.mouseX();
-                lastY = canvas.mouseY();
-            } else if (input.keyDown(Binding.draw2)) {
-                Paint.draw(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, second.rgba());
-                lastX = canvas.mouseX();
-                lastY = canvas.mouseY();
-            } else lastX = lastY = none;
-        }
+        // TODO
+    }
 
-        if (eraser.isSelected()) {
-            if (input.keyDown(Binding.draw1)) {
-                Paint.draw(canvas.layer(), lastX, lastY, canvas.mouseX(), canvas.mouseY(), drawSize, Color.clearRgba);
-                lastX = canvas.mouseX();
-                lastY = canvas.mouseY();
-            } else lastX = lastY = none;
-        }
-
-        if (pick.isSelected() && input.keyRelease(Binding.draw1)) {
-            first.set(canvas.pickColor(canvas.mouseX(), canvas.mouseY()));
-            ui.colorWheel.add(first);
-        }
-
-        if (fill.isSelected()) {
-            if (input.keyDown(Binding.draw1))
-                Paint.fill(canvas.layer(), canvas.mouseX(), canvas.mouseY(), first.rgba());
-            else if (input.keyDown(Binding.draw2))
-                Paint.fill(canvas.layer(), canvas.mouseX(), canvas.mouseY(), second.rgba());
-        }
-
-        if (input.keyTap(Binding.pick)) {
-            temp = type;
-            type = EditType.pick;
-            ui.colorWheel.show(input.mouseX(), input.mouseY(), first::set);
-        } else if (ui.colorWheel.shown() && (input.keyRelease(Binding.pick) || input.keyRelease(Binding.draw1))) {
-            type = temp;
-            ui.colorWheel.hide();
-        }
-
-        if (input.keyTap(Binding.new_canvas)) ui.canvasDialog.show();
-
-        if (input.keyTap(Binding.new_layer) && canvas.layers.size < max_layers) {
-            canvas.addLayer();
-        }
-
-        graphics.clear(Color.lightGray);
-        canvas.draw();
+    @Override
+    public void draw() {
+        // TODO
     }
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-        if (input.keyDown(Binding.mouse_move)) canvas.move((int) deltaX, (int) deltaY);
+        if (!input.keyDown(KeyCode.mouseMiddle)) return false;
+
+        offsetX += deltaX / zoom;
+        offsetY += deltaY / zoom;
+
         return false;
     }
 
-    public void save(Fi file) {
-        var pixmap = canvas.toPixmap();
-        PixmapIO.writePng(file, pixmap);
+    public Point2 convert(float x, float y) {
+        float ratio = 1f / ((float)width / height);
+        float size = Math.min(width, height);
+
+        int pointX = (int) ((x - getWidth() / 2 + size * zoom / 2 - offsetX * zoom) / size * zoom * width);
+        int pointY = (int) ((y - getHeight() / 2 + size * zoom * ratio / 2 - offsetY * zoom) / size * zoom * ratio * height);
+
+        return Tmp.p1.set(pointX, pointY);
     }
 
-    public void load(Fi file) {
+    public void save(Fi file) {}
 
-    }
+    public void load(Fi file) {}
 }

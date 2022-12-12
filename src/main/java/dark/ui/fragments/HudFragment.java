@@ -3,7 +3,7 @@ package dark.ui.fragments;
 import arc.graphics.Color;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
-import dark.editor.EditType;
+import dark.editor.EditTool;
 import dark.editor.Layer;
 import dark.ui.*;
 import dark.ui.elements.TextSlider;
@@ -37,7 +37,7 @@ public class HudFragment {
                         new ColorBlob(editor.first, -8f, 8f)
                 ).size(64f);
 
-                underline.label(() -> bundle.format("hud.layer", editor.canvas.layers.indexOf(editor.canvas.current) + 1, editor.canvas.layers.size));
+                underline.label(() -> bundle.format("hud.layer", editor.renderer.layers.indexOf(editor.renderer.current) + 1, editor.renderer.layers.size));
             }).height(64f).growX();
         });
 
@@ -48,7 +48,7 @@ public class HudFragment {
             sideline.table(Drawables.sideline, pad -> {
                 pad.top();
 
-                for (var type : EditType.values())
+                for (var type : EditTool.values())
                     type.button(pad);
             }).width(64f).growY().padTop(60f);
         });
@@ -63,7 +63,7 @@ public class HudFragment {
 
                 rebuildLayers = () -> {
                     sideline.clear();
-                    editor.canvas.layers.map(LayerButton::new).each(layerButton -> sideline.add(layerButton).row());
+                    editor.renderer.layers.map(LayerButton::new).each(layerButton -> sideline.add(layerButton).row());
                 };
 
                 rebuildLayers.run();
@@ -113,10 +113,10 @@ public class HudFragment {
 
             resizeImage(118f);
 
-            clicked(() -> editor.canvas.layer(layer));
+            clicked(() -> editor.renderer.layer(layer));
             hovered(() -> ui.hudFragment.sideLayerTable.show(layer, y + height / 2f));
             update(() -> {
-                setChecked(editor.canvas.layer() == layer);
+                setChecked(editor.renderer.layer() == layer);
                 getImage().setDrawable(layer.getRegion());
             });
         }
@@ -138,9 +138,9 @@ public class HudFragment {
                     input.mouseY() > this.y + translation.y &&
                     input.mouseY() < this.y + translation.y + height);
 
-            button(Icons.up,     () -> editor.canvas.moveLayer(layer, -1)).tooltip("Move Up").row();
-            button(Icons.eraser, () -> editor.canvas.removeLayer(layer)).tooltip("Remove").row();
-            button(Icons.down,   () -> editor.canvas.moveLayer(layer, 1)).tooltip("Move Down").row();
+            button(Icons.up,     () -> editor.renderer.moveLayer(layer, -1)).tooltip("Move Up").row();
+            button(Icons.eraser, () -> editor.renderer.removeLayer(layer)).tooltip("Remove").row();
+            button(Icons.down,   () -> editor.renderer.moveLayer(layer, 1)).tooltip("Move Down").row();
         }
 
         public void show(Layer layer, float ty) {

@@ -9,22 +9,8 @@ public class Layer extends Pixmap {
 
     public final TextureRegion region = new TextureRegion(new Texture(this));
 
-    public float scale = 1f;
-
     public Layer(int width, int height) {
         super(width, height);
-    }
-
-    public void scale(float scale) {
-        this.scale += scale;
-    }
-
-    public int scaledWidth() {
-        return (int) (width * scale);
-    }
-
-    public int scaledHeight() {
-        return (int) (height * scale);
     }
 
     public TextureRegion getRegion() {
@@ -32,7 +18,7 @@ public class Layer extends Pixmap {
         return region;
     }
 
-    public void draw(int x, int y, int width, int height) {
+    public void draw(float x, float y, float width, float height) {
         Draw.rect(getRegion(), x, y, width, height);
     }
 
