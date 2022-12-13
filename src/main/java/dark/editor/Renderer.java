@@ -26,7 +26,7 @@ public class Renderer {
 
     public void drawMouse(float mouseX, float mouseY, int brushSize, float zoom) {
         Draw.color(Palette.active);
-        Lines.poly(Geometry.pixelCircle(brushSize, (index, x, y) -> Mathf.dst(x, y, index - brushSize % 2, index - brushSize % 2) <= brushSize - 0.5f), mouseX, mouseY, zoom);
+        Lines.poly(Geometry.pixelCircle(brushSize, (index, x, y) -> Mathf.dst(x, y, index - brushSize % 2, index - brushSize % 2) < brushSize), mouseX, mouseY, zoom);
     }
 
     public void addLayer(int width, int height) {

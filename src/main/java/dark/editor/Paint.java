@@ -1,15 +1,16 @@
 package dark.editor;
 
+import arc.graphics.Color;
 import arc.math.geom.Point2;
 import arc.struct.IntQueue;
 
 public class Paint {
 
-    public static void circle(Layer layer, int x, int y, int drawSize, int color) {
-        layer.fillCircle(x, y, drawSize, color);
+    public static void circle(Layer layer, int x, int y, int drawSize, Color color) {
+        layer.fillCircle(x, y, drawSize, color.rgba());
     }
 
-    public static void fill(Layer layer, int x, int y, int color) {
+    public static void fill(Layer layer, int x, int y, Color color) {
         int prevColor = layer.get(x, y);
         var hits = new boolean[layer.width][layer.height];
 

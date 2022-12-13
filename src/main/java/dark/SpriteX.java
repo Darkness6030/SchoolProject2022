@@ -9,6 +9,7 @@ import arc.scene.ui.Tooltip;
 import arc.scene.ui.Tooltip.Tooltips;
 import arc.util.I18NBundle;
 import arc.util.Time;
+import dark.editor.Binding;
 import dark.editor.Editor;
 import dark.ui.*;
 
@@ -29,6 +30,7 @@ public class SpriteX extends ApplicationCore {
         atlas = TextureAtlas.blankAtlas();
 
         bundle = I18NBundle.createBundle(files.internal("bundles/bundle"), Locale.ENGLISH); // TODO выбор языка
+        keybinds.setDefaults(Binding.values());
 
         add(editor = new Editor());
         add(ui = new UI());

@@ -40,23 +40,32 @@ public class Editor implements ApplicationListener, GestureListener {
         input();
 
         graphics.clear(Color.sky);
-
         renderer.draw(canvas.x, canvas.y, canvas.scaledWidth(), canvas.scaledHeight());
         renderer.drawMouse(mouseX, mouseY, brushSize, canvas.zoom);
     }
 
     public void input() {
-        if (input.keyDown(KeyCode.mouseMiddle))
+
+
+        if (input.keyDown(Binding.pan))
             canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
 
-        if (input.keyDown(KeyCode.mouseLeft) || input.keyDown(KeyCode.mouseRight))
-            Bresenham2.line(canvasX, canvasY, canvas.mouseX(), canvas.mouseY(), tool::touched);
+        if (input.keyDown(Binding.draw1))
+            draw(first);
+        else if (input.keyDown(Binding.draw2))
+            draw(second);
 
         mouseX = input.mouseX();
         mouseY = input.mouseY();
 
         canvasX = canvas.mouseX();
         canvasY = canvas.mouseY();
+    }
+
+    public void draw(Color color) {
+        if (tool.draggable)
+            Bresenham2.line(canvasX, canvasY, canvas.mouseX(), canvas.mouseY(), (x, y) -> tool.touched(x, y, color));
+        else tool.touched(canvas.mouseX(), canvas.mouseY(), color);
     }
 
     public void newCanvas(int width, int height) {

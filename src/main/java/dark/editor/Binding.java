@@ -23,7 +23,7 @@ public enum Binding implements KeyBind {
 
     private final KeybindValue value;
 
-    private Binding(KeybindValue value) {
+    Binding(KeybindValue value) {
         this.value = value;
     }
 

@@ -14,8 +14,8 @@ public enum EditTool {
         }
 
         @Override
-        public void touched(int x, int y) {
-            Paint.circle(editor.renderer.current, x, y, editor.brushSize, editor.first.rgba());
+        public void touched(int x, int y, Color color) {
+            Paint.circle(editor.renderer.current, x, y, editor.brushSize, color);
         }
     },
 
@@ -25,21 +25,23 @@ public enum EditTool {
         }
 
         @Override
-        public void touched(int x, int y) {
-            Paint.circle(editor.renderer.current, x, y, editor.brushSize, Color.clearRgba);
+        public void touched(int x, int y, Color color) {
+            Paint.circle(editor.renderer.current, x, y, editor.brushSize, Color.clear);
         }
     },
 
-    fill,
-    pick,
+    fill {
+        @Override
+        public void touched(int x, int y, Color color) {
+            Paint.fill(editor.renderer.current, x, y, color);
+        }
+    },
     line,
-    zoom;
+    pick;
 
     public boolean draggable;
 
-    public void touched(int x, int y) {}
-
-    public void touchedLine(int startX, int startY, int endX, int endY) {}
+    public void touched(int x, int y, Color color) {}
 
     public void button(Table table) {
         table.button(Icons.getDrawable(name()), Styles.checkImageButtonStyle, 64f, () -> editor.tool = this)
