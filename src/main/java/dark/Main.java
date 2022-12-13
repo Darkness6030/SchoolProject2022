@@ -19,8 +19,8 @@ public class Main {
     public static final DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     public static final JsonReader reader = new JsonReader();
 
-    public static Editor editor;
     public static UI ui;
+    public static Editor editor;
 
     public static void main(String[] args) {
         Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> showError(throwable));

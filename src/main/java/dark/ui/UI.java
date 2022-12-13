@@ -3,16 +3,12 @@ package dark.ui;
 import arc.ApplicationListener;
 import arc.files.Fi;
 import arc.func.Cons;
-import arc.input.KeyCode;
 import arc.math.Interp;
 import arc.scene.actions.Actions;
 import arc.scene.event.Touchable;
 import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
-import dark.ui.dialogs.ColorPickerDialog;
-import dark.ui.dialogs.FileChooser;
-import dark.ui.dialogs.MenuDialog;
-import dark.ui.dialogs.NewCanvasDialog;
+import dark.ui.dialogs.*;
 import dark.ui.fragments.ColorWheel;
 import dark.ui.fragments.HudFragment;
 
@@ -48,8 +44,6 @@ public class UI implements ApplicationListener {
     public void update() {
         scene.act();
         scene.draw();
-
-        if (input.keyTap(KeyCode.escape) && !scene.hasMouse() && !scene.hasDialog()) menuDialog.show();
     }
 
     @Override
@@ -62,14 +56,14 @@ public class UI implements ApplicationListener {
     }
 
     public void showInfoFade(String text, float duration) {
-        new Table(cont -> {
-            cont.setFillParent(true);
-            cont.touchable = Touchable.disabled;
+        new Table(table -> {
+            table.setFillParent(true);
+            table.touchable = Touchable.disabled;
 
-            cont.actions(Actions.fadeOut(duration, Interp.fade), Actions.remove());
-            cont.top().add(text).padTop(10f);
+            table.actions(Actions.fadeOut(duration, Interp.fade), Actions.remove());
+            table.top().add(text).padTop(10f);
 
-            scene.add(cont);
+            scene.add(table);
         });
     }
 }

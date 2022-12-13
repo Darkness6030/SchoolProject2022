@@ -1,7 +1,7 @@
 package dark.ui.fragments;
 
 import arc.graphics.Color;
-import arc.scene.ui.*;
+import arc.scene.ui.ImageButton;
 import arc.scene.ui.layout.*;
 import dark.editor.EditTool;
 import dark.editor.Layer;
@@ -63,10 +63,15 @@ public class HudFragment {
 
                 rebuildLayers = () -> {
                     sideline.clear();
-                    editor.renderer.layers.map(LayerButton::new).each(layerButton -> sideline.add(layerButton).row());
+                    editor.renderer.layers.map(LayerButton::new).each(button -> sideline.add(button).row());
+
+                    sideline.button(Icons.plus, 32f, () -> {
+                        editor.renderer.addLayer(editor.canvas.width, editor.canvas.height);
+                        rebuildLayers();
+                    }).size(32f);
                 };
 
-                rebuildLayers.run();
+                rebuildLayers();
             }).growY().padTop(64f);
         });
 
@@ -77,6 +82,11 @@ public class HudFragment {
             cont.fillParent = false;
             sideLayerTable = new SideLayerTable(cont);
         });
+    }
+
+    public void rebuildLayers() {
+        if (rebuildLayers != null)
+            rebuildLayers.run();
     }
 
     public static class SwapButton extends ImageButton {
@@ -138,9 +148,20 @@ public class HudFragment {
                     input.mouseY() > this.y + translation.y &&
                     input.mouseY() < this.y + translation.y + height);
 
-            button(Icons.up,     () -> editor.renderer.moveLayer(layer, -1)).tooltip("Move Up").row();
-            button(Icons.eraser, () -> editor.renderer.removeLayer(layer)).tooltip("Remove").row();
-            button(Icons.down,   () -> editor.renderer.moveLayer(layer, 1)).tooltip("Move Down").row();
+            button(Icons.up, () -> {
+                editor.renderer.moveLayer(layer, -1);
+                ui.hudFragment.rebuildLayers();
+            }).disabled(button -> !editor.renderer.canMove(layer, -1)).tooltip("@layer.move.up").row();
+
+            button(Icons.eraser, () -> {
+                editor.renderer.removeLayer(layer);
+                ui.hudFragment.rebuildLayers();
+            }).disabled(button -> !editor.renderer.canRemove()).tooltip("@layer.remove").row();
+
+            button(Icons.down, () -> {
+                editor.renderer.moveLayer(layer, 1);
+                ui.hudFragment.rebuildLayers();
+            }).disabled(button -> !editor.renderer.canMove(layer, 1)).tooltip("@layer.move.down").row();
         }
 
         public void show(Layer layer, float ty) {

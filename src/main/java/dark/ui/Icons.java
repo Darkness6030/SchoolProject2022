@@ -15,7 +15,8 @@ public class Icons {
     public static Drawable pencil, eraser, pick, fill,
             ok, back, exit, home, swap,
             save, load, folder, file,
-            up, down, right, left;
+            up, down, right, left,
+            plus;
 
     public static void load() {
         pencil = load("pencil", '\uE869');
@@ -38,6 +39,8 @@ public class Icons {
         down = load('\uE805');
         right = load('\uE803');
         left = load('\uE802');
+
+        plus = load('\uE813');
     }
 
     public static Drawable getDrawable(String name) {

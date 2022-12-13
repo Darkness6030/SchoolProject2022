@@ -4,12 +4,13 @@ import arc.ApplicationListener;
 import arc.files.Fi;
 import arc.graphics.Color;
 import arc.input.GestureDetector;
-import arc.input.KeyCode;
 import arc.input.GestureDetector.GestureListener;
+import arc.input.KeyCode;
+import arc.math.Mathf;
 import arc.math.geom.Bresenham2;
 
 import static arc.Core.*;
-import static dark.editor.EditTool.*;
+import static dark.editor.EditTool.pencil;
 
 public class Editor implements ApplicationListener, GestureListener {
 
@@ -31,13 +32,15 @@ public class Editor implements ApplicationListener, GestureListener {
 
     @Override
     public void update() {
-        canvas.move(Binding.move_x.axis() * -3f, Binding.move_y.axis() * -3f);
-        canvas.scale(input.axis(KeyCode.scroll) * .02f);
+        canvas.move(Binding.move_x.axis() * -8f, Binding.move_y.axis() * -8f);
+        canvas.zoom(input.axis(KeyCode.scroll) * .02f);
 
         input();
 
         graphics.clear(Color.sky);
+
         renderer.draw(canvas.x, canvas.y, canvas.scaledWidth(), canvas.scaledHeight());
+        renderer.drawMouse(mouseX, mouseY, brushSize, canvas.zoom);
     }
 
     public void input() {
@@ -65,14 +68,14 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void load(Fi file) {}
 
-    public class Canvas {
+    public static class Canvas {
 
-        public float x, y, scale;
+        public float x, y, zoom;
         public int width, height;
 
         public Canvas(int width, int height) {
             this.move(graphics.getWidth() / 2f, graphics.getHeight() / 2f);
-            this.scale = 1f;
+            this.zoom = 1f;
 
             this.width = width;
             this.height = height;
@@ -83,24 +86,25 @@ public class Editor implements ApplicationListener, GestureListener {
             this.y += y;
         }
 
-        public void scale(float scale) {
-            this.scale += scale;
+        public void zoom(float zoom) {
+            this.zoom += this.zoom * zoom;
+            this.zoom = Mathf.clamp(this.zoom, minZoom, maxZoom);
         }
 
         public int scaledWidth() {
-            return (int) (width * scale);
+            return (int) (width * zoom);
         }
 
         public int scaledHeight() {
-            return (int) (height * scale);
+            return (int) (height * zoom);
         }
 
         public int mouseX() {
-            return (int) ((scaledWidth() / 2 + input.mouseX() - x) / scale);
+            return (int) ((scaledWidth() / 2 + input.mouseX() - x) / zoom);
         }
 
         public int mouseY() {
-            return (int) ((scaledHeight() / 2 - input.mouseY() + y) / scale);
+            return (int) ((scaledHeight() / 2 - input.mouseY() + y) / zoom);
         }
     }
 }

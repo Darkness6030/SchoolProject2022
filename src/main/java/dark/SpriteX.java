@@ -7,7 +7,8 @@ import arc.graphics.g2d.TextureAtlas;
 import arc.scene.Scene;
 import arc.scene.ui.Tooltip;
 import arc.scene.ui.Tooltip.Tooltips;
-import arc.util.*;
+import arc.util.I18NBundle;
+import arc.util.Time;
 import dark.editor.Editor;
 import dark.ui.*;
 
