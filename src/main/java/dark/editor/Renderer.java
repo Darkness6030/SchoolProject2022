@@ -2,7 +2,6 @@ package dark.editor;
 
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
-import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.struct.Seq;
 import dark.ui.Palette;
@@ -26,7 +25,7 @@ public class Renderer {
 
     public void drawMouse(float mouseX, float mouseY, int brushSize, float zoom) {
         Draw.color(Palette.active);
-        Lines.poly(Geometry.pixelCircle(brushSize, (index, x, y) -> Mathf.dst(x, y, index - brushSize % 2, index - brushSize % 2) < brushSize), mouseX, mouseY, zoom);
+        Lines.poly(Geometry.pixelCircle(brushSize), mouseX, mouseY, zoom);
     }
 
     public void addLayer(int width, int height) {

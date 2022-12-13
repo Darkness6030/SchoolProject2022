@@ -45,8 +45,6 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void input() {
-
-
         if (input.keyDown(Binding.pan))
             canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
 
@@ -111,11 +109,11 @@ public class Editor implements ApplicationListener, GestureListener {
         }
 
         public int mouseX() {
-            return (int) ((scaledWidth() / 2 + input.mouseX() - x) / zoom);
+            return (int) ((scaledWidth() / 2f + input.mouseX() - x) / zoom);
         }
 
         public int mouseY() {
-            return (int) ((scaledHeight() / 2 - input.mouseY() + y) / zoom);
+            return (int) ((scaledHeight() / 2f - input.mouseY() + y) / zoom);
         }
     }
 }
