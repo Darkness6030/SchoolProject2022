@@ -17,9 +17,11 @@ public class Drawables {
     public static Drawable circle, error, flatDown,
             white, black, gray, color_blob,
             button, button_disabled, button_down, button_over,
-            underline, sideline, sideline_left,
+            underline, underline_red,
+            sideline, sideline_left,
             slider_back, slider_knob, slider_knob_over, slider_knob_down,
-            alpha_chan, alpha_chan_dizzy;
+            alpha_chan, alpha_chan_dizzy,
+            cursor, selection;
 
     public static void load() {
         splits = reader.parse(files.internal("sprites/splits.json"));
@@ -41,6 +43,8 @@ public class Drawables {
         button_over = load("button-over");
 
         underline = load("underline");
+        underline_red = load("underline-red");
+
         sideline = load("sideline");
         sideline_left = load("sideline-left");
 
@@ -51,6 +55,9 @@ public class Drawables {
 
         alpha_chan = load("alpha-chan");
         alpha_chan_dizzy = load("alpha-chan-dizzy");
+
+        cursor = load("cursor");
+        selection = load("selection");
 
         atlas.setErrorRegion("error");
     }

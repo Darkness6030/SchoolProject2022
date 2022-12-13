@@ -57,6 +57,8 @@ public class FileChooser extends BaseDialog {
         field = new TextField();
         field.setOnlyFontChars(false);
         field.setDisabled(open);
+        field.setMaxLength(128);
+        field.setFilter((field, text) -> text != ' ');
 
         navigation = new TextField();
         navigation.touchable = Touchable.disabled;
@@ -73,25 +75,28 @@ public class FileChooser extends BaseDialog {
 
         var fileName = new Table();
         fileName.bottom().left().add(new Label("@file.name"));
-        fileName.add(field).growX().height(40f).padLeft(10f);
+        fileName.add(field).grow().height(40f).padLeft(12f);
 
+        var buttons = new Table();
         buttons.defaults().grow().height(60f);
         buttons.button("@cancel", this::hide);
         buttons.button("@ok", () -> {
             result.get(directory.child(field.getText()));
             hide();
-        }).disabled(button -> open ? !directory.child(field.getText()).exists() || directory.child(field.getText()).isDirectory() : field.getText().isBlank());
+        }).disabled(button -> !field.isValid() || (open ? !directory.child(field.getText()).exists() || directory.child(field.getText()).isDirectory() : field.getText().isBlank()));
 
-        cont.top().left().add(icons).growX();
-        cont.row();
+        var content = new Table();
+        content.top().left().add(icons).growX();
+        content.row();
 
-        cont.center().add(pane).colspan(3).grow();
-        cont.row();
+        content.center().add(pane).colspan(3).grow();
+        content.row();
 
-        cont.bottom().left().add(fileName).colspan(3).grow().padTop(-2f).padBottom(2f);
-        cont.row();
+        content.bottom().left().add(fileName).colspan(3).grow().padTop(-2f).padBottom(2f);
+        content.row();
 
-        cont.add(buttons).grow().fill();
+        content.add(buttons).growX();
+        cont.add(content).grow();
     }
 
     public Seq<Fi> getAvailableFiles() {

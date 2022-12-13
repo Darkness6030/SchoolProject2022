@@ -114,6 +114,15 @@ public class Styles {
         scene.addStyle(TextFieldStyle.class, fieldStyle = new TextFieldStyle() {{
             font = Fonts.def;
             fontColor = Color.white;
+            messageFont = Fonts.def;
+            messageFontColor = Color.gray;
+            disabledFontColor = Color.gray;
+
+            cursor = Drawables.cursor;
+            selection = Drawables.selection;
+
+            background = Drawables.underline;
+            invalidBackground = Drawables.underline_red;
         }});
 
         scene.addStyle(ScrollPaneStyle.class, scrollPaneStyle = new ScrollPaneStyle());

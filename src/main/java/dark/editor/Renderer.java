@@ -62,6 +62,6 @@ public class Renderer {
         if (layers.size <= 1) return false;
 
         int index = layers.indexOf(layer);
-        return index + direction >= 0 && index + direction < maxLayers;
+        return index + direction >= 0 && index + direction < layers.size;
     }
 }
