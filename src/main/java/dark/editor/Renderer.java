@@ -1,8 +1,9 @@
 package dark.editor;
 
 import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
+import arc.graphics.g2d.Lines;
 import arc.struct.Seq;
+import dark.ui.Palette;
 
 public class Renderer {
 
@@ -12,9 +13,10 @@ public class Renderer {
     public Layer current;
 
     public void draw(float x, float y, float width, float height) {
-        Draw.reset();
+        Lines.stroke(4f, Palette.main);
+        Lines.rect(x - width / 2f, y - height / 2f, width, height);
 
-        Fill.rect(x, y, width, height);
+        Draw.color();
         layers.each(layer -> layer.draw(x, y, width, height));
 
         Draw.flush();

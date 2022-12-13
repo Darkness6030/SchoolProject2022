@@ -6,6 +6,7 @@ import arc.graphics.Color;
 import arc.input.GestureDetector;
 import arc.input.KeyCode;
 import arc.input.GestureDetector.GestureListener;
+import arc.math.geom.Bresenham2;
 
 import static arc.Core.*;
 import static dark.editor.EditTool.*;
@@ -14,13 +15,8 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public static final float minZoom = 0.2f, maxZoom = 20f;
 
-    public int lastX, lastY, startX, startY;
+    public int mouseX, mouseY, canvasX, canvasY;
     public int brushSize = 1;
-
-    public float offsetX, offsetY, mouseX, mouseY;
-    public float zoom = 1f;
-
-    public boolean drawing;
 
     public Renderer renderer;
     public Canvas canvas;
@@ -38,26 +34,31 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.move(Binding.move_x.axis() * -3f, Binding.move_y.axis() * -3f);
         canvas.scale(input.axis(KeyCode.scroll) * .02f);
 
+        input();
+
         graphics.clear(Color.sky);
         renderer.draw(canvas.x, canvas.y, canvas.scaledWidth(), canvas.scaledHeight());
     }
 
-    @Override
-    public boolean pan(float x, float y, float deltaX, float deltaY) {
-        if (input.keyDown(KeyCode.mouseMiddle)) {
-            canvas.move(deltaX, deltaY);
-            return false;
-        }
+    public void input() {
+        if (input.keyDown(KeyCode.mouseMiddle))
+            canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
 
-        offsetX += deltaX / zoom;
-        offsetY += deltaY / zoom;
+        if (input.keyDown(KeyCode.mouseLeft) || input.keyDown(KeyCode.mouseRight))
+            Bresenham2.line(canvasX, canvasY, canvas.mouseX(), canvas.mouseY(), tool::touched);
 
-        return false;
+        mouseX = input.mouseX();
+        mouseY = input.mouseY();
+
+        canvasX = canvas.mouseX();
+        canvasY = canvas.mouseY();
     }
 
     public void newCanvas(int width, int height) {
         renderer = new Renderer();
         canvas = new Canvas(width, height);
+
+        renderer.addLayer(width, height);
     }
 
     public void save(Fi file) {}
