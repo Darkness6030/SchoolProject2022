@@ -29,7 +29,7 @@ public class HudFragment {
 
                 underline.button(alpha_chan, alphaStyle, () -> ui.menuDialog.show()).checked(button -> ui.menuDialog.isShown());
 
-                new TextSlider(1f, 100f, 1f, editor.drawSize, value -> bundle.format("hud.drawSize", editor.drawSize = value.intValue())).build(underline);
+                new TextSlider(1f, 100f, 1f, editor.brushSize, value -> bundle.format("hud.brushSize", editor.brushSize = value.intValue())).build(underline);
 
                 underline.stack(
                         new SwapButton(editor.first, editor.second, 18f, 18f),
@@ -113,10 +113,10 @@ public class HudFragment {
 
             resizeImage(118f);
 
-            clicked(() -> editor.renderer.layer(layer));
+            clicked(() -> editor.renderer.current = layer);
             hovered(() -> ui.hudFragment.sideLayerTable.show(layer, y + height / 2f));
             update(() -> {
-                setChecked(editor.renderer.layer() == layer);
+                setChecked(editor.renderer.current == layer);
                 getImage().setDrawable(layer.getRegion());
             });
         }

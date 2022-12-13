@@ -16,8 +16,7 @@ import dark.ui.dialogs.NewCanvasDialog;
 import dark.ui.fragments.ColorWheel;
 import dark.ui.fragments.HudFragment;
 
-import static arc.Core.input;
-import static arc.Core.scene;
+import static arc.Core.*;
 
 public class UI implements ApplicationListener {
 
@@ -63,11 +62,14 @@ public class UI implements ApplicationListener {
     }
 
     public void showInfoFade(String text, float duration) {
-        var table = new Table();
-        table.touchable = Touchable.disabled;
-        table.setFillParent(true);
-        table.actions(Actions.fadeOut(duration, Interp.fade), Actions.remove());
-        table.top().add(text).padTop(10f);
-        scene.add(table);
+        new Table(cont -> {
+            cont.setFillParent(true);
+            cont.touchable = Touchable.disabled;
+
+            cont.actions(Actions.fadeOut(duration, Interp.fade), Actions.remove());
+            cont.top().add(text).padTop(10f);
+
+            scene.add(cont);
+        });
     }
 }

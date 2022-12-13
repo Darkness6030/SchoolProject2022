@@ -20,7 +20,7 @@ public class NewCanvasDialog extends BaseDialog {
         addCloseButton();
         addButton("@ok", Icons.ok, () -> {
             hide();
-            editor.resetCanvas(lastWidth, lastHeight);
+            editor.newCanvas(lastWidth, lastHeight);
             ui.hudFragment.rebuildLayers.run();
         });
     }

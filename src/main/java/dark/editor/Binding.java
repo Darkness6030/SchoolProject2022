@@ -16,14 +16,14 @@ public enum Binding implements KeyBind {
     pick(KeyCode.controlLeft),
 
     move_x(new Axis(KeyCode.a, KeyCode.d)),
-    move_y(new Axis(KeyCode.w, KeyCode.s)),
+    move_y(new Axis(KeyCode.s, KeyCode.w)),
 
     new_canvas(KeyCode.tab),
     new_layer(KeyCode.plus);
 
-    public final KeybindValue value;
+    private final KeybindValue value;
 
-    Binding(KeybindValue value) {
+    private Binding(KeybindValue value) {
         this.value = value;
     }
 

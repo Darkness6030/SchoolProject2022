@@ -80,6 +80,7 @@ public class Icons {
 
         drawable.setMinWidth(drawable.imageSize());
         drawable.setMinHeight(drawable.imageSize());
+
         return drawable;
     }
 }

@@ -45,8 +45,8 @@ public class SpriteX extends ApplicationCore {
 
         assets.finishLoading();
 
-        Main.info("Total time to load: @ms", Time.elapsed());
-        Main.info("Initialized Application.");
+        info("Total time to load: @ms", Time.elapsed());
+        info("Initialized Application.");
     }
 
     public void load(Class<?> type, Runnable load) {
@@ -56,6 +56,6 @@ public class SpriteX extends ApplicationCore {
     @Override
     public void dispose() {
         super.dispose();
-        Main.info("Disposed.");
+        info("Disposed.");
     }
 }

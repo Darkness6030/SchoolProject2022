@@ -21,7 +21,7 @@ public class ColorPickerDialog extends BaseDialog {
         sliders = cont.table().get();
 
         addCloseButton();
-        addButton("Ok", Icons.ok, () -> {
+        addButton("@ok", Icons.ok, () -> {
             this.hide();
             this.color.set(tmp);
         });

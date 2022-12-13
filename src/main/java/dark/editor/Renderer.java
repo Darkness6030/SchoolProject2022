@@ -1,6 +1,7 @@
 package dark.editor;
 
 import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Fill;
 import arc.struct.Seq;
 
 public class Renderer {
@@ -10,13 +11,12 @@ public class Renderer {
     public final Seq<Layer> layers = new Seq<>();
     public Layer current;
 
-    public Renderer(int width, int height) {
-        this.addLayer(width, height);
-    }
-
     public void draw(float x, float y, float width, float height) {
         Draw.reset();
+
+        Fill.rect(x, y, width, height);
         layers.each(layer -> layer.draw(x, y, width, height));
+
         Draw.flush();
     }
 
