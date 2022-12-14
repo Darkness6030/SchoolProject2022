@@ -77,6 +77,7 @@ public class HudFragment {
 
     public void rebuildLayers() {
         if (rebuildLayers != null) rebuildLayers.run();
+        if (sideLayerTable != null) sideLayerTable.hide();
     }
 
     // region subclasses
@@ -162,6 +163,11 @@ public class HudFragment {
         public void show(Layer layer, float ty) {
             this.layer = layer;
             setTranslation(graphics.getWidth() - sideBarWidth, ty);
+        }
+
+        public void hide() {
+            this.layer = null;
+            setTranslation(0f, 0f);
         }
     }
 
