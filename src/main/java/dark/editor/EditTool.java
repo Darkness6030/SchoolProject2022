@@ -48,6 +48,6 @@ public enum EditTool {
         table.button(Icons.getDrawable(name()), Styles.checkImageButtonStyle, 64f, () -> editor.tool = this)
                 .checked(button -> editor.tool == this)
                 .tooltip("@" + name() + ".tooltip")
-                .fontScale(32f).row();
+                .size(64f).row();
     }
 }

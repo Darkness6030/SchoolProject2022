@@ -33,8 +33,6 @@ public class Styles {
         scene.addStyle(TextButtonStyle.class, textButtonStyle = new TextButtonStyle() {{
             font = Fonts.def;
             fontColor = Color.white;
-            downFontColor = Palette.active;
-            overFontColor = Color.lightGray;
             disabledFontColor = Color.gray;
 
             down = Drawables.button_down;
@@ -46,17 +44,13 @@ public class Styles {
         checkTextButtonStyle = new TextButtonStyle(textButtonStyle) {{
             font = Fonts.def;
             fontColor = Color.white;
+            disabledFontColor = Color.gray;
 
             checked = Drawables.flatDown;
             down = Drawables.flatDown;
             up = Drawables.black;
             over = Drawables.gray;
             disabled = Drawables.black;
-
-            disabledFontColor = Color.gray;
-
-            downFontColor = Color.gray;
-            checkedFontColor = Palette.active;
         }};
 
         imageNoneStyle = new ImageButtonStyle();

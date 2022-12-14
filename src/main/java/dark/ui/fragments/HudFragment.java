@@ -24,20 +24,16 @@ public class HudFragment {
             hud.top();
 
             hud.table(Drawables.underline, underline -> {
-                underline.defaults().pad(24f);
                 underline.left();
 
-                underline.button(alpha_chan, alphaStyle, () -> ui.menuDialog.show()).checked(button -> ui.menuDialog.isShown());
-
-                new TextSlider(1f, 100f, 1f, editor.brushSize, value -> bundle.format("hud.brushSize", editor.brushSize = value.intValue())).build(underline);
-
+                underline.button(alpha_chan, alphaStyle, () -> ui.menuDialog.show()).checked(button -> ui.menuDialog.isShown()).size(64f);
                 underline.stack(
                         new SwapButton(editor.first, editor.second, 18f, 18f),
                         new ColorBlob(editor.second, 8f, -8f),
                         new ColorBlob(editor.first, -8f, 8f)
-                ).size(64f);
+                ).size(64f).padRight(8f);
 
-                underline.label(() -> bundle.format("hud.layer", editor.renderer.layers.indexOf(editor.renderer.current) + 1, editor.renderer.layers.size));
+                new TextSlider(1f, 100f, 1f, editor.brushSize, value -> bundle.format("hud.brushSize", editor.brushSize = value.intValue())).build(underline);
             }).height(64f).growX();
         });
 
@@ -47,9 +43,7 @@ public class HudFragment {
 
             sideline.table(Drawables.sideline, pad -> {
                 pad.top();
-
-                for (var type : EditTool.values())
-                    type.button(pad);
+                for (var type : EditTool.values()) type.button(pad);
             }).width(64f).growY().padTop(60f);
         });
 
@@ -85,9 +79,10 @@ public class HudFragment {
     }
 
     public void rebuildLayers() {
-        if (rebuildLayers != null)
-            rebuildLayers.run();
+        if (rebuildLayers != null) rebuildLayers.run();
     }
+
+    // region subclasses
 
     public static class SwapButton extends ImageButton {
 
@@ -172,4 +167,6 @@ public class HudFragment {
             setTranslation(graphics.getWidth() - sideBarWidth, ty);
         }
     }
+
+    // endregion
 }
