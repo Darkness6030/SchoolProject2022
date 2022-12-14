@@ -118,8 +118,11 @@ public class HudFragment {
 
     public static class LayerButton extends ImageButton {
 
+        public Layer layer;
+
         public LayerButton(Layer layer) {
             super(layer.getRegion(), Styles.layerImageButtonStyle);
+            this.layer = layer;
 
             resizeImage(118f);
 

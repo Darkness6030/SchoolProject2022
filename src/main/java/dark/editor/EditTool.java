@@ -36,6 +36,7 @@ public enum EditTool {
             Paint.fill(editor.renderer.current, x, y, color);
         }
     },
+
     line,
     pick;
 

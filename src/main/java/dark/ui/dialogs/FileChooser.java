@@ -73,9 +73,9 @@ public class FileChooser extends BaseDialog {
         icons.button(Icons.right, history::forward).disabled(button -> history.noForward());
         icons.button(Icons.up, this::openParentDirectory);
 
-        var fileName = new Table();
-        fileName.bottom().left().add(new Label("@file.name"));
-        fileName.add(field).grow().height(40f).padLeft(12f);
+        var file = new Table();
+        file.bottom().left().add(new Label("@file.name"));
+        file.add(field).height(40f).fillX().expandX().padLeft(12f);
 
         var buttons = new Table();
         buttons.defaults().grow().height(60f);
@@ -92,7 +92,7 @@ public class FileChooser extends BaseDialog {
         content.center().add(pane).colspan(3).grow();
         content.row();
 
-        content.bottom().left().add(fileName).colspan(3).grow().padTop(-2f).padBottom(2f);
+        content.bottom().left().add(file).colspan(3).grow().padTop(-2f).padBottom(2f);
         content.row();
 
         content.add(buttons).growX();
