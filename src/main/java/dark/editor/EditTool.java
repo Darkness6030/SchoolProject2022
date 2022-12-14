@@ -8,39 +8,36 @@ import dark.ui.Styles;
 import static dark.Main.*;
 
 public enum EditTool {
-    pencil {
-        {
-            draggable = true;
-        }
-
+    pencil(true, Binding.pencil) {
         @Override
         public void touched(int x, int y, Color color) {
             Paint.circle(editor.renderer.current, x, y, editor.brushSize, color);
         }
     },
 
-    eraser {
-        {
-            draggable = true;
-        }
-
+    eraser(true, Binding.eraser) {
         @Override
         public void touched(int x, int y, Color color) {
             Paint.circle(editor.renderer.current, x, y, editor.brushSize, Color.clear);
         }
     },
 
-    fill {
+    fill(false, Binding.fill) {
         @Override
         public void touched(int x, int y, Color color) {
             Paint.fill(editor.renderer.current, x, y, color);
         }
     },
 
-    line,
-    pick;
+    line(false, null), pick(false, null);
 
     public boolean draggable;
+    public Binding hotkey;
+
+    private EditTool(boolean draggable, Binding hotkey) {
+        this.draggable = draggable;
+        this.hotkey = hotkey;
+    }
 
     public void touched(int x, int y, Color color) {}
 

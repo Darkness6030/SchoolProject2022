@@ -59,10 +59,7 @@ public class HudFragment {
                     sideline.clear();
                     editor.renderer.layers.map(LayerButton::new).each(button -> sideline.add(button).row());
 
-                    sideline.button(Icons.plus, 32f, () -> {
-                        editor.renderer.addLayer(editor.canvas.width, editor.canvas.height);
-                        rebuildLayers();
-                    }).size(32f);
+                    sideline.button(Icons.plus, 32f, editor::newLayer).size(32f);
                 };
 
                 rebuildLayers();

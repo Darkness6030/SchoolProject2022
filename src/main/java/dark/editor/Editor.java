@@ -5,12 +5,11 @@ import arc.files.Fi;
 import arc.graphics.Color;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
-import arc.input.KeyCode;
 import arc.math.Mathf;
 import arc.math.geom.Bresenham2;
 
 import static arc.Core.*;
-import static dark.editor.EditTool.pencil;
+import static dark.Main.*;
 
 public class Editor implements ApplicationListener, GestureListener {
 
@@ -22,7 +21,7 @@ public class Editor implements ApplicationListener, GestureListener {
     public Renderer renderer;
     public Canvas canvas;
 
-    public EditTool tool = pencil, temp = pencil;
+    public EditTool tool = EditTool.pencil, temp = EditTool.pencil;
     public Color first = Color.white.cpy(), second = Color.black.cpy();
 
     public Editor() {
@@ -34,7 +33,7 @@ public class Editor implements ApplicationListener, GestureListener {
     public void update() {
         if (!scene.hasScroll()) {
             canvas.move(Binding.move_x.axis() * -8f, Binding.move_y.axis() * -8f);
-            canvas.zoom(input.axis(KeyCode.scroll) * .02f);
+            canvas.zoom(Binding.zoom.scroll() * .02f);
         }
 
         input();
@@ -45,13 +44,18 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void input() {
-        if (input.keyDown(Binding.pan))
+        if (Binding.pan.down())
             canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
-
-        if (input.keyDown(Binding.draw1))
+        else if (Binding.draw1.down())
             draw(first);
-        else if (input.keyDown(Binding.draw2))
+        else if (Binding.draw2.down())
             draw(second);
+
+        for (var tool : EditTool.values())
+            if (tool.hotkey != null && tool.hotkey.tap()) this.tool = tool;
+
+        if (Binding.new_canvas.tap()) ui.canvasDialog.show();
+        if (Binding.new_layer.tap() && renderer.canAdd()) newLayer();
 
         mouseX = input.mouseX();
         mouseY = input.mouseY();
@@ -61,8 +65,7 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void draw(Color color) {
-        if (tool.draggable)
-            Bresenham2.line(canvasX, canvasY, canvas.mouseX(), canvas.mouseY(), (x, y) -> tool.touched(x, y, color));
+        if (tool.draggable) Bresenham2.line(canvasX, canvasY, canvas.mouseX(), canvas.mouseY(), (x, y) -> tool.touched(x, y, color));
         else tool.touched(canvas.mouseX(), canvas.mouseY(), color);
     }
 
@@ -71,6 +74,11 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas = new Canvas(width, height);
 
         renderer.addLayer(width, height);
+    }
+
+    public void newLayer() {
+        renderer.addLayer(canvas.width, canvas.height);
+        ui.hudFragment.rebuildLayers();
     }
 
     public void save(Fi file) {}
