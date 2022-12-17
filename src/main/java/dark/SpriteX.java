@@ -30,9 +30,6 @@ public class SpriteX extends ApplicationCore {
 
         bundle = I18NBundle.createBundle(files.internal("bundles/bundle"), Locale.ENGLISH); // TODO выбор языка
 
-        add(editor = new Editor());
-        add(ui = new UI());
-
         Tooltips.getInstance().animations = true;
         Tooltips.getInstance().textProvider = text -> new Tooltip(table -> table.background(Drawables.black).margin(4f).add(text));
 
@@ -42,9 +39,13 @@ public class SpriteX extends ApplicationCore {
         load(Drawables.class, Drawables::load);
         load(Styles.class, Styles::load);
         load(Icons.class, Icons::load);
-        load(UI.class, ui::load);
 
         assets.finishLoading();
+
+        add(editor = new Editor());
+        add(ui = new UI());
+
+        ui.load();
 
         info("Total time to load: @ms", Time.elapsed());
         info("Initialized Application.");

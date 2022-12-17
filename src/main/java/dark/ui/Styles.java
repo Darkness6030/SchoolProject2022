@@ -56,10 +56,6 @@ public class Styles {
         imageNoneStyle = new ImageButtonStyle();
 
         scene.addStyle(ImageButtonStyle.class, imageButtonStyle = new ImageButtonStyle() {{
-            imageDownColor = Palette.active;
-            imageOverColor = Color.lightGray;
-            imageDisabledColor = Color.gray;
-
             down = Drawables.button_down;
             up = Drawables.button;
             over = Drawables.button_over;
@@ -71,10 +67,6 @@ public class Styles {
             checked = Drawables.flatDown;
             up = Drawables.black;
             over = Drawables.gray;
-
-            imageDownColor = Color.gray;
-            imageUpColor = Color.white;
-            imageCheckedColor = Palette.active;
         }};
 
         layerImageButtonStyle = new ImageButtonStyle() {{
