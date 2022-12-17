@@ -26,9 +26,9 @@ public class Layer extends Pixmap {
     // region paint
 
     public void iterateSquare(int x, int y, int size, Intc2 intc2) {
-        for (int cx = -size; cx <= size; cx++)
-            for (int cy = -size; cy <= size; cy++)
-                intc2.get(x + cx, y + cy);
+        for (int cx = 0; cx < size; cx++)
+            for (int cy = 0; cy < size; cy++)
+                intc2.get(x + cx - size / 2, y + cy - size / 2);
     }
 
     public void drawSquare(int x, int y, int brushSize, Color color) {

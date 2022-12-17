@@ -35,7 +35,7 @@ public class Editor implements ApplicationListener, GestureListener {
     public void update() {
         if (!scene.hasScroll()) {
             canvas.move(Binding.move_x.axis() * canvas.zoom * -8f, Binding.move_y.axis() * canvas.zoom * -8f);
-            canvas.zoom(Binding.zoom.scroll() * canvas.zoom * .02f);
+            canvas.zoom(Binding.zoom.scroll() * canvas.zoom * .05f);
 
             input();
         }

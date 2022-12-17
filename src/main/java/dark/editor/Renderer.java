@@ -2,11 +2,12 @@ package dark.editor;
 
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
+import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.struct.Seq;
 import dark.ui.Palette;
 
-import static dark.Main.editor;
+import static dark.Main.*;
 
 public class Renderer {
 
@@ -26,11 +27,14 @@ public class Renderer {
         Draw.flush();
     }
 
-    public void drawMouse(float mouseX, float mouseY, int brushSize, float zoom) {
+    public void drawMouse(int mouseX, int mouseY, int brushSize, float zoom) {
         Draw.color(Palette.active);
 
+        float x = editor.canvas.x + Mathf.floor((mouseX - editor.canvas.x) / zoom) * zoom + (brushSize % 2 * zoom / 2f);
+        float y = editor.canvas.y + Mathf.floor((mouseY - editor.canvas.y) / zoom) * zoom + (brushSize % 2 == 0 ? zoom : zoom / 2f);
+
         if (editor.square)
-            Lines.square(mouseX + zoom / 2f, mouseY + zoom / 2f, zoom * (brushSize + 0.5f));
+            Lines.square(x, y, zoom * brushSize / 2f);
         else
             Lines.poly(Geometry.pixelCircle(brushSize), mouseX, mouseY, zoom);
     }
