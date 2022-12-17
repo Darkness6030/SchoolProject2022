@@ -34,15 +34,20 @@ public class Editor implements ApplicationListener, GestureListener {
     @Override
     public void update() {
         if (!scene.hasScroll()) {
-            canvas.move(Binding.move_x.axis() * -8f, Binding.move_y.axis() * -8f);
-            canvas.zoom(Binding.zoom.scroll() * .02f);
-        }
+            canvas.move(Binding.move_x.axis() * canvas.zoom * -8f, Binding.move_y.axis() * canvas.zoom * -8f);
+            canvas.zoom(Binding.zoom.scroll() * canvas.zoom * .02f);
 
-        input();
+            input();
+        }
 
         graphics.clear(Color.sky);
         renderer.draw(canvas.x, canvas.y, canvas.scaledWidth(), canvas.scaledHeight());
         renderer.drawMouse(mouseX, mouseY, brushSize, canvas.zoom);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        canvas.set(width / 2f, height / 2f);
     }
 
     public void input() {
@@ -57,7 +62,7 @@ public class Editor implements ApplicationListener, GestureListener {
             if (tool.hotkey != null && tool.hotkey.tap()) this.tool = tool;
 
         if (Binding.new_canvas.tap()) ui.canvasDialog.show();
-        if (Binding.new_layer.tap() && renderer.canAdd()) newLayer();
+        if (Binding.new_layer.tap()) newLayer();
 
         mouseX = canvas.mouseX();
         mouseY = canvas.mouseY();
@@ -84,13 +89,11 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void save(Fi file) {
-        var pixmap = new Pixmap(canvas.width, canvas.height);
-        renderer.layers.each(pixmap::draw);
-        PixmapIO.writePng(file, pixmap);
+        // TODO
     }
 
     public void load(Fi file) {
-
+        // TODO
     }
 
     public static class Canvas {
@@ -98,11 +101,16 @@ public class Editor implements ApplicationListener, GestureListener {
         public int width, height;
 
         public Canvas(int width, int height) {
-            this.move(graphics.getWidth() / 2f, graphics.getHeight() / 2f);
+            this.set(graphics.getWidth() / 2f, graphics.getHeight() / 2f);
             this.zoom = 1f;
 
             this.width = width;
             this.height = height;
+        }
+
+        public void set(float x, float y) {
+            this.x = x;
+            this.y = y;
         }
 
         public void move(float x, float y) {
@@ -111,7 +119,7 @@ public class Editor implements ApplicationListener, GestureListener {
         }
 
         public void zoom(float zoom) {
-            this.zoom += this.zoom * zoom;
+            this.zoom += zoom;
             this.zoom = Mathf.clamp(this.zoom, minZoom, maxZoom);
         }
 
