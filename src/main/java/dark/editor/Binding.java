@@ -12,7 +12,7 @@ public enum Binding {
 
     draw1(KeyCode.mouseLeft),
     draw2(KeyCode.mouseRight),
-    pick(KeyCode.controlLeft),
+    wheel(KeyCode.controlLeft),
 
     move_x(KeyCode.a, KeyCode.d),
     move_y(KeyCode.s, KeyCode.w),
@@ -22,7 +22,8 @@ public enum Binding {
 
     pencil(KeyCode.b),
     eraser(KeyCode.e),
-    fill(KeyCode.f);
+    fill(KeyCode.f),
+    pick(KeyCode.p);
 
     private final Axis axis;
 

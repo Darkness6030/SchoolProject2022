@@ -23,6 +23,8 @@ public class Layer extends Pixmap {
         Draw.rect(getRegion(), x, y, width, height);
     }
 
+    // region paint
+
     public void iterateSquare(int x, int y, int size, Intc2 intc2) {
         for (int cx = -size; cx <= size; cx++)
             for (int cy = -size; cy <= size; cy++)
@@ -39,4 +41,6 @@ public class Layer extends Pixmap {
                 set(cx, cy, color);
         });
     }
+
+    // endregion
 }

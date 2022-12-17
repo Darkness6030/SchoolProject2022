@@ -20,7 +20,8 @@ public class Renderer {
         Lines.rect(x - width / 2f - 4f, y - height / 2f - 4f, width + 8f, height + 8f);
 
         Draw.color();
-        layers.each(layer -> layer.draw(x, y, width, height));
+        for (int i = layers.size - 1; i >= 0; i--)
+            layers.get(i).draw(x, y, width, height);
 
         Draw.flush();
     }
