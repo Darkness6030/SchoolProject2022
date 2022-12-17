@@ -34,7 +34,7 @@ public enum EditTool {
     public final boolean draggable;
     public final Binding hotkey;
 
-    EditTool(boolean draggable, Binding hotkey) {
+    private EditTool(boolean draggable, Binding hotkey) {
         this.draggable = draggable;
         this.hotkey = hotkey;
     }

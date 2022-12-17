@@ -23,7 +23,7 @@ public class Editor implements ApplicationListener, GestureListener {
     public Renderer renderer;
     public Canvas canvas;
 
-    public EditTool tool = EditTool.pencil, temp = EditTool.pencil;
+    public EditTool tool = EditTool.pencil, temp;
     public Color first = Color.white.cpy(), second = Color.black.cpy();
 
     public Editor() {
@@ -58,6 +58,15 @@ public class Editor implements ApplicationListener, GestureListener {
 
         if (Binding.new_canvas.tap()) ui.canvasDialog.show();
         if (Binding.new_layer.tap() && renderer.canAdd()) newLayer();
+
+        if (Binding.pick.tap()) {
+            temp = tool;
+            tool = EditTool.pick;
+            ui.colorWheel.show(input.mouseX(), input.mouseY(), first::set);
+        } else if (ui.colorWheel.shown() && (Binding.pick.release() || Binding.draw1.release())) {
+            tool = temp;
+            ui.colorWheel.hide();
+        }
 
         mouseX = canvas.mouseX();
         mouseY = canvas.mouseY();
