@@ -37,7 +37,7 @@ public class Layer extends Pixmap {
 
     public void drawCircle(int x, int y, int brushSize, Color color) {
         iterateSquare(x, y, brushSize, (cx, cy) -> {
-            if (Mathf.within(cx - x, cy - y, brushSize - 0.5f + 0.0001f))
+            if (Mathf.within(cx - x, cy - y, brushSize / 2f - 0.5f + 0.0001f))
                 set(cx, cy, color);
         });
     }

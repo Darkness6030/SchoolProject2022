@@ -18,12 +18,12 @@ public class Editor implements ApplicationListener, GestureListener {
     public int mouseX, mouseY, canvasX, canvasY;
     public int brushSize = 1;
 
-    public boolean square = true;
+    public boolean square;
 
     public Renderer renderer;
     public Canvas canvas;
 
-    public EditTool tool = EditTool.pencil, temp = EditTool.pencil;
+    public EditTool tool = EditTool.pencil, temp;
     public Color first = Color.white.cpy(), second = Color.black.cpy();
 
     public Editor() {
@@ -64,12 +64,17 @@ public class Editor implements ApplicationListener, GestureListener {
         if (Binding.new_canvas.tap()) ui.canvasDialog.show();
         if (Binding.new_layer.tap()) newLayer();
 
-        if (Binding.wheel.tap()) {
+        if (Binding.wheel.tap() && temp == null) {
             temp = tool;
             tool = EditTool.pick;
+
             ui.colorWheel.show(input.mouseX(), input.mouseY(), first::set);
-        } else if (ui.colorWheel.shown() && (Binding.wheel.release() || Binding.draw1.release())) {
+        }
+
+        if ((Binding.wheel.release() || Binding.draw1.release()) && temp != null) {
             tool = temp;
+            temp = null;
+
             ui.colorWheel.hide();
         }
 

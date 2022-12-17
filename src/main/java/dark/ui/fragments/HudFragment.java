@@ -31,9 +31,11 @@ public class HudFragment {
                         new SwapButton(editor.first, editor.second, 18f, 18f),
                         new ColorBlob(editor.second, 8f, -8f),
                         new ColorBlob(editor.first, -8f, 8f)
-                ).size(64f).padRight(8f);
+                ).size(64f).padRight(16f);
 
-                new TextSlider(1f, 100f, 1f, editor.brushSize, value -> bundle.format("hud.brushSize", editor.brushSize = value.intValue())).build(underline);
+                new TextSlider(1f, 100f, 1f, editor.brushSize, value -> bundle.format("hud.size", editor.brushSize = value.intValue())).build(underline).padRight(16f);
+
+                underline.check("", value -> editor.square = value).size(64f);
             }).height(64f).growX();
         });
 

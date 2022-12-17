@@ -41,7 +41,7 @@ public class Styles {
             disabled = Drawables.button_disabled;
         }});
 
-        checkTextButtonStyle = new TextButtonStyle(textButtonStyle) {{
+        checkTextButtonStyle = new TextButtonStyle() {{
             font = Fonts.def;
             fontColor = Color.white;
             disabledFontColor = Color.gray;
@@ -86,8 +86,11 @@ public class Styles {
             font = Fonts.def;
         }});
 
-        scene.addStyle(ButtonStyle.class, checkBoxStyle = new CheckBoxStyle() {{
+        scene.addStyle(CheckBoxStyle.class, checkBoxStyle = new CheckBoxStyle() {{
             font = Fonts.def;
+
+            checkboxOn = Drawables.check_on;
+            checkboxOff = Drawables.check_off;
         }});
 
         scene.addStyle(SliderStyle.class, sliderStyle = new SliderStyle() {{

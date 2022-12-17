@@ -28,7 +28,7 @@ public class Renderer {
     }
 
     public void drawMouse(int mouseX, int mouseY, int brushSize, float zoom) {
-        Draw.color(Palette.active);
+        Lines.stroke(4f, Palette.active);
 
         float x = editor.canvas.x + Mathf.floor((mouseX - editor.canvas.x) / zoom) * zoom + (brushSize % 2 * zoom / 2f);
         float y = editor.canvas.y + Mathf.floor((mouseY - editor.canvas.y) / zoom) * zoom + (brushSize % 2 == 0 ? zoom : zoom / 2f);
@@ -36,7 +36,7 @@ public class Renderer {
         if (editor.square)
             Lines.square(x, y, zoom * brushSize / 2f);
         else
-            Lines.poly(Geometry.pixelCircle(brushSize), mouseX, mouseY, zoom);
+            Lines.poly(Geometry.pixelCircle(brushSize / 2f), x, y, zoom);
     }
 
     public void addLayer(int width, int height) {

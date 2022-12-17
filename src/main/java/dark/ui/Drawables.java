@@ -19,6 +19,7 @@ public class Drawables {
             button, button_disabled, button_down, button_over,
             underline, underline_red,
             sideline, sideline_left,
+            check_on, check_off,
             slider_back, slider_knob, slider_knob_over, slider_knob_down,
             alpha_chan, alpha_chan_dizzy,
             cursor, selection;
@@ -47,6 +48,9 @@ public class Drawables {
 
         sideline = load("sideline");
         sideline_left = load("sideline-left");
+
+        check_on = load("check-on");
+        check_off = load("check-off");
 
         slider_back = load("slider-back");
         slider_knob = load("slider-knob");
