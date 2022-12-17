@@ -1,9 +1,10 @@
 package dark.editor;
 
-import arc.graphics.Pixmap;
-import arc.graphics.Texture;
+import arc.func.Intc2;
+import arc.graphics.*;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
+import arc.math.Mathf;
 
 public class Layer extends Pixmap {
 
@@ -22,7 +23,20 @@ public class Layer extends Pixmap {
         Draw.rect(getRegion(), x, y, width, height);
     }
 
-    public int pickColor(int x, int y) {
-        return getRaw(x, y);
+    public void iterateSquare(int x, int y, int size, Intc2 intc2) {
+        for (int cx = -size; cx <= size; cx++)
+            for (int cy = -size; cy <= size; cy++)
+                intc2.get(x + cx, y + cy);
+    }
+
+    public void drawSquare(int x, int y, int brushSize, Color color) {
+        iterateSquare(x, y, brushSize, (cx, cy) -> set(cx, cy, color));
+    }
+
+    public void drawCircle(int x, int y, int brushSize, Color color) {
+        iterateSquare(x, y, brushSize, (cx, cy) -> {
+            if (Mathf.within(cx - x, cy - y, brushSize - 0.5f + 0.0001f))
+                set(cx, cy, color);
+        });
     }
 }

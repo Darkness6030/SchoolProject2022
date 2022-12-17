@@ -4,10 +4,15 @@ import arc.graphics.Color;
 import arc.math.geom.Point2;
 import arc.struct.IntQueue;
 
+import static dark.Main.editor;
+
 public class Paint {
 
-    public static void circle(Layer layer, int x, int y, int drawSize, Color color) {
-        layer.fillCircle(x, y, drawSize, color.rgba());
+    public static void pencil(Layer layer, int x, int y, int brushSize, Color color) {
+        if (editor.square)
+            layer.drawSquare(x, y, brushSize, color);
+        else
+            layer.drawCircle(x, y, brushSize, color);
     }
 
     public static void fill(Layer layer, int x, int y, Color color) {

@@ -11,14 +11,14 @@ public enum EditTool {
     pencil(true, Binding.pencil) {
         @Override
         public void touched(int x, int y, Color color) {
-            Paint.circle(editor.renderer.current, x, y, editor.brushSize, color);
+            Paint.pencil(editor.renderer.current, x, y, editor.brushSize, color);
         }
     },
 
     eraser(true, Binding.eraser) {
         @Override
         public void touched(int x, int y, Color color) {
-            Paint.circle(editor.renderer.current, x, y, editor.brushSize, Color.clear);
+            Paint.pencil(editor.renderer.current, x, y, editor.brushSize, Color.clear);
         }
     },
 
@@ -31,10 +31,10 @@ public enum EditTool {
 
     line(false, null), pick(false, null);
 
-    public boolean draggable;
-    public Binding hotkey;
+    public final boolean draggable;
+    public final Binding hotkey;
 
-    private EditTool(boolean draggable, Binding hotkey) {
+    EditTool(boolean draggable, Binding hotkey) {
         this.draggable = draggable;
         this.hotkey = hotkey;
     }

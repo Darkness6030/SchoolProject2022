@@ -2,7 +2,7 @@ package dark.editor;
 
 import arc.ApplicationListener;
 import arc.files.Fi;
-import arc.graphics.Color;
+import arc.graphics.*;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 import arc.math.Mathf;
@@ -17,6 +17,8 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public int mouseX, mouseY, canvasX, canvasY;
     public int brushSize = 1;
+
+    public boolean square = true;
 
     public Renderer renderer;
     public Canvas canvas;
@@ -57,16 +59,16 @@ public class Editor implements ApplicationListener, GestureListener {
         if (Binding.new_canvas.tap()) ui.canvasDialog.show();
         if (Binding.new_layer.tap() && renderer.canAdd()) newLayer();
 
-        mouseX = input.mouseX();
-        mouseY = input.mouseY();
+        mouseX = canvas.mouseX();
+        mouseY = canvas.mouseY();
 
-        canvasX = canvas.mouseX();
-        canvasY = canvas.mouseY();
+        canvasX = canvas.canvasX();
+        canvasY = canvas.canvasY();
     }
 
     public void draw(Color color) {
-        if (tool.draggable) Bresenham2.line(canvasX, canvasY, canvas.mouseX(), canvas.mouseY(), (x, y) -> tool.touched(x, y, color));
-        else tool.touched(canvas.mouseX(), canvas.mouseY(), color);
+        if (tool.draggable) Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(x, y, color));
+        else tool.touched(canvas.canvasX(), canvas.canvasY(), color);
     }
 
     public void newCanvas(int width, int height) {
@@ -81,12 +83,17 @@ public class Editor implements ApplicationListener, GestureListener {
         ui.hudFragment.rebuildLayers();
     }
 
-    public void save(Fi file) {}
+    public void save(Fi file) {
+        var pixmap = new Pixmap(canvas.width, canvas.height);
+        renderer.layers.each(pixmap::draw);
+        PixmapIO.writePng(file, pixmap);
+    }
 
-    public void load(Fi file) {}
+    public void load(Fi file) {
+
+    }
 
     public static class Canvas {
-
         public float x, y, zoom;
         public int width, height;
 
@@ -116,12 +123,20 @@ public class Editor implements ApplicationListener, GestureListener {
             return (int) (height * zoom);
         }
 
-        public int mouseX() {
+        public int canvasX() {
             return (int) ((scaledWidth() / 2f + input.mouseX() - x) / zoom);
         }
 
-        public int mouseY() {
+        public int canvasY() {
             return (int) ((scaledHeight() / 2f - input.mouseY() + y) / zoom);
+        }
+
+        public int mouseX() {
+            return input.mouseX();
+        }
+
+        public int mouseY() {
+            return input.mouseY();
         }
     }
 }

@@ -6,6 +6,8 @@ import arc.math.geom.Geometry;
 import arc.struct.Seq;
 import dark.ui.Palette;
 
+import static dark.Main.editor;
+
 public class Renderer {
 
     public static final int maxLayers = 6;
@@ -25,7 +27,11 @@ public class Renderer {
 
     public void drawMouse(float mouseX, float mouseY, int brushSize, float zoom) {
         Draw.color(Palette.active);
-        Lines.poly(Geometry.pixelCircle(brushSize), mouseX, mouseY, zoom);
+
+        if (editor.square)
+            Lines.square(mouseX + zoom / 2f, mouseY + zoom / 2f, zoom * (brushSize + 0.5f));
+        else
+            Lines.poly(Geometry.pixelCircle(brushSize), mouseX, mouseY, zoom);
     }
 
     public void addLayer(int width, int height) {
