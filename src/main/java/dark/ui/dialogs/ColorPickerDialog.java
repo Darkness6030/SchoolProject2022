@@ -7,6 +7,7 @@ import dark.ui.Icons;
 import dark.ui.elements.TextSlider;
 
 import static arc.Core.bundle;
+import static dark.Main.ui;
 
 public class ColorPickerDialog extends BaseDialog {
 
@@ -22,8 +23,8 @@ public class ColorPickerDialog extends BaseDialog {
 
         addCloseButton();
         addButton("@ok", Icons.ok, () -> {
-            this.hide();
-            this.color.set(tmp);
+            ui.colorWheel.add(color.set(tmp));
+            hide();
         });
     }
 

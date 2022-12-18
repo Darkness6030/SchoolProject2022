@@ -78,8 +78,8 @@ public class Editor implements ApplicationListener, GestureListener {
             ui.colorWheel.hide();
         }
 
-        mouseX = canvas.mouseX();
-        mouseY = canvas.mouseY();
+        mouseX = input.mouseX();
+        mouseY = input.mouseY();
 
         canvasX = canvas.canvasX();
         canvasY = canvas.canvasY();
@@ -151,14 +151,6 @@ public class Editor implements ApplicationListener, GestureListener {
 
         public int canvasY() {
             return (int) ((scaledHeight() / 2f - input.mouseY() + y) / zoom);
-        }
-
-        public int mouseX() {
-            return input.mouseX();
-        }
-
-        public int mouseY() {
-            return input.mouseY();
         }
     }
 }

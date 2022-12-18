@@ -35,14 +35,12 @@ public enum EditTool {
         public void touched(int x, int y, Color color) {
             if (scene.hasMouse()) return;
 
-            for (Layer layer : editor.renderer.layers) {
-                if (layer.getRaw(x, y) != Color.clearRgba) {
-                    color.set(layer.getRaw(x, y));
+            for (var layer : editor.renderer.layers) {
+                if (layer.get(x, y) != 0) {
+                    ui.colorWheel.add(color.set(layer.get(x, y)));
                     return;
                 }
             }
-
-            color.set(Color.clearRgba);
         }
     };
 

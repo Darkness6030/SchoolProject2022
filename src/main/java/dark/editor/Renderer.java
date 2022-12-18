@@ -28,7 +28,7 @@ public class Renderer {
     }
 
     public void drawMouse(int mouseX, int mouseY, int brushSize, float zoom) {
-        Lines.stroke(4f, Palette.active);
+        Draw.color(Palette.active);
 
         float x = editor.canvas.x + Mathf.floor((mouseX - editor.canvas.x) / zoom) * zoom + (brushSize % 2 * zoom / 2f);
         float y = editor.canvas.y + Mathf.floor((mouseY - editor.canvas.y) / zoom) * zoom + (brushSize % 2 == 0 ? zoom : zoom / 2f);
