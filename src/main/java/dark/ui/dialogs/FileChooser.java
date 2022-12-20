@@ -83,7 +83,7 @@ public class FileChooser extends BaseDialog {
         buttons.button("@ok", () -> {
             result.get(directory.child(field.getText()));
             hide();
-        }).disabled(button -> open ? !directory.child(field.getText()).exists() || directory.child(field.getText()).isDirectory() : field.getText().isBlank());
+        }).disabled(button -> open ? !directory.child(field.getText()).exists() || directory.child(field.getText()).isDirectory() : field.getText().trim().isEmpty());
 
         var content = new Table();
         content.top().left().add(icons).growX();

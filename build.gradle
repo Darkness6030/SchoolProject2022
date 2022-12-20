@@ -1,0 +1,48 @@
+apply plugin: 'java'
+
+configure([tasks.compileJava]) {
+    sourceCompatibility = 16
+    options.release = 8
+
+    javaCompiler = javaToolchains.compilerFor {
+        languageVersion = JavaLanguageVersion.of(16)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://www.jitpack.io' }
+}
+
+ext {
+    arcVersion = "v140.4"
+    jabelVersion = "0.4.2"
+}
+
+dependencies {
+    implementation "com.github.Anuken.Arc:arc-core:$arcVersion"
+    implementation "com.github.Anuken.Arc:backend-sdl:$arcVersion"
+    implementation "com.github.Anuken.Arc:freetype:$arcVersion"
+
+    implementation "com.github.Anuken.Arc:natives-desktop:$arcVersion"
+    implementation "com.github.Anuken.Arc:natives-freetype-desktop:$arcVersion"
+
+    implementation "com.github.Anuken.Mindustry:core:$arcVersion"
+
+    compileOnly "com.github.bsideup.jabel:jabel-javac-plugin:$jabelVersion"
+    annotationProcessor "com.github.bsideup.jabel:jabel-javac-plugin:$jabelVersion"
+}
+
+jar {
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    manifest {
+        attributes("Main-Class": "dark.Main")
+    }
+}
+
+rootProject.tasks.named("jar") {
+    duplicatesStrategy = 'include'
+}
