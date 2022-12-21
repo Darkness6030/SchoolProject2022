@@ -36,6 +36,12 @@ public class HudFragment {
                 new TextSlider(1f, 100f, 1f, editor.brushSize, value -> bundle.format("hud.size", editor.brushSize = value.intValue())).build(underline).padRight(16f);
 
                 underline.check("", value -> editor.square = value).size(64f);
+
+                underline.label(() -> {
+                    if (editor == null || editor.canvas == null) return " ";
+                    return "Отрисовка зеленой херни: x - " + editor.canvas.mouseX() + " y - " + editor.canvas.mouseY() +
+                            "\nМышь на холсте: x - " + editor.canvas.canvasX() + " y - " + editor.canvas.canvasY();
+                });
             }).height(64f).growX();
         });
 

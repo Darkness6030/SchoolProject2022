@@ -3,12 +3,11 @@ package dark.editor;
 import arc.graphics.Pixmap;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
-import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.struct.Seq;
 import dark.ui.Palette;
 
-import static dark.Main.*;
+import static dark.Main.editor;
 
 public class Renderer {
 
@@ -28,16 +27,20 @@ public class Renderer {
         Draw.flush();
     }
 
-    public void drawMouse(int mouseX, int mouseY, int brushSize, float zoom) {
+    public void drawMouse() {
         Draw.color(Palette.active);
 
-        float x = editor.canvas.x + Mathf.floor((mouseX - editor.canvas.x) / zoom) * zoom + (brushSize % 2 * zoom / 2f);
-        float y = editor.canvas.y + Mathf.floor((mouseY - editor.canvas.y) / zoom) * zoom + (brushSize % 2 == 0 ? zoom : zoom / 2f);
+        float x = editor.canvas.mouseX();
+        float y = editor.canvas.mouseY();
 
-        if (editor.square)
-            Lines.square(x, y, zoom * brushSize / 2f);
-        else
-            Lines.poly(Geometry.pixelCircle(brushSize / 2f), x, y, zoom);
+        if (editor.square) {
+            x += editor.brushSize % 2 * editor.canvas.zoom / 2f;
+            y -= editor.brushSize % 2 * editor.canvas.zoom / 2f;
+
+            Lines.square(x, y, editor.canvas.zoom * editor.brushSize / 2f);
+        } else {
+            Lines.poly(Geometry.pixelCircle(editor.brushSize), x, y - editor.canvas.zoom, editor.canvas.zoom);
+        }
     }
 
     public void draw(Pixmap pixmap) {
