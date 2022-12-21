@@ -1,5 +1,6 @@
 package dark.editor;
 
+import arc.files.Fi;
 import arc.func.Intc2;
 import arc.graphics.*;
 import arc.graphics.g2d.Draw;
@@ -12,6 +13,10 @@ public class Layer extends Pixmap {
 
     public Layer(int width, int height) {
         super(width, height);
+    }
+
+    public Layer(Fi file) {
+        super(file);
     }
 
     public TextureRegion getRegion() {

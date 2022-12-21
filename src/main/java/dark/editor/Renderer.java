@@ -1,5 +1,6 @@
 package dark.editor;
 
+import arc.graphics.Pixmap;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.math.Mathf;
@@ -39,10 +40,19 @@ public class Renderer {
             Lines.poly(Geometry.pixelCircle(brushSize / 2f), x, y, zoom);
     }
 
-    public void addLayer(int width, int height) {
+    public void draw(Pixmap pixmap) {
+        // TODO это костыль, оптимизировать?
+        layers.each(layer -> layer.each((x, y) -> {
+            if (layer.get(x, y) != 0) {
+                pixmap.set(x, y, layer.get(x, y));
+            }
+        }));
+    }
+
+    public void addLayer(Layer layer) {
         if (!canAdd()) return;
 
-        current = layers.add(new Layer(width, height)).peek();
+        layers.add(current = layer);
     }
 
     public boolean canAdd() {

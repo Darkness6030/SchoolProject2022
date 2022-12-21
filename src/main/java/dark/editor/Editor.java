@@ -94,20 +94,37 @@ public class Editor implements ApplicationListener, GestureListener {
         renderer = new Renderer();
         canvas = new Canvas(width, height);
 
-        renderer.addLayer(width, height);
+        newLayer();
+    }
+
+    public void newCanvas(Layer layer) {
+        renderer = new Renderer();
+        canvas = new Canvas(layer.width, layer.height);
+
+        newLayer(layer);
     }
 
     public void newLayer() {
-        renderer.addLayer(canvas.width, canvas.height);
-        ui.hudFragment.rebuildLayers();
+        newLayer(new Layer(canvas.width, canvas.height));
+    }
+
+    public void newLayer(Layer layer) {
+        renderer.addLayer(layer);
+
+        // TODO это костыль
+        if (ui != null)
+            ui.hudFragment.rebuildLayers();
     }
 
     public void save(Fi file) {
-        // TODO
+        var pixmap = new Pixmap(canvas.width, canvas.height);
+        renderer.draw(pixmap);
+        PixmapIO.writePng(file, pixmap);
     }
 
     public void load(Fi file) {
-        // TODO
+        var layer = new Layer(file);
+        newCanvas(layer);
     }
 
     public static class Canvas {
