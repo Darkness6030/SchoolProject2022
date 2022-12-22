@@ -14,11 +14,11 @@ import static dark.Main.reader;
 public class Drawables {
 
     public static JsonValue splits;
-    public static Drawable error, flatDown,
-            white, black, gray, color_blob,
+    public static Drawable error, info_table, flat_down,
+            white, gray2, gray1, color_blob,
             button, button_disabled, button_down, button_over,
             underline, underline_red,
-            sideline, sideline_left,
+            sideline, sideline_left, sideline_side,
             check_on, check_off, check_over, check_on_over, check_disabled, check_on_disabled,
             slider_back, slider_knob, slider_knob_over, slider_knob_down,
             alpha_chan, alpha_chan_dizzy,
@@ -28,11 +28,12 @@ public class Drawables {
         splits = reader.parse(files.internal("sprites/splits.json"));
 
         error = load("error");
-        flatDown = createFlatDown();
+        info_table = load("info-table");
+        flat_down = createFlatDown();
 
         white = load("whiteui");
-        black = ((TextureRegionDrawable) white).tint(0f, 0f, 0f, .5f);
-        gray = ((TextureRegionDrawable) white).tint(Color.valueOf("454545"));
+        gray1 = ((TextureRegionDrawable) white).tint(Color.valueOf("454545"));
+        gray2 = ((TextureRegionDrawable) white).tint(0f, 0f, 0f, .5f);
 
         color_blob = load("color-blob");
 
@@ -46,6 +47,7 @@ public class Drawables {
 
         sideline = load("sideline");
         sideline_left = load("sideline-left");
+        sideline_side = load("sideline-side");
 
         check_on = load("check-on");
         check_off = load("check-off");

@@ -47,12 +47,4 @@ public class Canvas {
     public int canvasY() {
         return (int) ((scaledHeight() / 2f - input.mouseY() + y) / zoom);
     }
-
-    public int mouseX() {
-        return (int) (canvasX() * zoom + x - scaledWidth() / 2f);
-    }
-
-    public int mouseY() {
-        return (int) -(canvasY() * zoom - y - scaledHeight() / 2f);
-    }
 }

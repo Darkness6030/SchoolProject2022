@@ -4,11 +4,10 @@ import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
-import arc.math.geom.Geometry;
 import arc.struct.Seq;
 import dark.ui.Palette;
 
-import static dark.Main.editor;
+import static dark.Main.*;
 
 public class Renderer {
 
@@ -18,12 +17,12 @@ public class Renderer {
     public Layer current, background, overlay;
 
     public Renderer(int width, int height) {
-        layers.add(current = new Layer(width, height));
+        addLayer(current = new Layer(width, height));
         init(width, height);
     }
 
     public Renderer(Layer layer) {
-        layers.add(current = layer);
+        addLayer(current = layer);
         init(layer.width, layer.height);
     }
 
@@ -52,11 +51,9 @@ public class Renderer {
     }
 
     public void draw(Pixmap pixmap) {
-        // TODO это костыль, оптимизировать?
         layers.each(layer -> layer.each((x, y) -> {
-            if (layer.get(x, y) != 0) {
+            if (layer.get(x, y) != 0)
                 pixmap.set(x, y, layer.get(x, y));
-            }
         }));
     }
 
@@ -64,6 +61,8 @@ public class Renderer {
         if (!canAdd()) return;
 
         layers.add(current = layer);
+
+        if (ui != null) ui.hudFragment.rebuildLayers();
     }
 
     public boolean canAdd() {
@@ -73,8 +72,11 @@ public class Renderer {
     public void removeLayer(Layer layer) {
         if (!canRemove()) return;
 
-        if (current == layer) current = layers.first();
-        layers.remove(layer);
+        int index = layers.indexOf(layer);
+        if (current == layer) current = layers.get(index - 1);
+        layers.remove(index);
+
+        if (ui != null) ui.hudFragment.rebuildLayers();
     }
 
     public boolean canRemove() {
@@ -84,9 +86,10 @@ public class Renderer {
     public void moveLayer(Layer layer, int direction) {
         if (!canMove(layer, direction)) return;
 
-        if (current == layer) current = layers.first();
         int index = layers.indexOf(layer);
         layers.swap(index, index + direction);
+
+        if (ui != null) ui.hudFragment.rebuildLayers();
     }
 
     public boolean canMove(Layer layer, int direction) {

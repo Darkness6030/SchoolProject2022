@@ -60,19 +60,19 @@ public class HudFragment {
                     table.clear();
                     editor.renderer.layers.map(LayerButton::new).each(button -> table.add(button).row());
 
-                    table.button(Icons.plus, 32f, editor::newLayer).size(32f);
+                    table.button(Icons.plus, 32f, editor::newLayer).size(32f).tooltip("@layer.new");
                 };
 
                 rebuildLayers();
             }).growY().padTop(64f);
         });
 
-        parent.fill(cont -> {
-            cont.name = "Layer Buttons";
-            cont.right();
+        parent.fill(table -> {
+            table.name = "Layer Buttons";
+            table.right();
 
-            cont.fillParent = false;
-            sideLayerTable = new SideLayerTable(cont);
+            table.fillParent = false;
+            sideLayerTable = new SideLayerTable(table);
         });
     }
 
@@ -133,29 +133,25 @@ public class HudFragment {
         public Layer layer;
 
         public SideLayerTable(Table parent) {
-            super(Drawables.sideline_left);
             parent.add(this);
 
-            defaults().size(128f / 3f);
+            defaults().size(40f);
             visible(() ->
                     input.mouseX() > this.x + translation.x &&
                     input.mouseY() > this.y + translation.y &&
                     input.mouseY() < this.y + translation.y + height);
 
-            button(Icons.up, () -> {
-                editor.renderer.moveLayer(layer, -1);
-                ui.hudFragment.rebuildLayers();
-            }).disabled(button -> !editor.renderer.canMove(layer, -1)).tooltip("@layer.move.up").row();
+            button(Icons.up, Styles.sideLayerImageButtonStyle, () -> editor.renderer.moveLayer(layer, -1))
+                    .update(button -> button.setDisabled(!editor.renderer.canMove(layer, -1)))
+                    .tooltip("@layer.move.up").row();
 
-            button(Icons.eraser, () -> {
-                editor.renderer.removeLayer(layer);
-                ui.hudFragment.rebuildLayers();
-            }).disabled(button -> !editor.renderer.canRemove()).tooltip("@layer.remove").row();
+            button(Icons.eraser, Styles.sideLayerImageButtonStyle, () -> editor.renderer.removeLayer(layer))
+                    .disabled(button -> !editor.renderer.canRemove())
+                    .tooltip("@layer.remove").row();
 
-            button(Icons.down, () -> {
-                editor.renderer.moveLayer(layer, 1);
-                ui.hudFragment.rebuildLayers();
-            }).disabled(button -> !editor.renderer.canMove(layer, 1)).tooltip("@layer.move.down").row();
+            button(Icons.down, Styles.sideLayerImageButtonStyle, () -> editor.renderer.moveLayer(layer, 1))
+                    .update(button -> button.setDisabled(!editor.renderer.canMove(layer, 1)))
+                    .tooltip("@layer.move.down").row();
         }
 
         public void show(Layer layer, float ty) {

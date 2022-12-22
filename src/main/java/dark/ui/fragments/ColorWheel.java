@@ -42,7 +42,10 @@ public class ColorWheel {
 
         colors.each(color -> stack.add(new Table(table -> {
             table.defaults().size(32f);
-            table.button(Drawables.color_blob, Styles.imageNoneStyle, 24f, () -> callback.get(color)).with(button -> {
+            table.button(Drawables.color_blob, Styles.imageNoneStyle, 24f, () -> {
+                hide();
+                callback.get(color);
+            }).with(button -> {
                 button.setTranslation(Mathf.cosDeg(deg += 15f) * radius, Mathf.sinDeg(deg) * radius);
                 button.getImage().setColor(color);
             });
@@ -54,9 +57,5 @@ public class ColorWheel {
 
     public void hide() {
         stack.visible = false;
-    }
-
-    public boolean shown() {
-        return stack != null && stack.visible;
     }
 }

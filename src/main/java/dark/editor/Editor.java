@@ -47,6 +47,8 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void input() {
+        if (scene.hasMouse()) return;
+
         if (Binding.pan.down())
             canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
         else if (Binding.draw1.down())
@@ -102,7 +104,6 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void newLayer() {
         renderer.addLayer(new Layer(canvas.width, canvas.height));
-        if (ui != null) ui.hudFragment.rebuildLayers();
     }
 
     public void save(Fi file) {

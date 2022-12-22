@@ -17,7 +17,7 @@ public class Styles {
 
     public static ButtonStyle buttonStyle;
     public static TextButtonStyle textButtonStyle, checkTextButtonStyle;
-    public static ImageButtonStyle imageNoneStyle, imageButtonStyle, checkImageButtonStyle, layerImageButtonStyle, alphaStyle;
+    public static ImageButtonStyle imageNoneStyle, imageButtonStyle, checkImageButtonStyle, layerImageButtonStyle, sideLayerImageButtonStyle, alphaStyle;
 
     public static LabelStyle labelStyle;
     public static CheckBoxStyle checkBoxStyle;
@@ -35,8 +35,8 @@ public class Styles {
             fontColor = Color.white;
             disabledFontColor = Color.gray;
 
-            down = Drawables.button_down;
             up = Drawables.button;
+            down = Drawables.button_down;
             over = Drawables.button_over;
             disabled = Drawables.button_disabled;
         }});
@@ -46,34 +46,41 @@ public class Styles {
             fontColor = Color.white;
             disabledFontColor = Color.gray;
 
-            checked = Drawables.flatDown;
-            down = Drawables.flatDown;
-            up = Drawables.black;
-            over = Drawables.gray;
-            disabled = Drawables.black;
+            up = Drawables.gray2;
+            down = Drawables.flat_down;
+            over = Drawables.gray1;
+            checked = Drawables.flat_down;
+            disabled = Drawables.gray2;
         }};
 
         imageNoneStyle = new ImageButtonStyle();
 
         scene.addStyle(ImageButtonStyle.class, imageButtonStyle = new ImageButtonStyle() {{
-            down = Drawables.button_down;
             up = Drawables.button;
+            down = Drawables.button_down;
             over = Drawables.button_over;
             disabled = Drawables.button_disabled;
         }});
 
         checkImageButtonStyle = new ImageButtonStyle() {{
-            down = Drawables.flatDown;
-            checked = Drawables.flatDown;
-            up = Drawables.black;
-            over = Drawables.gray;
+            up = Drawables.gray2;
+            down = Drawables.flat_down;
+            over = Drawables.gray1;
+            checked = Drawables.flat_down;
         }};
 
         layerImageButtonStyle = new ImageButtonStyle() {{
-            down = Drawables.flatDown;
-            checked = Drawables.flatDown;
-            up = Drawables.black;
-            over = Drawables.gray;
+            up = Drawables.gray2;
+            down = Drawables.flat_down;
+            over = Drawables.gray1;
+            checked = Drawables.flat_down;
+        }};
+
+        sideLayerImageButtonStyle = new ImageButtonStyle() {{
+            down = Drawables.gray1;
+            up = Drawables.gray2;
+            over = Drawables.gray1;
+            disabled = Drawables.gray2;
         }};
 
         alphaStyle = new ImageButtonStyle() {{
@@ -123,9 +130,9 @@ public class Styles {
         scene.addStyle(ScrollPaneStyle.class, scrollPaneStyle = new ScrollPaneStyle());
 
         scene.addStyle(DialogStyle.class, dialogStyle = new DialogStyle() {{
-            stageBackground = Drawables.black;
             titleFont = Fonts.def;
             titleFontColor = Palette.active;
+            stageBackground = Drawables.gray2;
         }});
     }
 }

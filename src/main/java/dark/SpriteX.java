@@ -35,7 +35,7 @@ public class SpriteX extends ApplicationCore {
         bundle = I18NBundle.createBundle(files.internal("bundles/bundle"), Locale.ENGLISH); // TODO выбор языка
 
         Tooltips.getInstance().animations = true;
-        Tooltips.getInstance().textProvider = text -> new Tooltip(table -> table.background(Drawables.black).margin(4f).add(text));
+        Tooltips.getInstance().textProvider = text -> new Tooltip(table -> table.background(Drawables.gray2).margin(4f).add(text));
 
         Fonts.load();
         Palette.load();

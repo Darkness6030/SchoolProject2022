@@ -3,7 +3,6 @@ package dark.ui;
 import arc.ApplicationListener;
 import arc.files.Fi;
 import arc.func.Cons;
-import arc.graphics.Color;
 import arc.math.Interp;
 import arc.scene.actions.Actions;
 import arc.scene.event.Touchable;
@@ -59,12 +58,12 @@ public class UI implements ApplicationListener {
         scene.table(table -> {
            table.touchable = Touchable.disabled;
 
-            table.center().add(text);
+            table.center().table(content -> content.background(Drawables.info_table).add(text).pad(0f, 24f, 0f, 24f));
 
             table.moveBy(0f, 32f);
-            table.setColor(new Color(1f, 1f, 1f, 0f));
+            table.color.a(0f);
 
-            table.actions(Actions.parallel(Actions.moveBy(0f, -32f, 0.5f, Interp.fade), Actions.fadeIn(0.5f, Interp.fade)), Actions.delay(1f), Actions.parallel(Actions.moveBy(0f, -32f, 0.5f, Interp.fade), Actions.fadeOut(0.5f, Interp.fade)), Actions.remove());
+            table.actions(Actions.parallel(Actions.moveBy(0f, -32f, 0.5f, Interp.fade), Actions.fadeIn(0.5f, Interp.fade)), Actions.delay(0.3f), Actions.parallel(Actions.moveBy(0f, -32f, 0.5f, Interp.fade), Actions.fadeOut(0.5f, Interp.fade)), Actions.remove());
         });
     }
 }
