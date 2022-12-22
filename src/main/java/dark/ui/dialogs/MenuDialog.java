@@ -8,18 +8,18 @@ import static dark.Main.*;
 public class MenuDialog extends BaseDialog {
 
     public MenuDialog() {
-        super("Menu");
+        super("@menu");
 
         addCloseButton();
-        addButton("Exit", Icons.exit, app::exit);
+        addButton("@exit", Icons.exit, app::exit);
 
         buttons.row();
 
-        addButton("Save", Icons.save, () -> ui.showFileChooser(false, "@file.save", "png", editor::save));
-        addButton("Load", Icons.load, () -> ui.showFileChooser(true, "@file.load", "png", editor::load));
+        addButton("@save", Icons.save, () -> ui.showFileChooser(false, "@file.save", "png", editor::save));
+        addButton("@load", Icons.load, () -> ui.showFileChooser(true, "@file.load", "png", editor::load));
 
         buttons.row();
 
-        addButton("Settings", Icons.plus, () -> {});
+        addButton("@settings", Icons.plus, () -> {});
     }
 }

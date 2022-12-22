@@ -15,7 +15,7 @@ public class ColorPickerDialog extends BaseDialog {
     public Color tmp = Color.white.cpy(), color;
 
     public ColorPickerDialog() {
-        super("Color Picker");
+        super("@color.pick");
 
         // TODO square gradient
         cont.image().size(256f).update(image -> image.setColor(tmp)).row();

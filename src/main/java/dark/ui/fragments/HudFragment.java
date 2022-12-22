@@ -94,7 +94,7 @@ public class HudFragment {
                 first.set(second.cpy());
                 second.set(temp);
 
-                ui.showInfoFade("@swapped", 2f);
+                ui.showInfoFade("@swapped");
             });
         }
     }

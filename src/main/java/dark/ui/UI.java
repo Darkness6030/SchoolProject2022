@@ -3,10 +3,10 @@ package dark.ui;
 import arc.ApplicationListener;
 import arc.files.Fi;
 import arc.func.Cons;
+import arc.graphics.Color;
 import arc.math.Interp;
 import arc.scene.actions.Actions;
 import arc.scene.event.Touchable;
-import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
 import dark.ui.dialogs.*;
 import dark.ui.fragments.ColorWheel;
@@ -55,15 +55,16 @@ public class UI implements ApplicationListener {
         new FileChooser(title, fi -> fi.extEquals(extension), open, cons).show();
     }
 
-    public void showInfoFade(String text, float duration) {
-        new Table(table -> {
-            table.setFillParent(true);
-            table.touchable = Touchable.disabled;
+    public void showInfoFade(String text) {
+        scene.table(table -> {
+           table.touchable = Touchable.disabled;
 
-            table.actions(Actions.fadeOut(duration, Interp.fade), Actions.remove());
-            table.top().add(text).padTop(10f);
+            table.center().add(text);
 
-            scene.add(table);
+            table.moveBy(0f, 32f);
+            table.setColor(new Color(1f, 1f, 1f, 0f));
+
+            table.actions(Actions.parallel(Actions.moveBy(0f, -32f, 0.5f, Interp.fade), Actions.fadeIn(0.5f, Interp.fade)), Actions.delay(1f), Actions.parallel(Actions.moveBy(0f, -32f, 0.5f, Interp.fade), Actions.fadeOut(0.5f, Interp.fade)), Actions.remove());
         });
     }
 }
