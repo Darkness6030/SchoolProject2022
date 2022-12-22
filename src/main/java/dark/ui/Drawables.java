@@ -14,12 +14,12 @@ import static dark.Main.reader;
 public class Drawables {
 
     public static JsonValue splits;
-    public static Drawable circle, error, flatDown,
+    public static Drawable error, flatDown,
             white, black, gray, color_blob,
             button, button_disabled, button_down, button_over,
             underline, underline_red,
             sideline, sideline_left,
-            check_on, check_off,
+            check_on, check_off, check_over, check_on_over, check_disabled, check_on_disabled,
             slider_back, slider_knob, slider_knob_over, slider_knob_down,
             alpha_chan, alpha_chan_dizzy,
             cursor, selection;
@@ -27,9 +27,7 @@ public class Drawables {
     public static void load() {
         splits = reader.parse(files.internal("sprites/splits.json"));
 
-        circle = load("circle", false);
         error = load("error");
-
         flatDown = createFlatDown();
 
         white = load("whiteui");
@@ -51,6 +49,10 @@ public class Drawables {
 
         check_on = load("check-on");
         check_off = load("check-off");
+        check_over = load("check-over");
+        check_on_over = load("check-on-over");
+        check_disabled = load("check-disabled");
+        check_on_disabled = load("check-on-disabled");
 
         slider_back = load("slider-back");
         slider_knob = load("slider-knob");
@@ -89,13 +91,21 @@ public class Drawables {
         var region = loadRegion("flat-down-base", false);
 
         var drawable = new ScaledNinePatchDrawable(new NinePatch(region, region.splits[0], region.splits[1], region.splits[2], region.splits[3])) {
-            public float getLeftWidth() {return 0;}
+            public float getLeftWidth() {
+                return 0;
+            }
 
-            public float getRightWidth() {return 0;}
+            public float getRightWidth() {
+                return 0;
+            }
 
-            public float getTopHeight() {return 0;}
+            public float getTopHeight() {
+                return 0;
+            }
 
-            public float getBottomHeight() {return 0;}
+            public float getBottomHeight() {
+                return 0;
+            }
         };
 
         drawable.setMinWidth(0);

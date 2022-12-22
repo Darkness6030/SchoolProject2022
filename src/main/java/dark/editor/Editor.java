@@ -38,9 +38,7 @@ public class Editor implements ApplicationListener, GestureListener {
         }
 
         graphics.clear(Color.sky);
-
         renderer.draw(canvas.x, canvas.y, canvas.scaledWidth(), canvas.scaledHeight());
-        renderer.drawMouse();
     }
 
     @Override
@@ -88,30 +86,23 @@ public class Editor implements ApplicationListener, GestureListener {
         else tool.touched(canvas.canvasX(), canvas.canvasY(), color);
     }
 
-    public void newCanvas(int width, int height) {
-        renderer = new Renderer();
-        canvas = new Canvas(width, height);
+    public void drawOverlay() {
+        tool.drawOverlay(canvas.canvasX(), canvas.canvasY());
+    }
 
-        newLayer();
+    public void newCanvas(int width, int height) {
+        renderer = new Renderer(width, height);
+        canvas = new Canvas(width, height);
     }
 
     public void newCanvas(Layer layer) {
-        renderer = new Renderer();
+        renderer = new Renderer(layer);
         canvas = new Canvas(layer.width, layer.height);
-
-        newLayer(layer);
     }
 
     public void newLayer() {
-        newLayer(new Layer(canvas.width, canvas.height));
-    }
-
-    public void newLayer(Layer layer) {
-        renderer.addLayer(layer);
-
-        // TODO это костыль
-        if (ui != null)
-            ui.hudFragment.rebuildLayers();
+        renderer.addLayer(new Layer(canvas.width, canvas.height));
+        if (ui != null) ui.hudFragment.rebuildLayers();
     }
 
     public void save(Fi file) {

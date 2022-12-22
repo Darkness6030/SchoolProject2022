@@ -1,5 +1,6 @@
 package dark.editor;
 
+import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
@@ -14,33 +15,40 @@ public class Renderer {
     public static final int maxLayers = 6;
 
     public final Seq<Layer> layers = new Seq<>();
-    public Layer current;
+    public Layer current, background, overlay;
 
-    public void draw(float x, float y, float width, float height) {
-        Lines.stroke(4f, Palette.main);
-        Lines.rect(x - width / 2f - 4f, y - height / 2f - 4f, width + 8f, height + 8f);
-
-        Draw.color();
-        for (int i = layers.size - 1; i >= 0; i--)
-            layers.get(i).draw(x, y, width, height);
-
-        Draw.flush();
+    public Renderer(int width, int height) {
+        layers.add(current = new Layer(width, height));
+        init(width, height);
     }
 
-    public void drawMouse() {
-        Draw.color(Palette.active);
+    public Renderer(Layer layer) {
+        layers.add(current = layer);
+        init(layer.width, layer.height);
+    }
 
-        float x = editor.canvas.mouseX();
-        float y = editor.canvas.mouseY();
+    public void init(int width, int height) {
+        background = new Layer(width, height);
+        background.fill(Color.lightGray); // TODO выбор цвета фона
 
-        if (editor.square) {
-            x += editor.brushSize % 2 * editor.canvas.zoom / 2f;
-            y -= editor.brushSize % 2 * editor.canvas.zoom / 2f;
+        overlay = new Layer(width, height);
+    }
 
-            Lines.square(x, y, editor.canvas.zoom * editor.brushSize / 2f);
-        } else {
-            Lines.poly(Geometry.pixelCircle(editor.brushSize), x, y - editor.canvas.zoom, editor.canvas.zoom);
-        }
+    public void draw(float x, float y, float width, float height) {
+        Lines.stroke(4f, Palette.main); // Рисуем границу холста
+        Lines.rect(x - width / 2f - 4f, y - height / 2f - 4f, width + 8f, height + 8f);
+        Draw.color(); // Сбрасываем цвет
+
+        background.draw(x, y, width, height); // Рисуем фон
+
+        for (int i = layers.size - 1; i >= 0; i--)
+            layers.get(i).draw(x, y, width, height); // Рисуем слои в обратном порядке
+
+        overlay.fill(0);
+        editor.drawOverlay();
+        overlay.draw(x, y, width, height); // Рисуем покрытие
+
+        Draw.flush();
     }
 
     public void draw(Pixmap pixmap) {

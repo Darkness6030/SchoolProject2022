@@ -29,10 +29,18 @@ public class Layer extends Pixmap {
     // region paint
 
     public void drawSquare(int x, int y, int brushSize, Color color) {
-        fillRect(x - brushSize / 2, y - brushSize / 2, brushSize, brushSize, color.rgba());
+        drawRect(x - brushSize / 2, y - brushSize / 2, brushSize, brushSize, color.rgba());
     }
 
     public void drawCircle(int x, int y, int brushSize, Color color) {
+        drawCircle(x, y, brushSize, color.rgba());
+    }
+
+    public void fillSquare(int x, int y, int brushSize, Color color) {
+        fillRect(x - brushSize / 2, y - brushSize / 2, brushSize, brushSize, color.rgba());
+    }
+
+    public void fillCircle(int x, int y, int brushSize, Color color) {
         fillCircle(x, y, brushSize, color.rgba());
     }
 

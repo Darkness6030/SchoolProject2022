@@ -2,7 +2,8 @@ package dark.ui.fragments;
 
 import arc.graphics.Color;
 import arc.scene.ui.ImageButton;
-import arc.scene.ui.layout.*;
+import arc.scene.ui.layout.Table;
+import arc.scene.ui.layout.WidgetGroup;
 import dark.editor.EditTool;
 import dark.editor.Layer;
 import dark.ui.*;
@@ -10,8 +11,6 @@ import dark.ui.elements.TextSlider;
 
 import static arc.Core.*;
 import static dark.Main.*;
-import static dark.ui.Drawables.alpha_chan;
-import static dark.ui.Styles.alphaStyle;
 
 public class HudFragment {
 
@@ -19,29 +18,23 @@ public class HudFragment {
     public SideLayerTable sideLayerTable;
 
     public void build(WidgetGroup parent) {
-        parent.fill(hud -> {
-            hud.name = "Menu Bar";
-            hud.top();
+        parent.fill(underline -> {
+            underline.name = "Menu Bar";
+            underline.top();
 
-            hud.table(Drawables.underline, underline -> {
-                underline.left();
+            underline.table(Drawables.underline, table -> {
+                table.left();
+                table.button(Drawables.alpha_chan, Styles.alphaStyle, 40f, () -> ui.menuDialog.show()).checked(button -> ui.menuDialog.isShown()).size(40f).padLeft(8f);
 
-                underline.button(alpha_chan, alphaStyle, () -> ui.menuDialog.show()).checked(button -> ui.menuDialog.isShown()).size(64f);
-                underline.stack(
+                new TextSlider(1, 100, 1, editor.brushSize, value -> bundle.format("hud.size", editor.brushSize = value.intValue())).build(table).padLeft(48f);
+
+                table.stack(
                         new SwapButton(editor.first, editor.second, 18f, 18f),
                         new ColorBlob(editor.second, 8f, -8f),
                         new ColorBlob(editor.first, -8f, 8f)
-                ).size(64f).padRight(16f);
+                ).size(32f).padLeft(48f);
 
-                new TextSlider(1f, 100f, 1f, editor.brushSize, value -> bundle.format("hud.size", editor.brushSize = value.intValue())).build(underline).padRight(16f);
-
-                underline.check("", value -> editor.square = value).size(64f);
-
-                underline.label(() -> {
-                    if (editor == null || editor.canvas == null) return " ";
-                    return "Отрисовка зеленой херни: x - " + editor.canvas.mouseX() + " y - " + editor.canvas.mouseY() +
-                            "\nМышь на холсте: x - " + editor.canvas.canvasX() + " y - " + editor.canvas.canvasY();
-                });
+                table.check("@hud.square", value -> editor.square = value).padLeft(48f);
             }).height(64f).growX();
         });
 
@@ -49,9 +42,9 @@ public class HudFragment {
             sideline.name = "Tools Bar";
             sideline.left();
 
-            sideline.table(Drawables.sideline, pad -> {
-                pad.top();
-                for (var type : EditTool.values()) type.button(pad);
+            sideline.table(Drawables.sideline, table -> {
+                table.top();
+                for (var type : EditTool.values()) type.button(table);
             }).width(64f).growY().padTop(60f);
         });
 
@@ -59,15 +52,15 @@ public class HudFragment {
             layers.name = "Layers";
             layers.right();
 
-            layers.table(Drawables.sideline_left, sideline -> {
-                sideline.top().marginLeft(8f);
-                sideline.defaults().size(128f).padBottom(4f);
+            layers.table(Drawables.sideline_left, table -> {
+                table.top().marginLeft(8f);
+                table.defaults().size(128f).padBottom(4f);
 
                 rebuildLayers = () -> {
-                    sideline.clear();
-                    editor.renderer.layers.map(LayerButton::new).each(button -> sideline.add(button).row());
+                    table.clear();
+                    editor.renderer.layers.map(LayerButton::new).each(button -> table.add(button).row());
 
-                    sideline.button(Icons.plus, 32f, editor::newLayer).size(32f);
+                    table.button(Icons.plus, 32f, editor::newLayer).size(32f);
                 };
 
                 rebuildLayers();
@@ -110,6 +103,7 @@ public class HudFragment {
 
         public ColorBlob(Color color, float x, float y) {
             super(Drawables.color_blob, Styles.imageNoneStyle);
+
             setTranslation(x, y);
 
             clicked(() -> ui.pickerDialog.show(color));
@@ -118,7 +112,6 @@ public class HudFragment {
     }
 
     public static class LayerButton extends ImageButton {
-
         public Layer layer;
 
         public LayerButton(Layer layer) {
@@ -137,9 +130,6 @@ public class HudFragment {
     }
 
     public static class SideLayerTable extends Table {
-
-        public static final float sideBarWidth = Scl.scl(128f + 8f);
-
         public Layer layer;
 
         public SideLayerTable(Table parent) {
@@ -170,7 +160,7 @@ public class HudFragment {
 
         public void show(Layer layer, float ty) {
             this.layer = layer;
-            setTranslation(graphics.getWidth() - sideBarWidth, ty);
+            setTranslation(graphics.getWidth() - 136f, ty);
         }
 
         public void hide() {

@@ -2,6 +2,8 @@ package dark.ui.dialogs;
 
 import arc.scene.style.Drawable;
 import arc.scene.ui.Dialog;
+import arc.scene.ui.TextButton;
+import arc.scene.ui.layout.Cell;
 import arc.util.Align;
 import dark.ui.*;
 
@@ -29,7 +31,7 @@ public class BaseDialog extends Dialog {
         closeOnBack();
     }
 
-    public void addButton(String text, Drawable image, Runnable clicked) {
-        buttons.buttonRow(text, image, clicked);
+    public Cell<TextButton> addButton(String text, Drawable image, Runnable clicked) {
+        return buttons.buttonRow(text, image, clicked);
     }
 }

@@ -10,9 +10,16 @@ public class Paint {
 
     public static void pencil(Layer layer, int x, int y, int brushSize, Color color) {
         if (editor.square)
-            layer.drawSquare(x, y, brushSize, color);
+            layer.fillSquare(x, y, brushSize, color);
         else
-            layer.drawCircle(x, y, brushSize, color);
+            layer.fillCircle(x, y, brushSize, color);
+    }
+
+    public static void pencilOverlay(Layer layer, int x, int y, int brushSize, Color color) {
+        if (editor.square)
+            layer.drawSquare(x, y, brushSize + 2, color);
+        else
+            layer.drawCircle(x, y, brushSize + 1, color);
     }
 
     public static void fill(Layer layer, int x, int y, Color color) {

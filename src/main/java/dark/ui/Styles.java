@@ -88,9 +88,15 @@ public class Styles {
 
         scene.addStyle(CheckBoxStyle.class, checkBoxStyle = new CheckBoxStyle() {{
             font = Fonts.def;
+            fontColor = Color.white;
+            disabledFontColor = Color.gray;
 
             checkboxOn = Drawables.check_on;
             checkboxOff = Drawables.check_off;
+            checkboxOnOver = Drawables.check_on_over;
+            checkboxOver = Drawables.check_over;
+            checkboxOnDisabled = Drawables.check_on_disabled;
+            checkboxOffDisabled = Drawables.check_disabled;
         }});
 
         scene.addStyle(SliderStyle.class, sliderStyle = new SliderStyle() {{
