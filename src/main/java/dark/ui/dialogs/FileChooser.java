@@ -1,6 +1,5 @@
 package dark.ui.dialogs;
 
-import arc.Core;
 import arc.files.Fi;
 import arc.func.Boolf;
 import arc.func.Cons;
@@ -14,10 +13,12 @@ import dark.ui.Styles;
 
 import java.util.Comparator;
 
-public class FileChooser extends BaseDialog {
-    public static final Fi homeDirectory = Core.files.absolute(Core.files.getExternalStoragePath());
+import static arc.Core.*;
 
-    public Fi directory = homeDirectory;
+public class FileChooser extends BaseDialog {
+    public static final Fi homeDirectory = files.absolute(files.getExternalStoragePath());
+
+    public Fi directory = files.absolute(settings.getString("lastDirectory", homeDirectory.absolutePath()));
     public Table table;
     public ScrollPane pane;
     public TextField field, navigation;
@@ -35,8 +36,10 @@ public class FileChooser extends BaseDialog {
         this.filter = filter;
         this.result = result;
 
-        this.buttons.defaults().size(0f);
+        if (!directory.exists())
+            directory = homeDirectory;
 
+        buttons.defaults().size(0f);
         shown(() -> {
             cont.clear();
             setupWidgets();
@@ -108,16 +111,22 @@ public class FileChooser extends BaseDialog {
 
     public void openHomeDirectory() {
         directory = homeDirectory;
+        settings.put("lastDirectory", directory.absolutePath());
+
         updateFiles(true);
     }
 
     public void openParentDirectory() {
         directory = directory.parent();
+        settings.put("lastDirectory", directory.absolutePath());
+
         updateFiles(true);
     }
 
     public void openChildDirectory(String name) {
         directory = directory.child(name);
+        settings.put("lastDirectory", directory.absolutePath());
+
         updateFiles(true);
     }
 

@@ -28,6 +28,10 @@ public class SpriteX extends ApplicationCore {
         assets = new AssetManager();
         atlas = TextureAtlas.blankAtlas();
 
+        settings.defaults("locale", "en"); // TODO
+        settings.setAppName("SpriteX");
+        settings.load();
+
         bundle = I18NBundle.createBundle(files.internal("bundles/bundle"), Locale.ENGLISH); // TODO выбор языка
 
         Tooltips.getInstance().animations = true;
