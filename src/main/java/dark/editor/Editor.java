@@ -6,9 +6,10 @@ import arc.graphics.*;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 import arc.math.geom.Bresenham2;
+import dark.ui.Icons;
 
 import static arc.Core.*;
-import static dark.Main.*;
+import static dark.Main.ui;
 
 public class Editor implements ApplicationListener, GestureListener {
 
@@ -23,7 +24,7 @@ public class Editor implements ApplicationListener, GestureListener {
     public EditTool tool = EditTool.pencil, temp;
     public Color first = Color.white.cpy(), second = Color.black.cpy();
 
-    public Editor() {
+    public void load() {
         input.addProcessor(new GestureDetector(this));
         newCanvas(800, 600);
     }
@@ -37,6 +38,12 @@ public class Editor implements ApplicationListener, GestureListener {
             input();
         }
 
+        mouseX = input.mouseX();
+        mouseY = input.mouseY();
+
+        canvasX = canvas.canvasX();
+        canvasY = canvas.canvasY();
+
         graphics.clear(Color.sky);
         renderer.draw(canvas.x, canvas.y, canvas.scaledWidth(), canvas.scaledHeight());
     }
@@ -47,8 +54,6 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void input() {
-        if (scene.hasMouse()) return;
-
         if (Binding.pan.down())
             canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
         else if (Binding.draw1.down())
@@ -75,20 +80,18 @@ public class Editor implements ApplicationListener, GestureListener {
 
             ui.colorWheel.hide();
         }
-
-        mouseX = input.mouseX();
-        mouseY = input.mouseY();
-
-        canvasX = canvas.canvasX();
-        canvasY = canvas.canvasY();
     }
 
     public void draw(Color color) {
+        if (scene.hasScroll()) return;
+
         if (tool.draggable) Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(x, y, color));
         else tool.touched(canvas.canvasX(), canvas.canvasY(), color);
     }
 
     public void drawOverlay() {
+        if (scene.hasScroll()) return;
+
         tool.drawOverlay(canvas.canvasX(), canvas.canvasY());
     }
 
@@ -110,10 +113,14 @@ public class Editor implements ApplicationListener, GestureListener {
         var pixmap = new Pixmap(canvas.width, canvas.height);
         renderer.draw(pixmap);
         PixmapIO.writePng(file, pixmap);
+
+        ui.showInfoToast(Icons.save, bundle.format("saved", file.name()));
     }
 
     public void load(Fi file) {
         var layer = new Layer(file);
         newCanvas(layer);
+
+        ui.showInfoToast(Icons.load, bundle.format("loaded", file.name()));
     }
 }

@@ -11,15 +11,15 @@ public class MenuDialog extends BaseDialog {
         super("@menu");
 
         addCloseButton();
-        addButton("@exit", Icons.exit, app::exit);
+        buttons.buttonRow("@exit", Icons.exit, app::exit);
 
         buttons.row();
 
-        addButton("@save", Icons.save, () -> ui.showFileChooser(false, "@file.save", "png", editor::save));
-        addButton("@load", Icons.load, () -> ui.showFileChooser(true, "@file.load", "png", editor::load));
+        buttons.buttonRow("@save", Icons.save, () -> ui.showFileChooser(false, "@file.save", "png", editor::save));
+        buttons.buttonRow("@load", Icons.load, () -> ui.showFileChooser(true, "@file.load", "png", editor::load));
 
         buttons.row();
 
-        addButton("@settings", Icons.plus, () -> {});
+        buttons.buttonRow("@settings", Icons.plus, () -> {}).colspan(2).width(428f);
     }
 }

@@ -1,7 +1,6 @@
 package dark.ui.dialogs;
 
 import arc.files.Fi;
-import arc.func.Boolf;
 import arc.func.Cons;
 import arc.scene.event.Touchable;
 import arc.scene.ui.*;
@@ -24,22 +23,22 @@ public class FileChooser extends BaseDialog {
     public TextField field, navigation;
 
     public final FileHistory history = new FileHistory();
-    public final Boolf<Fi> filter;
+
+    public final String extension;
     public final boolean open;
     public final Cons<Fi> result;
 
-    public FileChooser(String title, Boolf<Fi> filter, boolean open, Cons<Fi> result) {
+    public FileChooser(String title, String extension, boolean open, Cons<Fi> result) {
         super(title);
         setFillParent(true);
 
         this.open = open;
-        this.filter = filter;
+        this.extension = extension;
         this.result = result;
 
         if (!directory.exists())
             directory = homeDirectory;
 
-        buttons.defaults().size(0f);
         shown(() -> {
             cont.clear();
             setupWidgets();
@@ -76,16 +75,18 @@ public class FileChooser extends BaseDialog {
         icons.button(Icons.right, history::forward).disabled(button -> history.noForward());
         icons.button(Icons.up, this::openParentDirectory);
 
-        var file = new Table();
-        file.bottom().left().add(new Label("@file.name"));
-        file.add(field).height(40f).fillX().expandX().padLeft(12f);
+        var fileName = new Table();
+        fileName.bottom().left().add(new Label("@file.name"));
+        fileName.add(field).height(40f).fillX().expandX().padLeft(12f);
 
         var buttons = new Table();
         buttons.defaults().grow().height(60f);
         buttons.button("@cancel", this::hide);
         buttons.button("@ok", () -> {
-            result.get(directory.child(field.getText()));
             hide();
+
+            var fi = directory.child(field.getText());
+            result.get(fi.sibling(fi.nameWithoutExtension() + "." + extension));
         }).disabled(button -> open ? !directory.child(field.getText()).exists() || directory.child(field.getText()).isDirectory() : field.getText().trim().isEmpty());
 
         var content = new Table();
@@ -95,7 +96,7 @@ public class FileChooser extends BaseDialog {
         content.center().add(pane).colspan(3).grow();
         content.row();
 
-        content.bottom().left().add(file).colspan(3).grow().padTop(-2f).padBottom(2f);
+        content.bottom().left().add(fileName).colspan(3).grow().padTop(-2f).padBottom(2f);
         content.row();
 
         content.add(buttons).growX();
@@ -104,7 +105,7 @@ public class FileChooser extends BaseDialog {
 
     public Seq<Fi> getAvailableFiles() {
         return directory.seq()
-                .filter(fi -> fi.isDirectory() || filter.get(fi))
+                .filter(fi -> fi.isDirectory() || fi.extEquals(extension))
                 .sort(Comparator.comparing(Fi::isDirectory))
                 .sort(Comparator.comparing(Fi::name));
     }

@@ -9,7 +9,6 @@ import arc.scene.ui.Tooltip;
 import arc.scene.ui.Tooltip.Tooltips;
 import arc.util.I18NBundle;
 import arc.util.Time;
-import dark.editor.Editor;
 import dark.ui.*;
 
 import java.util.Locale;
@@ -28,7 +27,7 @@ public class SpriteX extends ApplicationCore {
         assets = new AssetManager();
         atlas = TextureAtlas.blankAtlas();
 
-        settings.defaults("locale", "en"); // TODO
+        settings.defaults("locale", "en", "sfxvol", 100); // TODO
         settings.setAppName("SpriteX");
         settings.load();
 
@@ -41,14 +40,16 @@ public class SpriteX extends ApplicationCore {
         Palette.load();
 
         load(Drawables.class, Drawables::load);
+        load(Sounds.class, Sounds::load);
         load(Styles.class, Styles::load);
         load(Icons.class, Icons::load);
 
         assets.finishLoading();
 
-        add(editor = new Editor());
-        add(ui = new UI());
+        add(editor);
+        add(ui);
 
+        editor.load();
         ui.load();
 
         info("Total time to load: @ms", Time.elapsed());

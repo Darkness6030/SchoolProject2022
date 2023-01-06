@@ -9,12 +9,12 @@ import dark.ui.elements.TextSlider;
 import static arc.Core.bundle;
 import static dark.Main.ui;
 
-public class ColorPickerDialog extends BaseDialog {
+public class PaletteDialog extends BaseDialog {
 
     public Table sliders;
     public Color tmp = Color.white.cpy(), color;
 
-    public ColorPickerDialog() {
+    public PaletteDialog() {
         super("@color.pick");
 
         // TODO square gradient
@@ -22,9 +22,10 @@ public class ColorPickerDialog extends BaseDialog {
         sliders = cont.table().get();
 
         addCloseButton();
-        addButton("@ok", Icons.ok, () -> {
-            ui.colorWheel.add(color.set(tmp));
+        buttons.buttonRow("@ok", Icons.ok, () -> {
             hide();
+
+            ui.colorWheel.add(color.set(tmp));
         });
     }
 

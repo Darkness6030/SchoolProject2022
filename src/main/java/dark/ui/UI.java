@@ -3,10 +3,14 @@ package dark.ui;
 import arc.ApplicationListener;
 import arc.files.Fi;
 import arc.func.Cons;
+import arc.input.KeyCode;
 import arc.math.Interp;
 import arc.scene.actions.Actions;
 import arc.scene.event.Touchable;
+import arc.scene.style.Drawable;
+import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
+import arc.util.Align;
 import dark.ui.dialogs.*;
 import dark.ui.fragments.ColorWheel;
 import dark.ui.fragments.HudFragment;
@@ -21,8 +25,12 @@ public class UI implements ApplicationListener {
     public final ColorWheel colorWheel = new ColorWheel();
 
     public MenuDialog menuDialog;
-    public NewCanvasDialog canvasDialog;
-    public ColorPickerDialog pickerDialog;
+    //public SettingsDialog settingsDialog; // TODO
+
+    public PaletteDialog pickerDialog;
+    public ResizeDialog canvasDialog;
+
+    public Table lastToast;
 
     public void load() {
         input.addProcessor(scene);
@@ -35,14 +43,17 @@ public class UI implements ApplicationListener {
         colorWheel.build(hud);
 
         menuDialog = new MenuDialog();
-        canvasDialog = new NewCanvasDialog();
-        pickerDialog = new ColorPickerDialog();
+        canvasDialog = new ResizeDialog();
+        pickerDialog = new PaletteDialog();
     }
 
     @Override
     public void update() {
         scene.act();
         scene.draw();
+
+        if (input.keyDown(KeyCode.escape) && !scene.hasDialog())
+            menuDialog.show();
     }
 
     @Override
@@ -51,19 +62,23 @@ public class UI implements ApplicationListener {
     }
 
     public void showFileChooser(boolean open, String title, String extension, Cons<Fi> cons) {
-        new FileChooser(title, fi -> fi.extEquals(extension), open, cons).show();
+        new FileChooser(title, extension, open, cons).show();
     }
 
-    public void showInfoFade(String text) {
-        scene.table(table -> {
-           table.touchable = Touchable.disabled;
+    public void showInfoToast(Drawable icon, String text) {
+        Sounds.message.play();
 
-            table.center().table(content -> content.background(Drawables.info_table).add(text).pad(0f, 24f, 0f, 24f));
+        if (lastToast != null) lastToast.remove();
 
-            table.moveBy(0f, 32f);
-            table.color.a(0f);
+        var table = new Table(Drawables.button);
+        table.image(icon);
+        table.add(text).wrap().size(280f, 32f).get().setAlignment(Align.center, Align.center);
+        table.pack();
 
-            table.actions(Actions.parallel(Actions.moveBy(0f, -32f, 0.5f, Interp.fade), Actions.fadeIn(0.5f, Interp.fade)), Actions.delay(0.3f), Actions.parallel(Actions.moveBy(0f, -32f, 0.5f, Interp.fade), Actions.fadeOut(0.5f, Interp.fade)), Actions.remove());
-        });
+        var container = lastToast = scene.table();
+        container.top().add(table);
+
+        container.setTranslation(0, table.getPrefHeight());
+        container.actions(Actions.translateBy(0, -table.getPrefHeight(), 1f, Interp.fade), Actions.delay(2.5f), Actions.run(() -> container.actions(Actions.translateBy(0, table.getPrefHeight(), 1f, Interp.fade), Actions.remove())));
     }
 }

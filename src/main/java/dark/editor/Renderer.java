@@ -19,11 +19,15 @@ public class Renderer {
     public Renderer(int width, int height) {
         addLayer(current = new Layer(width, height));
         init(width, height);
+
+        ui.hudFragment.rebuildLayers();
     }
 
     public Renderer(Layer layer) {
         addLayer(current = layer);
         init(layer.width, layer.height);
+
+        ui.hudFragment.rebuildLayers();
     }
 
     public void init(int width, int height) {
@@ -62,7 +66,7 @@ public class Renderer {
 
         layers.add(current = layer);
 
-        if (ui != null) ui.hudFragment.rebuildLayers();
+        ui.hudFragment.rebuildLayers();
     }
 
     public boolean canAdd() {
@@ -73,10 +77,11 @@ public class Renderer {
         if (!canRemove()) return;
 
         int index = layers.indexOf(layer);
-        if (current == layer) current = layers.get(index - 1);
         layers.remove(index);
 
-        if (ui != null) ui.hudFragment.rebuildLayers();
+        // Темная магия и танцы с бубном
+        if (current == layer) current = layers.get(Math.max(index - 1, 0));
+        ui.hudFragment.rebuildLayers();
     }
 
     public boolean canRemove() {
@@ -89,7 +94,7 @@ public class Renderer {
         int index = layers.indexOf(layer);
         layers.swap(index, index + direction);
 
-        if (ui != null) ui.hudFragment.rebuildLayers();
+        ui.hudFragment.rebuildLayers();
     }
 
     public boolean canMove(Layer layer, int direction) {

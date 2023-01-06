@@ -94,7 +94,7 @@ public class HudFragment {
                 first.set(second.cpy());
                 second.set(temp);
 
-                ui.showInfoFade("@swapped");
+                ui.showInfoToast(Icons.swap, "@swapped");
             });
         }
     }
@@ -135,22 +135,22 @@ public class HudFragment {
         public SideLayerTable(Table parent) {
             parent.add(this);
 
-            defaults().size(40f);
+            defaults().size(43f);
             visible(() ->
                     input.mouseX() > this.x + translation.x &&
                     input.mouseY() > this.y + translation.y &&
                     input.mouseY() < this.y + translation.y + height);
 
             button(Icons.up, Styles.sideLayerImageButtonStyle, () -> editor.renderer.moveLayer(layer, -1))
-                    .update(button -> button.setDisabled(!editor.renderer.canMove(layer, -1)))
+                    .visible(() -> editor.renderer.canMove(layer, -1))
                     .tooltip("@layer.move.up").row();
 
             button(Icons.eraser, Styles.sideLayerImageButtonStyle, () -> editor.renderer.removeLayer(layer))
-                    .disabled(button -> !editor.renderer.canRemove())
+                    .visible(() -> editor.renderer.canRemove())
                     .tooltip("@layer.remove").row();
 
             button(Icons.down, Styles.sideLayerImageButtonStyle, () -> editor.renderer.moveLayer(layer, 1))
-                    .update(button -> button.setDisabled(!editor.renderer.canMove(layer, 1)))
+                    .visible(() -> editor.renderer.canMove(layer, 1))
                     .tooltip("@layer.move.down").row();
         }
 

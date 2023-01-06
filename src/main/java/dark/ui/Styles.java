@@ -131,7 +131,7 @@ public class Styles {
 
         scene.addStyle(DialogStyle.class, dialogStyle = new DialogStyle() {{
             titleFont = Fonts.def;
-            titleFontColor = Palette.active;
+            titleFontColor = Palette.accent;
             stageBackground = Drawables.gray2;
         }});
     }

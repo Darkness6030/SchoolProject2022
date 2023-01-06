@@ -15,7 +15,7 @@ public class BaseDialog extends Dialog {
         super(title, style);
 
         this.titleTable.row().row(); // horizontal gap
-        this.titleTable.image(Drawables.white, Palette.active).growX().height(3f).pad(4f);
+        this.titleTable.image(Drawables.white, Palette.accent).growX().height(3f).pad(4f);
 
         this.title.setAlignment(Align.center);
         this.buttons.defaults().size(210f, 64f);
@@ -27,11 +27,7 @@ public class BaseDialog extends Dialog {
 
     @Override
     public void addCloseButton() {
-        addButton("@back", Icons.back, this::hide);
+        buttons.buttonRow("@back", Icons.back, this::hide);
         closeOnBack();
-    }
-
-    public Cell<TextButton> addButton(String text, Drawable image, Runnable clicked) {
-        return buttons.buttonRow(text, image, clicked);
     }
 }
