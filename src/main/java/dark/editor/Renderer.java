@@ -7,70 +7,50 @@ import arc.graphics.g2d.Lines;
 import arc.struct.Seq;
 import dark.ui.Palette;
 
-import static dark.Main.*;
+import static dark.Main.ui;
 
 public class Renderer {
 
-    public static final int maxLayers = 6;
+    public static final float border = 4f; // Толщина границы холста
 
     public final Seq<Layer> layers = new Seq<>();
-    public Layer current, background, overlay;
-
-    public Renderer(int width, int height) {
-        addLayer(current = new Layer(width, height));
-        init(width, height);
-
-        ui.hudFragment.rebuildLayers();
-    }
-
-    public Renderer(Layer layer) {
-        addLayer(current = layer);
-        init(layer.width, layer.height);
-
-        ui.hudFragment.rebuildLayers();
-    }
-
-    public void init(int width, int height) {
-        background = new Layer(width, height);
-        background.fill(Color.lightGray); // TODO выбор цвета фона
-
-        overlay = new Layer(width, height);
-    }
+    public Layer current, background;
 
     public void draw(float x, float y, float width, float height) {
-        Lines.stroke(4f, Palette.main); // Рисуем границу холста
-        Lines.rect(x - width / 2f - 4f, y - height / 2f - 4f, width + 8f, height + 8f);
-        Draw.color(); // Сбрасываем цвет
+        Lines.stroke(border, Palette.main); // Рисуем границу холста
+        Lines.rect(x - width / 2f - border, y - height / 2f - border, width + border * 2f, height + border * 2f);
+
+        Draw.reset();
 
         background.draw(x, y, width, height); // Рисуем фон
-
-        for (int i = layers.size - 1; i >= 0; i--)
-            layers.get(i).draw(x, y, width, height); // Рисуем слои в обратном порядке
-
-        overlay.fill(0);
-        editor.drawOverlay();
-        overlay.draw(x, y, width, height); // Рисуем покрытие
+        layers.each(layer -> layer.draw(x, y, width, height)); // Рисуем слои
 
         Draw.flush();
     }
 
-    public void draw(Pixmap pixmap) {
-        layers.each(layer -> layer.each((x, y) -> {
-            if (layer.get(x, y) != 0)
-                pixmap.set(x, y, layer.get(x, y));
-        }));
+    public void reset(int width, int height) {
+        reset(new Layer(width, height));
     }
 
-    public void addLayer(Layer layer) {
-        if (!canAdd()) return;
+    public void reset(Layer layer) {
+        layers.each(Layer::dispose);
+        layers.clear();
 
         layers.add(current = layer);
+
+        background = new Layer(layer.width, layer.height);
+        background.fill(Color.lightGray);
 
         ui.hudFragment.rebuildLayers();
     }
 
-    public boolean canAdd() {
-        return layers.size < maxLayers;
+    public void draw(Pixmap pixmap) {
+        layers.each(layer -> pixmap.draw(layer, true));
+    }
+
+    public void addLayer(Layer layer) {
+        layers.add(current = layer);
+        ui.hudFragment.rebuildLayers();
     }
 
     public void removeLayer(Layer layer) {
@@ -79,7 +59,9 @@ public class Renderer {
         int index = layers.indexOf(layer);
         layers.remove(index);
 
-        // Темная магия и танцы с бубном
+        layer.dispose(); // Освобождаем ресурсы, связанные со слоем
+
+        // Был удален текущий слой, перемещаемся на один слой назад
         if (current == layer) current = layers.get(Math.max(index - 1, 0));
         ui.hudFragment.rebuildLayers();
     }

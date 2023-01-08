@@ -1,13 +1,15 @@
 package dark.ui.fragments;
 
 import arc.graphics.Color;
+import arc.scene.event.Touchable;
 import arc.scene.ui.ImageButton;
+import arc.scene.ui.ScrollPane;
 import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
 import dark.editor.EditTool;
 import dark.editor.Layer;
 import dark.ui.*;
-import dark.ui.elements.TextSlider;
+import dark.ui.elements.TextFieldSlider;
 
 import static arc.Core.*;
 import static dark.Main.*;
@@ -15,18 +17,21 @@ import static dark.Main.*;
 public class HudFragment {
 
     public Runnable rebuildLayers;
+
+    public ScrollPane pane;
     public SideLayerTable sideLayerTable;
 
     public void build(WidgetGroup parent) {
-        parent.fill(underline -> {
-            underline.name = "Menu Bar";
-            underline.top();
+        parent.fill(cont -> {
+            cont.top();
 
-            underline.table(Drawables.underline, table -> {
+            cont.table(Drawables.underline, table -> {
+                table.touchable = Touchable.enabled;
+
                 table.left();
                 table.button(Drawables.alpha_chan, Styles.alphaStyle, 40f, () -> ui.menuDialog.show()).checked(button -> ui.menuDialog.isShown()).size(40f).padLeft(8f);
 
-                new TextSlider(1, 100, 1, editor.brushSize, value -> bundle.format("hud.size", editor.brushSize = value.intValue())).build(table).padLeft(48f);
+                table.add(new TextFieldSlider("", 1, 100, 1, editor.brushSize, value -> editor.brushSize = (int) value)).padLeft(48f);
 
                 table.stack(
                         new SwapButton(editor.first, editor.second, 18f, 18f),
@@ -38,41 +43,39 @@ public class HudFragment {
             }).height(64f).growX();
         });
 
-        parent.fill(sideline -> {
-            sideline.name = "Tools Bar";
-            sideline.left();
+        parent.fill(cont -> {
+            cont.left();
 
-            sideline.table(Drawables.sideline, table -> {
+            cont.table(Drawables.sideline, table -> {
+                table.touchable = Touchable.enabled;
+
                 table.top();
                 for (var type : EditTool.values()) type.button(table);
-            }).width(64f).growY().padTop(60f);
+            }).width(68f).growY().padTop(60f);
         });
 
-        parent.fill(layers -> {
-            layers.name = "Layers";
-            layers.right();
+        parent.fill(cont -> {
+            cont.right();
 
-            layers.table(Drawables.sideline_left, table -> {
+            cont.table(Drawables.sideline_left, table -> {
+                table.touchable = Touchable.enabled;
+
                 table.top().marginLeft(8f);
                 table.defaults().size(128f).padBottom(4f);
 
-                rebuildLayers = () -> {
-                    table.clear();
-                    editor.renderer.layers.map(LayerButton::new).each(button -> table.add(button).row());
+                pane = table.pane(layers -> rebuildLayers = () -> {
+                    layers.clear();
 
-                    table.button(Icons.plus, 32f, editor::newLayer).size(32f).tooltip("@layer.new");
-                };
+                    editor.renderer.layers.map(LayerButton::new).each(button -> layers.add(button).row());
+
+                    layers.button(Icons.plus, 32f, editor::newLayer).size(32f).tooltip("@layer.new");
+                }).expand().get();
+
+                pane.setOverscroll(true, true);
+                pane.setFadeScrollBars(true);
 
                 rebuildLayers();
-            }).growY().padTop(64f);
-        });
-
-        parent.fill(table -> {
-            table.name = "Layer Buttons";
-            table.right();
-
-            table.fillParent = false;
-            sideLayerTable = new SideLayerTable(table);
+            }).growY().padTop(60f);
         });
     }
 

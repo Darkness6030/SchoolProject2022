@@ -9,7 +9,7 @@ public class Canvas {
     public float x, y, zoom;
     public int width, height;
 
-    public Canvas(int width, int height) {
+    public void reset(int width, int height) {
         this.set(graphics.getWidth() / 2f, graphics.getHeight() / 2f);
         this.zoom = 1f;
 

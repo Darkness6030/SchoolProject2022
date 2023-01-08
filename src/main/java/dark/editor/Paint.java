@@ -4,6 +4,7 @@ import arc.graphics.Color;
 import arc.math.geom.Point2;
 import arc.struct.IntQueue;
 
+import static arc.Core.scene;
 import static dark.Main.editor;
 
 public class Paint {
@@ -13,13 +14,6 @@ public class Paint {
             layer.fillSquare(x, y, brushSize, color);
         else
             layer.fillCircle(x, y, brushSize, color);
-    }
-
-    public static void pencilOverlay(Layer layer, int x, int y, int brushSize, Color color) {
-        if (editor.square)
-            layer.drawSquare(x, y, brushSize + 2, color);
-        else
-            layer.drawCircle(x, y, brushSize + 1, color);
     }
 
     public static void fill(Layer layer, int x, int y, Color color) {

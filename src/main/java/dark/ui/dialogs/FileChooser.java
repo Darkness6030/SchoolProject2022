@@ -61,6 +61,7 @@ public class FileChooser extends BaseDialog {
         field.setDisabled(open);
         field.setMaxLength(128);
         field.setFilter((field, text) -> text != ' ');
+        field.setMessageText("@empty");
 
         navigation = new TextField();
         navigation.touchable = Touchable.disabled;

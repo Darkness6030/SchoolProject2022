@@ -4,9 +4,8 @@ import arc.func.Floatc;
 import arc.graphics.Color;
 import arc.scene.ui.layout.Table;
 import dark.ui.Icons;
-import dark.ui.elements.TextSlider;
+import dark.ui.elements.TextFieldSlider;
 
-import static arc.Core.bundle;
 import static dark.Main.ui;
 
 public class PaletteDialog extends BaseDialog {
@@ -33,18 +32,15 @@ public class PaletteDialog extends BaseDialog {
         tmp.set(this.color = color);
         sliders.clear();
 
-        slider(tmp.r, "color.red", tmp::r);
-        slider(tmp.g, "color.green", tmp::g);
-        slider(tmp.b, "color.blue", tmp::b);
-        slider(tmp.a, "color.alpha", tmp::a);
+        slider("color.red", tmp.r, tmp::r);
+        slider("color.green", tmp.g, tmp::g);
+        slider("color.blue", tmp.b, tmp::b);
+        slider("color.alpha", tmp.a, tmp::a);
 
         super.show();
     }
 
-    private void slider(float def, String key, Floatc setter) {
-        new TextSlider(0f, 255f, 1f, def * 255f, value -> {
-            setter.get(value / 255f);
-            return bundle.format(key, value.intValue());
-        }).build(sliders).growX().row();
+    private void slider(String title, float def, Floatc setter) {
+        cont.add(new TextFieldSlider(title, 1f, 255f, 1f, def * 255f, value -> setter.get(value / 255f))).growX().row();
     }
 }

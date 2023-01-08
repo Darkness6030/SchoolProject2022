@@ -18,15 +18,15 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public boolean square;
 
-    public Renderer renderer;
-    public Canvas canvas;
+    public Renderer renderer = new Renderer();
+    public Canvas canvas = new Canvas();
 
     public EditTool tool = EditTool.pencil, temp;
     public Color first = Color.white.cpy(), second = Color.black.cpy();
 
     public void load() {
         input.addProcessor(new GestureDetector(this));
-        newCanvas(800, 600);
+        reset(800, 600);
     }
 
     @Override
@@ -89,20 +89,9 @@ public class Editor implements ApplicationListener, GestureListener {
         else tool.touched(canvas.canvasX(), canvas.canvasY(), color);
     }
 
-    public void drawOverlay() {
-        if (scene.hasScroll()) return;
-
-        tool.drawOverlay(canvas.canvasX(), canvas.canvasY());
-    }
-
-    public void newCanvas(int width, int height) {
-        renderer = new Renderer(width, height);
-        canvas = new Canvas(width, height);
-    }
-
-    public void newCanvas(Layer layer) {
-        renderer = new Renderer(layer);
-        canvas = new Canvas(layer.width, layer.height);
+    public void reset(int width, int height) {
+        renderer.reset(width, height);
+        canvas.reset(width, height);
     }
 
     public void newLayer() {
@@ -119,7 +108,8 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void load(Fi file) {
         var layer = new Layer(file);
-        newCanvas(layer);
+        renderer.reset(layer);
+        canvas.reset(layer.width, layer.height);
 
         ui.showInfoToast(Icons.load, bundle.format("loaded", file.name()));
     }
