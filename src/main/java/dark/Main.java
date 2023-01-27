@@ -39,6 +39,6 @@ public class Main {
     }
 
     public static void showError(Throwable throwable) {
-        SDL.SDL_ShowSimpleMessageBox(SDL.SDL_MESSAGEBOX_ERROR, "oh no", "An error has occured!\n" + Strings.getStackTrace(throwable));
+        SDL.SDL_ShowSimpleMessageBox(SDL.SDL_MESSAGEBOX_ERROR, "oh no", "An error has occurred!\n" + Strings.getStackTrace(throwable));
     }
 }
