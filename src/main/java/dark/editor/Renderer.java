@@ -1,7 +1,9 @@
 package dark.editor;
 
+import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
 import arc.struct.Seq;
 import arc.util.ScreenUtils;
@@ -20,6 +22,9 @@ public class Renderer {
     public void draw(float x, float y, float width, float height) {
         Lines.stroke(border, Palette.main); // Рисуем границу холста
         Lines.rect(x - width / 2f - border, y - height / 2f - border, width + border * 2f, height + border * 2f);
+
+        Draw.color(Color.lightGray); // Рисуем фон
+        Fill.rect(x, y, width, height);
 
         Draw.reset();
 

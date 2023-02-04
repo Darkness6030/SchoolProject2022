@@ -5,7 +5,6 @@ import arc.math.Mathf;
 import static arc.Core.*;
 
 public class Canvas {
-
     public float x, y, zoom;
     public int width, height;
 
@@ -40,7 +39,7 @@ public class Canvas {
         return (int) (height * zoom);
     }
 
-    public int canvasX() {
+    public int  canvasX() {
         return (int) ((scaledWidth() / 2f + input.mouseX() - x) / zoom);
     }
 

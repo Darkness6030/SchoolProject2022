@@ -15,7 +15,7 @@ public class Layer extends FrameBuffer {
     }
 
     public void drawSquare(int x, int y, int brushSize, Color color) {
-        begin();
+        beginBind();
 
         Draw.color(color);
         Fill.square(x, y, brushSize);
@@ -24,7 +24,7 @@ public class Layer extends FrameBuffer {
     }
 
     public void drawCircle(int x, int y, int brushSize, Color color) {
-        begin();
+        beginBind();
 
         Draw.color(color);
         Fill.circle(x, y, brushSize);
