@@ -53,7 +53,7 @@ public class SpriteX extends ApplicationCore {
         ui.load();
 
         info("Total time to load: @ms", Time.elapsed());
-        info("Initialized Application.");
+        info("Initialized.");
     }
 
     public void load(Class<?> type, Runnable load) {

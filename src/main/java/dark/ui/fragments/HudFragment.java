@@ -1,87 +1,83 @@
 package dark.ui.fragments;
 
 import arc.graphics.Color;
-import arc.scene.event.Touchable;
+import arc.graphics.g2d.TextureRegion;
 import arc.scene.ui.ImageButton;
-import arc.scene.ui.ScrollPane;
 import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
 import dark.editor.EditTool;
 import dark.editor.Layer;
 import dark.ui.*;
-import dark.ui.elements.TextFieldSlider;
+import dark.ui.elements.FocusScrollPane;
 
 import static arc.Core.*;
 import static dark.Main.*;
+import static dark.editor.Renderer.maxLayers;
 
 public class HudFragment {
 
-    public Runnable rebuildLayers;
-
-    public ScrollPane pane;
-    public SideLayerTable sideLayerTable;
+    public Table table;
+    public FocusScrollPane pane;
 
     public void build(WidgetGroup parent) {
         parent.fill(cont -> {
             cont.top();
 
-            cont.table(Drawables.underline, table -> {
-                table.touchable = Touchable.enabled;
+            cont.table(Drawables.underline, underline -> {
+                underline.left();
+                underline.button(Drawables.alpha_chan, Styles.alphaStyle, 40f, () -> ui.menuDialog.show()).checked(button -> ui.menuDialog.isShown()).size(40f).padLeft(8f);
 
-                table.left();
-                table.button(Drawables.alpha_chan, Styles.alphaStyle, 40f, () -> ui.menuDialog.show()).checked(button -> ui.menuDialog.isShown()).size(40f).padLeft(8f);
+                underline.slider(1f, 100f, 1f, value -> editor.brushSize = (int) value).padLeft(48f);
 
-                table.add(new TextFieldSlider("", 1, 100, 1, editor.brushSize, value -> editor.brushSize = (int) value)).padLeft(48f);
-
-                table.stack(
+                underline.stack(
                         new SwapButton(editor.first, editor.second, 18f, 18f),
                         new ColorBlob(editor.second, 8f, -8f),
                         new ColorBlob(editor.first, -8f, 8f)
                 ).size(32f).padLeft(48f);
 
-                table.check("@hud.square", value -> editor.square = value).padLeft(48f);
+                underline.check("@hud.square", value -> editor.square = value).padLeft(48f);
             }).height(64f).growX();
         });
 
         parent.fill(cont -> {
             cont.left();
 
-            cont.table(Drawables.sideline, table -> {
-                table.touchable = Touchable.enabled;
-
-                table.top();
-                for (var type : EditTool.values()) type.button(table);
+            cont.table(Drawables.sideline, sideline -> {
+                sideline.top();
+                for (var type : EditTool.values()) type.button(sideline);
             }).width(68f).growY().padTop(60f);
         });
 
         parent.fill(cont -> {
             cont.right();
 
-            cont.table(Drawables.sideline_left, table -> {
-                table.touchable = Touchable.enabled;
+            cont.table(Drawables.sideline_left, sideline -> {
+                sideline.top();
+                sideline.button("@layer.new", editor::newLayer)
+                        .disabled(button -> !editor.renderer.canAdd())
+                        .tooltip(bundle.format("layer.new.tooltip", maxLayers))
+                        .width(128f).padTop(8f).padBottom(8f).row();
 
-                table.top().marginLeft(8f);
-                table.defaults().size(128f).padBottom(4f);
-
-                pane = table.pane(layers -> rebuildLayers = () -> {
-                    layers.clear();
-
-                    editor.renderer.layers.map(LayerButton::new).each(button -> layers.add(button).row());
-
-                    layers.button(Icons.plus, 32f, editor::newLayer).size(32f).tooltip("@layer.new");
-                }).expand().get();
+                pane = new FocusScrollPane(table = new Table());
+                pane.setScrollingDisabledX(true);
 
                 pane.setOverscroll(true, true);
                 pane.setFadeScrollBars(true);
 
-                rebuildLayers();
-            }).growY().padTop(60f);
+                sideline.add(pane).height(528f);
+
+                updateLayers();
+            }).width(196f).growY().padTop(60f);
         });
     }
 
-    public void rebuildLayers() {
-        if (rebuildLayers != null) rebuildLayers.run();
-        if (sideLayerTable != null) sideLayerTable.hide();
+    public void updateLayers() {
+        if (table == null) return;
+
+        table.clear();
+        table.top();
+
+        editor.renderer.layers.each(layer -> table.add(new LayerButton(layer)).size(128f).pad(4f, 16f, 0f, 16f).row());
     }
 
     // region subclasses
@@ -118,16 +114,19 @@ public class HudFragment {
         public Layer layer;
 
         public LayerButton(Layer layer) {
-            super(layer.getRegion(), Styles.layerImageButtonStyle);
+            super(new TextureRegion(layer.getTexture()), Styles.layerImageButtonStyle);
             this.layer = layer;
 
-            resizeImage(118f);
+            resizeImage(120f);
 
-            clicked(() -> editor.renderer.current = layer);
-            hovered(() -> ui.hudFragment.sideLayerTable.show(layer, y + height / 2f));
+            clicked(() -> {
+                editor.renderer.current = layer;
+                ui.hudFragment.pane.scrollToY(this.y - 264f);
+            });
+
             update(() -> {
                 setChecked(editor.renderer.current == layer);
-                getImage().setDrawable(layer.getRegion());
+                getImage().setDrawable(new TextureRegion(layer.getTexture()));
             });
         }
     }

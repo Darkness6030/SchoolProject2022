@@ -35,10 +35,10 @@ public enum EditTool {
             if (scene.hasMouse()) return;
 
             for (var layer : editor.renderer.layers) {
-                if (layer.get(x, y) != 0) {
-                    ui.colorWheel.add(color.set(layer.get(x, y)));
-                    return;
-                }
+                //if (layer.get(x, y) != 0) {
+                //    ui.colorWheel.add(color.set(layer.get(x, y)));
+                //    return;
+                //}
             }
         }
     };
@@ -57,6 +57,6 @@ public enum EditTool {
         table.button(Icons.getDrawable(name()), Styles.checkImageButtonStyle, 64f, () -> editor.tool = this)
                 .checked(button -> editor.tool == this)
                 .tooltip("@" + name() + ".tooltip")
-                .size(64f).row();
+                .size(64f).padRight(4f).row();
     }
 }

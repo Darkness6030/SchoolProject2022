@@ -4,8 +4,11 @@
     "button-down": [13, 13, 13, 13],
     "button-over": [13, 13, 13, 13],
     "underline": [4, 4, 4, 4],
+    "underline-red": [4, 4, 4, 4],
     "sideline": [4, 4, 4, 4],
     "sideline-left": [4, 4, 4, 4],
     "slider-back": [4, 4, 4, 4],
+    "scroll-vertical": [13, 13, 7, 7],
+    "scroll-horizontal": [7, 7, 13, 13],
     "flat-down-base": [13, 13, 13, 13]
 }

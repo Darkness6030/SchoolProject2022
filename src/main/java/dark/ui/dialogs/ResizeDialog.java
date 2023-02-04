@@ -1,27 +1,46 @@
 package dark.ui.dialogs;
 
+import arc.scene.ui.TextField.TextFieldFilter;
+import arc.util.Strings;
 import dark.ui.Icons;
-import dark.ui.elements.TextFieldSlider;
 
-import static dark.Main.*;
+import static dark.Main.editor;
 
 public class ResizeDialog extends BaseDialog {
 
-    public int lastWidth = 800;
-    public int lastHeight = 600;
+    public static final int minSize = 64, maxSize = 4096;
+
+    public int width, height;
 
     public ResizeDialog() {
         super("@canvas.resize");
+        closeOnBack();
 
-        cont.add(new TextFieldSlider("", 100f, 1000f, 10f, lastWidth, value -> lastWidth = (int) value)).growX().row();
-        cont.add(new TextFieldSlider("", 100f, 1000f, 10f, lastHeight, value -> lastHeight = (int) value)).growX().row();
+        shown(() -> {
+            cont.clear();
 
-        addCloseButton();
+            width = editor.canvas.width;
+            height = editor.canvas.height;
+
+            cont.defaults().height(60f).padTop(8f);
+
+            cont.add("@canvas.width").padRight(8f);
+            cont.field(String.valueOf(width), TextFieldFilter.digitsOnly, value -> width = Strings.parseInt(value)).valid(value -> {
+                int number = Strings.parseInt(value);
+                return number >= minSize && number <= maxSize;
+            }).maxTextLength(3).row();
+
+            cont.add("@canvas.height").padRight(8f);
+            cont.field(String.valueOf(height), TextFieldFilter.digitsOnly, value -> height = Strings.parseInt(value)).valid(value -> {
+                int number = Strings.parseInt(value);
+                return number >= minSize && number <= maxSize;
+            }).maxTextLength(3).row();
+        });
+
+        buttons.buttonRow("@close", Icons.cancel, this::hide);
         buttons.buttonRow("@ok", Icons.ok, () -> {
             hide();
-
-            editor.reset(lastWidth, lastHeight);
-            ui.hudFragment.rebuildLayers.run();
+            editor.reset(width, height);
         });
     }
 }

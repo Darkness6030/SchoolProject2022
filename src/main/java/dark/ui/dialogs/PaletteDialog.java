@@ -4,7 +4,6 @@ import arc.func.Floatc;
 import arc.graphics.Color;
 import arc.scene.ui.layout.Table;
 import dark.ui.Icons;
-import dark.ui.elements.TextFieldSlider;
 
 import static dark.Main.ui;
 
@@ -15,12 +14,13 @@ public class PaletteDialog extends BaseDialog {
 
     public PaletteDialog() {
         super("@color.pick");
+        closeOnBack();
 
         // TODO square gradient
         cont.image().size(256f).update(image -> image.setColor(tmp)).row();
         sliders = cont.table().get();
 
-        addCloseButton();
+        buttons.buttonRow("@close", Icons.cancel, this::hide);
         buttons.buttonRow("@ok", Icons.ok, () -> {
             hide();
 
@@ -41,6 +41,6 @@ public class PaletteDialog extends BaseDialog {
     }
 
     private void slider(String title, float def, Floatc setter) {
-        cont.add(new TextFieldSlider(title, 1f, 255f, 1f, def * 255f, value -> setter.get(value / 255f))).growX().row();
+        //cont.add(new TextFieldSlider(title, 1f, 255f, 1f, def * 255f, value -> setter.get(value / 255f))).growX().row();
     }
 }

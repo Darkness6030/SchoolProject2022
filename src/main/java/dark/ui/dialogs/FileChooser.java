@@ -9,6 +9,7 @@ import arc.struct.Seq;
 import arc.util.Align;
 import dark.ui.Icons;
 import dark.ui.Styles;
+import dark.ui.elements.FocusScrollPane;
 
 import java.util.Comparator;
 
@@ -19,16 +20,16 @@ public class FileChooser extends BaseDialog {
 
     public Fi directory = files.absolute(settings.getString("lastDirectory", homeDirectory.absolutePath()));
     public Table table;
-    public ScrollPane pane;
+    public FocusScrollPane pane;
     public TextField field, navigation;
 
     public final FileHistory history = new FileHistory();
 
-    public final String extension;
     public final boolean open;
+    public final String extension;
     public final Cons<Fi> result;
 
-    public FileChooser(String title, String extension, boolean open, Cons<Fi> result) {
+    public FileChooser(String title, boolean open, String extension, Cons<Fi> result) {
         super(title);
         setFillParent(true);
 
@@ -49,10 +50,10 @@ public class FileChooser extends BaseDialog {
 
     public void setupWidgets() {
         table = new Table();
-        table.marginRight(10);
-        table.marginLeft(3);
+        table.marginRight(10f);
+        table.marginLeft(3f);
 
-        pane = new ScrollPane(table);
+        pane = new FocusScrollPane(table);
         pane.setOverscroll(false, false);
         pane.setFadeScrollBars(false);
 
@@ -87,7 +88,7 @@ public class FileChooser extends BaseDialog {
             hide();
 
             var fi = directory.child(field.getText());
-            result.get(fi.sibling(fi.nameWithoutExtension() + "." + extension));
+            result.get(open ? fi : fi.sibling(fi.nameWithoutExtension() + "." + extension));
         }).disabled(button -> open ? !directory.child(field.getText()).exists() || directory.child(field.getText()).isDirectory() : field.getText().trim().isEmpty());
 
         var content = new Table();

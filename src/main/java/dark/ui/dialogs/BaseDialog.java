@@ -1,13 +1,10 @@
 package dark.ui.dialogs;
 
-import arc.scene.style.Drawable;
 import arc.scene.ui.Dialog;
-import arc.scene.ui.TextButton;
-import arc.scene.ui.layout.Cell;
 import arc.util.Align;
 import dark.ui.*;
 
-import static arc.Core.*;
+import static arc.Core.scene;
 
 public class BaseDialog extends Dialog {
 
@@ -23,11 +20,5 @@ public class BaseDialog extends Dialog {
 
     public BaseDialog(String title) {
         this(title, scene.getStyle(DialogStyle.class));
-    }
-
-    @Override
-    public void addCloseButton() {
-        buttons.buttonRow("@back", Icons.back, this::hide);
-        closeOnBack();
     }
 }

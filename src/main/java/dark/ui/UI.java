@@ -61,8 +61,8 @@ public class UI implements ApplicationListener {
         scene.resize(width, height);
     }
 
-    public void showFileChooser(boolean open, String title, String extension, Cons<Fi> cons) {
-        new FileChooser(title, extension, open, cons).show();
+    public void showFileChooser(String title, boolean open, String extension, Cons<Fi> cons) {
+        new FileChooser(title, open, extension, cons).show();
     }
 
     public void showInfoToast(Drawable icon, String text) {

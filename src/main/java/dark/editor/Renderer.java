@@ -1,10 +1,10 @@
 package dark.editor;
 
-import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.struct.Seq;
+import arc.util.ScreenUtils;
 import dark.ui.Palette;
 
 import static dark.Main.ui;
@@ -12,9 +12,10 @@ import static dark.Main.ui;
 public class Renderer {
 
     public static final float border = 4f; // Толщина границы холста
+    public static final int maxLayers = 32; // Максимальное количество слоёв
 
     public final Seq<Layer> layers = new Seq<>();
-    public Layer current, background;
+    public Layer current;
 
     public void draw(float x, float y, float width, float height) {
         Lines.stroke(border, Palette.main); // Рисуем границу холста
@@ -22,7 +23,6 @@ public class Renderer {
 
         Draw.reset();
 
-        background.draw(x, y, width, height); // Рисуем фон
         layers.each(layer -> layer.draw(x, y, width, height)); // Рисуем слои
 
         Draw.flush();
@@ -38,19 +38,26 @@ public class Renderer {
 
         layers.add(current = layer);
 
-        background = new Layer(layer.width, layer.height);
-        background.fill(Color.lightGray);
-
-        ui.hudFragment.rebuildLayers();
+        ui.hudFragment.updateLayers();
     }
 
-    public void draw(Pixmap pixmap) {
-        layers.each(layer -> pixmap.draw(layer, true));
+    public Pixmap save() {
+        layers.each(Layer::begin);
+        var pixmap = ScreenUtils.getFrameBufferPixmap(0, 0, current.getWidth(), current.getHeight());
+        layers.each(Layer::end);
+
+        return pixmap;
     }
 
     public void addLayer(Layer layer) {
+        if (!canAdd()) return;
+
         layers.add(current = layer);
-        ui.hudFragment.rebuildLayers();
+        ui.hudFragment.updateLayers();
+    }
+
+    public boolean canAdd() {
+        return layers.size < maxLayers;
     }
 
     public void removeLayer(Layer layer) {
@@ -63,7 +70,7 @@ public class Renderer {
 
         // Был удален текущий слой, перемещаемся на один слой назад
         if (current == layer) current = layers.get(Math.max(index - 1, 0));
-        ui.hudFragment.rebuildLayers();
+        ui.hudFragment.updateLayers();
     }
 
     public boolean canRemove() {
@@ -76,7 +83,7 @@ public class Renderer {
         int index = layers.indexOf(layer);
         layers.swap(index, index + direction);
 
-        ui.hudFragment.rebuildLayers();
+        ui.hudFragment.updateLayers();
     }
 
     public boolean canMove(Layer layer, int direction) {

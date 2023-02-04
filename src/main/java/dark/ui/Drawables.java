@@ -21,6 +21,7 @@ public class Drawables {
             sideline, sideline_left, sideline_side,
             check_on, check_off, check_over, check_on_over, check_disabled, check_on_disabled,
             slider_back, slider_knob, slider_knob_over, slider_knob_down,
+            scroll_vertical, scroll_horizontal, scroll_knob_vertical_black, scroll_knob_horizontal_black,
             alpha_chan, alpha_chan_dizzy,
             cursor, selection;
 
@@ -60,6 +61,11 @@ public class Drawables {
         slider_knob = load("slider-knob");
         slider_knob_over = load("slider-knob-over");
         slider_knob_down = load("slider-knob-down");
+
+        scroll_vertical = load("scroll-vertical");
+        scroll_horizontal = load("scroll-horizontal");
+        scroll_knob_vertical_black = load("scroll-knob-vertical-black");
+        scroll_knob_horizontal_black = load("scroll-knob-horizontal-black");
 
         alpha_chan = load("alpha-chan");
         alpha_chan_dizzy = load("alpha-chan-dizzy");

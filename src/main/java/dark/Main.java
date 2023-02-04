@@ -27,7 +27,6 @@ public class Main {
 
         new SdlApplication(new SpriteX(), new SdlConfig() {{
             title = "SpriteX";
-
             maximized = true;
 
             setWindowIcon(FileType.internal, "sprites/alpha-chan.png");

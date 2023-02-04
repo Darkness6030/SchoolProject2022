@@ -31,9 +31,9 @@ public class Editor implements ApplicationListener, GestureListener {
 
     @Override
     public void update() {
-        if (!scene.hasScroll()) {
+        if (!scene.hasDialog()) {
             canvas.move(Binding.move_x.axis() * canvas.zoom * -8f, Binding.move_y.axis() * canvas.zoom * -8f);
-            canvas.zoom(Binding.zoom.scroll() * canvas.zoom * .05f);
+            if (!scene.hasScroll()) canvas.zoom(Binding.zoom.scroll() * canvas.zoom * .05f);
 
             input();
         }
@@ -83,8 +83,6 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void draw(Color color) {
-        if (scene.hasScroll()) return;
-
         if (tool.draggable) Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(x, y, color));
         else tool.touched(canvas.canvasX(), canvas.canvasY(), color);
     }
@@ -99,17 +97,19 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void save(Fi file) {
-        var pixmap = new Pixmap(canvas.width, canvas.height);
-        renderer.draw(pixmap);
+        var pixmap = renderer.save();
         PixmapIO.writePng(file, pixmap);
 
         ui.showInfoToast(Icons.save, bundle.format("saved", file.name()));
     }
 
     public void load(Fi file) {
-        var layer = new Layer(file);
-        renderer.reset(layer);
-        canvas.reset(layer.width, layer.height);
+        var pixmap = new Pixmap(file);
+
+        renderer.reset(pixmap.width, pixmap.height);
+        canvas.reset(pixmap.width, pixmap.height);
+
+        renderer.current.drawPixmap(pixmap);
 
         ui.showInfoToast(Icons.load, bundle.format("loaded", file.name()));
     }

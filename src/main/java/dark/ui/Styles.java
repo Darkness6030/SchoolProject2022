@@ -127,7 +127,13 @@ public class Styles {
             invalidBackground = Drawables.underline_red;
         }});
 
-        scene.addStyle(ScrollPaneStyle.class, scrollPaneStyle = new ScrollPaneStyle());
+        scene.addStyle(ScrollPaneStyle.class, scrollPaneStyle = new ScrollPaneStyle() {{
+            vScroll = Drawables.scroll_vertical;
+            vScrollKnob = Drawables.scroll_knob_vertical_black;
+
+            hScroll = Drawables.scroll_horizontal;
+            hScrollKnob = Drawables.scroll_knob_horizontal_black;
+        }});
 
         scene.addStyle(DialogStyle.class, dialogStyle = new DialogStyle() {{
             titleFont = Fonts.def;
