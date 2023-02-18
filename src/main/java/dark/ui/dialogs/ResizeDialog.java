@@ -13,31 +13,30 @@ public class ResizeDialog extends BaseDialog {
     public int width, height;
 
     public ResizeDialog() {
-        super("@canvas.resize");
+        super("@resize");
         closeOnBack();
 
         shown(() -> {
-            cont.clear();
-
             width = editor.canvas.width;
             height = editor.canvas.height;
 
+            cont.clear();
             cont.defaults().height(60f).padTop(8f);
 
-            cont.add("@canvas.width").padRight(8f);
+            cont.add("@width").padRight(8f);
             cont.field(String.valueOf(width), TextFieldFilter.digitsOnly, value -> width = Strings.parseInt(value)).valid(value -> {
                 int number = Strings.parseInt(value);
                 return number >= minSize && number <= maxSize;
             }).maxTextLength(3).row();
 
-            cont.add("@canvas.height").padRight(8f);
+            cont.add("@height").padRight(8f);
             cont.field(String.valueOf(height), TextFieldFilter.digitsOnly, value -> height = Strings.parseInt(value)).valid(value -> {
                 int number = Strings.parseInt(value);
                 return number >= minSize && number <= maxSize;
             }).maxTextLength(3).row();
         });
 
-        buttons.buttonRow("@close", Icons.cancel, this::hide);
+        buttons.buttonRow("@back", Icons.left, this::hide);
         buttons.buttonRow("@ok", Icons.ok, () -> {
             hide();
             editor.reset(width, height);

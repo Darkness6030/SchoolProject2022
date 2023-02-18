@@ -64,7 +64,7 @@ public class Editor implements ApplicationListener, GestureListener {
         for (var tool : EditTool.values())
             if (tool.hotkey != null && tool.hotkey.tap()) this.tool = tool;
 
-        if (Binding.new_canvas.tap()) ui.canvasDialog.show();
+        if (Binding.new_canvas.tap()) ui.resize.show();
         if (Binding.new_layer.tap()) newLayer();
 
         if (Binding.wheel.tap() && temp == null) {

@@ -25,7 +25,7 @@ public class HudFragment {
 
             cont.table(Drawables.underline, underline -> {
                 underline.left();
-                underline.button(Drawables.alpha_chan, Styles.alphaStyle, 40f, () -> ui.menuDialog.show()).checked(button -> ui.menuDialog.isShown()).size(40f).padLeft(8f);
+                underline.button(Drawables.alpha_chan, Styles.alphaStyle, 40f, () -> ui.menu.show()).checked(button -> ui.menu.isShown()).size(40f).padLeft(8f);
 
                 underline.slider(1f, 100f, 1f, value -> editor.brushSize = (int) value).padLeft(48f);
 
@@ -105,7 +105,7 @@ public class HudFragment {
 
             setTranslation(x, y);
 
-            clicked(() -> ui.pickerDialog.show(color));
+            clicked(() -> ui.palette.show(color));
             update(() -> getImage().setColor(color));
         }
     }

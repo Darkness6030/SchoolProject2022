@@ -13,17 +13,16 @@ public class PaletteDialog extends BaseDialog {
     public Color tmp = Color.white.cpy(), color;
 
     public PaletteDialog() {
-        super("@color.pick");
+        super("@palette");
         closeOnBack();
 
         // TODO square gradient
         cont.image().size(256f).update(image -> image.setColor(tmp)).row();
         sliders = cont.table().get();
 
-        buttons.buttonRow("@close", Icons.cancel, this::hide);
+        buttons.buttonRow("@back", Icons.left, this::hide);
         buttons.buttonRow("@ok", Icons.ok, () -> {
             hide();
-
             ui.colorWheel.add(color.set(tmp));
         });
     }

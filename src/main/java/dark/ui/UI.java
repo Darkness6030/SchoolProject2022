@@ -24,11 +24,11 @@ public class UI implements ApplicationListener {
     public final HudFragment hudFragment = new HudFragment();
     public final ColorWheel colorWheel = new ColorWheel();
 
-    public MenuDialog menuDialog;
-    //public SettingsDialog settingsDialog; // TODO
+    public MenuDialog menu;
+    public SettingsDialog settings;
 
-    public PaletteDialog pickerDialog;
-    public ResizeDialog canvasDialog;
+    public PaletteDialog palette;
+    public ResizeDialog resize;
 
     public Table lastToast;
 
@@ -42,9 +42,11 @@ public class UI implements ApplicationListener {
         hudFragment.build(hud);
         colorWheel.build(hud);
 
-        menuDialog = new MenuDialog();
-        canvasDialog = new ResizeDialog();
-        pickerDialog = new PaletteDialog();
+        menu = new MenuDialog();
+        settings = new SettingsDialog();
+
+        palette = new PaletteDialog();
+        resize = new ResizeDialog();
     }
 
     @Override
@@ -53,7 +55,7 @@ public class UI implements ApplicationListener {
         scene.draw();
 
         if (input.keyDown(KeyCode.escape) && !scene.hasDialog())
-            menuDialog.show();
+            menu.show();
     }
 
     @Override
@@ -66,7 +68,7 @@ public class UI implements ApplicationListener {
     }
 
     public void showInfoToast(Drawable icon, String text) {
-        Sounds.message.play();
+        Sounds.play(Sounds.message);
 
         if (lastToast != null) lastToast.remove();
 

@@ -91,6 +91,7 @@ public class Styles {
 
         scene.addStyle(LabelStyle.class, labelStyle = new LabelStyle() {{
             font = Fonts.def;
+            fontColor = Color.white;
         }});
 
         scene.addStyle(CheckBoxStyle.class, checkBoxStyle = new CheckBoxStyle() {{
