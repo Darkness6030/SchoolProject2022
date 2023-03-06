@@ -14,8 +14,18 @@ import static dark.Main.reader;
 public class Drawables {
 
     public static JsonValue splits;
+    public static Drawable
+
+    white, white_rounded,
+
+    main, darkmain, active,
+
+    main_rounded, darkmain_rounded, active_rounded
+
+    ;
+
     public static Drawable circle, error, info_table, flat_down,
-            white, gray1, gray2, color_blob,
+            gray1, gray2, color_blob,
             button, button_disabled, button_down, button_over,
             underline, underline_red,
             sideline, sideline_left, sideline_side,
@@ -28,12 +38,24 @@ public class Drawables {
     public static void load() {
         splits = reader.parse(files.internal("sprites/splits.json"));
 
+        white = load("whiteui", false);
+        white_rounded = load("whiteui-rounded", true);
+
+        var trd = (TextureRegionDrawable) white;
+        main = trd.tint(Palette.main);
+        darkmain = trd.tint(Palette.darkmain);
+        active = trd.tint(Palette.active);
+
+        var npd = (NinePatchDrawable) white_rounded;
+        main_rounded = npd.tint(Palette.main);
+        darkmain_rounded = npd.tint(Palette.darkmain);
+        active_rounded = npd.tint(Palette.active);
+
         circle = load("circle", false);
         error = load("error");
         info_table = load("info-table");
         flat_down = createFlatDown();
 
-        white = load("whiteui", false);
         gray1 = ((TextureRegionDrawable) white).tint(Color.valueOf("454545"));
         gray2 = ((TextureRegionDrawable) white).tint(0f, 0f, 0f, .5f);
 
@@ -77,8 +99,14 @@ public class Drawables {
         atlas.setErrorRegion("error");
     }
 
-    public static Drawable load(String name) {
-        return load(name, true);
+    public static AtlasRegion loadRegion(String name, boolean linear) {
+        Texture texture = new Texture("sprites/" + name + ".png");
+        if (linear) texture.setFilter(TextureFilter.linear); // for better experience
+
+        var region = atlas.addRegion(name, texture, 0, 0, texture.width, texture.height);
+        if (splits.has(name)) region.splits = splits.get(name).asIntArray();
+
+        return region;
     }
 
     public static Drawable load(String name, boolean linear) {
@@ -86,14 +114,8 @@ public class Drawables {
         return atlas.drawable(name);
     }
 
-    public static AtlasRegion loadRegion(String name, boolean linear) {
-        var texture = new Texture("sprites/" + name + ".png");
-        if (linear) texture.setFilter(TextureFilter.linear); // for better experience
-
-        // add texture to atlas and get region to modify splits
-        var region = atlas.addRegion(name, texture, 0, 0, texture.width, texture.height);
-        if (splits.has(name)) region.splits = splits.get(name).asIntArray();
-        return region;
+    public static Drawable load(String name) {
+        return load(name, true);
     }
 
     public static Drawable createFlatDown() {

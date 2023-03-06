@@ -7,6 +7,7 @@ import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 import arc.math.geom.Bresenham2;
 import dark.ui.Icons;
+import dark.ui.Palette;
 
 import static arc.Core.*;
 import static dark.Main.ui;
@@ -44,7 +45,7 @@ public class Editor implements ApplicationListener, GestureListener {
         canvasX = canvas.canvasX();
         canvasY = canvas.canvasY();
 
-        graphics.clear(Color.sky);
+        graphics.clear(Palette.darkmain);
         renderer.draw(canvas.x, canvas.y, canvas.scaledWidth(), canvas.scaledHeight());
     }
 
