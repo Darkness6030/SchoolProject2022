@@ -36,10 +36,10 @@ public class Main {
 
                 setWindowIcon(FileType.internal, "sprites/alpha-chan.png");
             }});
-        } catch (Exception ex) { crashed(ex); }
+        } catch (Throwable ex) { crashed(ex); }
     }
 
-    public static void crashed(Exception ex) {
+    public static void crashed(Throwable ex) {
         SDL.SDL_ShowSimpleMessageBox(SDL.SDL_MESSAGEBOX_ERROR, "Oh no, critical error", Strings.getStackTrace(ex));
     }
 }
