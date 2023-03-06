@@ -15,6 +15,8 @@ import static arc.Core.scene;
 
 public class Styles {
 
+    public static ImageButtonStyle imageButton, imageButtonCheck, alpha;
+
     public static ButtonStyle buttonStyle;
     public static TextButtonStyle textButtonStyle, checkTextButtonStyle;
     public static ImageButtonStyle imageNoneStyle, imageButtonStyle, checkImageButtonStyle, layerImageButtonStyle, sideLayerImageButtonStyle, alphaStyle;
@@ -28,6 +30,29 @@ public class Styles {
     public static DialogStyle dialogStyle;
 
     public static void load() {
+        imageButton = new ImageButtonStyle() {{
+            up = Drawables.main_rounded;
+            over = Drawables.darkmain_rounded;
+            down = Drawables.active_rounded;
+        }};
+
+        imageButtonCheck = new ImageButtonStyle() {{
+            up = Drawables.main_rounded;
+            over = Drawables.darkmain_rounded;
+            down = Drawables.active_rounded;
+            checked = Drawables.active_rounded;
+        }};
+
+        alpha = new ImageButtonStyle() {{
+            up = Drawables.main_rounded;
+            over = Drawables.darkmain_rounded;
+            down = Drawables.active_rounded;
+
+            imageUp = Drawables.alpha_chan;
+            imageDown = Drawables.alpha_chan_dizzy;
+            imageChecked = Drawables.alpha_chan_dizzy;
+        }};
+
         scene.addStyle(ButtonStyle.class, buttonStyle = new ButtonStyle());
 
         scene.addStyle(TextButtonStyle.class, textButtonStyle = new TextButtonStyle() {{

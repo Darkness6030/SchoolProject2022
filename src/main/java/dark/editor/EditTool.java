@@ -34,12 +34,12 @@ public enum EditTool {
         public void touched(int x, int y, Color color) {
             if (scene.hasMouse()) return;
 
-            for (var layer : editor.renderer.layers) {
+            // for (var layer : editor.renderer.layers) {
                 //if (layer.get(x, y) != 0) {
                 //    ui.colorWheel.add(color.set(layer.get(x, y)));
                 //    return;
                 //}
-            }
+            // }
         }
     };
 
@@ -54,9 +54,9 @@ public enum EditTool {
     public abstract void touched(int x, int y, Color color);
 
     public void button(Table table) {
-        table.button(Icons.getDrawable(name()), Styles.checkImageButtonStyle, 64f, () -> editor.tool = this)
+        table.button(Icons.getDrawable(name()), Styles.imageButtonCheck, 48f, () -> editor.tool = this)
                 .checked(button -> editor.tool == this)
                 .tooltip("@" + name() + ".tooltip")
-                .size(64f).padRight(4f).row();
+                .size(48f).pad(8f, 8f, 0f, 8f).row();
     }
 }

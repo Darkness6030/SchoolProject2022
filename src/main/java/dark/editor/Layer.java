@@ -6,8 +6,11 @@ import arc.graphics.gl.FrameBuffer;
 
 public class Layer extends FrameBuffer {
 
+    public TextureRegion region;
+
     public Layer(int width, int height) {
         super(width, height);
+        region = new TextureRegion(getTexture());
     }
 
     public void draw(float x, float y, float width, float height) {
