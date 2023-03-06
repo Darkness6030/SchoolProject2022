@@ -30,7 +30,7 @@ public class UI implements ApplicationListener {
     public PaletteDialog palette;
     public ResizeDialog resize;
 
-    public Table lastToast;
+    public Table toast;
 
     public void load() {
         input.addProcessor(scene);
@@ -54,8 +54,7 @@ public class UI implements ApplicationListener {
         scene.act();
         scene.draw();
 
-        if (input.keyDown(KeyCode.escape) && !scene.hasDialog())
-            menu.show();
+        if (input.keyDown(KeyCode.escape) && !scene.hasDialog()) menu.show();
     }
 
     @Override
@@ -70,17 +69,20 @@ public class UI implements ApplicationListener {
     public void showInfoToast(Drawable icon, String text) {
         Sounds.play(Sounds.message);
 
-        if (lastToast != null) lastToast.remove();
+        if (toast != null) toast.remove();
 
         var table = new Table(Drawables.button);
         table.image(icon);
         table.add(text).wrap().size(280f, 32f).get().setAlignment(Align.center, Align.center);
         table.pack();
 
-        var container = lastToast = scene.table();
-        container.top().add(table);
+        toast = scene.table();
+        toast.top().add(table);
 
-        container.setTranslation(0, table.getPrefHeight());
-        container.actions(Actions.translateBy(0, -table.getPrefHeight(), 1f, Interp.fade), Actions.delay(2.5f), Actions.run(() -> container.actions(Actions.translateBy(0, table.getPrefHeight(), 1f, Interp.fade), Actions.remove())));
+        toast.setTranslation(0, table.getPrefHeight());
+        toast.actions(
+                Actions.translateBy(0, -table.getPrefHeight(), 1f, Interp.fade),
+                Actions.delay(2.5f),
+                Actions.run(() -> toast.actions(Actions.translateBy(0, table.getPrefHeight(), 1f, Interp.fade), Actions.remove())));
     }
 }

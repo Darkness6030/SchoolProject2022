@@ -38,7 +38,7 @@ public class SpriteX extends ApplicationCore {
         Fonts.load();
         Drawables.load();
         Styles.load();
-        
+
         Palette.load();
         Sounds.load();
         Icons.load();
