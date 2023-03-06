@@ -4,7 +4,6 @@ import arc.graphics.Color;
 import arc.math.geom.Point2;
 import arc.struct.IntQueue;
 
-import static arc.Core.scene;
 import static dark.Main.editor;
 
 public class Paint {

@@ -8,7 +8,6 @@ import arc.scene.ui.Label;
 import arc.scene.ui.Slider;
 import arc.scene.ui.layout.Table;
 import dark.ui.Icons;
-import dark.ui.Palette;
 
 import static arc.Core.*;
 

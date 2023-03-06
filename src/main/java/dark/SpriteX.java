@@ -1,20 +1,20 @@
 package dark;
 
 import arc.ApplicationCore;
-import arc.assets.AssetManager;
 import arc.graphics.g2d.SortedSpriteBatch;
 import arc.graphics.g2d.TextureAtlas;
 import arc.scene.Scene;
 import arc.scene.ui.Tooltip;
 import arc.scene.ui.Tooltip.Tooltips;
 import arc.util.I18NBundle;
+import arc.util.Log;
 import arc.util.Time;
 import dark.ui.*;
 
-import java.util.Locale;
-
 import static arc.Core.*;
 import static dark.Main.*;
+
+import java.util.Locale;
 
 public class SpriteX extends ApplicationCore {
 
@@ -24,10 +24,9 @@ public class SpriteX extends ApplicationCore {
 
         batch = new SortedSpriteBatch();
         scene = new Scene();
-        assets = new AssetManager();
         atlas = TextureAtlas.blankAtlas();
 
-        settings.defaults("locale", "en", "sfxvol", 100); // TODO
+        settings.defaults("locale", "en", "sfxvol", 100); // TODO Дарк, ну это для чего-то нужно, разберись
         settings.setAppName("SpriteX");
         settings.load();
 
@@ -37,14 +36,12 @@ public class SpriteX extends ApplicationCore {
         Tooltips.getInstance().textProvider = text -> new Tooltip(table -> table.background(Drawables.gray2).margin(4f).add(text));
 
         Fonts.load();
+        Drawables.load();
+        Styles.load();
+        
         Palette.load();
-
-        load(Drawables.class, Drawables::load);
-        load(Sounds.class, Sounds::load);
-        load(Styles.class, Styles::load);
-        load(Icons.class, Icons::load);
-
-        assets.finishLoading();
+        Sounds.load();
+        Icons.load();
 
         add(editor);
         add(ui);
@@ -52,17 +49,11 @@ public class SpriteX extends ApplicationCore {
         editor.load();
         ui.load();
 
-        info("Total time to load: @ms", Time.elapsed());
-        info("Initialized.");
-    }
-
-    public void load(Class<?> type, Runnable load) {
-        assets.loadRun(type.getSimpleName(), type, () -> {}, load);
+        Log.info("Total time to load: @ms", Time.elapsed());
     }
 
     @Override
-    public void dispose() {
-        super.dispose();
-        info("Disposed.");
+    public void resize(int width, int height) {
+        ui.resize(width, height);
     }
 }

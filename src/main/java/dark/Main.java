@@ -15,29 +15,31 @@ import java.time.format.DateTimeFormatter;
 
 public class Main {
 
+    public static final String[] tags = { "&lc&fb[D]&fr", "&lb&fb[I]&fr", "&ly&fb[W]&fr", "&lr&fb[E]", "" };
     public static final DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-    public static final JsonReader reader = new JsonReader();
 
     public static UI ui = new UI();
     public static Editor editor = new Editor();
 
+    public static final JsonReader reader = new JsonReader();
+
     public static void main(String[] args) {
-        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> showError(throwable));
-        Log.logger = (level, text) -> System.out.println(Log.format("&lk&fb[" + dateTime.format(LocalDateTime.now()) + "]&fr " + text));
+        Log.logger = (level, text) -> {
+            String result = Log.format("&lk&fb[" + dateTime.format(LocalDateTime.now()) + "]&fr " + tags[level.ordinal()] + " " + text + "&fr");
+            System.out.println(result);
+        };
 
-        new SdlApplication(new SpriteX(), new SdlConfig() {{
-            title = "SpriteX";
-            maximized = true;
+        try {
+            new SdlApplication(new SpriteX(), new SdlConfig() {{
+                title = "SpriteX";
+                maximized = true;
 
-            setWindowIcon(FileType.internal, "sprites/alpha-chan.png");
-        }});
+                setWindowIcon(FileType.internal, "sprites/alpha-chan.png");
+            }});
+        } catch (Exception ex) { crashed(ex); }
     }
 
-    public static void info(String text, Object... values) {
-        Log.infoTag("SpriteX", Strings.format(text, values));
-    }
-
-    public static void showError(Throwable throwable) {
-        SDL.SDL_ShowSimpleMessageBox(SDL.SDL_MESSAGEBOX_ERROR, "oh no", "An error has occured!\n" + Strings.getStackTrace(throwable));
+    public static void crashed(Exception ex) {
+        SDL.SDL_ShowSimpleMessageBox(SDL.SDL_MESSAGEBOX_ERROR, "Oh no, critical error", Strings.getStackTrace(ex));
     }
 }
