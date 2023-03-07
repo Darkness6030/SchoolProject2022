@@ -119,7 +119,7 @@ public class HudFragment {
     public static class SwapButton extends ImageButton {
 
         public SwapButton(Color first, Color second, float x, float y) {
-            super(Icons.swap, Styles.imageNoneStyle);
+            super(Icons.swap, Styles.emptyImageButton);
             setTranslation(x, y);
 
             clicked(() -> {
@@ -135,7 +135,7 @@ public class HudFragment {
     public static class ColorBlob extends ImageButton {
 
         public ColorBlob(Color color, float x, float y) {
-            super(Drawables.color_blob, Styles.imageNoneStyle);
+            super(Drawables.color_blob, Styles.emptyImageButton);
             setTranslation(x, y);
 
             clicked(() -> ui.palette.show(color));

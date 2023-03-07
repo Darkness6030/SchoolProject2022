@@ -140,7 +140,7 @@ public class FileChooser extends BaseDialog {
         table.clear();
         table.top().left();
 
-        table.button(".." + directory.toString(), Styles.checkTextButtonStyle, this::openParentDirectory).with(button -> {
+        table.button(".." + directory.toString(), Styles.textButtonCheck, this::openParentDirectory).with(button -> {
             button.image(Icons.up).padLeft(4f).padRight(4f);
             button.getLabel().setAlignment(Align.left);
             button.getCells().reverse();
@@ -149,7 +149,7 @@ public class FileChooser extends BaseDialog {
         table.row();
 
         getAvailableFiles().each(fi -> {
-            table.button(fi.name().replace("[", "[["), Styles.checkTextButtonStyle, () -> {
+            table.button(fi.name().replace("[", "[["), Styles.textButtonCheck, () -> {
                 if (fi.isDirectory()) openChildDirectory(fi.name());
                 else field.setText(fi.name());
             }).with(button -> {

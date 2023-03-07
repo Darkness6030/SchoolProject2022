@@ -16,15 +16,13 @@ import static arc.Core.scene;
 public class Styles {
 
     public static ButtonStyle button;
-    public static TextButtonStyle textButton;
-    public static ImageButtonStyle imageButton, imageButtonCheck, alpha, layer, visible;
+    public static TextButtonStyle textButton, textButtonCheck;
+    public static ImageButtonStyle imageButton, imageButtonCheck, emptyImageButton, alpha, layer, visible;
 
+    public static LabelStyle label;
     public static ScrollPaneStyle scroll;
 
-    public static TextButtonStyle checkTextButtonStyle;
-    public static ImageButtonStyle imageNoneStyle;
 
-    public static LabelStyle labelStyle;
     public static CheckBoxStyle checkBoxStyle;
     public static SliderStyle sliderStyle;
     public static TextFieldStyle fieldStyle;
@@ -45,6 +43,15 @@ public class Styles {
             fontColor = Color.white;
         }});
 
+        textButtonCheck = new TextButtonStyle() {{
+            font = Fonts.def;
+
+            up = Drawables.main_rounded;
+            over = Drawables.darkmain_rounded;
+            down = Drawables.active_rounded;
+            checked = Drawables.active_rounded;
+        }};
+
         scene.addStyle(ImageButtonStyle.class, imageButton = new ImageButtonStyle() {{
             up = Drawables.main_rounded;
             over = Drawables.darkmain_rounded;
@@ -61,6 +68,8 @@ public class Styles {
             down = Drawables.active_rounded;
             checked = Drawables.active_rounded;
         }};
+
+        emptyImageButton = new ImageButtonStyle();
 
         alpha = new ImageButtonStyle() {{
             over = Drawables.darkmain_rounded;
@@ -86,30 +95,16 @@ public class Styles {
             imageChecked = Icons.eyeClosed;
         }};
 
+        scene.addStyle(LabelStyle.class, label = new LabelStyle() {{
+            font = Fonts.def;
+        }});
+
         scene.addStyle(ScrollPaneStyle.class, scroll = new ScrollPaneStyle() {{
             vScrollKnob = Drawables.scroll_knob;
             hScrollKnob = Drawables.scroll_knob;
         }});
 
         // todo старые стили, переделать/удалить
-        checkTextButtonStyle = new TextButtonStyle() {{
-            font = Fonts.def;
-            fontColor = Color.white;
-            disabledFontColor = Color.gray;
-
-            up = Drawables.gray2;
-            down = Drawables.flat_down;
-            over = Drawables.gray1;
-            checked = Drawables.flat_down;
-            disabled = Drawables.gray2;
-        }};
-
-        imageNoneStyle = new ImageButtonStyle();
-
-        scene.addStyle(LabelStyle.class, labelStyle = new LabelStyle() {{
-            font = Fonts.def;
-        }});
-
         scene.addStyle(CheckBoxStyle.class, checkBoxStyle = new CheckBoxStyle() {{
             font = Fonts.def;
             fontColor = Color.white;

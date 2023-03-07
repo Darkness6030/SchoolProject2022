@@ -42,7 +42,7 @@ public class ColorWheel {
 
         colors.each(color -> stack.add(new Table(table -> {
             table.defaults().size(32f);
-            table.button(Drawables.color_blob, Styles.imageNoneStyle, 24f, () -> {
+            table.button(Drawables.color_blob, Styles.emptyImageButton, 24f, () -> {
                 hide();
                 callback.get(color);
             }).with(button -> {
