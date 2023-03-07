@@ -19,7 +19,7 @@ public class Styles {
     public static ImageButtonStyle imageButton, imageButtonCheck, alpha;
 
     public static TextButtonStyle textButtonStyle, checkTextButtonStyle;
-    public static ImageButtonStyle imageNoneStyle, imageButtonStyle, layerImageButtonStyle;
+    public static ImageButtonStyle imageNoneStyle, layerImageButtonStyle;
 
     public static LabelStyle labelStyle;
     public static CheckBoxStyle checkBoxStyle;
@@ -31,11 +31,15 @@ public class Styles {
     public static void load() {
         scene.addStyle(ButtonStyle.class, button = new ButtonStyle());
 
-        imageButton = new ImageButtonStyle() {{
+        scene.addStyle(ImageButtonStyle.class, imageButton = new ImageButtonStyle() {{
             up = Drawables.main_rounded;
             over = Drawables.darkmain_rounded;
             down = Drawables.active_rounded;
-        }};
+
+            disabled = Drawables.darkmain_rounded;
+            imageDisabledColor = Color.gray;
+            imageUpColor = Color.white;
+        }});
 
         imageButtonCheck = new ImageButtonStyle() {{
             up = Drawables.main_rounded;
@@ -79,13 +83,6 @@ public class Styles {
         }};
 
         imageNoneStyle = new ImageButtonStyle();
-
-        scene.addStyle(ImageButtonStyle.class, imageButtonStyle = new ImageButtonStyle() {{
-            up = Drawables.button;
-            down = Drawables.button_down;
-            over = Drawables.button_over;
-            disabled = Drawables.button_disabled;
-        }});
 
         layerImageButtonStyle = new ImageButtonStyle() {{
             up = Drawables.gray2;

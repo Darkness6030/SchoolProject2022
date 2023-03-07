@@ -66,8 +66,22 @@ public class HudFragment {
                 updateLayers();
 
                 pad.table(act -> {
-                    act.right();
-                    act.defaults().size(48f).pad(8f, 0f, 8f, 8f);
+                    // кнопки движения
+                    act.defaults().size(32f).pad(8f, 8f, 8f, 0f);
+
+                    act.button(Icons.up, () -> {})
+                            .disabled(b -> true)
+                            .tooltip("@layer.move.up");
+
+                    act.button(Icons.down, () -> {})
+                            .disabled(b -> true)
+                            .tooltip("@layer.move.down");
+
+                    // пустое пространство между кнопками
+                    act.add().fillX();
+
+                    // кнопки создания и удаления
+                    act.defaults().size(32f).pad(8f, 0f, 8f, 8f);
 
                     act.button(Icons.plus, editor::newLayer)
                             .disabled(b -> !editor.renderer.canAdd())
@@ -75,20 +89,20 @@ public class HudFragment {
 
                     act.button(Icons.copy, () -> {})
                             .disabled(b -> !editor.renderer.canAdd())
-                            .tooltip("layer.copy.tooltip");
+                            .tooltip("@layer.copy.tooltip");
 
                     act.button(Icons.trash, () -> {})
                             .disabled(b -> !editor.renderer.canRemove())
-                            .tooltip("layer.remove.tooltip");
-                }).height(64f).growX();
-            }).width(196f).growY().padTop(64f);
+                            .tooltip("@layer.remove.tooltip");
+                }).height(48f).growX();
+            }).width(256f).growY().padTop(64f);
         });
 
         parent.fill(cont -> { // corners
             cont.name = "Corners";
             cont.top();
 
-            cont.image(Drawables.corners).height(7f).growX().pad(64f, 64f, 0f, 196f);
+            cont.image(Drawables.corners).height(7f).growX().pad(64f, 64f, 0f, 256f);
         });
     }
 
