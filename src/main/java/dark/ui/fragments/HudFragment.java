@@ -154,7 +154,7 @@ public class HudFragment {
             getImageCell().size(64f).padLeft(8f);
             defaults().padLeft(8f);
 
-            field(layer.name, text -> layer.name = text).fillX();
+            field(layer.name, text -> layer.name = text).maxTextLength(12).fillX();
             button(Icons.eyeOpen, Styles.visible, () -> layer.visible = !layer.visible).checked(button -> !layer.visible).size(32f).padRight(8f).row();
 
             clicked(() -> {
