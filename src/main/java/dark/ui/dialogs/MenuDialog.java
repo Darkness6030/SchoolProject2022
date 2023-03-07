@@ -9,9 +9,8 @@ public class MenuDialog extends BaseDialog {
 
     public MenuDialog() {
         super("@menu");
-        closeOnBack();
 
-        buttons.buttonRow("@back", Icons.left, this::hide);
+        addCloseButton();
         buttons.buttonRow("@exit", Icons.exit, app::exit);
 
         buttons.row();

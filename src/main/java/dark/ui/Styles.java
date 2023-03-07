@@ -21,12 +21,12 @@ public class Styles {
 
     public static LabelStyle label;
     public static ScrollPaneStyle scroll;
+    public static DialogStyle dialog;
 
 
     public static CheckBoxStyle checkBoxStyle;
     public static SliderStyle sliderStyle;
     public static TextFieldStyle fieldStyle;
-    public static DialogStyle dialogStyle;
 
     public static void load() {
         scene.addStyle(ButtonStyle.class, button = new ButtonStyle());
@@ -104,6 +104,14 @@ public class Styles {
             hScrollKnob = Drawables.scroll_knob;
         }});
 
+        scene.addStyle(DialogStyle.class, dialog = new DialogStyle() {{
+            titleFont = Fonts.def;
+
+            titleFontColor = Palette.active;
+            background = Drawables.main_rounded;
+            stageBackground = Drawables.gray;
+        }});
+
         // todo старые стили, переделать/удалить
         scene.addStyle(CheckBoxStyle.class, checkBoxStyle = new CheckBoxStyle() {{
             font = Fonts.def;
@@ -137,12 +145,6 @@ public class Styles {
 
             background = Drawables.underline;
             invalidBackground = Drawables.underline_red;
-        }});
-
-        scene.addStyle(DialogStyle.class, dialogStyle = new DialogStyle() {{
-            titleFont = Fonts.def;
-            titleFontColor = Palette.accent;
-            stageBackground = Drawables.gray2;
         }});
     }
 }
