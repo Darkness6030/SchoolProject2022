@@ -16,10 +16,10 @@ import static arc.Core.scene;
 public class Styles {
 
     public static ButtonStyle button;
-    public static ImageButtonStyle imageButton, imageButtonCheck, alpha;
+    public static ImageButtonStyle imageButton, imageButtonCheck, alpha, layer, visible;
 
     public static TextButtonStyle textButtonStyle, checkTextButtonStyle;
-    public static ImageButtonStyle imageNoneStyle, layerImageButtonStyle;
+    public static ImageButtonStyle imageNoneStyle;
 
     public static LabelStyle labelStyle;
     public static CheckBoxStyle checkBoxStyle;
@@ -49,7 +49,6 @@ public class Styles {
         }};
 
         alpha = new ImageButtonStyle() {{
-            up = Drawables.main_rounded;
             over = Drawables.darkmain_rounded;
             down = Drawables.active_rounded;
 
@@ -58,6 +57,21 @@ public class Styles {
             imageChecked = Drawables.alpha_chan_dizzy;
         }};
 
+        layer = new ImageButtonStyle() {{
+            over = Drawables.darkmain;
+            down = Drawables.active;
+            checked = Drawables.active;
+        }};
+
+        visible = new ImageButtonStyle() {{
+            up = Drawables.main_rounded;
+            over = Drawables.darkmain_rounded;
+
+            imageUp = Icons.eyeOpen;
+            imageOver = Icons.eyeClosed;
+            imageDown = Icons.eyeClosed;
+            imageChecked = Icons.eyeClosed;
+        }};
 
         scene.addStyle(TextButtonStyle.class, textButtonStyle = new TextButtonStyle() {{
             font = Fonts.def;
@@ -83,13 +97,6 @@ public class Styles {
         }};
 
         imageNoneStyle = new ImageButtonStyle();
-
-        layerImageButtonStyle = new ImageButtonStyle() {{
-            up = Drawables.gray2;
-            down = Drawables.flat_down;
-            over = Drawables.gray1;
-            checked = Drawables.flat_down;
-        }};
 
         scene.addStyle(LabelStyle.class, labelStyle = new LabelStyle() {{
             font = Fonts.def;

@@ -28,7 +28,7 @@ public class Renderer {
 
         Draw.reset();
 
-        layers.each(layer -> layer.draw(x, y, width, height)); // Рисуем слои
+        layers.each(layer -> layer.visible, layer -> layer.draw(x, y, width, height)); // Рисуем слои
 
         Draw.flush();
     }

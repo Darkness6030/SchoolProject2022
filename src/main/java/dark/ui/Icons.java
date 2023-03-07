@@ -12,11 +12,19 @@ public class Icons {
 
     public static final ObjectMap<String, Drawable> drawables = new ObjectMap<>();
 
-    public static Drawable pencil, eraser, fill, line, pick,
-            ok, cancel, back, exit, home, swap,
-            save, load, folder, file,
-            up, down, right, left,
-            plus, copy, trash;
+    public static Drawable
+
+    pencil, eraser, fill, line, pick,
+
+    ok, cancel, back, exit, home, swap,
+
+    save, load, folder, file,
+
+    up, down, right, left,
+
+    plus, copy, trash, eyeOpen, eyeClosed
+
+    ;
 
     public static void load() {
         pencil = load("pencil", '\uE869');
@@ -45,6 +53,8 @@ public class Icons {
         plus = load('\uE813');
         copy = load('\uE874');
         trash = load('\uE86F');
+        eyeOpen = load('\uE88E');
+        eyeClosed = load('\uE88F');
     }
 
     public static Drawable getDrawable(String name) {

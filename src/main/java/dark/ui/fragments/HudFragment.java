@@ -62,7 +62,7 @@ public class HudFragment {
                 pane.setOverscroll(true, true);
                 pane.setFadeScrollBars(true);
 
-                pad.add(pane).growY().row();
+                pad.add(pane).grow().row();
                 updateLayers();
 
                 pad.table(act -> {
@@ -111,7 +111,7 @@ public class HudFragment {
 
         layers.clear(); // цикл нужен для проходки в обратном порядке, т.к. в конце массива расположены верхние слои
         for (int i = editor.renderer.layers.size - 1; i >= 0; i--)
-            layers.add(new LayerButton(editor.renderer.layers.get(i))).height(64f).growX().pad(8f, 16f, 0f, 16f).row();
+            layers.add(new LayerButton(editor.renderer.layers.get(i))).height(64f).growX().padTop(8f).row();
     }
 
     // region subclasses
@@ -148,10 +148,14 @@ public class HudFragment {
         public Layer layer;
 
         public LayerButton(Layer layer) {
-            super(layer.region, Styles.layerImageButtonStyle);
+            super(layer.region, Styles.layer);
             this.layer = layer;
 
-            resizeImage(64f);
+            getImageCell().size(64f).padLeft(8f);
+            defaults().padLeft(8f);
+
+            field(layer.name, text -> layer.name = text).fillX();
+            button(Icons.eyeOpen, Styles.visible, 12f, () -> layer.visible = !layer.visible).size(32f).padRight(8f).row();
 
             clicked(() -> {
                 editor.renderer.current = layer;
