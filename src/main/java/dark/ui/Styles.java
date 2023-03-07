@@ -15,21 +15,22 @@ import static arc.Core.scene;
 
 public class Styles {
 
+    public static ButtonStyle button;
     public static ImageButtonStyle imageButton, imageButtonCheck, alpha;
 
-    public static ButtonStyle buttonStyle;
     public static TextButtonStyle textButtonStyle, checkTextButtonStyle;
-    public static ImageButtonStyle imageNoneStyle, imageButtonStyle, checkImageButtonStyle, layerImageButtonStyle, sideLayerImageButtonStyle, alphaStyle;
+    public static ImageButtonStyle imageNoneStyle, imageButtonStyle, layerImageButtonStyle;
 
     public static LabelStyle labelStyle;
     public static CheckBoxStyle checkBoxStyle;
     public static SliderStyle sliderStyle;
     public static TextFieldStyle fieldStyle;
     public static ScrollPaneStyle scrollPaneStyle;
-
     public static DialogStyle dialogStyle;
 
     public static void load() {
+        scene.addStyle(ButtonStyle.class, button = new ButtonStyle());
+
         imageButton = new ImageButtonStyle() {{
             up = Drawables.main_rounded;
             over = Drawables.darkmain_rounded;
@@ -53,7 +54,6 @@ public class Styles {
             imageChecked = Drawables.alpha_chan_dizzy;
         }};
 
-        scene.addStyle(ButtonStyle.class, buttonStyle = new ButtonStyle());
 
         scene.addStyle(TextButtonStyle.class, textButtonStyle = new TextButtonStyle() {{
             font = Fonts.def;
@@ -87,13 +87,6 @@ public class Styles {
             disabled = Drawables.button_disabled;
         }});
 
-        checkImageButtonStyle = new ImageButtonStyle() {{
-            up = Drawables.gray2;
-            down = Drawables.flat_down;
-            over = Drawables.gray1;
-            checked = Drawables.flat_down;
-        }};
-
         layerImageButtonStyle = new ImageButtonStyle() {{
             up = Drawables.gray2;
             down = Drawables.flat_down;
@@ -101,22 +94,8 @@ public class Styles {
             checked = Drawables.flat_down;
         }};
 
-        sideLayerImageButtonStyle = new ImageButtonStyle() {{
-            down = Drawables.gray1;
-            up = Drawables.gray2;
-            over = Drawables.gray1;
-            disabled = Drawables.gray2;
-        }};
-
-        alphaStyle = new ImageButtonStyle() {{
-            imageUp = Drawables.alpha_chan;
-            imageDown = Drawables.alpha_chan_dizzy;
-            imageChecked = Drawables.alpha_chan_dizzy;
-        }};
-
         scene.addStyle(LabelStyle.class, labelStyle = new LabelStyle() {{
             font = Fonts.def;
-            fontColor = Color.white;
         }});
 
         scene.addStyle(CheckBoxStyle.class, checkBoxStyle = new CheckBoxStyle() {{

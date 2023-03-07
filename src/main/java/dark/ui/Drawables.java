@@ -1,6 +1,5 @@
 package dark.ui;
 
-import arc.graphics.Color;
 import arc.graphics.Texture;
 import arc.graphics.Texture.TextureFilter;
 import arc.graphics.g2d.NinePatch;
@@ -16,16 +15,18 @@ public class Drawables {
     public static JsonValue splits;
     public static Drawable
 
-    white, white_rounded, corners,
+    white, white_rounded, circle, corners,
 
     main, darkmain, active,
 
-    main_rounded, darkmain_rounded, active_rounded
+    main_rounded, darkmain_rounded, active_rounded,
+
+    gray1, gray2
 
     ;
 
-    public static Drawable circle, error, info_table, flat_down,
-            gray1, gray2, color_blob,
+    public static Drawable  error, info_table, flat_down,
+            color_blob,
             button, button_disabled, button_down, button_over,
             underline, underline_red,
             sideline, sideline_left, sideline_side,
@@ -40,6 +41,7 @@ public class Drawables {
 
         white = load("whiteui", false);
         white_rounded = load("whiteui-rounded", true);
+        circle = load("circle", false);
         corners = load("corners", true);
 
         var trd = (TextureRegionDrawable) white;
@@ -52,13 +54,12 @@ public class Drawables {
         darkmain_rounded = npd.tint(Palette.darkmain);
         active_rounded = npd.tint(Palette.active);
 
-        circle = load("circle", false);
+        gray1 = trd.tint(.27f, .27f, .27f, 1f);
+        gray2 = trd.tint(0f, 0f, 0f, .5f);
+
         error = load("error");
         info_table = load("info-table");
         flat_down = createFlatDown();
-
-        gray1 = ((TextureRegionDrawable) white).tint(Color.valueOf("454545"));
-        gray2 = ((TextureRegionDrawable) white).tint(0f, 0f, 0f, .5f);
 
         color_blob = load("color-blob");
 
