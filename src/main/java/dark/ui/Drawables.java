@@ -2,7 +2,6 @@ package dark.ui;
 
 import arc.graphics.Texture;
 import arc.graphics.Texture.TextureFilter;
-import arc.graphics.g2d.NinePatch;
 import arc.graphics.g2d.TextureAtlas.AtlasRegion;
 import arc.scene.style.*;
 import arc.util.serialization.JsonValue;
@@ -25,7 +24,7 @@ public class Drawables {
 
     ;
 
-    public static Drawable  error, flat_down,
+    public static Drawable  error,
             color_blob,
             button,  
             underline, underline_red,
@@ -57,7 +56,6 @@ public class Drawables {
         gray2 = trd.tint(0f, 0f, 0f, .5f);
 
         error = load("error");
-        flat_down = createFlatDown();
 
         color_blob = load("color-blob");
 
@@ -104,35 +102,5 @@ public class Drawables {
 
     public static Drawable load(String name) {
         return load(name, true);
-    }
-
-    public static Drawable createFlatDown() {
-        var region = loadRegion("flat-down-base", false);
-
-        var drawable = new ScaledNinePatchDrawable(new NinePatch(region, region.splits[0], region.splits[1], region.splits[2], region.splits[3])) {
-            public float getLeftWidth() {
-                return 0;
-            }
-
-            public float getRightWidth() {
-                return 0;
-            }
-
-            public float getTopHeight() {
-                return 0;
-            }
-
-            public float getBottomHeight() {
-                return 0;
-            }
-        };
-
-        drawable.setMinWidth(0);
-        drawable.setMinHeight(0);
-        drawable.setTopHeight(0);
-        drawable.setRightWidth(0);
-        drawable.setBottomHeight(0);
-        drawable.setLeftWidth(0);
-        return drawable;
     }
 }
