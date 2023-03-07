@@ -7,10 +7,28 @@ import arc.graphics.gl.FrameBuffer;
 public class Layer extends FrameBuffer {
 
     public TextureRegion region;
+    public String name;
+    public boolean visible = true;
+
+    public Layer(int width, int height, String name) {
+        super(width, height);
+
+        this.region = new TextureRegion(getTexture());
+        this.name = name;
+    }
 
     public Layer(int width, int height) {
-        super(width, height);
-        region = new TextureRegion(getTexture());
+        this(width, height, "New layer"); // TODO Дарк, добавь сюда бандлы
+    }
+
+    public Layer copy() {
+        Layer copy = new Layer(getWidth(), getHeight(), name);
+
+        copy.begin();
+        Draw.rect(region, 0f, 0f); // TODO Adi, протести
+        copy.end();
+
+        return copy;
     }
 
     public void draw(float x, float y, float width, float height) {
@@ -35,11 +53,11 @@ public class Layer extends FrameBuffer {
         end();
     }
 
-    // TODO
+    // TODO Дарк, ты серьёзно оставляешь пустые тудушники?
     public void drawPixmap(Pixmap pixmap) {
         begin();
 
-        //Draw.rect(new TextureRegion(new Texture(pixmap)), );
+        // Draw.rect(new TextureRegion(new Texture(pixmap)), );
 
         end();
     }

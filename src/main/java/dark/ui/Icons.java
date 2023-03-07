@@ -16,7 +16,7 @@ public class Icons {
             ok, cancel, back, exit, home, swap,
             save, load, folder, file,
             up, down, right, left,
-            plus;
+            plus, copy, trash;
 
     public static void load() {
         pencil = load("pencil", '\uE869');
@@ -43,6 +43,8 @@ public class Icons {
         left = load('\uE802');
 
         plus = load('\uE813');
+        copy = load('\uE874');
+        trash = load('\uE86F');
     }
 
     public static Drawable getDrawable(String name) {

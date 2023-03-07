@@ -56,24 +56,34 @@ public class HudFragment {
             cont.right();
 
             cont.table(Drawables.main, pad -> {
-                pad.top();
-                pad.button("@layer.new", editor::newLayer)
-                        .disabled(button -> !editor.renderer.canAdd())
-                        .tooltip(bundle.format("layer.new.tooltip", Renderer.maxLayers))
-                        .width(128f).padTop(8f).padBottom(8f).row();
-
                 pane = new FocusScrollPane(layers = new Table().top());
-                pane.setScrollingDisabledX(true);
 
+                pane.setScrollingDisabledX(true);
                 pane.setOverscroll(true, true);
                 pane.setFadeScrollBars(true);
 
-                pad.add(pane).height(528f);
-
+                pad.add(pane).growY().row();
                 updateLayers();
+
+                pad.table(act -> {
+                    act.right();
+                    act.defaults().size(48f).pad(8f, 0f, 8f, 8f);
+
+                    act.button(Icons.plus, editor::newLayer)
+                            .disabled(b -> !editor.renderer.canAdd())
+                            .tooltip(bundle.format("layer.new.tooltip", Renderer.maxLayers));
+
+                    act.button(Icons.copy, () -> {})
+                            .disabled(b -> !editor.renderer.canAdd())
+                            .tooltip("layer.copy.tooltip");
+
+                    act.button(Icons.trash, () -> {})
+                            .disabled(b -> !editor.renderer.canRemove())
+                            .tooltip("layer.remove.tooltip");
+                }).height(64f).growX();
             }).width(196f).growY().padTop(64f);
         });
-       
+
         parent.fill(cont -> { // corners
             cont.name = "Corners";
             cont.top();
@@ -83,10 +93,11 @@ public class HudFragment {
     }
 
     public void updateLayers() {
-        if (layers == null) return;
+        if (layers == null) return; // такое возможно?
 
-        layers.clear();
-        editor.renderer.layers.each(layer -> layers.add(new LayerButton(layer)).size(128f).pad(4f, 16f, 0f, 16f).row());
+        layers.clear(); // цикл нужен для проходки в обратном порядке, т.к. в конце массива расположены верхние слои
+        for (int i = editor.renderer.layers.size - 1; i >= 0; i--)
+            layers.add(new LayerButton(editor.renderer.layers.get(i))).height(64f).growX().pad(8f, 16f, 0f, 16f).row();
     }
 
     // region subclasses
@@ -126,7 +137,7 @@ public class HudFragment {
             super(layer.region, Styles.layerImageButtonStyle);
             this.layer = layer;
 
-            resizeImage(120f);
+            resizeImage(64f);
 
             clicked(() -> {
                 editor.renderer.current = layer;
