@@ -24,7 +24,7 @@ public class Layer extends Pixmap {
     }
 
     public Layer(int width, int height) {
-        this(width, height, bundle.get("layer.new")); // TODO Дарк, добавь сюда бандлы
+        this(width, height, bundle.get("layer.new"));
     }
 
     public Layer copy() {
@@ -33,7 +33,6 @@ public class Layer extends Pixmap {
         pixels.position(0);
         copy.pixels.position(0);
         copy.pixels.put(pixels);
-        copy.pixels.position(0);
 
         return copy;
     }

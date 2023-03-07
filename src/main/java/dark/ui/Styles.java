@@ -75,7 +75,7 @@ public class Styles {
 
         scene.addStyle(ScrollPaneStyle.class, scroll = new ScrollPaneStyle() {{
             vScrollKnob = Drawables.scroll_knob;
-            hScrollKnob = Drawables.scroll_knob; // TODO Adi, слайдер слишком широкий
+            hScrollKnob = Drawables.scroll_knob;
         }});
 
         scene.addStyle(TextButtonStyle.class, textButtonStyle = new TextButtonStyle() {{

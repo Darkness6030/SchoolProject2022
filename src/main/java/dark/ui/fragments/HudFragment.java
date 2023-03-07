@@ -155,7 +155,7 @@ public class HudFragment {
             defaults().padLeft(8f);
 
             field(layer.name, text -> layer.name = text).fillX();
-            button(Icons.eyeOpen, Styles.visible, 12f, () -> layer.visible = !layer.visible).checked(button -> !layer.visible).size(32f).padRight(8f).row();
+            button(Icons.eyeOpen, Styles.visible, () -> layer.visible = !layer.visible).checked(button -> !layer.visible).size(32f).padRight(8f).row();
 
             clicked(() -> {
                 editor.renderer.current = layer;
