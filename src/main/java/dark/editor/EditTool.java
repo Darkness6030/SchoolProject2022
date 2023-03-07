@@ -1,11 +1,12 @@
 package dark.editor;
 
-import arc.graphics.*;
+import arc.graphics.Color;
 import arc.scene.ui.layout.Table;
-import dark.ui.*;
+import dark.ui.Icons;
+import dark.ui.Styles;
 
-import static arc.Core.*;
-import static dark.Main.*;
+import static arc.Core.scene;
+import static dark.Main.editor;
 
 public enum EditTool {
     pencil(true, Binding.pencil) {
@@ -32,7 +33,7 @@ public enum EditTool {
         }
     },
 
-    line(false, null) {
+    line(false) {
         public void touched(Layer layer, int x, int y, Color color) {}
     },
 
@@ -51,6 +52,10 @@ public enum EditTool {
 
     public final boolean draggable;
     public final Binding hotkey;
+
+    EditTool(boolean draggable) {
+        this(draggable, Binding.unknown);
+    }
 
     EditTool(boolean draggable, Binding hotkey) {
         this.draggable = draggable;

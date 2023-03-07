@@ -39,7 +39,7 @@ public class Canvas {
         return (int) (height * zoom);
     }
 
-    public int  canvasX() {
+    public int canvasX() {
         return (int) ((scaledWidth() / 2f + input.mouseX() - x) / zoom);
     }
 

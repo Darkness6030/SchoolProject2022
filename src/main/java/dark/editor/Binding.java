@@ -7,6 +7,9 @@ import static arc.Core.*;
 
 public enum Binding {
 
+    unknown(KeyCode.unknown),
+    any(KeyCode.anyKey),
+
     pan(KeyCode.mouseMiddle),
     zoom(KeyCode.scroll),
 
@@ -23,15 +26,18 @@ public enum Binding {
     pencil(KeyCode.b),
     eraser(KeyCode.e),
     fill(KeyCode.f),
-    pick(KeyCode.p);
+    pick(KeyCode.p),
+
+    copy(KeyCode.c),
+    paste(KeyCode.v);
 
     private final Axis axis;
 
-    private Binding(KeyCode key) {
+    Binding(KeyCode key) {
         this.axis = new Axis(key);
     }
 
-    private Binding(KeyCode min, KeyCode max) {
+    Binding(KeyCode min, KeyCode max) {
         this.axis = new Axis(min, max);
     }
 

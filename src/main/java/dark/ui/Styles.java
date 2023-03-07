@@ -109,7 +109,7 @@ public class Styles {
 
             titleFontColor = Palette.active;
             background = Drawables.main_rounded;
-            stageBackground = Drawables.gray;
+            stageBackground = Drawables.darkmain;
         }});
 
         // todo старые стили, переделать/удалить

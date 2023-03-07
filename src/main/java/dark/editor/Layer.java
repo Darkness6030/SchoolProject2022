@@ -1,5 +1,6 @@
 package dark.editor;
 
+import arc.files.Fi;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
@@ -10,25 +11,23 @@ import static arc.Core.bundle;
 
 public class Layer extends Pixmap {
 
-    public TextureRegion region;
-    public String name;
+    public TextureRegion region = new TextureRegion(new Texture(this));
+    public String name = bundle.get("layer.new");
 
     public boolean visible = true;
     public boolean changed = true;
 
-    public Layer(int width, int height, String name) {
+    public Layer(int width, int height) {
         super(width, height);
-
-        this.region = new TextureRegion(new Texture(this));
-        this.name = name;
     }
 
-    public Layer(int width, int height) {
-        this(width, height, bundle.get("layer.new"));
+    public Layer(Fi file) {
+        super(file);
     }
 
     public Layer copy() {
-        Layer copy = new Layer(width, height, name);
+        var copy = new Layer(width, height);
+        copy.name = name;
 
         pixels.position(0);
         copy.pixels.position(0);
@@ -51,11 +50,6 @@ public class Layer extends Pixmap {
             runnable.run();
             changed = false;
         }
-    }
-
-    public void drawPixmap(Pixmap pixmap) {
-        change();
-        draw(pixmap);
     }
 
     public void drawSquare(int x, int y, int size, Color color) {

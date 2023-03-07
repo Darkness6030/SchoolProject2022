@@ -8,6 +8,7 @@ import arc.input.GestureDetector.GestureListener;
 import arc.math.geom.Bresenham2;
 import dark.ui.Icons;
 import dark.ui.Palette;
+import dark.utils.Clipboard;
 
 import static arc.Core.*;
 import static dark.Main.ui;
@@ -65,7 +66,7 @@ public class Editor implements ApplicationListener, GestureListener {
             draw(second);
 
         for (var tool : EditTool.values())
-            if (tool.hotkey != null && tool.hotkey.tap()) this.tool = tool;
+            if (tool.hotkey.tap()) this.tool = tool;
 
         if (Binding.new_canvas.tap()) ui.resize.show();
         if (Binding.new_layer.tap()) newLayer();
@@ -82,6 +83,22 @@ public class Editor implements ApplicationListener, GestureListener {
             temp = null;
 
             ui.colorWheel.hide();
+        }
+
+        if (input.ctrl() && Binding.copy.tap()) {
+            var pixmap = renderer.save();
+            Clipboard.setImage(pixmap);
+        }
+
+        if (input.ctrl() && Binding.paste.tap()) {
+            var pixmap = Clipboard.getImage();
+            if (pixmap != null) { // TODO вынести в отдельный метод
+                var layer = new Layer(pixmap.width, pixmap.height);
+                layer.draw(pixmap);
+
+                renderer.reset(layer);
+                canvas.reset(pixmap.width, pixmap.height);
+            }
         }
     }
 
@@ -107,12 +124,10 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void load(Fi file) {
-        var pixmap = new Pixmap(file);
+        var layer = new Layer(file);
 
-        renderer.reset(pixmap.width, pixmap.height);
-        canvas.reset(pixmap.width, pixmap.height);
-
-        renderer.current.drawPixmap(pixmap);
+        renderer.reset(layer);
+        canvas.reset(layer.width, layer.height);
 
         ui.showInfoToast(Icons.load, bundle.format("loaded", file.name()));
     }

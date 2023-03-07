@@ -35,9 +35,7 @@ public class Renderer {
 
     public void reset(Layer layer) {
         layers.each(Layer::dispose);
-        layers.clear();
-
-        layers.add(current = layer);
+        layers.clear().add(current = layer);
 
         ui.hudFragment.updateLayers();
     }

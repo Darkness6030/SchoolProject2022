@@ -18,7 +18,7 @@ repositories {
 }
 
 ext {
-    arcVersion = "v140.4"
+    arcVersion = "v142"
     jabelVersion = "0.4.2"
 }
 
@@ -29,8 +29,9 @@ dependencies {
 
     implementation "com.github.Anuken.Arc:natives-desktop:$arcVersion"
     implementation "com.github.Anuken.Arc:natives-freetype-desktop:$arcVersion"
-
     implementation "com.github.Anuken.Mindustry:core:$arcVersion"
+
+    implementation "com.github.fracpete:jclipboardhelper:0.1.2"
 
     compileOnly "com.github.bsideup.jabel:jabel-javac-plugin:$jabelVersion"
     annotationProcessor "com.github.bsideup.jabel:jabel-javac-plugin:$jabelVersion"
