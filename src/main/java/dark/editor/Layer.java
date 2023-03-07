@@ -2,63 +2,92 @@ package dark.editor;
 
 import arc.graphics.*;
 import arc.graphics.g2d.*;
-import arc.graphics.gl.FrameBuffer;
+import arc.math.Mathf;
+import arc.math.geom.Point2;
+import arc.struct.*;
 
-public class Layer extends FrameBuffer {
+import static arc.Core.bundle;
+
+public class Layer extends Pixmap {
 
     public TextureRegion region;
     public String name;
+
     public boolean visible = true;
+    public boolean changed = true;
 
     public Layer(int width, int height, String name) {
         super(width, height);
 
-        this.region = new TextureRegion(getTexture());
+        this.region = new TextureRegion(new Texture(this));
         this.name = name;
     }
 
     public Layer(int width, int height) {
-        this(width, height, "New layer"); // TODO Дарк, добавь сюда бандлы
+        this(width, height, bundle.get("layer.new")); // TODO Дарк, добавь сюда бандлы
     }
 
     public Layer copy() {
-        Layer copy = new Layer(getWidth(), getHeight(), name);
+        Layer copy = new Layer(width, height, name);
 
-        copy.begin();
-        Draw.rect(region, 0f, 0f); // TODO Adi, протести
-        copy.end();
+        pixels.position(0);
+        copy.pixels.position(0);
+        copy.pixels.put(pixels);
+        copy.pixels.position(0);
 
         return copy;
     }
 
     public void draw(float x, float y, float width, float height) {
-        Draw.rect(new TextureRegion(getTexture()), x, y, width, height);
+        if (changed) {
+            region.texture.load(region.texture.getTextureData());
+            changed = false;
+        }
+
+        Draw.rect(region, x, y, width, height);
     }
 
-    public void drawSquare(int x, int y, int brushSize, Color color) {
-        beginBind();
-
-        Draw.color(color);
-        Fill.square(x, y, brushSize);
-
-        end();
+    public void change() {
+        changed = true;
     }
 
-    public void drawCircle(int x, int y, int brushSize, Color color) {
-        beginBind();
-
-        Draw.color(color);
-        Fill.circle(x, y, brushSize);
-
-        end();
-    }
-
-    // TODO Дарк, ты серьёзно оставляешь пустые тудушники?
     public void drawPixmap(Pixmap pixmap) {
-        begin();
+        change();
+        draw(pixmap);
+    }
 
-        // Draw.rect(new TextureRegion(new Texture(pixmap)), );
+    public void drawSquare(int x, int y, int size, Color color) {
+        change();
+        fillRect(x - size / 2, y - size / 2, size, size, color.rgba());
+    }
 
-        end();
+    public void drawCircle(int x, int y, int size, Color color) {
+        change();
+        fillCircle(x, y, Mathf.floor(size / 2f), color.rgba());
+    }
+
+    public void fill(int x, int y, Color color) {
+        change();
+
+        int prevColor = get(x, y);
+        var hits = new Bits(width * height);
+
+        var queue = new IntQueue();
+        queue.addLast(Point2.pack(x, y));
+
+        while (!queue.isEmpty()) {
+            int pos = queue.removeFirst();
+            x = Point2.x(pos);
+            y = Point2.y(pos);
+
+            if (in(x, y) && get(x, y) == prevColor && !hits.getAndSet(x + y * width)) {
+                set(x, y, color);
+
+                queue.addLast(Point2.pack(x, y - 1));
+                queue.addLast(Point2.pack(x, y + 1));
+                queue.addLast(Point2.pack(x - 1, y));
+                queue.addLast(Point2.pack(x + 1, y));
+            }
+        }
     }
 }

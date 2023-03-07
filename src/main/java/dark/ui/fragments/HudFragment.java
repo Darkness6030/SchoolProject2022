@@ -4,7 +4,7 @@ import arc.graphics.Color;
 import arc.scene.ui.ImageButton;
 import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
-import arc.util.Tmp;
+import arc.util.*;
 import dark.editor.EditTool;
 import dark.editor.Layer;
 import dark.editor.Renderer;
@@ -109,7 +109,7 @@ public class HudFragment {
     public void updateLayers() {
         if (layers == null) return; // такое возможно?
 
-        layers.clear(); // цикл нужен для проходки в обратном порядке, т.к. в конце массива расположены верхние слои
+        layers.clear(); // Цикл нужен для проходки в обратном порядке, т.к. в конце массива расположены верхние слои
         for (int i = editor.renderer.layers.size - 1; i >= 0; i--)
             layers.add(new LayerButton(editor.renderer.layers.get(i))).height(64f).growX().padTop(8f).row();
     }
@@ -155,12 +155,13 @@ public class HudFragment {
             defaults().padLeft(8f);
 
             field(layer.name, text -> layer.name = text).fillX();
-            button(Icons.eyeOpen, Styles.visible, 12f, () -> layer.visible = !layer.visible).size(32f).padRight(8f).row();
+            button(Icons.eyeOpen, Styles.visible, 12f, () -> layer.visible = !layer.visible).checked(button -> !layer.visible).size(32f).padRight(8f).row();
 
             clicked(() -> {
                 editor.renderer.current = layer;
                 ui.hudFragment.pane.scrollToY(this.y - 264f);
             });
+
             update(() -> setChecked(editor.renderer.current == layer));
         }
     }

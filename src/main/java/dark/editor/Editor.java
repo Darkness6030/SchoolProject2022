@@ -86,8 +86,8 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void draw(Color color) {
-        if (tool.draggable) Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(x, y, color));
-        else tool.touched(canvas.canvasX(), canvas.canvasY(), color);
+        if (tool.draggable) Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(renderer.current, x, y, color));
+        else tool.touched(renderer.current, canvas.canvasX(), canvas.canvasY(), color);
     }
 
     public void reset(int width, int height) {

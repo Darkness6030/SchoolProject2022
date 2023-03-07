@@ -25,7 +25,7 @@ public class Main {
 
     public static void main(String[] args) {
         Log.logger = (level, text) -> {
-            String result = Log.format("&lk&fb[" + dateTime.format(LocalDateTime.now()) + "]&fr " + tags[level.ordinal()] + " " + text + "&fr");
+            var result = Log.format("&lk&fb[" + dateTime.format(LocalDateTime.now()) + "]&fr " + tags[level.ordinal()] + " " + text + "&fr");
             System.out.println(result);
         };
 
@@ -36,10 +36,12 @@ public class Main {
 
                 setWindowIcon(FileType.internal, "sprites/alpha-chan.png");
             }});
-        } catch (Throwable ex) { crashed(ex); }
+        } catch (Throwable t) {
+            crashed(t);
+        }
     }
 
-    public static void crashed(Throwable ex) {
-        SDL.SDL_ShowSimpleMessageBox(SDL.SDL_MESSAGEBOX_ERROR, "Oh no, critical error", Strings.getStackTrace(ex));
+    public static void crashed(Throwable t) {
+        SDL.SDL_ShowSimpleMessageBox(SDL.SDL_MESSAGEBOX_ERROR, "Oh no, critical error", Strings.getStackTrace(t));
     }
 }

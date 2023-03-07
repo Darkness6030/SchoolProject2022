@@ -69,7 +69,6 @@ public class Styles {
             over = Drawables.darkmain_rounded;
 
             imageUp = Icons.eyeOpen;
-            imageOver = Icons.eyeClosed;
             imageDown = Icons.eyeClosed;
             imageChecked = Icons.eyeClosed;
         }};
@@ -78,9 +77,6 @@ public class Styles {
             vScrollKnob = Drawables.scroll_knob;
             hScrollKnob = Drawables.scroll_knob; // TODO Adi, слайдер слишком широкий
         }});
-
-
-
 
         scene.addStyle(TextButtonStyle.class, textButtonStyle = new TextButtonStyle() {{
             font = Fonts.def;

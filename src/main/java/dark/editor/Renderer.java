@@ -1,12 +1,8 @@
 package dark.editor;
 
-import arc.graphics.Color;
-import arc.graphics.Pixmap;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
 import arc.struct.Seq;
-import arc.util.ScreenUtils;
 import dark.ui.Palette;
 
 import static dark.Main.ui;
@@ -47,9 +43,8 @@ public class Renderer {
     }
 
     public Pixmap save() {
-        layers.each(Layer::begin);
-        var pixmap = ScreenUtils.getFrameBufferPixmap(0, 0, current.getWidth(), current.getHeight());
-        layers.each(Layer::end);
+        var pixmap = new Pixmap(current.width, current.height);
+        layers.each(layer -> pixmap.draw(layer, true));
 
         return pixmap;
     }

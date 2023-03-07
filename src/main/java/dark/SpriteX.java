@@ -26,7 +26,7 @@ public class SpriteX extends ApplicationCore {
         scene = new Scene();
         atlas = TextureAtlas.blankAtlas();
 
-        settings.defaults("locale", "en", "sfxvol", 100); // TODO Дарк, ну это для чего-то нужно, разберись
+        settings.defaults("locale", "en", "sfxvol", 100); // TODO locale для локализации, sfxvol для громкости звука
         settings.setAppName("SpriteX");
         settings.load();
 
@@ -35,13 +35,12 @@ public class SpriteX extends ApplicationCore {
         Tooltips.getInstance().animations = true;
         Tooltips.getInstance().textProvider = text -> new Tooltip(table -> table.background(Drawables.gray2).margin(4f).add(text));
 
-        Fonts.load();
         Drawables.load();
-        Styles.load();
-
+        Fonts.load();
+        Icons.load();
         Palette.load();
         Sounds.load();
-        Icons.load();
+        Styles.load();
 
         add(editor);
         add(ui);

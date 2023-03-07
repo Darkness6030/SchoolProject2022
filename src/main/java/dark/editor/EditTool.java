@@ -9,29 +9,35 @@ import static dark.Main.*;
 
 public enum EditTool {
     pencil(true, Binding.pencil) {
-        public void touched(int x, int y, Color color) {
-            Paint.pencil(editor.renderer.current, x, y, editor.brushSize, color);
+        public void touched(Layer layer, int x, int y, Color color) {
+            if (editor.square)
+                layer.drawSquare(x, y, editor.brushSize, color);
+            else
+                layer.drawCircle(x, y, editor.brushSize, color);
         }
     },
 
     eraser(true, Binding.eraser) {
-        public void touched(int x, int y, Color color) {
-            Paint.pencil(editor.renderer.current, x, y, editor.brushSize, Color.clear);
+        public void touched(Layer layer, int x, int y, Color color) {
+            if (editor.square)
+                layer.drawSquare(x, y, editor.brushSize, Color.clear);
+            else
+                layer.drawCircle(x, y, editor.brushSize, Color.clear);
         }
     },
 
     fill(false, Binding.fill) {
-        public void touched(int x, int y, Color color) {
-            Paint.fill(editor.renderer.current, x, y, color);
+        public void touched(Layer layer, int x, int y, Color color) {
+            layer.fill(x, y, color);
         }
     },
 
     line(false, null) {
-        public void touched(int x, int y, Color color) {}
+        public void touched(Layer layer, int x, int y, Color color) {}
     },
 
     pick(false, Binding.pick) {
-        public void touched(int x, int y, Color color) {
+        public void touched(Layer layer, int x, int y, Color color) {
             if (scene.hasMouse()) return;
 
             // for (var layer : editor.renderer.layers) {
@@ -51,7 +57,7 @@ public enum EditTool {
         this.hotkey = hotkey;
     }
 
-    public abstract void touched(int x, int y, Color color);
+    public abstract void touched(Layer layer, int x, int y, Color color);
 
     public void button(Table table) {
         table.button(Icons.getDrawable(name()), Styles.imageButtonCheck, 48f, () -> editor.tool = this)
