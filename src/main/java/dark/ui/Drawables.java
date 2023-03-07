@@ -20,11 +20,11 @@ public class Drawables {
 
     main_rounded, darkmain_rounded, active_rounded,
 
-    gray1, gray2
+    gray, error
 
     ;
 
-    public static Drawable  error,
+    public static Drawable
             color_blob,
             button,  
             underline, underline_red,
@@ -52,9 +52,7 @@ public class Drawables {
         darkmain_rounded = npd.tint(Palette.darkmain);
         active_rounded = npd.tint(Palette.active);
 
-        gray1 = trd.tint(.27f, .27f, .27f, 1f);
-        gray2 = trd.tint(0f, 0f, 0f, .5f);
-
+        gray = trd.tint(0f, 0f, 0f, .5f);
         error = load("error");
 
         color_blob = load("color-blob");

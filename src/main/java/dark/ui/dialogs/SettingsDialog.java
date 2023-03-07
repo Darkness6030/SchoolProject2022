@@ -7,7 +7,6 @@ import arc.scene.event.Touchable;
 import arc.scene.ui.Label;
 import arc.scene.ui.Slider;
 import arc.scene.ui.layout.Table;
-import dark.ui.Icons;
 
 import static arc.Core.*;
 
@@ -15,19 +14,14 @@ public class SettingsDialog extends BaseDialog {
 
     public SettingsDialog() {
         super("@settings");
-        setFillParent(true);
-        closeOnBack();
-
-        buttons.buttonRow("@back", Icons.left, this::hide);
-        buttons.buttonRow("@back", Icons.left, this::hide);
-
-        cont.top();
+        addCloseButton();
 
         var volume = new SliderSetting("sfxvol", 1, 100, 1, 100, value -> value + "%");
         volume.build(cont);
     }
 
     public abstract static class Setting {
+
         public final String name, title, description;
 
         public Setting(String name) {
@@ -40,6 +34,7 @@ public class SettingsDialog extends BaseDialog {
     }
 
     public static class SliderSetting extends Setting {
+
         public final int min, max, step, def;
         public final Func<Integer, String> func;
         public final Cons<Integer> cons;
