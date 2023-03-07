@@ -18,6 +18,8 @@ public class Styles {
     public static ButtonStyle button;
     public static ImageButtonStyle imageButton, imageButtonCheck, alpha, layer, visible;
 
+    public static ScrollPaneStyle scroll;
+
     public static TextButtonStyle textButtonStyle, checkTextButtonStyle;
     public static ImageButtonStyle imageNoneStyle;
 
@@ -25,7 +27,6 @@ public class Styles {
     public static CheckBoxStyle checkBoxStyle;
     public static SliderStyle sliderStyle;
     public static TextFieldStyle fieldStyle;
-    public static ScrollPaneStyle scrollPaneStyle;
     public static DialogStyle dialogStyle;
 
     public static void load() {
@@ -72,6 +73,14 @@ public class Styles {
             imageDown = Icons.eyeClosed;
             imageChecked = Icons.eyeClosed;
         }};
+
+        scene.addStyle(ScrollPaneStyle.class, scroll = new ScrollPaneStyle() {{
+            vScrollKnob = Drawables.scroll_knob;
+            hScrollKnob = Drawables.scroll_knob; // TODO Adi, слайдер слишком широкий
+        }});
+
+
+
 
         scene.addStyle(TextButtonStyle.class, textButtonStyle = new TextButtonStyle() {{
             font = Fonts.def;
@@ -134,14 +143,6 @@ public class Styles {
 
             background = Drawables.underline;
             invalidBackground = Drawables.underline_red;
-        }});
-
-        scene.addStyle(ScrollPaneStyle.class, scrollPaneStyle = new ScrollPaneStyle() {{
-            vScroll = Drawables.scroll_vertical;
-            vScrollKnob = Drawables.scroll_knob_vertical_black;
-
-            hScroll = Drawables.scroll_horizontal;
-            hScrollKnob = Drawables.scroll_knob_horizontal_black;
         }});
 
         scene.addStyle(DialogStyle.class, dialogStyle = new DialogStyle() {{

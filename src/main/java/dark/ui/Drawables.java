@@ -15,7 +15,7 @@ public class Drawables {
     public static JsonValue splits;
     public static Drawable
 
-    white, white_rounded, circle, corners,
+    white, white_rounded, circle, corners, scroll_knob,
 
     main, darkmain, active,
 
@@ -43,6 +43,7 @@ public class Drawables {
         white_rounded = load("whiteui-rounded", true);
         circle = load("circle", false);
         corners = load("corners", true);
+        scroll_knob = load("scroll-knob", true);
 
         var trd = (TextureRegionDrawable) white;
         main = trd.tint(Palette.main);
