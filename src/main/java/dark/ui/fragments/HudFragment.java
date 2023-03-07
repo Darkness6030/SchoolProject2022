@@ -16,7 +16,7 @@ import dark.ui.elements.FocusScrollPane;
 import static arc.Core.*;
 import static dark.Main.*;
 
-public class HudFragment { // TODO Adi, добавь скругления к центральной части, чтобы красиво было
+public class HudFragment {
 
     public Table layers;
     public FocusScrollPane pane;
@@ -72,6 +72,13 @@ public class HudFragment { // TODO Adi, добавь скругления к ц�
 
                 updateLayers();
             }).width(196f).growY().padTop(64f);
+        });
+       
+        parent.fill(cont -> { // corners
+            cont.name = "Corners";
+            cont.top();
+
+            cont.image(Drawables.corners).height(7f).growX().pad(64f, 64f, 0f, 196f);
         });
     }
 
