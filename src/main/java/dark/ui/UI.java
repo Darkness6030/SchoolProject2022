@@ -8,12 +8,11 @@ import arc.math.Interp;
 import arc.scene.actions.Actions;
 import arc.scene.event.Touchable;
 import arc.scene.style.Drawable;
-import arc.scene.ui.layout.Table;
-import arc.scene.ui.layout.WidgetGroup;
+import arc.scene.ui.TextField;
+import arc.scene.ui.layout.*;
 import arc.util.Align;
 import dark.ui.dialogs.*;
-import dark.ui.fragments.ColorWheel;
-import dark.ui.fragments.HudFragment;
+import dark.ui.fragments.*;
 
 import static arc.Core.*;
 
@@ -54,7 +53,13 @@ public class UI implements ApplicationListener {
         scene.act();
         scene.draw();
 
-        if (input.keyDown(KeyCode.escape) && !scene.hasDialog()) menu.show();
+        if (input.keyTap(KeyCode.escape) && !scene.hasDialog() && !menu.isShown())
+            menu.show();
+
+        if ((input.keyTap(KeyCode.mouseLeft) || input.keyTap(KeyCode.mouseRight) || input.keyTap(KeyCode.mouseMiddle)) && scene.hasField()) {
+            if (!(scene.hit(input.mouseX(), input.mouseY(), true) instanceof TextField))
+                scene.setKeyboardFocus(null);
+        }
     }
 
     @Override

@@ -24,7 +24,7 @@ public class Layer extends Pixmap {
     }
 
     public Layer(int width, int height) {
-        this(width, height, bundle.get("layer.new")); // TODO Дарк, добавь сюда бандлы
+        this(width, height, bundle.get("layer.new"));
     }
 
     public Layer copy() {
@@ -39,16 +39,19 @@ public class Layer extends Pixmap {
     }
 
     public void draw(float x, float y, float width, float height) {
-        if (changed) {
-            region.texture.load(region.texture.getTextureData());
-            changed = false;
-        }
-
+        unchange(() -> region.texture.load(region.texture.getTextureData()));
         Draw.rect(region, x, y, width, height);
     }
 
     public void change() {
         changed = true;
+    }
+
+    public void unchange(Runnable runnable) {
+        if (changed) {
+            runnable.run();
+            changed = false;
+        }
     }
 
     public void drawPixmap(Pixmap pixmap) {
