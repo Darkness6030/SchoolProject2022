@@ -16,11 +16,12 @@ import static arc.Core.scene;
 public class Styles {
 
     public static ButtonStyle button;
+    public static TextButtonStyle textButton;
     public static ImageButtonStyle imageButton, imageButtonCheck, alpha, layer, visible;
 
     public static ScrollPaneStyle scroll;
 
-    public static TextButtonStyle textButtonStyle, checkTextButtonStyle;
+    public static TextButtonStyle checkTextButtonStyle;
     public static ImageButtonStyle imageNoneStyle;
 
     public static LabelStyle labelStyle;
@@ -31,6 +32,18 @@ public class Styles {
 
     public static void load() {
         scene.addStyle(ButtonStyle.class, button = new ButtonStyle());
+
+        scene.addStyle(TextButtonStyle.class, textButton = new TextButtonStyle() {{
+            font = Fonts.def;
+
+            up = Drawables.main_rounded;
+            over = Drawables.darkmain_rounded;
+            down = Drawables.active_rounded;
+
+            disabled = Drawables.darkmain_rounded;
+            disabledFontColor = Color.gray;
+            fontColor = Color.white;
+        }});
 
         scene.addStyle(ImageButtonStyle.class, imageButton = new ImageButtonStyle() {{
             up = Drawables.main_rounded;
@@ -78,17 +91,7 @@ public class Styles {
             hScrollKnob = Drawables.scroll_knob;
         }});
 
-        scene.addStyle(TextButtonStyle.class, textButtonStyle = new TextButtonStyle() {{
-            font = Fonts.def;
-            fontColor = Color.white;
-            disabledFontColor = Color.gray;
-
-            up = Drawables.button;
-            down = Drawables.button_down;
-            over = Drawables.button_over;
-            disabled = Drawables.button_disabled;
-        }});
-
+        // todo старые стили, переделать/удалить
         checkTextButtonStyle = new TextButtonStyle() {{
             font = Fonts.def;
             fontColor = Color.white;

@@ -25,14 +25,12 @@ public class Drawables {
 
     ;
 
-    public static Drawable  error, info_table, flat_down,
+    public static Drawable  error, flat_down,
             color_blob,
-            button, button_disabled, button_down, button_over,
+            button,  
             underline, underline_red,
-            sideline, sideline_left, sideline_side,
             check_on, check_off, check_over, check_on_over, check_disabled, check_on_disabled,
             slider_back, slider_knob, slider_knob_over, slider_knob_down,
-            scroll_vertical, scroll_horizontal, scroll_knob_vertical_black, scroll_knob_horizontal_black,
             alpha_chan, alpha_chan_dizzy,
             cursor, selection;
 
@@ -59,22 +57,14 @@ public class Drawables {
         gray2 = trd.tint(0f, 0f, 0f, .5f);
 
         error = load("error");
-        info_table = load("info-table");
         flat_down = createFlatDown();
 
         color_blob = load("color-blob");
 
         button = load("button");
-        button_disabled = load("button-disabled");
-        button_down = load("button-down");
-        button_over = load("button-over");
 
         underline = load("underline");
         underline_red = load("underline-red");
-
-        sideline = load("sideline");
-        sideline_left = load("sideline-left");
-        sideline_side = load("sideline-side");
 
         check_on = load("check-on");
         check_off = load("check-off");
@@ -87,11 +77,6 @@ public class Drawables {
         slider_knob = load("slider-knob");
         slider_knob_over = load("slider-knob-over");
         slider_knob_down = load("slider-knob-down");
-
-        scroll_vertical = load("scroll-vertical");
-        scroll_horizontal = load("scroll-horizontal");
-        scroll_knob_vertical_black = load("scroll-knob-vertical-black");
-        scroll_knob_horizontal_black = load("scroll-knob-horizontal-black");
 
         alpha_chan = load("alpha-chan");
         alpha_chan_dizzy = load("alpha-chan-dizzy");
