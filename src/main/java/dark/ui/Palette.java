@@ -15,9 +15,7 @@ public class Palette {
 
     accent = Color.valueOf("#ffd37f"),
 
-    unlaunched = Color.valueOf("#8982ed")
-
-    ;
+    unlaunched = Color.valueOf("#8982ed");
 
     public static void load() {
         Colors.put("main", main);

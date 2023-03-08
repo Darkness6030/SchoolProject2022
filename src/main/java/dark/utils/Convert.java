@@ -2,6 +2,7 @@ package dark.utils;
 
 import arc.graphics.Pixmap;
 import arc.graphics.PixmapIO.PngWriter;
+import arc.util.Log;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,6 +18,7 @@ public class Convert {
             ImageIO.write(image, "png", stream);
             return new Pixmap(stream.toByteArray());
         } catch (Exception e) {
+            Log.err(e);
             return null;
         }
     }
@@ -28,8 +30,12 @@ public class Convert {
         try {
             writer.setFlipY(false);
             writer.write(stream, pixmap);
-            return ImageIO.read(new ByteArrayInputStream(stream.toByteArray()));
+
+            var image = new BufferedImage(pixmap.width, pixmap.height, BufferedImage.TYPE_INT_RGB);
+            image.getGraphics().drawImage(ImageIO.read(new ByteArrayInputStream(stream.toByteArray())), 0, 0, null);
+            return image;
         } catch (Exception e) {
+            Log.err(e);
             return null;
         }
     }

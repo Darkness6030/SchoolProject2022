@@ -23,7 +23,6 @@ public class Styles {
     public static ScrollPaneStyle scroll;
     public static DialogStyle dialog;
 
-
     public static CheckBoxStyle checkBoxStyle;
     public static SliderStyle sliderStyle;
     public static TextFieldStyle fieldStyle;

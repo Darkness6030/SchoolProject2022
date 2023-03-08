@@ -6,6 +6,7 @@ import arc.graphics.*;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 import arc.math.geom.Bresenham2;
+import arc.util.Log;
 import dark.ui.Icons;
 import dark.ui.Palette;
 import dark.utils.Clipboard;
@@ -91,13 +92,17 @@ public class Editor implements ApplicationListener, GestureListener {
         }
 
         if (input.ctrl() && Binding.paste.tap()) {
-            var pixmap = Clipboard.getImage();
-            if (pixmap != null) { // TODO вынести в отдельный метод
-                var layer = new Layer(pixmap.width, pixmap.height);
-                layer.draw(pixmap);
+            try {
+                var pixmap = Clipboard.getImage();
+                if (pixmap != null) { // TODO вынести в отдельный метод
+                    var layer = new Layer(pixmap.width, pixmap.height);
+                    layer.draw(pixmap);
 
-                renderer.reset(layer);
-                canvas.reset(pixmap.width, pixmap.height);
+                    renderer.reset(layer);
+                    canvas.reset(pixmap.width, pixmap.height);
+                }
+            } catch (Exception e) {
+                Log.err(e);
             }
         }
     }

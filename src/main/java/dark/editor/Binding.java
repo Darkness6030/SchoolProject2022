@@ -54,7 +54,7 @@ public enum Binding {
     }
 
     public float axis() {
-        return input.keyDown(axis.min) && input.keyDown(axis.max) ? 0 : input.keyDown(axis.min) ? -1 : input.keyDown(axis.max) ? 1 : 0f;
+        return input.keyDown(axis.min) && input.keyDown(axis.max) ? 0f : input.keyDown(axis.min) ? -1f : input.keyDown(axis.max) ? 1f : 0f;
     }
 
     public float scroll() {

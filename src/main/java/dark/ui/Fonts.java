@@ -9,7 +9,7 @@ import static arc.Core.*;
 
 public class Fonts {
 
-    public static Font def, icon;
+    public static Font def;
 
     public static void load() {
         def = load("font.woff", new FreeTypeFontParameter() {{
@@ -18,15 +18,8 @@ public class Fonts {
             shadowOffsetY = 2;
             incremental = true;
         }});
-        def.getData().markupEnabled = true;
 
-        icon = load("font.woff", new FreeTypeFontParameter() {{
-            size = 18;
-            shadowColor = Color.darkGray;
-            shadowOffsetY = 2;
-            incremental = true;
-        }});
-        icon.getData().markupEnabled = true;
+        def.getData().markupEnabled = true;
     }
 
     public static Font load(String name, FreeTypeFontParameter parameter) {

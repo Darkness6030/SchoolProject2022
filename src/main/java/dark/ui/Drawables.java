@@ -3,30 +3,27 @@ package dark.ui;
 import arc.graphics.Texture;
 import arc.graphics.Texture.TextureFilter;
 import arc.graphics.g2d.TextureAtlas.AtlasRegion;
-import arc.scene.style.*;
+import arc.scene.style.Drawable;
+import arc.scene.style.NinePatchDrawable;
+import arc.scene.style.TextureRegionDrawable;
 import arc.util.serialization.JsonValue;
 
-import static arc.Core.*;
+import static arc.Core.atlas;
+import static arc.Core.files;
 import static dark.Main.reader;
 
 public class Drawables {
 
     public static JsonValue splits;
     public static Drawable
-
-    white, white_rounded, circle, corners, scroll_knob,
-
-    main, darkmain, active,
-
-    main_rounded, darkmain_rounded, active_rounded,
-
-    gray, error
-
-    ;
+            white, white_rounded, circle, corners, scroll_knob,
+            main, darkmain, active,
+            main_rounded, darkmain_rounded, active_rounded,
+            gray, error;
 
     public static Drawable
             color_blob,
-            button,  
+            button,
             underline, underline_red,
             check_on, check_off, check_over, check_on_over, check_disabled, check_on_disabled,
             slider_back, slider_knob, slider_knob_over, slider_knob_down,

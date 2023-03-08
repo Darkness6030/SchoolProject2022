@@ -22,9 +22,7 @@ public class Icons {
 
     up, down, right, left,
 
-    plus, copy, trash, eyeOpen, eyeClosed
-
-    ;
+    plus, copy, trash, eyeOpen, eyeClosed;
 
     public static void load() {
         pencil = load("pencil", '\uE869');
