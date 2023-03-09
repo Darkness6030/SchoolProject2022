@@ -19,13 +19,11 @@ public class Drawables {
             white, white_rounded, white_rounded_left, white_rounded_right,
             main, darkmain, active,
             main_rounded, darkmain_rounded, active_rounded,
-            circle, corners, scroll_knob,
-            gray, error;
+            corners, scroll_knob, underline, underline_red,
+            gray, circle, error;
 
     public static Drawable
-            color_blob,
-            button,
-            underline, underline_red,
+            color_blob, button,
             check_on, check_off, check_over, check_on_over, check_disabled, check_on_disabled,
             slider_back, slider_knob, slider_knob_over, slider_knob_down,
             alpha_chan, alpha_chan_dizzy,
@@ -35,9 +33,9 @@ public class Drawables {
         splits = reader.parse(files.internal("sprites/splits.json"));
 
         white = load("whiteui", false);
-        white_rounded = load("whiteui-rounded", true);
-        white_rounded_left = load("whiteui-rounded-left", true);
-        white_rounded_right = load("whiteui-rounded-right", true);
+        white_rounded = load("whiteui-rounded");
+        white_rounded_left = load("whiteui-rounded-left");
+        white_rounded_right = load("whiteui-rounded-right");
         
         var trd = (TextureRegionDrawable) white;
         main = trd.tint(Palette.main);
@@ -49,19 +47,17 @@ public class Drawables {
         darkmain_rounded = npd.tint(Palette.darkmain);
         active_rounded = npd.tint(Palette.active);
 
+        corners = load("corners");
+        scroll_knob = load("scroll-knob");
+        underline = load("underline");
+        underline_red = load("underline-red");
+        
         circle = load("circle", false);
-        corners = load("corners", true);
-        scroll_knob = load("scroll-knob", true);
-
         gray = trd.tint(0f, 0f, 0f, .5f);
         error = load("error");
 
         color_blob = load("color-blob");
-
         button = load("button");
-
-        underline = load("underline");
-        underline_red = load("underline-red");
 
         check_on = load("check-on");
         check_off = load("check-off");
