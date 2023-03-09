@@ -144,11 +144,11 @@ public class HudFragment {
             super(layer.region, Styles.layer);
             this.layer = layer;
 
-            getImageCell().size(64f).padLeft(8f);
+            getImageCell().size(64f);
             defaults().padLeft(8f);
 
-            field(layer.name, text -> layer.name = text).maxTextLength(12).fillX();
-            button(Icons.eyeOpen, Styles.visible, () -> layer.visible = !layer.visible).checked(button -> !layer.visible).size(32f).padRight(8f).row();
+            field(layer.name, text -> layer.name = text).maxTextLength(12).width(128f);
+            button(Icons.eyeOpen, Styles.visible, () -> layer.visible = !layer.visible).checked(button -> !layer.visible).size(32f).row();
 
             clicked(() -> {
                 editor.renderer.current = layer;
