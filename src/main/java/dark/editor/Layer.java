@@ -12,7 +12,7 @@ import static arc.Core.bundle;
 public class Layer extends Pixmap {
 
     public TextureRegion region = new TextureRegion(new Texture(this));
-    public String name = bundle.get("layer.new");
+    public String name = bundle.get("layer.default-name");
 
     public boolean visible = true;
     public boolean changed = true;

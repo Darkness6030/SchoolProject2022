@@ -84,15 +84,15 @@ public class HudFragment {
 
                     act.button(Icons.plus, editor::newLayer)
                             .disabled(b -> !editor.renderer.canAdd())
-                            .tooltip(bundle.format("layer.new.tooltip", Renderer.maxLayers));
+                            .tooltip(bundle.format("layer.new", Renderer.maxLayers));
 
                     act.button(Icons.copy, editor::copyLayer)
                             .disabled(b -> !editor.renderer.canAdd())
-                            .tooltip("@layer.copy.tooltip");
+                            .tooltip("@layer.copy");
 
                     act.button(Icons.trash, editor::removeLayer)
                             .disabled(b -> !editor.renderer.canRemove())
-                            .tooltip("@layer.remove.tooltip");
+                            .tooltip("@layer.remove");
                 }).height(48f).growX();
             }).width(256f).growY().padTop(64f);
         });
