@@ -94,13 +94,13 @@ public class Editor implements ApplicationListener, GestureListener {
         if (input.ctrl() && Binding.paste.tap()) {
             try {
                 var pixmap = Clipboard.getImage();
-                if (pixmap != null) { // TODO вынести в отдельный метод
-                    var layer = new Layer(pixmap.width, pixmap.height);
-                    layer.draw(pixmap);
+                if (pixmap == null) return;
 
-                    renderer.reset(layer);
-                    canvas.reset(pixmap.width, pixmap.height);
-                }
+                var layer = new Layer(pixmap.width, pixmap.height);
+                layer.draw(pixmap);
+
+                renderer.reset(layer);
+                canvas.reset(pixmap.width, pixmap.height);
             } catch (Exception e) {
                 Log.err(e);
             }

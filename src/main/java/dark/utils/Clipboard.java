@@ -1,6 +1,7 @@
 package dark.utils;
 
 import arc.graphics.Pixmap;
+import arc.util.Tmp;
 import com.github.bsideup.jabel.Desugar;
 
 import java.awt.*;
@@ -13,19 +14,19 @@ import java.io.IOException;
 public class Clipboard {
 
     public static Pixmap getImage() throws IOException, UnsupportedFlavorException {
-        var image = (BufferedImage) Toolkit.getDefaultToolkit()
-                .getSystemClipboard()
-                .getContents(null)
-                .getTransferData(DataFlavor.imageFlavor);
+        var contents = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+        if (contents == null || !contents.isDataFlavorSupported(DataFlavor.imageFlavor)) return null;
 
+        var image = (BufferedImage) contents.getTransferData(DataFlavor.imageFlavor);
         var pixmap = new Pixmap(image.getWidth(), image.getHeight());
-        pixmap.each((x, y) -> pixmap.set(x, y, image.getRGB(x, y)));
+
+        pixmap.each((x, y) -> pixmap.set(x, y, Tmp.c1.argb8888(image.getRGB(x, y)).rgba8888()));
         return pixmap;
     }
 
     public static void setImage(Pixmap pixmap) {
         var image = new BufferedImage(pixmap.width, pixmap.height, BufferedImage.TYPE_INT_RGB);
-        pixmap.each((x, y) -> image.setRGB(x, y, pixmap.get(x, y)));
+        pixmap.each((x, y) -> image.setRGB(x, y, Tmp.c1.rgba8888(pixmap.get(x, y)).argb8888()));
 
         Toolkit.getDefaultToolkit()
                 .getSystemClipboard()

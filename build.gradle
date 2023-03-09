@@ -31,8 +31,6 @@ dependencies {
     implementation "com.github.Anuken.Arc:natives-freetype-desktop:$arcVersion"
     implementation "com.github.Anuken.Mindustry:core:$arcVersion"
 
-    implementation "javax.activation:activation:1.1.1"
-
     compileOnly "com.github.bsideup.jabel:jabel-javac-plugin:$jabelVersion"
     annotationProcessor "com.github.bsideup.jabel:jabel-javac-plugin:$jabelVersion"
 }
