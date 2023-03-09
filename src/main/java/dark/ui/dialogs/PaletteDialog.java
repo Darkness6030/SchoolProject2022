@@ -50,17 +50,17 @@ public class PaletteDialog extends BaseDialog {
             ctrl.row();
 
             field(ctrl, "R:", 255, i -> color.r(i / 255f), () -> (int) (color.r * 255));
-            field(ctrl, "H:", 360, i -> {}, () -> Color.RGBtoHSV(color)[0]); // TODO hsv не работает
+            field(ctrl, "H:", 360, i -> setHSV(i, 0), () -> Color.RGBtoHSV(color)[0]);
 
             ctrl.row();
 
             field(ctrl, "G:", 255, i -> color.g(i / 255f), () -> (int) (color.g * 255));
-            field(ctrl, "S:", 100, i -> {}, () -> Color.RGBtoHSV(color)[1]);
+            field(ctrl, "S:", 100, i -> setHSV(i, 1), () -> Color.RGBtoHSV(color)[1]);
 
             ctrl.row();
 
             field(ctrl, "B:", 255, i -> color.b(i / 255f), () -> (int) (color.b * 255));
-            field(ctrl, "V:", 100, i -> {}, () -> Color.RGBtoHSV(color)[2]);
+            field(ctrl, "V:", 100, i -> setHSV(i, 2), () -> Color.RGBtoHSV(color)[2]);
 
             ctrl.row();
 
@@ -94,6 +94,12 @@ public class PaletteDialog extends BaseDialog {
             field.setValidator(text -> !text.isEmpty() && Integer.valueOf(text) <= maxValue);
             field.setMaxLength(3);
         });
+    }
+
+    public void setHSV(int value, int index) {
+        int[] hsv = Color.RGBtoHSV(color);
+        hsv[index] = value;
+        color = Color.HSVtoRGB(hsv[0], hsv[1], hsv[2]);
     }
 
     public void rebuild() {
