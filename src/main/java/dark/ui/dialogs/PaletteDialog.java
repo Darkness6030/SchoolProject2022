@@ -5,6 +5,7 @@ import arc.func.Prov;
 import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.graphics.Texture;
+import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
 import arc.scene.ui.Image;
 import arc.scene.ui.TextField;
@@ -83,7 +84,7 @@ public class PaletteDialog extends BaseDialog {
                 rebuild.add(() -> {
                     if (scene.getKeyboardFocus() != field) field.setText(prov.get());
                 });
-            }).width(110f);
+            }).width(112f);
         }).marginLeft(6f);
     }
 
@@ -113,6 +114,12 @@ public class PaletteDialog extends BaseDialog {
 
         public PaletteImage() {
             setDrawable(new TextureRegion(texture));
+            clicked(() -> {
+                int[] hsv = Color.RGBtoHSV(PaletteDialog.this.color);
+                PaletteDialog.this.color = Color.HSVtoRGB(hsv[0], 0f, 0f); // TODO как-то получить позицию курсора относительно элемента
+
+                rebuild();
+            });
         }
 
         public void update() {
@@ -127,6 +134,10 @@ public class PaletteDialog extends BaseDialog {
         @Override
         public void draw() {
             super.draw();
+            int[] hsv = Color.RGBtoHSV(PaletteDialog.this.color);
+
+            Lines.stroke(2f, Color.lightGray);
+            Lines.circle(x + hsv[1] * 2.56f, y + hsv[2] * 2.56f, 6f);
         }
     }
 }
