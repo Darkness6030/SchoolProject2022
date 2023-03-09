@@ -68,12 +68,12 @@ public class HudFragment {
                     // кнопки движения
                     act.defaults().size(32f).pad(8f, 8f, 8f, 0f);
 
-                    act.button(Icons.up, () -> {})
-                            .disabled(b -> true)
+                    act.button(Icons.up, editor::moveUp)
+                            .disabled(b -> !editor.canMoveUp())
                             .tooltip("@layer.move.up");
 
-                    act.button(Icons.down, () -> {})
-                            .disabled(b -> true)
+                    act.button(Icons.down, editor::moveDown)
+                            .disabled(b -> !editor.canMoveDown())
                             .tooltip("@layer.move.down");
 
                     // пустое пространство между кнопками
@@ -86,11 +86,11 @@ public class HudFragment {
                             .disabled(b -> !editor.renderer.canAdd())
                             .tooltip(bundle.format("layer.new.tooltip", Renderer.maxLayers));
 
-                    act.button(Icons.copy, () -> {})
+                    act.button(Icons.copy, editor::copyLayer)
                             .disabled(b -> !editor.renderer.canAdd())
                             .tooltip("@layer.copy.tooltip");
 
-                    act.button(Icons.trash, () -> {})
+                    act.button(Icons.trash, editor::removeLayer)
                             .disabled(b -> !editor.renderer.canRemove())
                             .tooltip("@layer.remove.tooltip");
                 }).height(48f).growX();

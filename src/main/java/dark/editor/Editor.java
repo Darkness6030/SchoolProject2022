@@ -120,10 +120,6 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.reset(width, height);
     }
 
-    public void newLayer() {
-        renderer.addLayer(new Layer(canvas.width, canvas.height));
-    }
-
     public void save(Fi file) {
         var pixmap = renderer.save();
         PixmapIO.writePng(file, pixmap);
@@ -144,7 +140,34 @@ public class Editor implements ApplicationListener, GestureListener {
 
     // region tools
 
-    // TODO Adi, добавь методы для слоёв
+    public void moveUp() {
+        renderer.moveLayer(renderer.current, 1);
+    }
+
+    public boolean canMoveUp() {
+        return renderer.canMove(renderer.current, 1);
+    }
+
+    public void moveDown() {
+        renderer.moveLayer(renderer.current, -1);
+    }
+
+    public boolean canMoveDown() {
+        return renderer.canMove(renderer.current, -1);
+    }
+
+    public void newLayer() {
+        renderer.addLayer(new Layer(canvas.width, canvas.height));
+    }
+
+    public void copyLayer() {
+        renderer.addLayer(renderer.current.copy());
+    }
+
+    public void removeLayer() {
+        renderer.removeLayer(renderer.current);
+    }
+
     public void swap() {
         Tmp.c1.set(first);
         first.set(second.cpy());
