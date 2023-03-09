@@ -4,7 +4,6 @@ import arc.graphics.Color;
 import arc.scene.ui.ImageButton;
 import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
-import arc.util.*;
 import dark.editor.EditTool;
 import dark.editor.Layer;
 import dark.editor.Renderer;
@@ -122,13 +121,7 @@ public class HudFragment {
             super(Icons.swap, Styles.emptyImageButton);
             setTranslation(x, y);
 
-            clicked(() -> {
-                Tmp.c1.set(first);
-                first.set(second.cpy());
-                second.set(Tmp.c1);
-
-                ui.showInfoToast(Icons.swap, "@swapped");
-            });
+            clicked(editor::swap);
         }
     }
 

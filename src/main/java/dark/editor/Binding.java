@@ -27,6 +27,7 @@ public enum Binding {
     eraser(KeyCode.e),
     fill(KeyCode.f),
     pick(KeyCode.p),
+    swap(KeyCode.x),
 
     copy(KeyCode.c),
     paste(KeyCode.v);

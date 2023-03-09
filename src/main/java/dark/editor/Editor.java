@@ -7,6 +7,7 @@ import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 import arc.math.geom.Bresenham2;
 import arc.util.Log;
+import arc.util.Tmp;
 import dark.ui.Icons;
 import dark.ui.Palette;
 import dark.utils.Clipboard;
@@ -68,6 +69,8 @@ public class Editor implements ApplicationListener, GestureListener {
 
         for (var tool : EditTool.values())
             if (tool.hotkey.tap()) this.tool = tool;
+
+        if (Binding.swap.tap()) swap();
 
         if (Binding.new_canvas.tap()) ui.resize.show();
         if (Binding.new_layer.tap()) newLayer();
@@ -136,4 +139,17 @@ public class Editor implements ApplicationListener, GestureListener {
 
         ui.showInfoToast(Icons.load, bundle.format("loaded", file.name()));
     }
+
+    // region tools
+
+    // TODO Adi, добавь методы для слоёв
+    public void swap() {
+        Tmp.c1.set(first);
+        first.set(second.cpy());
+        second.set(Tmp.c1);
+
+        ui.showInfoToast(Icons.swap, "@swapped");
+    }
+
+    // endregion
 }
