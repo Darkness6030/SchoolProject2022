@@ -64,10 +64,12 @@ public class PaletteDialog extends BaseDialog {
 
             ctrl.row();
 
-            field(ctrl, "#", hex -> color = Color.valueOf(hex), () -> color.toString(), field -> {
+            field(ctrl, "HEX:", hex -> color = Color.valueOf(hex), () -> color.toString(), field -> {
                 field.setFilter((f, c) -> validHexChars.contains("" + c));
                 field.setValidator(hex -> hex.length() == 6 || hex.length() == 8);
                 field.setMaxLength(8);
+
+                app.post(() -> ((Table) field.parent).getCells().peek().width(182f)); // увеличивает размер поля под hex
             });
         }).growY();
     }
@@ -85,7 +87,7 @@ public class PaletteDialog extends BaseDialog {
                 rebuild.add(() -> {
                     if (scene.getKeyboardFocus() != field) field.setText(prov.get());
                 });
-            }).width(112f);
+            }).width(80f);
         }).marginLeft(6f);
     }
 
