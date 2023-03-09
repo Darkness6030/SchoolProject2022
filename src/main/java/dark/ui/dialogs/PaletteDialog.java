@@ -12,6 +12,7 @@ import arc.scene.ui.TextField;
 import arc.scene.ui.TextField.TextFieldFilter;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
+import dark.editor.Binding;
 import dark.ui.Drawables;
 import dark.ui.Icons;
 
@@ -114,10 +115,12 @@ public class PaletteDialog extends BaseDialog {
 
         public PaletteImage() {
             setDrawable(new TextureRegion(texture));
-            clicked(() -> {
-                int[] hsv = Color.RGBtoHSV(PaletteDialog.this.color);
-                PaletteDialog.this.color = Color.HSVtoRGB(hsv[0], 0f, 0f); // TODO как-то получить позицию курсора относительно элемента
+            update(() -> {
+                var mouse = screenToLocalCoordinates(input.mouse());
+                if (mouse.x < 0f || mouse.x > 256f || mouse.y < 0f || mouse.y > 256f || !Binding.draw1.down()) return;
 
+                int[] hsv = Color.RGBtoHSV(PaletteDialog.this.color);
+                PaletteDialog.this.color = Color.HSVtoRGB(hsv[0], mouse.x / 2.56f, mouse.y / 2.56f);
                 rebuild();
             });
         }
