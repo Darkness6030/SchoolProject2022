@@ -129,6 +129,7 @@ public class Editor implements ApplicationListener, GestureListener {
         PixmapIO.writePng(file, pixmap);
 
         ui.showInfoToast(Icons.save, bundle.format("saved", file.name()));
+        ui.menu.hide();
     }
 
     public void load(Fi file) {
@@ -138,6 +139,7 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.reset(layer.width, layer.height);
 
         ui.showInfoToast(Icons.load, bundle.format("loaded", file.name()));
+        ui.menu.hide();
     }
 
     // region tools

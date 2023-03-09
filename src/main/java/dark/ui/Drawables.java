@@ -23,7 +23,7 @@ public class Drawables {
             gray, circle, error;
 
     public static Drawable
-            color_blob, button,
+            color_blob,
             check_on, check_off, check_over, check_on_over, check_disabled, check_on_disabled,
             slider_back, slider_knob, slider_knob_over, slider_knob_down,
             alpha_chan, alpha_chan_dizzy,
@@ -57,7 +57,6 @@ public class Drawables {
         error = load("error");
 
         color_blob = load("color-blob");
-        button = load("button");
 
         check_on = load("check-on");
         check_off = load("check-off");

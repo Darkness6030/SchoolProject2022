@@ -53,13 +53,11 @@ public class UI implements ApplicationListener {
         scene.act();
         scene.draw();
 
-        if (input.keyTap(KeyCode.escape) && !scene.hasDialog() && !menu.isShown())
-            menu.show();
+        if (input.keyTap(KeyCode.escape) && !scene.hasDialog() && !menu.isShown()) menu.show();
 
-        if ((input.keyTap(KeyCode.mouseLeft) || input.keyTap(KeyCode.mouseRight) || input.keyTap(KeyCode.mouseMiddle)) && scene.hasField()) {
-            if (!(scene.hit(input.mouseX(), input.mouseY(), true) instanceof TextField))
+        if ((input.keyTap(KeyCode.mouseLeft) || input.keyTap(KeyCode.mouseRight)) && scene.hasField())
+            if (scene.hit(input.mouseX(), input.mouseY(), true) instanceof TextField == false)
                 scene.setKeyboardFocus(null);
-        }
     }
 
     @Override
@@ -76,18 +74,18 @@ public class UI implements ApplicationListener {
 
         if (toast != null) toast.remove();
 
-        var table = new Table(Drawables.button);
-        table.image(icon);
-        table.add(text).wrap().size(280f, 32f).get().setAlignment(Align.center, Align.center);
-        table.pack();
-
         toast = scene.table();
-        toast.top().add(table);
+        toast.table(Drawables.main_rounded, table -> {
+            table.image(icon);
+            table.add(text).wrap().size(280f, 32f).labelAlign(Align.center);
+        });
 
-        toast.setTranslation(0, table.getPrefHeight());
+        toast.color.a(0f);
+        toast.setTranslation(0, 48f);
         toast.actions(
-                Actions.translateBy(0, -table.getPrefHeight(), 1f, Interp.fade),
-                Actions.delay(2.5f),
-                Actions.run(() -> toast.actions(Actions.translateBy(0, table.getPrefHeight(), 1f, Interp.fade), Actions.remove())));
+                Actions.parallel(Actions.alpha(1f, .5f, Interp.fastSlow), Actions.translateBy(0, -48f, .5f, Interp.fastSlow)),
+                Actions.delay(1f),
+                Actions.parallel(Actions.alpha(0f, .5f, Interp.slowFast), Actions.translateBy(0, -48f, .5f, Interp.slowFast)),
+                Actions.remove());
     }
 }
