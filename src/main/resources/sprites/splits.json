@@ -1,5 +1,7 @@
 {
     "whiteui-rounded": [7, 7, 7, 7],
+    "whiteui-rounded-left": [7, 0, 7, 7],
+    "whiteui-rounded-right": [0, 7, 7, 7],
     "corners": [7, 7, 7, 7],
     "scroll-knob": [7, 7, 7, 7],
     "button": [13, 13, 13, 13],

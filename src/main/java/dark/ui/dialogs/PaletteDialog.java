@@ -1,45 +1,132 @@
 package dark.ui.dialogs;
 
-import arc.func.Floatc;
+import arc.func.Cons;
+import arc.func.Prov;
 import arc.graphics.Color;
+import arc.graphics.Pixmap;
+import arc.graphics.Texture;
+import arc.graphics.g2d.TextureRegion;
+import arc.scene.ui.Image;
+import arc.scene.ui.TextField;
+import arc.scene.ui.TextField.TextFieldFilter;
 import arc.scene.ui.layout.Table;
+import arc.struct.Seq;
+import dark.ui.Drawables;
 import dark.ui.Icons;
 
-import static dark.Main.ui;
+import static arc.Core.*;
+import static dark.Main.*;
 
 public class PaletteDialog extends BaseDialog {
 
-    public Table sliders;
-    public Color tmp = Color.white.cpy(), color;
+    public static final String validHexChars = "0123456789AaBbCcDdEeFf";
+
+    public PaletteImage image = new PaletteImage();
+    public Color callback, color;
+
+    public Seq<Runnable> rebuild = Seq.with(() -> image.update());
 
     public PaletteDialog() {
         super("@palette");
-        closeOnBack();
+        addCloseButton();
 
-        // TODO square gradient
-        cont.image().size(256f).update(image -> image.setColor(tmp)).row();
-        sliders = cont.table().get();
-
-        buttons.buttonRow("@back", Icons.left, this::hide);
         buttons.buttonRow("@ok", Icons.ok, () -> {
+            callback.set(color);
+            ui.colorWheel.add(color);
+
             hide();
-            ui.colorWheel.add(color.set(tmp));
+        });
+
+        cont.add(image).size(256f);
+        cont.table(ctrl -> {
+            ctrl.top();
+            ctrl.defaults().size(128f, 32f);
+
+            ctrl.image(Drawables.white_rounded_left).update(i -> i.setColor(callback));
+            ctrl.image(Drawables.white_rounded_right).update(i -> i.setColor(color));
+
+            ctrl.row();
+
+            field(ctrl, "R:", 255, i -> color.r(i / 255f), () -> (int) (color.r * 255));
+            field(ctrl, "H:", 360, i -> {}, () -> Color.RGBtoHSV(color)[0]); // TODO hsv не работает
+
+            ctrl.row();
+
+            field(ctrl, "G:", 255, i -> color.g(i / 255f), () -> (int) (color.g * 255));
+            field(ctrl, "S:", 100, i -> {}, () -> Color.RGBtoHSV(color)[1]);
+
+            ctrl.row();
+
+            field(ctrl, "B:", 255, i -> color.b(i / 255f), () -> (int) (color.b * 255));
+            field(ctrl, "V:", 100, i -> {}, () -> Color.RGBtoHSV(color)[2]);
+
+            ctrl.row();
+
+            field(ctrl, "#", hex -> color = Color.valueOf(hex), () -> color.toString(), field -> {
+                field.setFilter((f, c) -> validHexChars.contains("" + c));
+                field.setValidator(hex -> hex.length() == 6 || hex.length() == 8);
+                field.setMaxLength(8);
+            });
+        }).growY();
+    }
+
+    public void field(Table table, String name, Cons<String> cons, Prov<String> prov, Cons<TextField> with) {
+        table.table(cont -> {
+            cont.left();
+
+            cont.add(name);
+            cont.field("", TextFieldFilter.digitsOnly, text -> {
+                cons.get(text);
+                rebuild();
+            }).with(field -> {
+                with.get(field);
+                rebuild.add(() -> {
+                    if (scene.getKeyboardFocus() != field) field.setText(prov.get());
+                });
+            }).width(110f);
+        }).marginLeft(6f);
+    }
+
+    public void field(Table table, String name, int maxValue, Cons<Integer> cons, Prov<Integer> prov) {
+        field(table, name, t -> cons.get(Integer.valueOf(t)), () -> String.valueOf(prov.get()), field -> {
+            field.setValidator(text -> !text.isEmpty() && Integer.valueOf(text) <= maxValue);
+            field.setMaxLength(3);
         });
     }
 
+    public void rebuild() {
+        rebuild.each(Runnable::run);
+    }
+
     public void show(Color color) {
-        tmp.set(this.color = color);
-        sliders.clear();
+        this.callback = color;
+        this.color = color.cpy();
 
-        slider("color.red", tmp.r, tmp::r);
-        slider("color.green", tmp.g, tmp::g);
-        slider("color.blue", tmp.b, tmp::b);
-        slider("color.alpha", tmp.a, tmp::a);
-
+        rebuild();
         super.show();
     }
 
-    private void slider(String title, float def, Floatc setter) {
-        //cont.add(new TextFieldSlider(title, 1f, 255f, 1f, def * 255f, value -> setter.get(value / 255f))).growX().row();
+    public class PaletteImage extends Image {
+
+        public Pixmap pixmap = new Pixmap(100, 100);
+        public Texture texture = new Texture(pixmap);
+
+        public PaletteImage() {
+            setDrawable(new TextureRegion(texture));
+        }
+
+        public void update() {
+            int[] hsv = Color.RGBtoHSV(PaletteDialog.this.color);
+            pixmap.each((x, y) -> {
+                pixmap.set(x, y, Color.HSVtoRGB(hsv[0], x, 100 - y));
+            });
+
+            texture.load(texture.getTextureData());
+        }
+
+        @Override
+        public void draw() {
+            super.draw();
+        }
     }
 }

@@ -16,9 +16,10 @@ public class Drawables {
 
     public static JsonValue splits;
     public static Drawable
-            white, white_rounded, circle, corners, scroll_knob,
+            white, white_rounded, white_rounded_left, white_rounded_right,
             main, darkmain, active,
             main_rounded, darkmain_rounded, active_rounded,
+            circle, corners, scroll_knob,
             gray, error;
 
     public static Drawable
@@ -35,10 +36,9 @@ public class Drawables {
 
         white = load("whiteui", false);
         white_rounded = load("whiteui-rounded", true);
-        circle = load("circle", false);
-        corners = load("corners", true);
-        scroll_knob = load("scroll-knob", true);
-
+        white_rounded_left = load("whiteui-rounded-left", true);
+        white_rounded_right = load("whiteui-rounded-right", true);
+        
         var trd = (TextureRegionDrawable) white;
         main = trd.tint(Palette.main);
         darkmain = trd.tint(Palette.darkmain);
@@ -48,6 +48,10 @@ public class Drawables {
         main_rounded = npd.tint(Palette.main);
         darkmain_rounded = npd.tint(Palette.darkmain);
         active_rounded = npd.tint(Palette.active);
+
+        circle = load("circle", false);
+        corners = load("corners", true);
+        scroll_knob = load("scroll-knob", true);
 
         gray = trd.tint(0f, 0f, 0f, .5f);
         error = load("error");
