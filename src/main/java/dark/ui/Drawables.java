@@ -16,16 +16,15 @@ public class Drawables {
 
     public static JsonValue splits;
     public static Drawable
-            white, white_rounded, white_rounded_left, white_rounded_right,
+            white, white_rounded, white_rounded_left, white_rounded_right, white_knob,
             main, darkmain, active,
             main_rounded, darkmain_rounded, active_rounded,
-            corners, scroll_knob, underline, underline_red,
-            gray, circle, error;
+            main_knob, darkmain_knob, active_knob,
+            corners, underline, underline_red,
+            gray, circle, color_blob, empty, error;
 
     public static Drawable
-            color_blob,
             check_on, check_off, check_over, check_on_over, check_disabled, check_on_disabled,
-            slider_back, slider_knob, slider_knob_over, slider_knob_down,
             alpha_chan, alpha_chan_dizzy,
             cursor, selection;
 
@@ -36,6 +35,7 @@ public class Drawables {
         white_rounded = load("whiteui-rounded");
         white_rounded_left = load("whiteui-rounded-left");
         white_rounded_right = load("whiteui-rounded-right");
+        white_knob = load("whiteui-knob");
         
         var trd = (TextureRegionDrawable) white;
         main = trd.tint(Palette.main);
@@ -47,16 +47,20 @@ public class Drawables {
         darkmain_rounded = npd.tint(Palette.darkmain);
         active_rounded = npd.tint(Palette.active);
 
+        var knb = (NinePatchDrawable) white_knob;
+        main_knob = knb.tint(Palette.main);
+        darkmain_knob = knb.tint(Palette.darkmain);
+        active_knob = knb.tint(Palette.active);
+
         corners = load("corners");
-        scroll_knob = load("scroll-knob");
         underline = load("underline");
         underline_red = load("underline-red");
-        
-        circle = load("circle", false);
-        gray = trd.tint(0f, 0f, 0f, .5f);
-        error = load("error");
 
+        gray = trd.tint(0f, 0f, 0f, .5f);
+        circle = load("circle", false);
         color_blob = load("color-blob");
+        empty = load("empty");
+        error = load("error");
 
         check_on = load("check-on");
         check_off = load("check-off");
@@ -64,11 +68,6 @@ public class Drawables {
         check_on_over = load("check-on-over");
         check_disabled = load("check-disabled");
         check_on_disabled = load("check-on-disabled");
-
-        slider_back = load("slider-back");
-        slider_knob = load("slider-knob");
-        slider_knob_over = load("slider-knob-over");
-        slider_knob_down = load("slider-knob-down");
 
         alpha_chan = load("alpha-chan");
         alpha_chan_dizzy = load("alpha-chan-dizzy");

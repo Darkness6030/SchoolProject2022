@@ -21,10 +21,10 @@ public class Styles {
 
     public static LabelStyle label;
     public static ScrollPaneStyle scroll;
+    public static SliderStyle slider;
     public static DialogStyle dialog;
 
     public static CheckBoxStyle checkBoxStyle;
-    public static SliderStyle sliderStyle;
     public static TextFieldStyle fieldStyle;
 
     public static void load() {
@@ -99,8 +99,18 @@ public class Styles {
         }});
 
         scene.addStyle(ScrollPaneStyle.class, scroll = new ScrollPaneStyle() {{
-            vScrollKnob = Drawables.scroll_knob;
-            hScrollKnob = Drawables.scroll_knob;
+            vScrollKnob = Drawables.active_knob;
+            hScrollKnob = Drawables.active_knob;
+        }});
+
+        scene.addStyle(SliderStyle.class, slider = new SliderStyle() {{
+            background = Drawables.empty;
+            knobBefore = Drawables.active_knob;
+            knobAfter = Drawables.darkmain_knob;
+
+            knob = Drawables.main_rounded;
+            knobOver = Drawables.darkmain_rounded;
+            knobDown = Drawables.active_rounded;
         }});
 
         scene.addStyle(DialogStyle.class, dialog = new DialogStyle() {{
@@ -123,13 +133,6 @@ public class Styles {
             checkboxOver = Drawables.check_over;
             checkboxOnDisabled = Drawables.check_on_disabled;
             checkboxOffDisabled = Drawables.check_disabled;
-        }});
-
-        scene.addStyle(SliderStyle.class, sliderStyle = new SliderStyle() {{
-            background = Drawables.slider_back;
-            knob = Drawables.slider_knob;
-            knobOver = Drawables.slider_knob_over;
-            knobDown = Drawables.slider_knob_down;
         }});
 
         scene.addStyle(TextFieldStyle.class, fieldStyle = new TextFieldStyle() {{
