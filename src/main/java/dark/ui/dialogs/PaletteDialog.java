@@ -21,6 +21,7 @@ import static arc.Core.*;
 import static dark.Main.*;
 
 public class PaletteDialog extends BaseDialog {
+
     public static final String validHexChars = "0123456789AaBbCcDdEeFf";
 
     public PaletteImage image = new PaletteImage();
@@ -121,6 +122,7 @@ public class PaletteDialog extends BaseDialog {
     }
 
     public class PaletteImage extends Image {
+
         public Pixmap pixmap = new Pixmap(100, 100);
         public Texture texture = new Texture(pixmap);
 
@@ -154,7 +156,7 @@ public class PaletteDialog extends BaseDialog {
             super.draw();
             var hsv = Color.RGBtoHSV(current);
 
-            Lines.stroke(2f, Palette.active);
+            Lines.stroke(2f, Palette.active.cpy().a(parentAlpha));
             Lines.circle(x + hsv[1] * 2.56f, y + hsv[2] * 2.56f, 8f);
         }
     }
