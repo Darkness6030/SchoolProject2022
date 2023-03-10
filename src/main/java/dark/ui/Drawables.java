@@ -21,7 +21,7 @@ public class Drawables {
             main_rounded, darkmain_rounded, active_rounded,
             main_knob, darkmain_knob, active_knob,
             corners, underline, underline_red,
-            gray, circle, color_blob, empty, error;
+            gray, color_blob, empty, error;
 
     public static Drawable
             check_on, check_off, check_over, check_on_over, check_disabled, check_on_disabled,
@@ -57,7 +57,6 @@ public class Drawables {
         underline_red = load("underline-red");
 
         gray = trd.tint(0f, 0f, 0f, .5f);
-        circle = load("circle", false);
         color_blob = load("color-blob");
         empty = load("empty");
         error = load("error");

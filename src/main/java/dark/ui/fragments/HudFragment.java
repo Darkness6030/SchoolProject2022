@@ -29,8 +29,8 @@ public class HudFragment {
                 pad.left();
                 pad.button(Drawables.alpha_chan, Styles.alpha, 40f, () -> ui.menu.show()).checked(b -> ui.menu.isShown()).size(48f).pad(8f);
 
-                pad.slider(1f, 100f, 1f, value -> editor.brushSize = (int) value).padLeft(48f);
-                pad.check("@hud.square", value -> editor.square = value).padLeft(48f);
+                pad.slider(1f, 100f, 1f, value -> editor.brushSize = (int) value);
+                pad.check("@hud.square", value -> editor.square = value).padLeft(8f);
             }).height(64f).growX();
         });
 

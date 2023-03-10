@@ -3,7 +3,7 @@ package dark.ui.elements;
 import arc.scene.Element;
 import arc.scene.ui.ScrollPane;
 
-import static arc.Core.scene;
+import static arc.Core.*;
 
 public class FocusScrollPane extends ScrollPane {
 
@@ -11,8 +11,7 @@ public class FocusScrollPane extends ScrollPane {
         super(widget);
 
         update(() -> {
-            if (!hasMouse() && hasScroll())
-                scene.setScrollFocus(null);
+            if (!hasMouse() && hasScroll()) scene.setScrollFocus(null);
         });
     }
 
