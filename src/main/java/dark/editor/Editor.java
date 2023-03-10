@@ -60,12 +60,13 @@ public class Editor implements ApplicationListener, GestureListener {
     public void input() {
         if (scene.hasKeyboard()) return;
 
-        if (Binding.pan.down())
-            canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
-        else if (Binding.draw1.down())
+        if (Binding.draw1.down())
             draw(first);
         else if (Binding.draw2.down())
             draw(second);
+
+        if (Binding.pan.down())
+            canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
 
         for (var tool : EditTool.values())
             if (tool.hotkey.tap()) this.tool = tool;
@@ -170,7 +171,7 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void swap() {
         Tmp.c1.set(first);
-        first.set(second.cpy());
+        first.set(second);
         second.set(Tmp.c1);
 
         ui.showInfoToast(Icons.swap, "@swapped");

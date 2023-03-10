@@ -2,7 +2,6 @@ package dark.ui;
 
 import arc.graphics.Texture;
 import arc.graphics.Texture.TextureFilter;
-import arc.graphics.g2d.TextureAtlas.AtlasRegion;
 import arc.scene.style.Drawable;
 import arc.scene.style.NinePatchDrawable;
 import arc.scene.style.TextureRegionDrawable;
@@ -77,14 +76,8 @@ public class Drawables {
         atlas.setErrorRegion("error");
     }
 
-    public static AtlasRegion loadRegion(String name, boolean linear) {
-        Texture texture = new Texture("sprites/" + name + ".png");
-        if (linear) texture.setFilter(TextureFilter.linear); // for better experience
-
-        var region = atlas.addRegion(name, texture, 0, 0, texture.width, texture.height);
-        if (splits.has(name)) region.splits = splits.get(name).asIntArray();
-
-        return region;
+    public static Drawable load(String name) {
+        return load(name, true);
     }
 
     public static Drawable load(String name, boolean linear) {
@@ -92,7 +85,11 @@ public class Drawables {
         return atlas.drawable(name);
     }
 
-    public static Drawable load(String name) {
-        return load(name, true);
+    public static void loadRegion(String name, boolean linear) {
+        Texture texture = new Texture("sprites/" + name + ".png");
+        if (linear) texture.setFilter(TextureFilter.linear); // for better experience
+
+        var region = atlas.addRegion(name, texture, 0, 0, texture.width, texture.height);
+        if (splits.has(name)) region.splits = splits.get(name).asIntArray();
     }
 }
