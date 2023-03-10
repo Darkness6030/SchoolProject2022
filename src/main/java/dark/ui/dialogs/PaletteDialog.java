@@ -64,6 +64,10 @@ public class PaletteDialog extends BaseDialog {
 
             ctrl.row();
 
+            field(ctrl, "[lightgray]A: ", 255, i -> current.a(i / 255f), () -> (int) (current.a * 255));
+
+            ctrl.row();
+
             field(ctrl, "[accent]HEX: ", hex -> current = Color.valueOf(hex), () -> current.toString(), field -> {
                 field.setFilter((f, c) -> validHexChars.contains(String.valueOf(c)));
                 field.setValidator(hex -> hex.length() == 6 || hex.length() == 8);
