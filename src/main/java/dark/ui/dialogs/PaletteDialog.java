@@ -7,7 +7,7 @@ import arc.graphics.Pixmap;
 import arc.graphics.Texture;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
-import arc.math.Mathf;
+import arc.math.geom.Vec2;
 import arc.scene.ui.Image;
 import arc.scene.ui.TextField;
 import arc.scene.ui.TextField.TextFieldFilter;
@@ -126,6 +126,7 @@ public class PaletteDialog extends BaseDialog {
         public Pixmap pixmap = new Pixmap(100, 100);
         public Texture texture = new Texture(pixmap);
 
+        public Vec2 mouse = new Vec2();
         public boolean clicked;
 
         public PaletteImage() {
@@ -133,10 +134,10 @@ public class PaletteDialog extends BaseDialog {
             update(() -> {
                 if (!clicked) return;
 
-                var mouse = screenToLocalCoordinates(input.mouse());
+                mouse = screenToLocalCoordinates(input.mouse()).clamp(0f, 0f, 256f, 256f);
                 var hsv = Color.RGBtoHSV(current);
 
-                current = Color.HSVtoRGB(hsv[0], Mathf.clamp(mouse.x / 2.56f, 0f, 100f), Mathf.clamp(mouse.y / 2.56f, 0f, 100f));
+                current = Color.HSVtoRGB(hsv[0], mouse.x / 2.56f, mouse.y / 2.56f);
                 rebuild();
             });
 
@@ -146,18 +147,18 @@ public class PaletteDialog extends BaseDialog {
 
         public void update() {
             var hsv = Color.RGBtoHSV(current);
-            pixmap.each((x, y) -> pixmap.set(x, y, Color.HSVtoRGB(hsv[0], x, 100f - y)));
+            if (!clicked) mouse.set(hsv[1] * 2.56f, y + hsv[2] * 2.56f);
 
+            pixmap.each((x, y) -> pixmap.set(x, y, Color.HSVtoRGB(hsv[0], x, 100f - y)));
             texture.load(texture.getTextureData());
         }
 
         @Override
         public void draw() {
             super.draw();
-            var hsv = Color.RGBtoHSV(current);
 
             Lines.stroke(2f, Palette.active.cpy().a(parentAlpha));
-            Lines.circle(x + hsv[1] * 2.56f, y + hsv[2] * 2.56f, 8f);
+            Lines.circle(x + mouse.x, y + mouse.y, 6f);
         }
     }
 }
