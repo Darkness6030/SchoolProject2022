@@ -38,6 +38,7 @@ public class FileChooser extends BaseDialog {
         this.extension = extension;
 
         cont.table(table -> {
+            table.left();
             table.defaults().size(48f).padRight(8f);
 
             table.button(Icons.home, this::openHomeDirectory);
@@ -96,7 +97,7 @@ public class FileChooser extends BaseDialog {
         list.defaults().height(48f).growX();
 
         Cons<TextButton> labelAlign = button -> button.getLabelCell().padLeft(8f).labelAlign(Align.left);
-        list.button(".." + directory.toString(), Icons.up, this::openParentDirectory).with(labelAlign).row();
+        list.button("../" + directory.toString(), Icons.up, this::openParentDirectory).with(labelAlign).row();
 
         getAvailableFiles().each(file -> list.button(file.name(), file.isDirectory() ? Icons.folder : Icons.file, Styles.textButtonCheck, () -> {
             if (file.isDirectory())
