@@ -32,6 +32,7 @@ public class Styles {
 
         scene.addStyle(TextButtonStyle.class, textButton = new TextButtonStyle() {{
             font = Fonts.def;
+            fontColor = Color.white;
 
             up = Drawables.main_rounded;
             over = Drawables.darkmain_rounded;
@@ -39,24 +40,27 @@ public class Styles {
 
             disabled = Drawables.darkmain_rounded;
             disabledFontColor = Color.gray;
-            fontColor = Color.white;
         }});
 
         textButtonCheck = new TextButtonStyle() {{
             font = Fonts.def;
+            fontColor = Color.white;
 
             up = Drawables.main_rounded;
             over = Drawables.darkmain_rounded;
             down = Drawables.active_rounded;
             checked = Drawables.active_rounded;
+
+            disabled = Drawables.darkmain_rounded;
+            disabledFontColor = Color.gray;
         }};
 
         scene.addStyle(ImageButtonStyle.class, imageButton = new ImageButtonStyle() {{
             up = Drawables.main_rounded;
             over = Drawables.darkmain_rounded;
             down = Drawables.active_rounded;
-
             disabled = Drawables.darkmain_rounded;
+
             imageDisabledColor = Color.gray;
             imageUpColor = Color.white;
         }});
@@ -65,7 +69,11 @@ public class Styles {
             up = Drawables.main_rounded;
             over = Drawables.darkmain_rounded;
             down = Drawables.active_rounded;
+            disabled = Drawables.darkmain_rounded;
             checked = Drawables.active_rounded;
+
+            imageDisabledColor = Color.gray;
+            imageUpColor = Color.white;
         }};
 
         emptyImageButton = new ImageButtonStyle();

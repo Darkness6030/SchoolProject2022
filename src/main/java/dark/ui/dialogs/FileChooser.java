@@ -8,14 +8,15 @@ import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Align;
 import dark.ui.Icons;
+import dark.ui.Styles;
 import dark.ui.elements.FocusScrollPane;
-
-import static arc.Core.*;
 
 import java.util.Comparator;
 
-public class FileChooser extends BaseDialog {
+import static arc.Core.files;
+import static arc.Core.settings;
 
+public class FileChooser extends BaseDialog {
     public static final String externalStorage = files.getExternalStoragePath();
     public static final Fi homeDirectory = files.absolute(externalStorage);
 
@@ -36,15 +37,13 @@ public class FileChooser extends BaseDialog {
         this.open = open;
         this.extension = extension;
 
-        cont.table(nav -> {
-            nav.defaults().size(48f).padRight(8f);
+        cont.table(table -> {
+            table.defaults().size(48f).padRight(8f);
 
-            nav.button(Icons.home, this::openHomeDirectory);
-            nav.button(Icons.left, history::back).disabled(b -> history.noBack());
-            nav.button(Icons.right, history::forward).disabled(b -> history.noForward());
-            nav.button(Icons.up, this::openParentDirectory);
-
-            nav.label(() -> directory.absolutePath()).ellipsis(true).width(318f);
+            table.button(Icons.home, this::openHomeDirectory);
+            table.button(Icons.left, history::back).disabled(button -> history.noBack());
+            table.button(Icons.right, history::forward).disabled(button -> history.noForward());
+            table.button(Icons.up, this::openParentDirectory);
         }).growX().row();
 
         list = new Table();
@@ -55,8 +54,8 @@ public class FileChooser extends BaseDialog {
         pane.setFadeScrollBars(false);
 
         cont.add(pane).size(550f, 700f).row();
-        cont.table(name -> {
-            name.left();
+        cont.table(table -> {
+            table.left();
 
             field = new TextField();
             field.setOnlyFontChars(false);
@@ -64,33 +63,29 @@ public class FileChooser extends BaseDialog {
             field.setMaxLength(128);
             field.setMessageText("@empty");
 
-            name.add("@file.name");
-            name.add(field).grow().padLeft(8f);
+            table.add("@file.name");
+            table.add(field).grow().padLeft(8f);
         }).growX();
 
         buttons.buttonRow("@ok", Icons.ok, () -> {
-            Fi fi = directory.child(name());
-            cons.get(open ? fi : fi.sibling(fi.nameWithoutExtension() + "." + extension));
+            var file = directory.child(field.getText());
+            cons.get(open ? file : file.sibling(file.nameWithoutExtension() + "." + extension));
 
             hide();
-        }).disabled(button -> open ? !directory.child(name()).exists() || directory.child(name()).isDirectory() : name().trim().isEmpty());
+        }).disabled(button -> open ? !directory.child(field.getText()).exists() || directory.child(field.getText()).isDirectory() : field.getText().trim().isEmpty());
 
         if (!directory.exists()) directory = homeDirectory;
         updateFiles(true);
-    }
-
-    public String name() {
-        return field.getText();
     }
 
     // region files
 
     public Seq<Fi> getAvailableFiles() {
         return directory.seq()
-                .removeAll(fi -> fi.name().startsWith(".")) // убирает скрытые файлы
-                .filter(fi -> fi.isDirectory() || fi.extEquals(extension))
+                .filter(file -> !file.name().startsWith(".")) // убирает скрытые файлы
+                .filter(file -> file.isDirectory() || file.extEquals(extension))
                 .sort(Comparator.comparing(Fi::isDirectory))
-                .sort(Comparator.comparing(Fi::name));
+                .sort(Comparator.comparing(file -> file.name().toLowerCase()));
     }
 
     public void updateFiles(boolean push) {
@@ -100,17 +95,15 @@ public class FileChooser extends BaseDialog {
         list.clear();
         list.defaults().height(48f).growX();
 
-        Cons<TextButton> labelAlign = b -> b.getLabelCell().padLeft(8f).labelAlign(Align.left);
+        Cons<TextButton> labelAlign = button -> button.getLabelCell().padLeft(8f).labelAlign(Align.left);
         list.button(".." + directory.toString(), Icons.up, this::openParentDirectory).with(labelAlign).row();
 
-        getAvailableFiles().each(fi -> {
-            list.button(fi.name().replace("[", "[["), fi.isDirectory() ? Icons.folder : Icons.file, () -> {
-                if (fi.isDirectory())
-                    openChildDirectory(fi.name());
-                else
-                    field.setText(fi.name());
-            }).checked(b -> name().equals(fi.name())).with(labelAlign).row();
-        });
+        getAvailableFiles().each(file -> list.button(file.name(), file.isDirectory() ? Icons.folder : Icons.file, Styles.textButtonCheck, () -> {
+            if (file.isDirectory())
+                openChildDirectory(file.name());
+            else
+                field.setText(file.name());
+        }).checked(button -> field.getText().equals(file.name())).with(labelAlign).row());
 
         pane.setScrollY(0f);
         if (open) field.clearText();
@@ -137,7 +130,6 @@ public class FileChooser extends BaseDialog {
     // endregion
 
     public class FileHistory extends Seq<Fi> {
-
         public int index;
 
         public void push(Fi file) {
