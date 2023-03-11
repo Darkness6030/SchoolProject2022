@@ -14,7 +14,12 @@ public class ResizeDialog extends BaseDialog {
 
     public ResizeDialog() {
         super("@resize");
-        closeOnBack();
+        addCloseButton();
+
+        buttons.buttonRow("@ok", Icons.ok, () -> {
+            editor.reset(width, height);
+            hide();
+        });
 
         shown(() -> {
             width = editor.canvas.width;
@@ -34,12 +39,6 @@ public class ResizeDialog extends BaseDialog {
                 int number = Strings.parseInt(value);
                 return number >= minSize && number <= maxSize;
             }).maxTextLength(3).row();
-        });
-
-        buttons.buttonRow("@back", Icons.left, this::hide);
-        buttons.buttonRow("@ok", Icons.ok, () -> {
-            hide();
-            editor.reset(width, height);
         });
     }
 }

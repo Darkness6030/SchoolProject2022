@@ -21,7 +21,6 @@ public class SettingsDialog extends BaseDialog {
     }
 
     public abstract static class Setting {
-
         public final String name, title, description;
 
         public Setting(String name) {
@@ -38,10 +37,6 @@ public class SettingsDialog extends BaseDialog {
         public final int min, max, step, def;
         public final Func<Integer, String> func;
         public final Cons<Integer> cons;
-
-        public SliderSetting(String name, int min, int max, int step, int def, Cons<Integer> cons) {
-            this(name, min, max, step, def, String::valueOf, cons);
-        }
 
         public SliderSetting(String name, int min, int max, int step, int def, Func<Integer, String> func) {
             this(name, min, max, step, def, func, value -> {});

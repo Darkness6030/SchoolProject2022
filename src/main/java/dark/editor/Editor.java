@@ -112,6 +112,9 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void draw(Color color) {
+        var element = scene.hit(input.mouseX(), input.mouseY(), true);
+        if (element != null) return;
+
         if (tool.draggable) Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(renderer.current, x, y, color));
         else tool.touched(renderer.current, canvas.canvasX(), canvas.canvasY(), color);
     }
