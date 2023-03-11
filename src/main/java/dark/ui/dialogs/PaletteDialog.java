@@ -13,6 +13,7 @@ import arc.scene.ui.TextField;
 import arc.scene.ui.TextField.TextFieldFilter;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
+import arc.util.Strings;
 import dark.ui.Drawables;
 import dark.ui.Icons;
 import dark.ui.Palette;
@@ -34,9 +35,7 @@ public class PaletteDialog extends BaseDialog {
         addCloseButton();
 
         buttons.buttonRow("@ok", Icons.ok, () -> {
-            callback.set(current);
-            ui.colorWheel.add(current);
-
+            ui.colorWheel.add(callback.set(current));
             hide();
         });
 
@@ -90,16 +89,19 @@ public class PaletteDialog extends BaseDialog {
             }).with(field -> {
                 with.get(field);
                 rebuild.add(() -> {
-                    if (scene.getKeyboardFocus() != field) field.setText(prov.get());
+                    if (!field.hasKeyboard()) field.setText(prov.get());
                 });
             }).width(80f);
         }).marginLeft(6f);
     }
 
-    public void field(Table table, String name, int maxValue, Cons<Integer> cons, Prov<Integer> prov) {
-        field(table, name, t -> cons.get(Integer.parseInt(t)), () -> String.valueOf(prov.get()), field -> {
-            field.setValidator(text -> !text.isEmpty() && Integer.parseInt(text) <= maxValue);
+    public void field(Table table, String name, int max, Cons<Integer> cons, Prov<Integer> prov) {
+        field(table, name, t -> cons.get(Strings.parseInt(t)), () -> String.valueOf(prov.get()), field -> {
             field.setMaxLength(3);
+            field.setValidator(text -> {
+                int number = Strings.parseInt(text);
+                return number >= 0 && number <= max;
+            });
         });
     }
 

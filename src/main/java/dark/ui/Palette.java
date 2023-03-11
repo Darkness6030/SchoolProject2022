@@ -13,15 +13,12 @@ public class Palette {
 
     active = Color.valueOf("#1ec864"),
 
-    accent = Color.valueOf("#ffd37f"),
-
-    unlaunched = Color.valueOf("#8982ed");
+    accent = Color.valueOf("#ffd37f");
 
     public static void load() {
         Colors.put("main", main);
         Colors.put("darkmain", darkmain);
         Colors.put("active", active);
         Colors.put("accent", accent);
-        Colors.put("unlaunched", unlaunched);
     }
 }
