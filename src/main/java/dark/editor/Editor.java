@@ -18,9 +18,6 @@ import static dark.Main.ui;
 public class Editor implements ApplicationListener, GestureListener {
 
     public int mouseX, mouseY, canvasX, canvasY;
-    public int brushSize = 1;
-
-    public boolean square;
 
     public Renderer renderer = new Renderer();
     public Canvas canvas = new Canvas();

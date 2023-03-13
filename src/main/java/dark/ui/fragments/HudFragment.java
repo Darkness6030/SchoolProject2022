@@ -17,20 +17,22 @@ import static dark.Main.*;
 
 public class HudFragment {
 
-    public Table layers;
+    public Table layers, config;
     public FocusScrollPane pane;
 
     public void build(WidgetGroup parent) {
-        parent.fill(cont -> { // tools parameters
-            cont.name = "Tools parameters";
+        parent.fill(cont -> { // tools config
+            cont.name = "Tools config";
             cont.top();
 
             cont.table(Drawables.main, pad -> {
                 pad.left();
                 pad.button(Drawables.alpha_chan, Styles.alpha, 40f, () -> ui.menu.show()).checked(b -> ui.menu.isShown()).size(48f).pad(8f);
 
-                pad.slider(1f, 100f, 1f, value -> editor.brushSize = (int) value);
-                pad.check("@hud.square", value -> editor.square = value).padLeft(8f);
+                for (EditTool tool : EditTool.values()) tool.build();
+
+                config = pad.table().grow().get();
+                updateConfig();
             }).height(64f).growX();
         });
 
@@ -103,6 +105,11 @@ public class HudFragment {
 
             cont.image(Drawables.corners).height(7f).growX().pad(64f, 64f, 0f, 256f);
         });
+    }
+
+    public void updateConfig() {
+        config.clear();
+        config.left().add(editor.tool.cfgTable);
     }
 
     public void updateLayers() {
