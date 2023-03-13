@@ -7,9 +7,8 @@ import arc.scene.style.NinePatchDrawable;
 import arc.scene.style.TextureRegionDrawable;
 import arc.util.serialization.JsonValue;
 
-import static arc.Core.atlas;
-import static arc.Core.files;
-import static dark.Main.reader;
+import static arc.Core.*;
+import static dark.Main.*;
 
 public class Drawables {
 
@@ -19,13 +18,12 @@ public class Drawables {
             main, darkmain, active,
             main_rounded, darkmain_rounded, active_rounded,
             main_knob, darkmain_knob, active_knob,
-            corners, underline, underline_red,
-            gray, color_blob, empty, error;
+            alpha_chan, alpha_chan_dizzy,
+            underline, underline_red, cursor, selection,
+            corners, gray, color_blob, empty, error;
 
     public static Drawable
-            check_on, check_off, check_over, check_on_over, check_disabled, check_on_disabled,
-            alpha_chan, alpha_chan_dizzy,
-            cursor, selection;
+            check_on, check_off, check_over, check_on_over, check_disabled, check_on_disabled;
 
     public static void load() {
         splits = reader.parse(files.internal("sprites/splits.json"));
@@ -35,7 +33,7 @@ public class Drawables {
         white_rounded_left = load("whiteui-rounded-left");
         white_rounded_right = load("whiteui-rounded-right");
         white_knob = load("whiteui-knob");
-        
+
         var trd = (TextureRegionDrawable) white;
         main = trd.tint(Palette.main);
         darkmain = trd.tint(Palette.darkmain);
@@ -51,10 +49,15 @@ public class Drawables {
         darkmain_knob = knb.tint(Palette.darkmain);
         active_knob = knb.tint(Palette.active);
 
-        corners = load("corners");
+        alpha_chan = load("alpha-chan");
+        alpha_chan_dizzy = load("alpha-chan-dizzy");
+
         underline = load("underline");
         underline_red = load("underline-red");
+        cursor = load("cursor");
+        selection = load("selection");
 
+        corners = load("corners");
         gray = trd.tint(0f, 0f, 0f, .5f);
         color_blob = load("color-blob");
         empty = load("empty");
@@ -66,12 +69,6 @@ public class Drawables {
         check_on_over = load("check-on-over");
         check_disabled = load("check-disabled");
         check_on_disabled = load("check-on-disabled");
-
-        alpha_chan = load("alpha-chan");
-        alpha_chan_dizzy = load("alpha-chan-dizzy");
-
-        cursor = load("cursor");
-        selection = load("selection");
 
         atlas.setErrorRegion("error");
     }

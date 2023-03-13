@@ -20,12 +20,12 @@ public class Styles {
     public static ImageButtonStyle imageButton, imageButtonCheck, emptyImageButton, alpha, layer, visible;
 
     public static LabelStyle label;
+    public static TextFieldStyle field;
     public static ScrollPaneStyle scroll;
     public static SliderStyle slider;
     public static DialogStyle dialog;
 
     public static CheckBoxStyle checkBoxStyle;
-    public static TextFieldStyle fieldStyle;
 
     public static void load() {
         scene.addStyle(ButtonStyle.class, button = new ButtonStyle());
@@ -106,6 +106,19 @@ public class Styles {
             font = Fonts.def;
         }});
 
+        scene.addStyle(TextFieldStyle.class, field = new TextFieldStyle() {{
+            font = Fonts.def;
+            fontColor = Color.white;
+            messageFont = Fonts.def;
+            messageFontColor = Color.gray;
+            disabledFontColor = Color.gray;
+
+            background = Drawables.underline;
+            invalidBackground = Drawables.underline_red;
+            cursor = Drawables.cursor;
+            selection = Drawables.selection;
+        }});
+
         scene.addStyle(ScrollPaneStyle.class, scroll = new ScrollPaneStyle() {{
             vScrollKnob = Drawables.active_knob;
             hScrollKnob = Drawables.active_knob;
@@ -141,20 +154,6 @@ public class Styles {
             checkboxOver = Drawables.check_over;
             checkboxOnDisabled = Drawables.check_on_disabled;
             checkboxOffDisabled = Drawables.check_disabled;
-        }});
-
-        scene.addStyle(TextFieldStyle.class, fieldStyle = new TextFieldStyle() {{
-            font = Fonts.def;
-            fontColor = Color.white;
-            messageFont = Fonts.def;
-            messageFontColor = Color.gray;
-            disabledFontColor = Color.gray;
-
-            cursor = Drawables.cursor;
-            selection = Drawables.selection;
-
-            background = Drawables.underline;
-            invalidBackground = Drawables.underline_red;
         }});
     }
 }
