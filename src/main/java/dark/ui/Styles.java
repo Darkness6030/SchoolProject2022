@@ -25,7 +25,7 @@ public class Styles {
     public static SliderStyle slider;
     public static DialogStyle dialog;
 
-    public static CheckBoxStyle checkBoxStyle;
+    public static CheckBoxStyle checkbox;
 
     public static void load() {
         scene.addStyle(ButtonStyle.class, button = new ButtonStyle());
@@ -142,18 +142,14 @@ public class Styles {
             stageBackground = Drawables.gray;
         }});
 
-        // todo старые стили, переделать/удалить
-        scene.addStyle(CheckBoxStyle.class, checkBoxStyle = new CheckBoxStyle() {{
+        scene.addStyle(CheckBoxStyle.class, checkbox = new CheckBoxStyle() {{
             font = Fonts.def;
             fontColor = Color.white;
-            disabledFontColor = Color.gray;
 
             checkboxOn = Drawables.check_on;
             checkboxOff = Drawables.check_off;
             checkboxOnOver = Drawables.check_on_over;
-            checkboxOver = Drawables.check_over;
-            checkboxOnDisabled = Drawables.check_on_disabled;
-            checkboxOffDisabled = Drawables.check_disabled;
+            checkboxOver = Drawables.check_off_over;
         }});
     }
 }
