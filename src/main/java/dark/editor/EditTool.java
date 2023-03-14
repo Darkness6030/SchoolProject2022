@@ -6,8 +6,9 @@ import dark.ui.Icons;
 import dark.ui.Styles;
 import dark.ui.elements.Switch;
 
-import static arc.Core.*;
-import static dark.Main.*;
+import static arc.Core.scene;
+import static dark.Main.editor;
+import static dark.Main.ui;
 
 public enum EditTool {
     pencil(true, Binding.pencil) {
@@ -15,11 +16,11 @@ public enum EditTool {
             config.buildBrushTable();
         }
 
-        public void touched(Layer layer, int x, int y, Color color) {
+        public void touched(Layer current, int x, int y, Color color) {
             if (config.square)
-                layer.drawSquare(x, y, config.size, color);
+                current.drawSquare(x, y, config.size, color);
             else
-                layer.drawCircle(x, y, config.size, color);
+                current.drawCircle(x, y, config.size, color);
         }
     },
 
@@ -28,19 +29,19 @@ public enum EditTool {
             config.buildBrushTable();
         }
 
-        public void touched(Layer layer, int x, int y, Color color) {
+        public void touched(Layer current, int x, int y, Color color) {
             if (config.square)
-                layer.drawSquare(x, y, config.size, Color.clear);
+                current.drawSquare(x, y, config.size, Color.clear);
             else
-                layer.drawCircle(x, y, config.size, Color.clear);
+                current.drawCircle(x, y, config.size, Color.clear);
         }
     },
 
     fill(false, Binding.fill) {
         public void build() {}
 
-        public void touched(Layer layer, int x, int y, Color color) {
-            layer.fill(x, y, color);
+        public void touched(Layer current, int x, int y, Color color) {
+            current.fill(x, y, color);
         }
     },
 
@@ -56,15 +57,16 @@ public enum EditTool {
     pick(false, Binding.pick) {
         public void build() {}
 
-        public void touched(Layer layer, int x, int y, Color color) {
+        public void touched(Layer current, int x, int y, Color color) {
             if (scene.hasMouse()) return;
 
-            // for (var layer : editor.renderer.layers) {
-                //if (layer.get(x, y) != 0) {
-                //    ui.colorWheel.add(color.set(layer.get(x, y)));
-                //    return;
-                //}
-            // }
+            // TODO как-то смешивать цвета
+            for (var layer : editor.renderer.layers) {
+                if (layer.get(x, y) != 0) {
+                    ui.colorWheel.add(color.set(layer.get(x, y)));
+                    return;
+                }
+            }
         }
     };
 
@@ -88,7 +90,7 @@ public enum EditTool {
     public abstract void touched(Layer layer, int x, int y, Color color);
 
     public void button(Table table) {
-        table.button(Icons.getDrawable(name()), Styles.imageButtonCheck, 48f, () -> {
+        table.button(Icons.drawable(name()), Styles.imageButtonCheck, 48f, () -> {
             editor.tool = this;
             ui.hudFragment.updateConfig();
         })
@@ -98,7 +100,6 @@ public enum EditTool {
     }
 
     public class Config {
-
         public int size = 16, softness = 4;
         public boolean square, straight;
 

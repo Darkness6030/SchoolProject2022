@@ -55,7 +55,7 @@ public class Icons {
         eyeClosed = load('\uE88F');
     }
 
-    public static Drawable getDrawable(String name) {
+    public static Drawable drawable(String name) {
         return drawables.get(name, Drawables.error);
     }
 

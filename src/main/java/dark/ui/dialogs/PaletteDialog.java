@@ -18,8 +18,9 @@ import dark.ui.Drawables;
 import dark.ui.Icons;
 import dark.ui.Palette;
 
-import static arc.Core.*;
-import static dark.Main.*;
+import static arc.Core.app;
+import static arc.Core.input;
+import static dark.Main.ui;
 
 public class PaletteDialog extends BaseDialog {
 
@@ -106,9 +107,9 @@ public class PaletteDialog extends BaseDialog {
     }
 
     public void setHSV(int value, int index) {
-        int[] hsv = Color.RGBtoHSV(current);
+        var hsv = Color.RGBtoHSV(current);
         hsv[index] = value;
-        current = Color.HSVtoRGB(hsv[0], hsv[1], hsv[2]);
+        Color.HSVtoRGB(hsv[0], hsv[1], hsv[2], current);
     }
 
     public void rebuild() {
@@ -124,7 +125,6 @@ public class PaletteDialog extends BaseDialog {
     }
 
     public class PaletteImage extends Image {
-
         public Pixmap pixmap = new Pixmap(100, 100);
         public Texture texture = new Texture(pixmap);
 
@@ -136,10 +136,10 @@ public class PaletteDialog extends BaseDialog {
             update(() -> {
                 if (!clicked) return;
 
-                mouse = screenToLocalCoordinates(input.mouse()).clamp(0f, 0f, 256f, 256f);
+                mouse = screenToLocalCoordinates(input.mouse()).clamp(0.0001f, 0.0001f, 256f, 256f);
                 var hsv = Color.RGBtoHSV(current);
 
-                current = Color.HSVtoRGB(hsv[0], mouse.x / 2.56f, mouse.y / 2.56f);
+                Color.HSVtoRGB(hsv[0], mouse.x / 2.56f, mouse.y / 2.56f, current);
                 rebuild();
             });
 
@@ -149,7 +149,7 @@ public class PaletteDialog extends BaseDialog {
 
         public void update() {
             var hsv = Color.RGBtoHSV(current);
-            if (!clicked) mouse.set(hsv[1] * 2.56f, y + hsv[2] * 2.56f);
+            if (!clicked) mouse.set(hsv[1] * 2.56f, hsv[2] * 2.56f);
 
             pixmap.each((x, y) -> pixmap.set(x, y, Color.HSVtoRGB(hsv[0], x, 100f - y)));
             texture.load(texture.getTextureData());
@@ -159,7 +159,7 @@ public class PaletteDialog extends BaseDialog {
         public void draw() {
             super.draw();
 
-            Lines.stroke(2f, Palette.active.cpy().a(parentAlpha));
+            Lines.stroke(2f, Palette.active.cpy());
             Lines.circle(x + mouse.x, y + mouse.y, 6f);
         }
     }
