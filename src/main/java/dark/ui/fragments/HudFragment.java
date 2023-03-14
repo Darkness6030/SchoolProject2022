@@ -45,7 +45,7 @@ public class HudFragment {
                 for (var type : EditTool.values()) type.button(pad);
 
                 pad.stack(
-                        new SwapButton(editor.first, editor.second, 18f, 18f),
+                        new SwapButton(18f, 18f),
                         new ColorBlob(editor.second, 8f, -8f),
                         new ColorBlob(editor.first, -8f, 8f)
                 ).size(32f).padTop(24f);
@@ -124,7 +124,7 @@ public class HudFragment {
 
     public static class SwapButton extends ImageButton {
 
-        public SwapButton(Color first, Color second, float x, float y) {
+        public SwapButton(float x, float y) {
             super(Icons.swap, Styles.emptyImageButton);
             setTranslation(x, y);
 
