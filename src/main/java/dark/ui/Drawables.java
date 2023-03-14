@@ -20,8 +20,7 @@ public class Drawables {
             main_knob, darkmain_knob, active_knob,
             alpha_chan, alpha_chan_dizzy,
             underline, underline_red, cursor, selection,
-            corners, gray, color_blob, empty, error,
-            check_on, check_off, check_off_over, check_on_over;
+            corners, gray, color_blob, switch_bg, empty, error;
 
     public static void load() {
         splits = reader.parse(files.internal("sprites/splits.json"));
@@ -58,13 +57,9 @@ public class Drawables {
         corners = load("corners");
         gray = trd.tint(0f, 0f, 0f, .5f);
         color_blob = load("color-blob");
+        switch_bg = load("switch-bg");
         empty = load("empty");
         error = load("error");
-
-        check_on = load("check-on");
-        check_off = load("check-off");
-        check_on_over = load("check-on-over");
-        check_off_over = load("check-off-over");
 
         atlas.setErrorRegion("error");
     }

@@ -145,11 +145,7 @@ public class Styles {
         scene.addStyle(CheckBoxStyle.class, checkbox = new CheckBoxStyle() {{
             font = Fonts.def;
             fontColor = Color.white;
-
-            checkboxOn = Drawables.check_on;
-            checkboxOff = Drawables.check_off;
-            checkboxOnOver = Drawables.check_on_over;
-            checkboxOver = Drawables.check_off_over;
+            checkboxOff = Drawables.switch_bg;
         }});
     }
 }

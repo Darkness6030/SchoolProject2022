@@ -4,6 +4,7 @@ import arc.graphics.Color;
 import arc.scene.ui.layout.Table;
 import dark.ui.Icons;
 import dark.ui.Styles;
+import dark.ui.elements.Switch;
 
 import static arc.Core.*;
 import static dark.Main.*;
@@ -46,7 +47,7 @@ public enum EditTool {
     line(false) {
         public void build() {
             config.buildBrushTable();
-            cfgTable.check("@hud.straight", value -> config.straight = value); // всегда прямой угол
+            cfgTable.add(new Switch("@hud.straight", value -> config.straight = value)); // всегда прямой угол
         }
 
         public void touched(Layer layer, int x, int y, Color color) {}
@@ -107,7 +108,7 @@ public enum EditTool {
                 t.slider(1f, 100f, 1f, value -> softness = (int) value);
             }).padRight(8f);
 
-            cfgTable.check("@hud.square", value -> square = value).padRight(8f);
+            cfgTable.add(new Switch("@hud.square", value -> square = value)).padRight(8f);
         }
     }
 }
