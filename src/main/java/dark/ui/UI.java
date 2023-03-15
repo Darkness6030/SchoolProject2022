@@ -56,7 +56,7 @@ public class UI implements ApplicationListener {
         if (input.keyTap(KeyCode.escape) && !scene.hasDialog() && !menu.isShown()) menu.show();
 
         if ((input.keyTap(KeyCode.mouseLeft) || input.keyTap(KeyCode.mouseRight)) && scene.hasField())
-            if (scene.hit(input.mouseX(), input.mouseY(), true) instanceof TextField == false)
+            if (!(scene.hit(input.mouseX(), input.mouseY(), true) instanceof TextField))
                 scene.setKeyboardFocus(null);
     }
 

@@ -104,9 +104,9 @@ public enum EditTool {
         public boolean square, straight;
 
         public void buildBrushTable() {
-            cfgTable.table(t -> { // TODO иконки, чтобы понимать, что где
-                t.slider(1f, 100f, 1f, value -> size = (int) value).row();
-                t.slider(1f, 100f, 1f, value -> softness = (int) value);
+            cfgTable.table(table -> { // TODO иконки, чтобы понимать, что где
+                table.slider(1f, 100f, 1f, value -> size = (int) value).row();
+                table.slider(1f, 100f, 1f, value -> softness = (int) value);
             }).padRight(8f);
 
             cfgTable.add(new Switch("@hud.square", value -> square = value)).padRight(8f);

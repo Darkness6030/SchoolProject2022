@@ -15,7 +15,7 @@ public class FocusScrollPane extends ScrollPane {
         });
     }
 
-    public void scrollToY(float y) {
-        scrollTo(getScrollX(), y, getScrollWidth(), getScrollHeight());
+    public void scrollTo(float x, float y) {
+        scrollTo(x, y, getScrollWidth(), getScrollHeight());
     }
 }

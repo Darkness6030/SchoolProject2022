@@ -12,7 +12,7 @@ import dark.ui.Icons;
 import dark.ui.Styles;
 import dark.ui.elements.FocusScrollPane;
 
-import static arc.Core.*;
+import static arc.Core.bundle;
 import static dark.Main.*;
 
 public class HudFragment {
@@ -159,7 +159,7 @@ public class HudFragment {
 
             clicked(() -> {
                 editor.renderer.current = layer;
-                ui.hudFragment.pane.scrollToY(this.y - 264f);
+                ui.hudFragment.pane.scrollTo(0f, this.y - 446f);
             });
 
             update(() -> setChecked(editor.renderer.current == layer));
