@@ -154,7 +154,7 @@ public class PaletteDialog extends BaseDialog {
             update(() -> {
                 if (!clicked) return;
 
-                mouse.set(screenToLocalCoordinates(input.mouse()).clamp(0.0001f, 0.0001f, 256f, 256f));
+                mouse.set(screenToLocalCoordinates(input.mouse()).clamp(0f, 0f, 256f, 256f));
                 var hsv = Color.RGBtoHSV(current);
 
                 Color.HSVtoRGB(hsv[0], mouse.x / 2.56f, mouse.y / 2.56f, current);
@@ -174,7 +174,7 @@ public class PaletteDialog extends BaseDialog {
         public void draw() {
             super.draw();
 
-            Lines.stroke(2f, Palette.active.cpy());
+            Lines.stroke(2f, Palette.active.cpy().a(parentAlpha));
             Lines.circle(x + mouse.x, y + mouse.y, 6f);
         }
     }
@@ -186,7 +186,7 @@ public class PaletteDialog extends BaseDialog {
             update(() -> {
                 if (!clicked) return;
 
-                mouse.set(screenToLocalCoordinates(input.mouse()).clamp(0.0001f, 0.0001f, 256f, 32f));
+                mouse.set(screenToLocalCoordinates(input.mouse()).clamp(0f, 0f, 256f, 32f));
                 var hsv = Color.RGBtoHSV(current);
 
                 Color.HSVtoRGB(mouse.y * 1.40625f, hsv[1], hsv[2], current);
@@ -206,7 +206,7 @@ public class PaletteDialog extends BaseDialog {
         public void draw() {
             super.draw();
 
-            Lines.stroke(2f, Palette.active.cpy());
+            Lines.stroke(2f, Palette.active.cpy().a(parentAlpha));
             Lines.rect(x, y + mouse.y - 3f, width, 6f);
         }
     }
