@@ -124,15 +124,31 @@ public class PaletteDialog extends BaseDialog {
         super.show();
     }
 
-    public class PaletteImage extends Image {
-        public Pixmap pixmap = new Pixmap(100, 100);
-        public Texture texture = new Texture(pixmap);
+    public abstract class ClickableImage extends Image {
+
+        public Pixmap pixmap;
+        public Texture texture;
 
         public Vec2 mouse = new Vec2();
         public boolean clicked;
 
-        public PaletteImage() {
+        public ClickableImage(int width, int height) {
+            pixmap = new Pixmap(width, height);
+            texture = new Texture(pixmap);
             setDrawable(new TextureRegion(texture));
+
+            tapped(() -> clicked = true);
+            released(() -> clicked = false);
+        }
+
+        /** Подтягивает изменения цвета, внесённые другими элементами. */
+        public abstract void update();
+    }
+
+    public class PaletteImage extends ClickableImage {
+
+        public PaletteImage() {
+            super(100, 100);
             update(() -> {
                 if (!clicked) return;
 
@@ -142,9 +158,6 @@ public class PaletteDialog extends BaseDialog {
                 Color.HSVtoRGB(hsv[0], mouse.x / 2.56f, mouse.y / 2.56f, current);
                 rebuild();
             });
-
-            tapped(() -> clicked = true);
-            released(() -> clicked = false);
         }
 
         public void update() {
