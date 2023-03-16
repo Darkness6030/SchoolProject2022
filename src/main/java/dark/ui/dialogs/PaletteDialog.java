@@ -198,7 +198,7 @@ public class PaletteDialog extends BaseDialog {
             var hsv = Color.RGBtoHSV(current);
             if (!clicked) mouse.set(0f, hsv[0] / 1.40625f);
 
-            pixmap.each((x, y) -> pixmap.set(x, y, Color.HSVtoRGB(y, hsv[1], hsv[2])));
+            pixmap.each((x, y) -> pixmap.set(x, y, Color.HSVtoRGB(360 - y, hsv[1], hsv[2])));
             texture.load(texture.getTextureData());
         }
 
