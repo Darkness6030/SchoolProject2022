@@ -1,12 +1,15 @@
 package dark.ui.dialogs;
 
 import arc.func.Cons;
+import arc.func.Floatc;
+import arc.func.Floatp;
 import arc.func.Prov;
 import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.graphics.Texture;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
+import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.scene.ui.Image;
 import arc.scene.ui.TextField;
@@ -18,8 +21,9 @@ import dark.ui.Drawables;
 import dark.ui.Icons;
 import dark.ui.Palette;
 
-import static arc.Core.*;
-import static dark.Main.*;
+import static arc.Core.app;
+import static arc.Core.input;
+import static dark.Main.ui;
 
 public class PaletteDialog extends BaseDialog {
 
@@ -27,7 +31,9 @@ public class PaletteDialog extends BaseDialog {
 
     public PaletteImage image = new PaletteImage();
     public HueSlider slider = new HueSlider();
-    public Color callback, current;
+
+    public Color callback;
+    public ColorModel model = new ColorModel();
 
     public Seq<Runnable> rebuild = Seq.with(image::update, slider::update);
 
@@ -36,42 +42,38 @@ public class PaletteDialog extends BaseDialog {
         addCloseButton();
 
         buttons.buttonRow("@ok", Icons.ok, () -> {
-            ui.colorWheel.add(callback.set(current));
+            ui.colorWheel.add(model.get(callback));
             hide();
         });
 
-        cont.add(image).size(256f);
-        cont.add(slider).size(32f, 256f);
+        cont.add(image).size(256f).padTop(8f).padRight(16f);
+        cont.add(slider).size(32f, 256f).padTop(8f).padRight(16f);
 
         cont.table(ctrl -> {
             ctrl.top();
             ctrl.defaults().size(128f, 32f);
 
-            ctrl.image(Drawables.white_rounded_left).update(i -> i.setColor(callback));
-            ctrl.image(Drawables.white_rounded_right).update(i -> i.setColor(current));
+            ctrl.image(Drawables.white_rounded_left).update(image -> image.setColor(callback)).padTop(8f);
+            ctrl.image(Drawables.white_rounded_right).update(image -> image.setColor(model.get())).padTop(8f);
 
             ctrl.row();
 
-            field(ctrl, "[red]R: ", 255, i -> current.r(i / 255f), () -> (int) (current.r * 255));
-            field(ctrl, "[magenta]H: ", 360, i -> setHSV(i, 0), () -> Color.RGBtoHSV(current)[0]);
+            field(ctrl, "[red]R: ", 255, model::red, model::red);
+            field(ctrl, "[gray]H: ", 360, model::hue, model::hue);
 
             ctrl.row();
 
-            field(ctrl, "[green]G: ", 255, i -> current.g(i / 255f), () -> (int) (current.g * 255));
-            field(ctrl, "[yellow]S: ", 100, i -> setHSV(i, 1), () -> Color.RGBtoHSV(current)[1]);
+            field(ctrl, "[green]G: ", 255, model::green, model::green);
+            field(ctrl, "[gray]S: ", 100, model::saturation, model::saturation);
 
             ctrl.row();
 
-            field(ctrl, "[blue]B: ", 255, i -> current.b(i / 255f), () -> (int) (current.b * 255));
-            field(ctrl, "[cyan]V: ", 100, i -> setHSV(i, 2), () -> Color.RGBtoHSV(current)[2]);
+            field(ctrl, "[blue]B: ", 255, model::blue, model::blue);
+            field(ctrl, "[gray]V: ", 100, model::value, model::value);
 
             ctrl.row();
 
-            field(ctrl, "[lightgray]A: ", 255, i -> current.a(i / 255f), () -> (int) (current.a * 255));
-
-            ctrl.row();
-
-            field(ctrl, "[accent]HEX: ", hex -> current = Color.valueOf(hex), () -> current.toString(), field -> {
+            field(ctrl, "[accent]HEX: ", model::hex, model::hex, field -> {
                 field.setFilter((f, c) -> validHexChars.contains(String.valueOf(c)));
                 field.setValidator(hex -> hex.length() == 6 || hex.length() == 8);
                 field.setMaxLength(8);
@@ -98,8 +100,8 @@ public class PaletteDialog extends BaseDialog {
         }).marginLeft(6f);
     }
 
-    public void field(Table table, String name, int max, Cons<Integer> cons, Prov<Integer> prov) {
-        field(table, name, t -> cons.get(Strings.parseInt(t)), () -> String.valueOf(prov.get()), field -> {
+    public void field(Table table, String name, int max, Floatc cons, Floatp prov) {
+        field(table, name, t -> cons.get(Strings.parseInt(t)), () -> String.valueOf((int) prov.get()), field -> {
             field.setMaxLength(3);
             field.setValidator(text -> {
                 int number = Strings.parseInt(text);
@@ -108,26 +110,19 @@ public class PaletteDialog extends BaseDialog {
         });
     }
 
-    public void setHSV(int value, int index) {
-        var hsv = Color.RGBtoHSV(current);
-        hsv[index] = value;
-        Color.HSVtoRGB(hsv[0], hsv[1], hsv[2], current);
-    }
-
     public void rebuild() {
         rebuild.each(Runnable::run);
     }
 
     public void show(Color color) {
         this.callback = color;
-        this.current = color.cpy();
+        this.model.set(color);
 
         rebuild();
         super.show();
     }
 
     public static abstract class ClickableImage extends Image {
-
         public Pixmap pixmap;
         public Texture texture;
 
@@ -155,18 +150,19 @@ public class PaletteDialog extends BaseDialog {
                 if (!clicked) return;
 
                 mouse.set(screenToLocalCoordinates(input.mouse()).clamp(0f, 0f, 256f, 256f));
-                var hsv = Color.RGBtoHSV(current);
 
-                Color.HSVtoRGB(hsv[0], mouse.x / 2.56f, mouse.y / 2.56f, current);
+                model.saturation(mouse.x / 2.56f);
+                model.value(mouse.y / 2.56f);
+
                 rebuild();
             });
         }
 
+        @Override
         public void update() {
-            var hsv = Color.RGBtoHSV(current);
-            if (!clicked) mouse.set(hsv[1] * 2.56f, hsv[2] * 2.56f);
+            if (!clicked) mouse.set(model.saturation * 2.56f, model.value * 2.56f);
 
-            pixmap.each((x, y) -> pixmap.set(x, y, Color.HSVtoRGB(hsv[0], x, 100f - y)));
+            pixmap.each((x, y) -> pixmap.set(x, y, Color.HSVtoRGB(model.hue, x, 100f - y)));
             texture.load(texture.getTextureData());
         }
 
@@ -174,8 +170,8 @@ public class PaletteDialog extends BaseDialog {
         public void draw() {
             super.draw();
 
-            Lines.stroke(2f, Palette.active.cpy().a(parentAlpha));
-            Lines.circle(x + mouse.x, y + mouse.y, 6f);
+            Lines.stroke(3f, Palette.active.cpy().a(parentAlpha));
+            Lines.poly(x + mouse.x, y + mouse.y, 96, 12f);
         }
     }
 
@@ -187,18 +183,17 @@ public class PaletteDialog extends BaseDialog {
                 if (!clicked) return;
 
                 mouse.set(screenToLocalCoordinates(input.mouse()).clamp(0f, 0f, 256f, 32f));
-                var hsv = Color.RGBtoHSV(current);
+                model.hue(mouse.y * 1.40625f);
 
-                Color.HSVtoRGB(mouse.y * 1.40625f, hsv[1], hsv[2], current);
                 rebuild();
             });
         }
 
+        @Override
         public void update() {
-            var hsv = Color.RGBtoHSV(current);
-            if (!clicked) mouse.set(0f, hsv[0] / 1.40625f);
+            if (!clicked) mouse.set(0f, model.hue / 1.40625f);
 
-            pixmap.each((x, y) -> pixmap.set(x, y, Color.HSVtoRGB(360 - y, hsv[1], hsv[2])));
+            pixmap.each((x, y) -> pixmap.set(x, y, Color.HSVtoRGB(360f - y, model.saturation, model.value)));
             texture.load(texture.getTextureData());
         }
 
@@ -206,8 +201,97 @@ public class PaletteDialog extends BaseDialog {
         public void draw() {
             super.draw();
 
-            Lines.stroke(2f, Palette.active.cpy().a(parentAlpha));
-            Lines.rect(x, y + mouse.y - 3f, width, 6f);
+            Lines.stroke(3f, Palette.active.cpy().a(parentAlpha));
+            Lines.rect(x - 3f, y + Mathf.clamp(mouse.y - 6f, 0f, height - 12f), width + 6f, 12f);
         }
+    }
+
+    public static class ColorModel {
+        public float hue, saturation, value;
+
+        public void set(float hue, float saturation, float value) {
+            this.hue = hue;
+            this.saturation = saturation;
+            this.value = value;
+        }
+
+        public void set(Color color) {
+            var hsv = Color.RGBtoHSV(color);
+            set(hsv[0], hsv[1], hsv[2]);
+        }
+
+        public Color get() {
+            return Color.HSVtoRGB(hue, saturation, value);
+        }
+
+        public Color get(Color color) {
+            return Color.HSVtoRGB(hue, saturation, value, color);
+        }
+
+        // region rgb
+
+        public float red() {
+            return (int) (Color.HSVtoRGB(hue, saturation, value).r * 255f);
+        }
+
+        public float green() {
+            return (int) (Color.HSVtoRGB(hue, saturation, value).g * 255f);
+        }
+
+        public float blue() {
+            return (int) (Color.HSVtoRGB(hue, saturation, value).b * 255f);
+        }
+
+        public void red(float red) {
+            set(Color.HSVtoRGB(hue, saturation, value).r(red / 255f));
+        }
+
+        public void green(float green) {
+            set(Color.HSVtoRGB(hue, saturation, value).g(green / 255f));
+        }
+
+        public void blue(float blue) {
+            set(Color.HSVtoRGB(hue, saturation, value).b(blue / 255f));
+        }
+
+        // endregion
+        // region hsv
+
+        public float hue() {
+            return hue;
+        }
+
+        public float saturation() {
+            return saturation;
+        }
+
+        public float value() {
+            return value;
+        }
+
+        public void hue(float hue) {
+            this.hue = hue;
+        }
+
+        public void saturation(float saturation) {
+            this.saturation = saturation;
+        }
+
+        public void value(float value) {
+            this.value = value;
+        }
+
+        // endregion
+        // region hex
+
+        public void hex(String hex) {
+            set(Color.valueOf(hex));
+        }
+
+        public String hex() {
+            return get().toString();
+        }
+
+        // endregion
     }
 }

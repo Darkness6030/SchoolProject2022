@@ -45,14 +45,6 @@ public class SpriteX extends ApplicationCore {
         add(editor);
         add(ui);
 
-        editor.load();
-        ui.load();
-
         Log.info("Total time to load: @ms", Time.elapsed());
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        ui.resize(width, height);
     }
 }

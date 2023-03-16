@@ -31,7 +31,8 @@ public class UI implements ApplicationListener {
 
     public Table toast;
 
-    public void load() {
+    @Override
+    public void init() {
         input.addProcessor(scene);
         scene.add(hud);
 

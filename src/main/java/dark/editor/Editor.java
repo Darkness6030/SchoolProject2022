@@ -25,7 +25,8 @@ public class Editor implements ApplicationListener, GestureListener {
     public EditTool tool = EditTool.pencil, temp;
     public Color first = Color.white.cpy(), second = Color.black.cpy();
 
-    public void load() {
+    @Override
+    public void init() {
         input.addProcessor(new GestureDetector(this));
         reset(800, 600);
     }

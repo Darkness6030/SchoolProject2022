@@ -129,8 +129,8 @@ public class Styles {
             knobBefore = Drawables.active_knob;
             knobAfter = Drawables.darkmain_knob;
 
-            knob = Drawables.main_rounded;
-            knobOver = Drawables.darkmain_rounded;
+            knob = Drawables.active_rounded;
+            knobOver = Drawables.active_rounded;
             knobDown = Drawables.active_rounded;
         }});
 
