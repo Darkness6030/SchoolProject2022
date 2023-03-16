@@ -18,18 +18,18 @@ import dark.ui.Drawables;
 import dark.ui.Icons;
 import dark.ui.Palette;
 
-import static arc.Core.app;
-import static arc.Core.input;
-import static dark.Main.ui;
+import static arc.Core.*;
+import static dark.Main.*;
 
 public class PaletteDialog extends BaseDialog {
 
     public static final String validHexChars = "0123456789AaBbCcDdEeFf";
 
     public PaletteImage image = new PaletteImage();
+    public HueSlider slider = new HueSlider();
     public Color callback, current;
 
-    public Seq<Runnable> rebuild = Seq.with(() -> image.update());
+    public Seq<Runnable> rebuild = Seq.with(image::update, slider::update);
 
     public PaletteDialog() {
         super("@palette");
@@ -41,6 +41,8 @@ public class PaletteDialog extends BaseDialog {
         });
 
         cont.add(image).size(256f);
+        cont.add(slider).size(32f, 256f);
+
         cont.table(ctrl -> {
             ctrl.top();
             ctrl.defaults().size(128f, 32f);
@@ -124,7 +126,7 @@ public class PaletteDialog extends BaseDialog {
         super.show();
     }
 
-    public abstract class ClickableImage extends Image {
+    public static abstract class ClickableImage extends Image {
 
         public Pixmap pixmap;
         public Texture texture;
@@ -152,7 +154,7 @@ public class PaletteDialog extends BaseDialog {
             update(() -> {
                 if (!clicked) return;
 
-                mouse = screenToLocalCoordinates(input.mouse()).clamp(0.0001f, 0.0001f, 256f, 256f);
+                mouse.set(screenToLocalCoordinates(input.mouse()).clamp(0.0001f, 0.0001f, 256f, 256f));
                 var hsv = Color.RGBtoHSV(current);
 
                 Color.HSVtoRGB(hsv[0], mouse.x / 2.56f, mouse.y / 2.56f, current);
@@ -174,6 +176,38 @@ public class PaletteDialog extends BaseDialog {
 
             Lines.stroke(2f, Palette.active.cpy());
             Lines.circle(x + mouse.x, y + mouse.y, 6f);
+        }
+    }
+
+    public class HueSlider extends ClickableImage {
+
+        public HueSlider() {
+            super(1, 360);
+            update(() -> {
+                if (!clicked) return;
+
+                mouse.set(screenToLocalCoordinates(input.mouse()).clamp(0.0001f, 0.0001f, 256f, 32f));
+                var hsv = Color.RGBtoHSV(current);
+
+                Color.HSVtoRGB(mouse.y * 1.40625f, hsv[1], hsv[2], current);
+                rebuild();
+            });
+        }
+
+        public void update() {
+            var hsv = Color.RGBtoHSV(current);
+            if (!clicked) mouse.set(0f, hsv[0] / 1.40625f);
+
+            pixmap.each((x, y) -> pixmap.set(x, y, Color.HSVtoRGB(y, hsv[1], hsv[2])));
+            texture.load(texture.getTextureData());
+        }
+
+        @Override
+        public void draw() {
+            super.draw();
+
+            Lines.stroke(2f, Palette.active.cpy());
+            Lines.rect(x, y + mouse.y - 3f, width, 6f);
         }
     }
 }
