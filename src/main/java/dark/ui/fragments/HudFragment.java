@@ -17,7 +17,7 @@ import static dark.Main.*;
 
 public class HudFragment {
 
-    public Table layers, config;
+    public Table config, layers;
     public FocusScrollPane pane;
 
     public void build(WidgetGroup parent) {
@@ -109,7 +109,7 @@ public class HudFragment {
 
     public void updateConfig() {
         config.clear();
-        config.left().add(editor.tool.cfgTable);
+        config.left().add(editor.tool.configTable);
     }
 
     public void updateLayers() {

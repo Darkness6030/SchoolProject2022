@@ -41,14 +41,16 @@ public enum EditTool {
         public void build() {}
 
         public void touched(Layer current, int x, int y, Color color) {
-            current.fill(x, y, color);
+            current.fill(x, y, config.maxDifference, color);
         }
     },
 
     line(false) {
+        public int value;
+
         public void build() {
             config.buildBrushTable();
-            cfgTable.add(new Switch("@hud.straight", value -> config.straight = value)); // всегда прямой угол
+            configTable.add(new Switch("@hud.straight", value -> config.straight = value)); // всегда прямой угол
         }
 
         public void touched(Layer layer, int x, int y, Color color) {}
@@ -74,7 +76,7 @@ public enum EditTool {
     public final Binding hotkey;
 
     public final Config config = new Config();
-    public final Table cfgTable = new Table();
+    public final Table configTable = new Table();
 
     EditTool(boolean draggable) {
         this(draggable, Binding.unknown);
@@ -101,15 +103,17 @@ public enum EditTool {
 
     public class Config {
         public int size = 16, softness = 4;
+        public float maxDifference = 0.2f;
+
         public boolean square, straight;
 
         public void buildBrushTable() {
-            cfgTable.table(table -> { // TODO иконки, чтобы понимать, что где
+            configTable.table(table -> { // TODO иконки, чтобы понимать, что где
                 table.slider(1f, 100f, 1f, value -> size = (int) value).row();
                 table.slider(1f, 100f, 1f, value -> softness = (int) value);
             }).padRight(8f);
 
-            cfgTable.add(new Switch("@hud.square", value -> square = value)).padRight(8f);
+            configTable.add(new Switch("@hud.square", value -> square = value)).padRight(8f);
         }
     }
 }

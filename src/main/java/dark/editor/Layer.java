@@ -1,11 +1,16 @@
 package dark.editor;
 
 import arc.files.Fi;
-import arc.graphics.*;
-import arc.graphics.g2d.*;
+import arc.graphics.Color;
+import arc.graphics.Pixmap;
+import arc.graphics.Texture;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.math.geom.Point2;
-import arc.struct.*;
+import arc.struct.Bits;
+import arc.struct.IntQueue;
+import arc.util.Tmp;
 
 import static arc.Core.bundle;
 
@@ -67,10 +72,10 @@ public class Layer extends Pixmap {
         fillCircle(x, y, Mathf.floor(size / 2f), color.rgba());
     }
 
-    public void fill(int x, int y, Color color) {
+    public void fill(int x, int y, float maxDifference, Color color) {
         change();
 
-        int prevColor = get(x, y);
+        int previous = get(x, y);
         var hits = new Bits(width * height);
 
         var queue = new IntQueue();
@@ -81,7 +86,7 @@ public class Layer extends Pixmap {
             x = Point2.x(pos);
             y = Point2.y(pos);
 
-            if (in(x, y) && get(x, y) == prevColor && !hits.getAndSet(x + y * width)) {
+            if (in(x, y) && compareColor(previous, get(x, y), maxDifference) && !hits.getAndSet(x + y * width)) {
                 set(x, y, color);
 
                 queue.addLast(Point2.pack(x, y - 1));
@@ -90,5 +95,9 @@ public class Layer extends Pixmap {
                 queue.addLast(Point2.pack(x + 1, y));
             }
         }
+    }
+
+    public boolean compareColor(int previous, int color, float maxDifference) {
+        return Tmp.c1.set(previous).diff(Tmp.c2.set(color)) <= maxDifference;
     }
 }

@@ -11,7 +11,7 @@ import dark.ui.Styles;
 public class ColorWheel {
 
     public static final float radius = 128f;
-    public static final int max = 18;
+    public static final int max = 24;
 
     public Stack stack;
     public Seq<Color> colors;
