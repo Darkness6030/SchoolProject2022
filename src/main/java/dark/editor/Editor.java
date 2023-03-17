@@ -2,11 +2,11 @@ package dark.editor;
 
 import arc.ApplicationListener;
 import arc.files.Fi;
-import arc.graphics.*;
+import arc.graphics.Color;
+import arc.graphics.PixmapIO;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 import arc.math.geom.Bresenham2;
-import arc.util.Log;
 import arc.util.Tmp;
 import dark.ui.Icons;
 import dark.ui.Palette;
@@ -34,7 +34,8 @@ public class Editor implements ApplicationListener, GestureListener {
     @Override
     public void update() {
         if (!scene.hasDialog()) {
-            if (!scene.hasKeyboard()) canvas.move(Binding.move_x.axis() * canvas.zoom * -8f, Binding.move_y.axis() * canvas.zoom * -8f);
+            if (!scene.hasKeyboard())
+                canvas.move(Binding.move_x.axis() * canvas.zoom * -8f, Binding.move_y.axis() * canvas.zoom * -8f);
             if (!scene.hasScroll()) canvas.zoom(Binding.zoom.scroll() * canvas.zoom * .05f);
 
             input();
@@ -88,32 +89,21 @@ public class Editor implements ApplicationListener, GestureListener {
             ui.colorWheel.hide();
         }
 
-        if (input.ctrl() && Binding.copy.tap()) {
-            var pixmap = renderer.save();
-            Clipboard.setImage(pixmap);
-        }
+        if (input.ctrl() && Binding.copy.tap())
+            copy();
 
-        if (input.ctrl() && Binding.paste.tap()) {
-            try {
-                var pixmap = Clipboard.getImage();
-                if (pixmap == null) return;
-
-                var layer = new Layer(pixmap.width, pixmap.height);
-                layer.draw(pixmap);
-
-                renderer.reset(layer);
-                canvas.reset(pixmap.width, pixmap.height);
-            } catch (Exception e) {
-                Log.err(e);
-            }
-        }
+        if (input.ctrl() && Binding.paste.tap())
+            paste();
     }
+
+    // region actions
 
     public void draw(Color color) {
         var element = scene.hit(input.mouseX(), input.mouseY(), true);
         if (element != null) return;
 
-        if (tool.draggable) Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(renderer.current, x, y, color));
+        if (tool.draggable)
+            Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(renderer.current, x, y, color));
         else tool.touched(renderer.current, canvas.canvasX(), canvas.canvasY(), color);
     }
 
@@ -122,24 +112,52 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.reset(width, height);
     }
 
-    public void save(Fi file) {
-        var pixmap = renderer.save();
-        PixmapIO.writePng(file, pixmap);
+    public void reset(Layer layer) {
+        renderer.reset(layer);
+        canvas.reset(layer.width, layer.height);
+    }
 
-        ui.showInfoToast(Icons.save, bundle.format("saved", file.name()));
-        ui.menu.hide();
+    public void copy() {
+        try {
+            renderer.save(Clipboard::copy);
+            ui.showInfoToast(Icons.copy, "@copied");
+        } catch (Exception e) {
+            // ui.showException("Failed to copy", e);
+        }
+    }
+
+    public void paste() {
+        try {
+            Clipboard.paste(pixmap -> reset(new Layer(pixmap)));
+            ui.showInfoToast(Icons.paste, "@pasted");
+        } catch (Exception e) {
+            // ui.showException("Failed to paste", e);
+        }
+    }
+
+    public void save(Fi file) {
+        try {
+            renderer.save(pixmap -> PixmapIO.writePng(file, pixmap));
+
+            ui.showInfoToast(Icons.save, bundle.format("saved", file.name()));
+            ui.menu.hide();
+        } catch (Exception e) {
+            // ui.showException("Failed to save", e);
+        }
     }
 
     public void load(Fi file) {
-        var layer = new Layer(file);
+        try {
+            reset(new Layer(file));
 
-        renderer.reset(layer);
-        canvas.reset(layer.width, layer.height);
-
-        ui.showInfoToast(Icons.load, bundle.format("loaded", file.name()));
-        ui.menu.hide();
+            ui.showInfoToast(Icons.load, bundle.format("loaded", file.name()));
+            ui.menu.hide();
+        } catch (Exception e) {
+            // ui.showException("Failed to load", e);
+        }
     }
 
+    // endregion
     // region tools
 
     public void moveUp() {

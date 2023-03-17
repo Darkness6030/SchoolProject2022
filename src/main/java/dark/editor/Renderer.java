@@ -1,5 +1,6 @@
 package dark.editor;
 
+import arc.func.Cons;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.struct.Seq;
@@ -40,11 +41,12 @@ public class Renderer {
         ui.hudFragment.updateLayers();
     }
 
-    public Pixmap save() {
+    public void save(Cons<Pixmap> cons) {
         var pixmap = new Pixmap(current.width, current.height);
         layers.each(layer -> pixmap.draw(layer, true));
 
-        return pixmap;
+        cons.get(pixmap);
+        pixmap.dispose();
     }
 
     public void addLayer(Layer layer) {

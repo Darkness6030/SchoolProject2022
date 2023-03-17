@@ -25,6 +25,11 @@ public class Layer extends Pixmap {
         super(file);
     }
 
+    public Layer(Pixmap pixmap) {
+        this(pixmap.width, pixmap.height);
+        this.draw(pixmap);
+    }
+
     public Layer copy() {
         var copy = new Layer(width, height);
         copy.name = name;

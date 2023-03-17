@@ -1,5 +1,6 @@
 package dark.utils;
 
+import arc.func.Cons;
 import arc.graphics.Pixmap;
 import arc.util.Tmp;
 import com.github.bsideup.jabel.Desugar;
@@ -13,18 +14,20 @@ import java.io.IOException;
 
 public class Clipboard {
 
-    public static Pixmap getImage() throws IOException, UnsupportedFlavorException {
+    public static void paste(Cons<Pixmap> cons) throws IOException, UnsupportedFlavorException {
         var contents = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
-        if (contents == null || !contents.isDataFlavorSupported(DataFlavor.imageFlavor)) return null;
+        if (contents == null || !contents.isDataFlavorSupported(DataFlavor.imageFlavor)) return;
 
         var image = (BufferedImage) contents.getTransferData(DataFlavor.imageFlavor);
-        var pixmap = new Pixmap(image.getWidth(), image.getHeight());
 
+        var pixmap = new Pixmap(image.getWidth(), image.getHeight());
         pixmap.each((x, y) -> pixmap.set(x, y, Tmp.c1.argb8888(image.getRGB(x, y)).rgba8888()));
-        return pixmap;
+
+        cons.get(pixmap);
+        pixmap.dispose();
     }
 
-    public static void setImage(Pixmap pixmap) {
+    public static void copy(Pixmap pixmap) {
         var image = new BufferedImage(pixmap.width, pixmap.height, BufferedImage.TYPE_INT_RGB);
         pixmap.each((x, y) -> image.setRGB(x, y, Tmp.c1.rgba8888(pixmap.get(x, y)).argb8888()));
 

@@ -9,12 +9,15 @@ import arc.scene.actions.Actions;
 import arc.scene.event.Touchable;
 import arc.scene.style.Drawable;
 import arc.scene.ui.TextField;
-import arc.scene.ui.layout.*;
+import arc.scene.ui.layout.Table;
+import arc.scene.ui.layout.WidgetGroup;
 import arc.util.Align;
 import dark.ui.dialogs.*;
-import dark.ui.fragments.*;
+import dark.ui.fragments.ColorWheel;
+import dark.ui.fragments.HudFragment;
 
-import static arc.Core.*;
+import static arc.Core.input;
+import static arc.Core.scene;
 
 public class UI implements ApplicationListener {
 
@@ -77,7 +80,8 @@ public class UI implements ApplicationListener {
 
         toast = scene.table();
         toast.table(Drawables.main_rounded, table -> {
-            table.image(icon);
+            table.image(icon).color(Palette.active);
+            ;
             table.add(text).wrap().size(280f, 32f).labelAlign(Align.center);
         });
 

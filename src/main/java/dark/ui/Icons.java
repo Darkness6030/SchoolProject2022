@@ -22,7 +22,7 @@ public class Icons {
 
     up, down, right, left,
 
-    plus, copy, trash, eyeOpen, eyeClosed;
+    plus, copy, paste, trash, eyeOpen, eyeClosed;
 
     public static void load() {
         pencil = load("pencil", '\uE869');
@@ -50,6 +50,7 @@ public class Icons {
 
         plus = load('\uE813');
         copy = load('\uE874');
+        paste = load('\uE852');
         trash = load('\uE86F');
         eyeOpen = load('\uE88E');
         eyeClosed = load('\uE88F');

@@ -10,6 +10,7 @@ import arc.scene.ui.layout.Table;
 
 import static arc.Core.*;
 
+// TODO оно вообще нужно?
 public class SettingsDialog extends BaseDialog {
 
     public SettingsDialog() {
