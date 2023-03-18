@@ -38,7 +38,9 @@ public enum EditTool {
     },
 
     fill(false, Binding.fill) {
-        public void build() {}
+        public void build() {
+            configTable.slider(0f, 1f, 0.01f, value -> config.maxDifference = value).padRight(8f);
+        }
 
         public void touched(Layer current, int x, int y, Color color) {
             current.fill(x, y, config.maxDifference, color);
