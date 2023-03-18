@@ -22,7 +22,7 @@ public class Switch extends CheckBox {
         this.unchecked = unchecked;
 
         this.changed(() -> listener.get(isChecked()));
-        this.getImage().setColor(Palette.darkmain);
+        this.getImage().setColor(unchecked);
     }
 
     @Override
