@@ -108,8 +108,11 @@ public enum EditTool {
         public boolean square, straight;
 
         public void buildBrushTable() {
-            configTable.table(table -> { // TODO иконки, чтобы понимать, что где
+            configTable.table(table -> {
+                table.image(Icons.circle).size(24f);
                 table.slider(1f, 100f, 1f, value -> size = (int) value).row();
+
+                table.image(Icons.spray).size(24f);
                 table.slider(1f, 100f, 1f, value -> softness = (int) value);
             }).padRight(8f);
 

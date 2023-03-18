@@ -22,7 +22,7 @@ public class Icons {
 
     up, down, right, left,
 
-    plus, copy, paste, trash, eyeOpen, eyeClosed;
+    plus, copy, paste, trash, eyeOpen, eyeClosed, circle,spray;
 
     public static void load() {
         pencil = load("pencil", '\uE869');
@@ -54,6 +54,8 @@ public class Icons {
         trash = load('\uE86F');
         eyeOpen = load('\uE88E');
         eyeClosed = load('\uE88F');
+        circle = load('\uE86C');
+        spray = load('\uE82D');
     }
 
     public static Drawable drawable(String name) {
