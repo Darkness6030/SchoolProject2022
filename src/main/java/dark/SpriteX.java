@@ -10,7 +10,6 @@ import arc.util.I18NBundle;
 import arc.util.Log;
 import arc.util.Time;
 import dark.ui.*;
-import dark.utils.Clipboard;
 
 import static arc.Core.*;
 import static dark.Main.*;

@@ -13,11 +13,9 @@ import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
 import arc.util.Align;
 import dark.ui.dialogs.*;
-import dark.ui.fragments.ColorWheel;
-import dark.ui.fragments.HudFragment;
+import dark.ui.fragments.*;
 
-import static arc.Core.input;
-import static arc.Core.scene;
+import static arc.Core.*;
 
 public class UI implements ApplicationListener {
 
@@ -80,8 +78,7 @@ public class UI implements ApplicationListener {
 
         toast = scene.table();
         toast.table(Drawables.main_rounded, table -> {
-            table.image(icon).color(Palette.active);
-            ;
+            table.image(icon).size(32f);
             table.add(text).wrap().size(280f, 32f).labelAlign(Align.center);
         });
 
