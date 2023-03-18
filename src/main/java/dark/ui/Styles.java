@@ -24,7 +24,6 @@ public class Styles {
     public static ScrollPaneStyle scroll;
     public static SliderStyle slider;
     public static DialogStyle dialog;
-
     public static CheckBoxStyle checkbox;
 
     public static void load() {
@@ -129,7 +128,7 @@ public class Styles {
             knobBefore = Drawables.active_knob;
             knobAfter = Drawables.darkmain_knob;
 
-            knob = Drawables.active_rounded;
+            knob = Drawables.slider_knob;
             knobOver = Drawables.active_rounded;
             knobDown = Drawables.active_rounded;
         }});

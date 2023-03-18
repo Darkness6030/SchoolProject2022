@@ -20,7 +20,7 @@ public class Drawables {
             main_knob, darkmain_knob, active_knob,
             alpha_chan, alpha_chan_dizzy,
             underline, underline_red, cursor, selection,
-            corners, gray, color_blob, switch_bg, empty, error;
+            corners, gray, color_blob, slider_knob, switch_bg, empty, error;
 
     public static void load() {
         splits = reader.parse(files.internal("sprites/splits.json"));
@@ -57,6 +57,7 @@ public class Drawables {
         corners = load("corners");
         gray = trd.tint(0f, 0f, 0f, .5f);
         color_blob = load("color-blob");
+        slider_knob = load("slider-knob");
         switch_bg = load("switch-bg");
         empty = load("empty");
         error = load("error");
