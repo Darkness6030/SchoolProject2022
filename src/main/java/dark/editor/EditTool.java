@@ -48,8 +48,6 @@ public enum EditTool {
     },
 
     line(false) {
-        public int value;
-
         public void build() {
             config.buildBrushTable();
             configTable.add(new Switch("@hud.straight", value -> config.straight = value)); // всегда прямой угол

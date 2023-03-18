@@ -29,6 +29,9 @@ public class Canvas {
     public void zoom(float zoom) {
         this.zoom += zoom;
         this.zoom = Mathf.clamp(this.zoom, 0.2f, 20f);
+
+        var mouse = input.mouse().sub(x, y);
+        this.move(mouse.x * zoom, mouse.y * zoom);
     }
 
     public int scaledWidth() {
