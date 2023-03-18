@@ -11,10 +11,19 @@ public class BaseDialog extends Dialog {
 
     public BaseDialog(String title, DialogStyle style) {
         super(title, style);
-        this.title.setAlignment(Align.center);
 
-        this.titleTable.row(); // horizontal gap
-        this.titleTable.image(Drawables.active).growX().height(4f).pad(4f);
+        margin(0f).clear();
+        defaults().pad(4f);
+
+        add(titleTable).growX().row();
+        image(Drawables.darkmain).growX().height(8f).pad(0f).row(); // horizontal gap
+
+        add(cont).fill().row();
+        add(buttons).fillX();
+
+        this.title.setAlignment(Align.center);
+        titleTable.marginLeft(28f); // center the title
+        titleTable.button(Icons.cancel, this::hide);
     }
 
     public BaseDialog(String title) {
