@@ -14,7 +14,7 @@ public class Drawables {
 
     public static JsonValue splits;
     public static Drawable
-            white, white_rounded, white_rounded_left, white_rounded_right, white_knob,
+            white_ui, white_rounded, white_rounded_left, white_rounded_right, white_knob,
             main, darkmain, active,
             main_rounded, darkmain_rounded, active_rounded,
             main_knob, darkmain_knob, active_knob,
@@ -25,26 +25,26 @@ public class Drawables {
     public static void load() {
         splits = reader.parse(files.internal("sprites/splits.json"));
 
-        white = load("whiteui", false);
+        white_ui = load("whiteui", false);
         white_rounded = load("whiteui-rounded");
         white_rounded_left = load("whiteui-rounded-left");
         white_rounded_right = load("whiteui-rounded-right");
         white_knob = load("whiteui-knob");
 
-        var trd = (TextureRegionDrawable) white;
-        main = trd.tint(Palette.main);
-        darkmain = trd.tint(Palette.darkmain);
-        active = trd.tint(Palette.active);
+        var white = (TextureRegionDrawable) white_ui;
+        main = white.tint(Palette.main);
+        darkmain = white.tint(Palette.darkmain);
+        active = white.tint(Palette.active);
 
-        var npd = (NinePatchDrawable) white_rounded;
-        main_rounded = npd.tint(Palette.main);
-        darkmain_rounded = npd.tint(Palette.darkmain);
-        active_rounded = npd.tint(Palette.active);
+        var rounded = (NinePatchDrawable) white_rounded;
+        main_rounded = rounded.tint(Palette.main);
+        darkmain_rounded = rounded.tint(Palette.darkmain);
+        active_rounded = rounded.tint(Palette.active);
 
-        var knb = (NinePatchDrawable) white_knob;
-        main_knob = knb.tint(Palette.main);
-        darkmain_knob = knb.tint(Palette.darkmain);
-        active_knob = knb.tint(Palette.active);
+        var knob = (NinePatchDrawable) white_knob;
+        main_knob = knob.tint(Palette.main);
+        darkmain_knob = knob.tint(Palette.darkmain);
+        active_knob = knob.tint(Palette.active);
 
         alpha_chan = load("alpha-chan");
         alpha_chan_dizzy = load("alpha-chan-dizzy");
@@ -55,7 +55,7 @@ public class Drawables {
         selection = load("selection");
 
         corners = load("corners");
-        gray = trd.tint(0f, 0f, 0f, .5f);
+        gray = white.tint(0f, 0f, 0f, .5f);
         color_blob = load("color-blob");
         slider_knob = load("slider-knob");
         switch_bg = load("switch-bg");

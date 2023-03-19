@@ -129,7 +129,7 @@ public class Styles {
             knobAfter = Drawables.darkmain_knob;
 
             knob = Drawables.slider_knob;
-            knobOver = Drawables.active_rounded;
+            knobOver = Drawables.slider_knob;
             knobDown = Drawables.active_rounded;
         }});
 

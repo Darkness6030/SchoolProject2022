@@ -109,19 +109,31 @@ public enum EditTool {
 
         public boolean square, straight;
 
+        // TODO Дарк, если надо, прикрути валидацию по размеру для field'ов, ибо кисть в 999999 не круто
         public void buildBrushTable() {
             configTable.table(table -> {
                 table.image(Icons.circle).size(24f);
-                table.slider(1f, 100f, 1f, value -> size = (int) value).with(slider -> new UnderTable(slider, under -> {
-                    under.field(String.valueOf(size), value -> slider.setValue(size = Strings.parseInt(value))).valid(Strings::canParseInt);
+                table.slider(1, 100, 1, value -> size = (int) value).with(slider -> new UnderTable(slider, under -> {
+                    under.field(String.valueOf(size), value -> slider.setValue(size = Strings.parseInt(value))).valid(value -> {
+                        int number = Strings.parseInt(value);
+                        return number >= 1 && number <= 100;
+                    }).update(field -> {
+                        if (!field.hasKeyboard())
+                            field.setText(String.valueOf((int) slider.getValue()));
+                    });
                 })).row();
 
                 table.image(Icons.spray).size(24f);
-                table.slider(1f, 100f, 1f, value -> softness = (int) value).with(slider -> new UnderTable(slider, under -> {
-                    under.field(String.valueOf(softness), value -> slider.setValue(softness = Strings.parseInt(value))).valid(Strings::canParseInt);
+                table.slider(1, 100, 1, value -> softness = (int) value).with(slider -> new UnderTable(slider, under -> {
+                    under.field(String.valueOf(softness), value -> slider.setValue(softness = Strings.parseInt(value))).valid(value -> {
+                        int number = Strings.parseInt(value);
+                        return number >= 1 && number <= 100;
+                    }).update(field -> {
+                        if (!field.hasKeyboard())
+                            field.setText(String.valueOf((int) slider.getValue()));
+                    });
                 }));
             }).padRight(8f);
-            // TODO Дарк, если надо, прикрути валидацию по размеру для field'ов, ибо кисть в 999999 не оч. как-то
 
             configTable.add(new Switch("@hud.square", value -> square = value)).padRight(8f);
         }
