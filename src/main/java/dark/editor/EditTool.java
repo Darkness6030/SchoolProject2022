@@ -2,13 +2,14 @@ package dark.editor;
 
 import arc.graphics.Color;
 import arc.scene.ui.layout.Table;
+import arc.util.Strings;
 import dark.ui.Icons;
 import dark.ui.Styles;
 import dark.ui.elements.Switch;
+import dark.ui.elements.UnderTable;
 
-import static arc.Core.scene;
-import static dark.Main.editor;
-import static dark.Main.ui;
+import static arc.Core.*;
+import static dark.Main.*;
 
 public enum EditTool {
     pencil(true, Binding.pencil) {
@@ -102,6 +103,7 @@ public enum EditTool {
     }
 
     public class Config {
+
         public int size = 16, softness = 4;
         public float maxDifference = 0.2f;
 
@@ -110,11 +112,16 @@ public enum EditTool {
         public void buildBrushTable() {
             configTable.table(table -> {
                 table.image(Icons.circle).size(24f);
-                table.slider(1f, 100f, 1f, value -> size = (int) value).row();
+                table.slider(1f, 100f, 1f, value -> size = (int) value).with(slider -> new UnderTable(slider, under -> {
+                    under.field(String.valueOf(size), value -> slider.setValue(size = Strings.parseInt(value))).valid(Strings::canParseInt);
+                })).row();
 
                 table.image(Icons.spray).size(24f);
-                table.slider(1f, 100f, 1f, value -> softness = (int) value);
+                table.slider(1f, 100f, 1f, value -> softness = (int) value).with(slider -> new UnderTable(slider, under -> {
+                    under.field(String.valueOf(softness), value -> slider.setValue(softness = Strings.parseInt(value))).valid(Strings::canParseInt);
+                }));
             }).padRight(8f);
+            // TODO Дарк, если надо, прикрути валидацию по размеру для field'ов, ибо кисть в 999999 не оч. как-то
 
             configTable.add(new Switch("@hud.square", value -> square = value)).padRight(8f);
         }
