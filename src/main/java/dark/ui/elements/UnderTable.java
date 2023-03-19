@@ -3,13 +3,14 @@ package dark.ui.elements;
 import arc.func.Cons;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
-import arc.math.geom.Vec2;
 import arc.scene.Element;
 import arc.scene.ui.layout.Table;
 import arc.util.Align;
+import arc.util.Tmp;
 import dark.ui.Drawables;
 import dark.ui.Palette;
 
+import static arc.Core.*;
 import static dark.Main.*;
 
 public class UnderTable extends Table {
@@ -22,7 +23,9 @@ public class UnderTable extends Table {
 
         visible = false;
         parent.hovered(this::show);
-        parent.exited(() -> visible = false);
+        update(() -> { // прячем элемент, если курсор уходит слишком далеко
+            if (!Tmp.r1.setCentered(translation.x, translation.y, width * 2f, height * 3f).contains(input.mouse())) visible = false;
+        });
 
         ui.hud.parent.fill(cont -> {
             cont.name = "Under table";
@@ -34,7 +37,7 @@ public class UnderTable extends Table {
     }
 
     public void show() {
-        var pos = parent.localToStageCoordinates(new Vec2(parent.getWidth() / 2f, -height / 2f - 10f));
+        var pos = parent.localToStageCoordinates(Tmp.v1.set(parent.getWidth() / 2f, -height / 2f - 10f));
         setTranslation(pos.x, pos.y);
 
         visible = true;
