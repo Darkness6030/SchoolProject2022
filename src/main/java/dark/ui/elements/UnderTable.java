@@ -5,42 +5,45 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.scene.Element;
 import arc.scene.ui.layout.Table;
+import arc.scene.ui.layout.WidgetGroup;
 import arc.util.Align;
 import arc.util.Tmp;
 import dark.ui.Drawables;
 import dark.ui.Palette;
 
 import static arc.Core.*;
-import static dark.Main.*;
 
 public class UnderTable extends Table {
 
+    public static Table root;
     public Element parent;
 
     public UnderTable(Element parent, Cons<Table> cons) {
         super(Drawables.main_rounded);
-        this.parent = parent;
 
-        visible = false;
+        this.parent = parent;
+        cons.get(this);
+
         parent.hovered(this::show);
         update(() -> { // прячем элемент, если курсор уходит слишком далеко
-            if (!Tmp.r1.setCentered(translation.x, translation.y, width * 2f, height * 3f).contains(input.mouse())) visible = false;
+            if (!Tmp.r1.setCentered(translation.x, translation.y, width, height).grow(64f).contains(input.mouse())) root.clear();
         });
+    }
 
-        ui.hud.parent.fill(cont -> {
+    public static void build(WidgetGroup parent) {
+        parent.fill(cont -> {
             cont.name = "Under table";
             cont.fillParent = false;
-
-            cons.get(this);
-            cont.add(this);
+            root = cont;
         });
     }
 
     public void show() {
+        root.clear();
+        root.add(this);
+
         var pos = parent.localToStageCoordinates(Tmp.v1.set(parent.getWidth() / 2f, -height / 2f - 10f));
         setTranslation(pos.x, pos.y);
-
-        visible = true;
     }
 
     @Override

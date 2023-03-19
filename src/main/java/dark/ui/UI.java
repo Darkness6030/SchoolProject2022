@@ -13,6 +13,7 @@ import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
 import arc.util.Align;
 import dark.ui.dialogs.*;
+import dark.ui.elements.*;
 import dark.ui.fragments.*;
 
 import static arc.Core.*;
@@ -42,6 +43,7 @@ public class UI implements ApplicationListener {
 
         hudFragment.build(hud);
         colorWheel.build(hud);
+        UnderTable.build(hud);
 
         menu = new MenuDialog();
         settings = new SettingsDialog();
