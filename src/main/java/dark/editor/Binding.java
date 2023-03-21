@@ -27,10 +27,12 @@ public enum Binding {
     eraser(KeyCode.e),
     fill(KeyCode.f),
     pick(KeyCode.p),
-    swap(KeyCode.x),
+    swap(KeyCode.l),
 
     copy(KeyCode.c),
-    paste(KeyCode.v);
+    paste(KeyCode.v),
+    undo(KeyCode.z),
+    redo(KeyCode.x);
 
     private final Axis axis;
 
