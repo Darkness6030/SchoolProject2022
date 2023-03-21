@@ -6,7 +6,6 @@ import arc.graphics.Pixmap;
 import arc.graphics.Texture;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
-import arc.math.geom.Geometry;
 import arc.math.geom.Point2;
 import arc.struct.Bits;
 import arc.struct.IntQueue;
