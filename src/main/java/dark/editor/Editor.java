@@ -15,8 +15,7 @@ import dark.utils.Clipboard;
 import java.awt.image.BufferedImage;
 
 import static arc.Core.*;
-import static dark.Main.executor;
-import static dark.Main.ui;
+import static dark.Main.*;
 
 public class Editor implements ApplicationListener, GestureListener {
 
@@ -93,11 +92,8 @@ public class Editor implements ApplicationListener, GestureListener {
             ui.colorWheel.hide();
         }
 
-        if (Binding.copy.tap())
-            executor.submit(this::copy);
-
-        if (Binding.paste.tap())
-            executor.submit(this::paste);
+        if (Binding.copy.tap()) copy();
+        if (Binding.paste.tap()) paste();
     }
 
     // region actions
