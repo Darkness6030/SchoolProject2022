@@ -1,6 +1,7 @@
 package dark.editor;
 
 import arc.graphics.Color;
+import arc.scene.ui.TextField;
 import arc.scene.ui.layout.Table;
 import arc.util.Strings;
 import dark.ui.Icons;
@@ -56,11 +57,13 @@ public enum EditTool {
         }
 
         public void touched(Layer layer, int x, int y, Color color) {
+
         }
     },
 
     pick(false, Binding.pick) {
         public void build() {
+
         }
 
         public void touched(Layer current, int x, int y, Color color) {
@@ -106,24 +109,38 @@ public enum EditTool {
     }
 
     public class Config {
-
         public int size = 16, softness = 4;
         public float maxDifference = 0.2f;
 
         public boolean square, straight;
 
-        // TODO Дарк, если надо, прикрути валидацию по размеру для field'ов, ибо кисть в 999999 не круто
         public void buildBrushTable() {
-            configTable.image(Icons.circle).size(24f);
-            configTable.slider(1, 100, 1, value -> size = (int) value).with(slider -> new UnderTable(slider, under -> {
-                under.field(String.valueOf(size), value -> slider.setValue(size = Strings.parseInt(value))).valid(value -> {
-                    int number = Strings.parseInt(value);
-                    return number >= 1 && number <= 100;
-                }).update(field -> {
-                    if (!field.hasKeyboard())
-                        field.setText(String.valueOf((int) slider.getValue()));
+//            configTable.image(Icons.circle).size(24f);
+//            configTable.slider(1, 100, 1, value -> size = (int) value).with(slider -> new UnderTable(slider, under -> {
+//                under.field(String.valueOf(size), value -> slider.setValue(size = Strings.parseInt(value))).valid(value -> {
+//                    int number = Strings.parseInt(value);
+//                    return number >= 1 && number <= 100;
+//                }).update(field -> {
+//                    if (!field.hasKeyboard())
+//                        field.setText(String.valueOf((int) slider.getValue()));
+//                });
+//            }));
+
+            configTable.add("Size:").padRight(8f);
+            configTable.field(String.valueOf(size), value -> {
+                size = Strings.parseInt(value);
+            }).with(field -> {
+                field.setFilter(TextField.TextFieldFilter.digitsOnly);
+            }).with(field -> {
+                new UnderTable(field, under -> {
+                    under.slider(1, 100, 1, value -> {
+                        field.setText(String.valueOf(size = (int) value));
+                    }).update(slider -> {
+                        if (!slider.isDragging())
+                            slider.setValue(size);
+                    });
                 });
-            }));
+            });
 
             configTable.image(Icons.spray).size(24f);
             configTable.slider(1, 100, 1, value -> softness = (int) value).with(slider -> new UnderTable(slider, under -> {

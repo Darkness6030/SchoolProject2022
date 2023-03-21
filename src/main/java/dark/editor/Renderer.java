@@ -1,8 +1,11 @@
 package dark.editor;
 
 import arc.func.Cons;
-import arc.graphics.*;
-import arc.graphics.g2d.*;
+import arc.graphics.Color;
+import arc.graphics.Pixmap;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Fill;
+import arc.graphics.g2d.Lines;
 import arc.struct.Seq;
 import dark.ui.Palette;
 
@@ -24,7 +27,6 @@ public class Renderer {
         Fill.rect(x, y, width, height);
 
         Draw.reset();
-
         layers.each(layer -> layer.visible, layer -> layer.draw(x, y, width, height)); // Рисуем слои
 
         Draw.flush();
@@ -41,7 +43,7 @@ public class Renderer {
         ui.hudFragment.updateLayers();
     }
 
-    public void save(Cons<Pixmap> cons) {
+    public void toPixmap(Cons<Pixmap> cons) {
         var pixmap = new Pixmap(current.width, current.height);
         layers.each(layer -> pixmap.draw(layer, true));
 

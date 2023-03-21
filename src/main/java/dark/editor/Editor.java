@@ -12,11 +12,16 @@ import dark.ui.Icons;
 import dark.ui.Palette;
 import dark.utils.Clipboard;
 
+import java.awt.image.BufferedImage;
+
 import static arc.Core.*;
 import static dark.Main.executor;
 import static dark.Main.ui;
 
 public class Editor implements ApplicationListener, GestureListener {
+
+    // Temporary color for temporary reasons. Can't use Tmp.c1 in asynchronous code
+    public final Color tmp = new Color();
 
     public int mouseX, mouseY, canvasX, canvasY;
 
@@ -35,7 +40,8 @@ public class Editor implements ApplicationListener, GestureListener {
     @Override
     public void update() {
         if (!scene.hasDialog()) {
-            if (!scene.hasKeyboard()) canvas.move(Binding.move_x.axis() * canvas.zoom * -8f, Binding.move_y.axis() * canvas.zoom * -8f);
+            if (!scene.hasKeyboard())
+                canvas.move(Binding.move_x.axis() * canvas.zoom * -8f, Binding.move_y.axis() * canvas.zoom * -8f);
             if (!scene.hasScroll()) canvas.zoom(Binding.zoom.scroll() * canvas.zoom * .05f);
 
             input();
@@ -117,8 +123,13 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void copy() {
         try {
-            renderer.save(Clipboard::copy);
-            ui.showInfoToast(Icons.copy, "@copied");
+            renderer.toPixmap(pixmap -> {
+                var image = new BufferedImage(pixmap.width, pixmap.height, BufferedImage.TYPE_INT_RGB);
+                pixmap.each((x, y) -> image.setRGB(x, y, tmp.set(pixmap.get(x, y)).argb8888()));
+
+                Clipboard.copy(image);
+                ui.showInfoToast(Icons.copy, "@copied");
+            });
         } catch (Exception e) {
             // ui.showException("Failed to copy", e);
         }
@@ -126,8 +137,13 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void paste() {
         try {
-            Clipboard.paste(pixmap -> reset(new Layer(pixmap)));
-            ui.showInfoToast(Icons.paste, "@pasted");
+            Clipboard.paste(image -> {
+                var layer = new Layer(image.getWidth(), image.getHeight());
+                layer.each((x, y) -> layer.set(x, y, tmp.argb8888(image.getRGB(x, y)).rgba8888()));
+
+                reset(layer);
+                ui.showInfoToast(Icons.paste, "@pasted");
+            });
         } catch (Exception e) {
             // ui.showException("Failed to paste", e);
         }
@@ -135,7 +151,7 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void save(Fi file) {
         try {
-            renderer.save(pixmap -> PixmapIO.writePng(file, pixmap));
+            renderer.toPixmap(pixmap -> PixmapIO.writePng(file, pixmap));
 
             ui.showInfoToast(Icons.save, bundle.format("saved", file.name()));
             ui.menu.hide();
