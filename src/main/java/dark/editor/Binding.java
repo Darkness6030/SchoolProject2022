@@ -1,6 +1,7 @@
 package dark.editor;
 
 import arc.KeyBinds.Axis;
+import arc.func.Boolp;
 import arc.input.KeyCode;
 
 import static arc.Core.*;
@@ -20,40 +21,48 @@ public enum Binding {
     move_x(KeyCode.a, KeyCode.d),
     move_y(KeyCode.s, KeyCode.w),
 
-    new_canvas(KeyCode.tab),
+    new_canvas(KeyCode.n, () -> input.ctrl()),
     new_layer(KeyCode.plus),
 
     pencil(KeyCode.b),
     eraser(KeyCode.e),
     fill(KeyCode.f),
     pick(KeyCode.p),
-    swap(KeyCode.l),
+    swap(KeyCode.x),
 
-    copy(KeyCode.c),
-    paste(KeyCode.v),
-    undo(KeyCode.z),
-    redo(KeyCode.x);
+    copy(KeyCode.c, () -> input.ctrl()),
+    paste(KeyCode.v, () -> input.ctrl()),
+    undo(KeyCode.z, () -> input.ctrl()),
+    redo(KeyCode.y, () -> input.ctrl());
 
     private final Axis axis;
+    private final Boolp alt;
 
     Binding(KeyCode key) {
         this.axis = new Axis(key);
+        this.alt = () -> true;
+    }
+
+    Binding(KeyCode key, Boolp alt) {
+        this.axis = new Axis(key);
+        this.alt = alt;
     }
 
     Binding(KeyCode min, KeyCode max) {
         this.axis = new Axis(min, max);
+        this.alt = () -> true;
     }
 
     public boolean down() {
-        return input.keyDown(axis.key);
+        return alt.get() && input.keyDown(axis.key);
+    }
+
+    public boolean tap() {
+        return alt.get() && input.keyTap(axis.key);
     }
 
     public boolean release() {
         return input.keyRelease(axis.key);
-    }
-
-    public boolean tap() {
-        return input.keyTap(axis.key);
     }
 
     public float axis() {

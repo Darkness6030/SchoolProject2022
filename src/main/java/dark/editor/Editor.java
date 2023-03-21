@@ -93,10 +93,10 @@ public class Editor implements ApplicationListener, GestureListener {
             ui.colorWheel.hide();
         }
 
-        if (input.ctrl() && Binding.copy.tap())
+        if (Binding.copy.tap())
             executor.submit(this::copy);
 
-        if (input.ctrl() && Binding.paste.tap())
+        if (Binding.paste.tap())
             executor.submit(this::paste);
     }
 
