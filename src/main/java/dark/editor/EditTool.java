@@ -1,13 +1,13 @@
 package dark.editor;
 
 import arc.graphics.Color;
-import arc.scene.ui.TextField;
+import arc.scene.ui.TextField.TextFieldFilter;
 import arc.scene.ui.layout.Table;
 import arc.util.Strings;
 import dark.ui.Icons;
 import dark.ui.Styles;
+import dark.ui.elements.SliderTable;
 import dark.ui.elements.Switch;
-import dark.ui.elements.UnderTable;
 
 import static arc.Core.scene;
 import static dark.Main.editor;
@@ -109,51 +109,29 @@ public enum EditTool {
     }
 
     public class Config {
-        public int size = 16, softness = 4;
+        public int size = 16, softness = 20;
         public float maxDifference = 0.2f;
 
         public boolean square, straight;
 
         public void buildBrushTable() {
-//            configTable.image(Icons.circle).size(24f);
-//            configTable.slider(1, 100, 1, value -> size = (int) value).with(slider -> new UnderTable(slider, under -> {
-//                under.field(String.valueOf(size), value -> slider.setValue(size = Strings.parseInt(value))).valid(value -> {
-//                    int number = Strings.parseInt(value);
-//                    return number >= 1 && number <= 100;
-//                }).update(field -> {
-//                    if (!field.hasKeyboard())
-//                        field.setText(String.valueOf((int) slider.getValue()));
-//                });
-//            }));
-
-            configTable.add("Size:").padRight(8f);
-            configTable.field(String.valueOf(size), value -> {
-                size = Strings.parseInt(value);
-            }).with(field -> {
-                field.setFilter(TextField.TextFieldFilter.digitsOnly);
-            }).with(field -> {
-                new UnderTable(field, under -> {
-                    under.slider(1, 100, 1, value -> {
-                        field.setText(String.valueOf(size = (int) value));
-                    }).update(slider -> {
-                        if (!slider.isDragging())
-                            slider.setValue(size);
+            configTable.image(Icons.circle).size(24f);
+            configTable.field("16", TextFieldFilter.digitsOnly, value -> size = Strings.parseInt(value))
+                    .with(field -> new SliderTable(field, 1, 124, 1))
+                    .valid(value -> {
+                        int number = Strings.parseInt(value);
+                        return number >= 1 && number <= 124;
                     });
-                });
-            });
 
             configTable.image(Icons.spray).size(24f);
-            configTable.slider(1, 100, 1, value -> softness = (int) value).with(slider -> new UnderTable(slider, under -> {
-                under.field(String.valueOf(softness), value -> slider.setValue(softness = Strings.parseInt(value))).valid(value -> {
-                    int number = Strings.parseInt(value);
-                    return number >= 1 && number <= 100;
-                }).update(field -> {
-                    if (!field.hasKeyboard())
-                        field.setText(String.valueOf((int) slider.getValue()));
-                });
-            })).padRight(8f);
+            configTable.field("20", TextFieldFilter.digitsOnly, value -> softness = Strings.parseInt(value))
+                    .with(field -> new SliderTable(field, 1, 100, 1)) // значение будет в процентах, поэтому от 0 до 100
+                    .valid(value -> {
+                        int number = Strings.parseInt(value);
+                        return number >= 1 && number <= 100;
+                    });
 
-            configTable.add(new Switch("@hud.square", value -> square = value)).padRight(8f);
+            configTable.add(new Switch("@hud.square", value -> square = value)).pad(0f, 8f, 0f, 8f);
         }
     }
 }

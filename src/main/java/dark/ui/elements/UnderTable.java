@@ -24,7 +24,6 @@ public class UnderTable extends Table {
         this.parent = parent;
         cons.get(this);
 
-        parent.hovered(this::show);
         update(() -> { // прячем элемент, если курсор уходит слишком далеко
             if (!Tmp.r1.setCentered(translation.x, translation.y, width, height).grow(64f).contains(input.mouse())) root.clear();
         });

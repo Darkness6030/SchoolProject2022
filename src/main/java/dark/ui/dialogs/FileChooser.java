@@ -136,6 +136,7 @@ public class FileChooser extends BaseDialog {
     // endregion
 
     public class FileHistory extends Seq<Fi> {
+
         public int index;
 
         public void push(Fi file) {
