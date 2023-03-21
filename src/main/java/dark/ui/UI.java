@@ -8,6 +8,7 @@ import arc.math.Interp;
 import arc.scene.actions.Actions;
 import arc.scene.event.Touchable;
 import arc.scene.style.Drawable;
+import arc.scene.ui.Slider;
 import arc.scene.ui.TextField;
 import arc.scene.ui.layout.Table;
 import arc.scene.ui.layout.WidgetGroup;
@@ -59,9 +60,10 @@ public class UI implements ApplicationListener {
 
         if (input.keyTap(KeyCode.escape) && !scene.hasDialog() && !menu.isShown()) menu.show();
 
-        if ((input.keyTap(KeyCode.mouseLeft) || input.keyTap(KeyCode.mouseRight)) && scene.hasField())
-            if (!(scene.hit(input.mouseX(), input.mouseY(), true) instanceof TextField))
-                scene.setKeyboardFocus(null);
+        if ((input.keyTap(KeyCode.mouseLeft) || input.keyTap(KeyCode.mouseRight)) && scene.hasField()) {
+            var element = scene.hit(input.mouseX(), input.mouseY(), true);
+            if (!(element instanceof TextField || element instanceof Slider)) scene.setKeyboardFocus(null);
+        }
     }
 
     @Override
