@@ -12,7 +12,7 @@ import dark.ui.Icons;
 import dark.ui.Styles;
 import dark.ui.elements.FocusScrollPane;
 
-import static arc.Core.bundle;
+import static arc.Core.*;
 import static dark.Main.*;
 
 public class HudFragment {
@@ -117,7 +117,7 @@ public class HudFragment {
 
         layers.clear(); // Цикл нужен для проходки в обратном порядке, т.к. в конце массива расположены верхние слои
         for (int i = editor.renderer.layers.size - 1; i >= 0; i--)
-            layers.add(new LayerButton(editor.renderer.layers.get(i))).height(64f).growX().padTop(8f).row();
+            layers.add(new LayerButton(editor.renderer.layers.get(i))).height(64f).growX().padTop(8f).marginRight(8f).row();
     }
 
     // region subclasses
@@ -154,7 +154,7 @@ public class HudFragment {
             getImageCell().size(64f);
             defaults().padLeft(8f);
 
-            field(layer.name, text -> layer.name = text).maxTextLength(12).width(128f);
+            field(layer.name, text -> layer.name = text).maxTextLength(12).width(120f);
             button(Icons.eyeOpen, Styles.visible, () -> layer.visible = !layer.visible).checked(button -> !layer.visible).size(32f).row();
 
             clicked(() -> {
