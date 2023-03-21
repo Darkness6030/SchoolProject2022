@@ -7,13 +7,13 @@ import arc.graphics.PixmapIO;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 import arc.math.geom.Bresenham2;
-import arc.util.Log;
 import arc.util.Tmp;
 import dark.ui.Icons;
 import dark.ui.Palette;
 import dark.utils.Clipboard;
 
 import static arc.Core.*;
+import static dark.Main.executor;
 import static dark.Main.ui;
 
 public class Editor implements ApplicationListener, GestureListener {
@@ -61,7 +61,6 @@ public class Editor implements ApplicationListener, GestureListener {
 
         if (Binding.draw1.down()) draw(first);
         else if (Binding.draw2.down()) draw(second);
-        else if (Binding.draw1.release() || Binding.draw2.release()) flush();
 
         if (Binding.pan.down())
             canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
@@ -89,16 +88,10 @@ public class Editor implements ApplicationListener, GestureListener {
         }
 
         if (input.ctrl() && Binding.copy.tap())
-            copy();
+            executor.submit(this::copy);
 
         if (input.ctrl() && Binding.paste.tap())
-            paste();
-
-        if (input.ctrl() && Binding.undo.tap())
-            undo();
-
-        if (input.ctrl() && Binding.redo.tap())
-            redo();
+            executor.submit(this::paste);
     }
 
     // region actions
@@ -110,18 +103,6 @@ public class Editor implements ApplicationListener, GestureListener {
         if (tool.draggable)
             Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(renderer.current, x, y, color));
         else tool.touched(renderer.current, canvas.canvasX(), canvas.canvasY(), color);
-    }
-
-    public void flush() {
-        renderer.current.flush();
-    }
-
-    public void undo() {
-        renderer.current.stack.undo();
-    }
-
-    public void redo() {
-        renderer.current.stack.redo();
     }
 
     public void reset(int width, int height) {

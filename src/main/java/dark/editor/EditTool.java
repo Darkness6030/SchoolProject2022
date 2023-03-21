@@ -8,8 +8,9 @@ import dark.ui.Styles;
 import dark.ui.elements.Switch;
 import dark.ui.elements.UnderTable;
 
-import static arc.Core.*;
-import static dark.Main.*;
+import static arc.Core.scene;
+import static dark.Main.editor;
+import static dark.Main.ui;
 
 public enum EditTool {
     pencil(true, Binding.pencil) {
@@ -54,11 +55,13 @@ public enum EditTool {
             configTable.add(new Switch("@hud.straight", value -> config.straight = value)); // всегда прямой угол
         }
 
-        public void touched(Layer layer, int x, int y, Color color) {}
+        public void touched(Layer layer, int x, int y, Color color) {
+        }
     },
 
     pick(false, Binding.pick) {
-        public void build() {}
+        public void build() {
+        }
 
         public void touched(Layer current, int x, int y, Color color) {
             if (scene.hasMouse()) return;
@@ -94,9 +97,9 @@ public enum EditTool {
 
     public void button(Table table) {
         table.button(Icons.drawable(name()), Styles.imageButtonCheck, 48f, () -> {
-            editor.tool = this;
-            ui.hudFragment.updateConfig();
-        })
+                    editor.tool = this;
+                    ui.hudFragment.updateConfig();
+                })
                 .checked(button -> editor.tool == this)
                 .tooltip("@" + name() + ".tooltip")
                 .size(48f).pad(8f, 8f, 0f, 8f).row();
@@ -111,29 +114,27 @@ public enum EditTool {
 
         // TODO Дарк, если надо, прикрути валидацию по размеру для field'ов, ибо кисть в 999999 не круто
         public void buildBrushTable() {
-            configTable.table(table -> {
-                table.image(Icons.circle).size(24f);
-                table.slider(1, 100, 1, value -> size = (int) value).with(slider -> new UnderTable(slider, under -> {
-                    under.field(String.valueOf(size), value -> slider.setValue(size = Strings.parseInt(value))).valid(value -> {
-                        int number = Strings.parseInt(value);
-                        return number >= 1 && number <= 100;
-                    }).update(field -> {
-                        if (!field.hasKeyboard())
-                            field.setText(String.valueOf((int) slider.getValue()));
-                    });
-                })).row();
+            configTable.image(Icons.circle).size(24f);
+            configTable.slider(1, 100, 1, value -> size = (int) value).with(slider -> new UnderTable(slider, under -> {
+                under.field(String.valueOf(size), value -> slider.setValue(size = Strings.parseInt(value))).valid(value -> {
+                    int number = Strings.parseInt(value);
+                    return number >= 1 && number <= 100;
+                }).update(field -> {
+                    if (!field.hasKeyboard())
+                        field.setText(String.valueOf((int) slider.getValue()));
+                });
+            }));
 
-                table.image(Icons.spray).size(24f);
-                table.slider(1, 100, 1, value -> softness = (int) value).with(slider -> new UnderTable(slider, under -> {
-                    under.field(String.valueOf(softness), value -> slider.setValue(softness = Strings.parseInt(value))).valid(value -> {
-                        int number = Strings.parseInt(value);
-                        return number >= 1 && number <= 100;
-                    }).update(field -> {
-                        if (!field.hasKeyboard())
-                            field.setText(String.valueOf((int) slider.getValue()));
-                    });
-                }));
-            }).padRight(8f);
+            configTable.image(Icons.spray).size(24f);
+            configTable.slider(1, 100, 1, value -> softness = (int) value).with(slider -> new UnderTable(slider, under -> {
+                under.field(String.valueOf(softness), value -> slider.setValue(softness = Strings.parseInt(value))).valid(value -> {
+                    int number = Strings.parseInt(value);
+                    return number >= 1 && number <= 100;
+                }).update(field -> {
+                    if (!field.hasKeyboard())
+                        field.setText(String.valueOf((int) slider.getValue()));
+                });
+            })).padRight(8f);
 
             configTable.add(new Switch("@hud.square", value -> square = value)).padRight(8f);
         }
