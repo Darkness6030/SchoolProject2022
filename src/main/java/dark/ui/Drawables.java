@@ -10,6 +10,7 @@ import arc.util.serialization.JsonValue;
 import static arc.Core.*;
 import static dark.Main.*;
 
+// TODO Adi, а надо ли сохранять столько Drawables или лучше генерить специально для стиля?
 public class Drawables {
 
     public static JsonValue splits;
@@ -17,6 +18,8 @@ public class Drawables {
             white_ui, white_rounded, white_rounded_left, white_rounded_right, white_knob,
             main, darkmain, active,
             main_rounded, darkmain_rounded, active_rounded,
+            main_rounded_left, darkmain_rounded_left, active_rounded_left,
+            main_rounded_right, darkmain_rounded_right, active_rounded_right,
             main_knob, darkmain_knob, active_knob,
             alpha_chan, alpha_chan_dizzy,
             underline, underline_red, cursor, selection,
@@ -40,6 +43,16 @@ public class Drawables {
         main_rounded = rounded.tint(Palette.main);
         darkmain_rounded = rounded.tint(Palette.darkmain);
         active_rounded = rounded.tint(Palette.active);
+
+        var rounded_left = (NinePatchDrawable) white_rounded_left;
+        main_rounded_left = rounded_left.tint(Palette.main);
+        darkmain_rounded_left = rounded_left.tint(Palette.darkmain);
+        active_rounded_left = rounded_left.tint(Palette.active);
+
+        var rounded_right = (NinePatchDrawable) white_rounded_right;
+        main_rounded_right = rounded_right.tint(Palette.main);
+        darkmain_rounded_right = rounded_right.tint(Palette.darkmain);
+        active_rounded_right = rounded_right.tint(Palette.active);
 
         var knob = (NinePatchDrawable) white_knob;
         main_knob = knob.tint(Palette.main);

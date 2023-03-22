@@ -19,6 +19,7 @@ public class HudFragment {
 
     public Table config, layers;
     public FocusScrollPane pane;
+    public boolean history;
 
     public void build(WidgetGroup parent) {
         parent.fill(cont -> { // tools config
@@ -52,11 +53,18 @@ public class HudFragment {
             }).width(64f).growY().padTop(64f);
         });
 
-        parent.fill(cont -> { // layers
-            cont.name = "Layers";
+        parent.fill(cont -> { // layers & history
+            cont.name = "Layers & history";
             cont.right();
 
             cont.table(Drawables.main, pad -> {
+                pad.table(tabs -> {
+                    tabs.defaults().grow();
+
+                    tabs.button("@hud.layers", Styles.layersTab, this::buildLayers).checked(t -> !history);
+                    tabs.button("@hud.history", Styles.historyTab, this::buildHistory).checked(t -> history);
+                }).height(32f).growX().pad(0f, 8f, 10f, 8f).row();
+
                 pane = new FocusScrollPane(layers = new Table().top());
 
                 pane.setScrollingDisabledX(true);
@@ -67,8 +75,8 @@ public class HudFragment {
                 updateLayers();
 
                 pad.table(act -> {
-                    // кнопки движения
-                    act.defaults().size(32f).pad(8f, 8f, 8f, 0f);
+                    act.visible(() -> !history); // во вкладке истории этих кнопок быть не должно
+                    act.defaults().size(32f).pad(8f, 8f, 8f, 0f); // кнопки движения
 
                     act.button(Icons.up, editor::moveUp)
                             .disabled(b -> !editor.canMoveUp())
@@ -78,11 +86,8 @@ public class HudFragment {
                             .disabled(b -> !editor.canMoveDown())
                             .tooltip("@layer.move.down");
 
-                    // пустое пространство между кнопками
-                    act.add().fillX();
-
-                    // кнопки создания и удаления
-                    act.defaults().size(32f).pad(8f, 0f, 8f, 8f);
+                    act.add().fillX(); // пустое пространство между кнопками
+                    act.defaults().size(32f).pad(8f, 0f, 8f, 8f); // кнопки создания и удаления
 
                     act.button(Icons.plus, editor::newLayer)
                             .disabled(b -> !editor.renderer.canAdd())
@@ -113,11 +118,23 @@ public class HudFragment {
     }
 
     public void updateLayers() {
-        if (layers == null) return; // такое возможно?
+        if (!history) buildLayers();
+    }
 
-        layers.clear(); // Цикл нужен для проходки в обратном порядке, т.к. в конце массива расположены верхние слои
+    public void buildLayers() {
+        if (layers == null) return; // такое возможно?
+        history = false;
+
+        layers.clear(); // цикл нужен для проходки в обратном порядке, т.к. в конце массива расположены верхние слои
         for (int i = editor.renderer.layers.size - 1; i >= 0; i--)
-            layers.add(new LayerButton(editor.renderer.layers.get(i))).height(64f).growX().padTop(8f).marginRight(8f).row();
+            layers.add(new LayerButton(editor.renderer.layers.get(i))).height(64f).growX().marginRight(8f).row();
+    }
+
+    public void buildHistory() {
+        if (layers == null) return;
+        history = true;
+
+        layers.clear(); // пока тут ставить нечего, ибо я не знаю откуда брать инфу
     }
 
     // region subclasses

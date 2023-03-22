@@ -11,12 +11,12 @@ import arc.scene.ui.Slider.SliderStyle;
 import arc.scene.ui.TextButton.TextButtonStyle;
 import arc.scene.ui.TextField.TextFieldStyle;
 
-import static arc.Core.scene;
+import static arc.Core.*;
 
 public class Styles {
 
     public static ButtonStyle button;
-    public static TextButtonStyle textButton, textButtonCheck;
+    public static TextButtonStyle textButton, textButtonCheck, layersTab, historyTab;
     public static ImageButtonStyle imageButton, imageButtonCheck, emptyImageButton, alpha, layer, visible;
 
     public static LabelStyle label;
@@ -52,6 +52,26 @@ public class Styles {
 
             disabled = Drawables.darkmain_rounded;
             disabledFontColor = Color.gray;
+        }};
+
+        layersTab = new TextButtonStyle() {{
+            font = Fonts.def;
+            fontColor = Color.white;
+
+            up = Drawables.main_rounded_left;
+            over = Drawables.darkmain_rounded_left;
+            down = Drawables.active_rounded_left;
+            checked = Drawables.active_rounded_left;
+        }};
+
+        historyTab = new TextButtonStyle() {{
+            font = Fonts.def;
+            fontColor = Color.white;
+
+            up = Drawables.main_rounded_right;
+            over = Drawables.darkmain_rounded_right;
+            down = Drawables.active_rounded_right;
+            checked = Drawables.active_rounded_right;
         }};
 
         scene.addStyle(ImageButtonStyle.class, imageButton = new ImageButtonStyle() {{

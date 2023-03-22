@@ -15,9 +15,8 @@ import dark.ui.Styles;
 import dark.ui.elements.SliderTable;
 import dark.ui.elements.Switch;
 
-import static arc.Core.scene;
-import static dark.Main.editor;
-import static dark.Main.ui;
+import static arc.Core.*;
+import static dark.Main.*;
 
 public enum EditTool {
     pencil(true, Binding.pencil) {
@@ -106,9 +105,9 @@ public enum EditTool {
 
     public void button(Table table) {
         table.button(Icons.drawable(name()), Styles.imageButtonCheck, 48f, () -> {
-                    editor.tool = this;
-                    ui.hudFragment.updateConfig();
-                })
+            editor.tool = this;
+            ui.hudFragment.updateConfig();
+        })
                 .checked(button -> editor.tool == this)
                 .tooltip("@" + name() + ".tooltip")
                 .size(48f).pad(8f, 8f, 0f, 8f).row();
