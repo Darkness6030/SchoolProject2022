@@ -13,7 +13,9 @@ import static dark.Main.ui;
 
 public class Renderer {
 
-    public static final float border = 4f; // Толщина границы холста
+    public static final int background = Color.lightGray.rgba(); // Цвет фона холста
+
+    public static final int border = 4;     // Толщина границы холста
     public static final int maxLayers = 32; // Максимальное количество слоёв
 
     public final Seq<Layer> layers = new Seq<>();
@@ -23,7 +25,7 @@ public class Renderer {
         Lines.stroke(border, Palette.main); // Рисуем границу холста
         Lines.rect(x - width / 2f - border, y - height / 2f - border, width + border * 2f, height + border * 2f);
 
-        Draw.color(Color.lightGray); // Рисуем фон
+        Draw.color(background); // Рисуем фон
         Fill.rect(x, y, width, height);
 
         Draw.reset();

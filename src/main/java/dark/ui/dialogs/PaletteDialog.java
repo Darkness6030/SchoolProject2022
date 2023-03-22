@@ -42,7 +42,7 @@ public class PaletteDialog extends BaseDialog {
         addCloseButton();
 
         buttons.buttonRow("@ok", Icons.ok, () -> {
-            ui.colorWheel.add(model.get(callback));
+            ui.colorWheel.add(model.get(callback.a(0.3f)));
             hide();
         });
 
