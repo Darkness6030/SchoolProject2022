@@ -40,6 +40,7 @@ public class UnderTable extends Table {
     public void show() {
         root.clear();
         root.add(this);
+        root.layout();
 
         var pos = parent.localToStageCoordinates(Tmp.v1.set(parent.getWidth() / 2f, -height / 2f - 10f));
         setTranslation(pos.x, pos.y);
