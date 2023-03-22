@@ -2,8 +2,7 @@ package dark.editor;
 
 import arc.func.*;
 import arc.graphics.*;
-import arc.scene.style.Drawable;
-import arc.scene.ui.*;
+import arc.scene.ui.TextField;
 import arc.scene.ui.TextField.TextFieldFilter;
 import arc.scene.ui.layout.*;
 import arc.util.Strings;
@@ -45,7 +44,7 @@ public enum EditTool {
 
     fill(false, Binding.fill) {
         public void build() {
-            configTable.slider(0f, 1f, 0.01f, value -> config.maxDifference = value).padRight(8f);
+            config.slider(0f, 1f, 0.01f, value -> config.maxDifference = value).padRight(8f);
         }
 
         public void touched(Layer current, int x, int y, Color color) {
@@ -56,7 +55,7 @@ public enum EditTool {
     line(false) {
         public void build() {
             config.buildBrushTable();
-            configTable.add(new Switch("@hud.straight", value -> config.straight = value)); // всегда прямой угол
+            config.toggle("@hud.straight", value -> config.straight = value); // всегда прямой угол
         }
 
         public void touched(Layer layer, int x, int y, Color color) {
@@ -84,7 +83,6 @@ public enum EditTool {
     public final Binding hotkey;
 
     public final Config config = new Config();
-    public final Table configTable = new Table();
 
     EditTool(boolean draggable) {
         this(draggable, Binding.unknown);
@@ -109,8 +107,8 @@ public enum EditTool {
                 .size(48f).pad(8f, 8f, 0f, 8f).row();
     }
 
-    public class Config {
-        public int size = 16, softness = 20;
+    public static class Config extends Table {
+        public int size = 16, alpha = 20;
         public float maxDifference = 0.2f;
 
         public boolean square, straight;
@@ -120,17 +118,13 @@ public enum EditTool {
             field(size, 1, 100, 1, value -> size = value).padRight(8f);
 
             image(Icons.spray).size(24f);
-            field(softness, 1, 100, 1, value -> softness = value);
+            field(alpha, 1, 100, 1, value -> alpha = value);
 
-            check("@hud.square", value -> square = value).pad(0f, 8f, 0f, 8f);
-        }
-
-        public Cell<Image> image(Drawable drawable) {
-            return configTable.image(drawable);
+            toggle("@hud.square", value -> square = value).pad(0f, 8f, 0f, 8f);
         }
 
         public Cell<TextField> field(int def, int min, int max, int step, Intc listener) {
-            return configTable.field(String.valueOf(def), TextFieldFilter.digitsOnly, value -> listener.get(Strings.parseInt(value)))
+            return field(String.valueOf(def), TextFieldFilter.digitsOnly, value -> listener.get(Strings.parseInt(value)))
                     .with(field -> new SliderTable(field, min, max, step))
                     .valid(value -> {
                         int number = Strings.parseInt(value);
@@ -138,8 +132,8 @@ public enum EditTool {
                     });
         }
 
-        public Cell<Switch> check(String text, Boolc listener) {
-            return configTable.add(new Switch(text, listener));
+        public Cell<Switch> toggle(String text, Boolc listener) {
+            return add(new Switch(text, listener));
         }
     }
 }
