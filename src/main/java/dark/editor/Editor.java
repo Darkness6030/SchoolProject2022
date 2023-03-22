@@ -67,7 +67,10 @@ public class Editor implements ApplicationListener, GestureListener {
             canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
 
         for (var tool : EditTool.values())
-            if (tool.hotkey.tap()) this.tool = tool;
+            if (tool.hotkey.tap()) {
+                this.tool = tool;
+                ui.hudFragment.updateConfig();
+            }
 
         if (Binding.swap.tap()) swap();
 

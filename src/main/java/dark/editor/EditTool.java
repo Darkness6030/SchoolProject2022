@@ -65,7 +65,7 @@ public enum EditTool {
 
     pick(false, Binding.pick) {
         public void build() {
-
+            config.check("@hud.pick-raw", value -> config.pickRaw = value);
         }
 
         public void touched(Layer current, int x, int y, Color color) {
@@ -111,7 +111,7 @@ public enum EditTool {
         public int size = 16, alpha = 20;
         public float maxDifference = 0.2f;
 
-        public boolean square, straight;
+        public boolean square, straight, pickRaw;
 
         public void buildBrushTable() {
             image(Icons.circle).size(24f);
