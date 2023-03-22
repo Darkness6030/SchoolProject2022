@@ -43,7 +43,7 @@ public class Renderer {
         ui.hudFragment.updateLayers();
     }
 
-    public void toPixmap(Cons<Pixmap> cons) {
+    public void copy(Cons<Pixmap> cons) {
         var pixmap = new Pixmap(current.width, current.height);
         layers.each(layer -> pixmap.draw(layer, true));
 
