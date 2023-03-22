@@ -3,6 +3,7 @@ package dark.editor;
 import arc.func.Boolc;
 import arc.func.Intc;
 import arc.graphics.Color;
+import arc.graphics.Pixmap;
 import arc.scene.style.Drawable;
 import arc.scene.ui.Image;
 import arc.scene.ui.TextField;
@@ -15,9 +16,12 @@ import dark.ui.Styles;
 import dark.ui.elements.SliderTable;
 import dark.ui.elements.Switch;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static arc.Core.scene;
 import static dark.Main.editor;
 import static dark.Main.ui;
+import static dark.editor.Renderer.background;
 
 public enum EditTool {
     pencil(true, Binding.pencil) {
@@ -75,13 +79,11 @@ public enum EditTool {
         public void touched(Layer current, int x, int y, Color color) {
             if (scene.hasMouse()) return;
 
-            // TODO как-то смешивать цвета
-            for (var layer : editor.renderer.layers) {
-                if (layer.get(x, y) != 0) {
-                    ui.colorWheel.add(color.set(layer.get(x, y)));
-                    return;
-                }
-            }
+            var result = new AtomicInteger(background);
+            editor.renderer.layers.each(layer -> result.set(Pixmap.blend(layer.get(x, y), result.get())));
+
+            if (result.get() == background) return;
+            ui.colorWheel.add(color.set(result.get()));
         }
     };
 

@@ -42,9 +42,10 @@ public class UI implements ApplicationListener {
         hud.setFillParent(true);
         hud.touchable = Touchable.childrenOnly;
 
+        UnderTable.build(hud);
+
         hudFragment.build(hud);
         colorWheel.build(hud);
-        UnderTable.build(hud);
 
         menu = new MenuDialog();
         settings = new SettingsDialog();

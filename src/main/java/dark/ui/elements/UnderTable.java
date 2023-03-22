@@ -11,7 +11,7 @@ import arc.util.Tmp;
 import dark.ui.Drawables;
 import dark.ui.Palette;
 
-import static arc.Core.*;
+import static arc.Core.input;
 
 public class UnderTable extends Table {
 
