@@ -1,29 +1,20 @@
 package dark.editor;
 
-import arc.func.Boolc;
-import arc.func.Intc;
-import arc.graphics.Color;
-import arc.graphics.Pixmap;
+import arc.func.*;
+import arc.graphics.*;
 import arc.scene.style.Drawable;
-import arc.scene.ui.Image;
-import arc.scene.ui.TextField;
+import arc.scene.ui.*;
 import arc.scene.ui.TextField.TextFieldFilter;
-import arc.scene.ui.layout.Cell;
-import arc.scene.ui.layout.Table;
+import arc.scene.ui.layout.*;
 import arc.util.Strings;
-import dark.ui.Icons;
-import dark.ui.Styles;
-import dark.ui.elements.SliderTable;
-import dark.ui.elements.Switch;
+import dark.ui.*;
+import dark.ui.elements.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static arc.Core.scene;
-import static dark.Main.editor;
-import static dark.Main.ui;
-import static dark.editor.Renderer.background;
-import static arc.Core.*;
 import static dark.Main.*;
+import static dark.editor.Renderer.background;
 
 public enum EditTool {
     pencil(true, Binding.pencil) {
@@ -110,9 +101,9 @@ public enum EditTool {
 
     public void button(Table table) {
         table.button(Icons.drawable(name()), Styles.imageButtonCheck, 48f, () -> {
-            editor.tool = this;
-            ui.hudFragment.updateConfig();
-        })
+                    editor.tool = this;
+                    ui.hudFragment.updateConfig();
+                })
                 .checked(button -> editor.tool == this)
                 .tooltip("@" + name() + ".tooltip")
                 .size(48f).pad(8f, 8f, 0f, 8f).row();
