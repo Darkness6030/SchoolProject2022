@@ -1,5 +1,6 @@
 package dark.ui;
 
+import arc.graphics.Color;
 import arc.graphics.Texture;
 import arc.graphics.Texture.TextureFilter;
 import arc.scene.style.Drawable;
@@ -10,7 +11,6 @@ import arc.util.serialization.JsonValue;
 import static arc.Core.*;
 import static dark.Main.*;
 
-// TODO Adi, а надо ли сохранять столько Drawables или лучше генерить специально для стиля?
 public class Drawables {
 
     public static JsonValue splits;
@@ -39,25 +39,21 @@ public class Drawables {
         darkmain = white.tint(Palette.darkmain);
         active = white.tint(Palette.active);
 
-        var rounded = (NinePatchDrawable) white_rounded;
-        main_rounded = rounded.tint(Palette.main);
-        darkmain_rounded = rounded.tint(Palette.darkmain);
-        active_rounded = rounded.tint(Palette.active);
+        main_rounded = tint(white_rounded, Palette.main);
+        darkmain_rounded = tint(white_rounded, Palette.darkmain);
+        active_rounded = tint(white_rounded, Palette.active);
 
-        var rounded_left = (NinePatchDrawable) white_rounded_left;
-        main_rounded_left = rounded_left.tint(Palette.main);
-        darkmain_rounded_left = rounded_left.tint(Palette.darkmain);
-        active_rounded_left = rounded_left.tint(Palette.active);
+        main_rounded_left = tint(white_rounded_left, Palette.main);
+        darkmain_rounded_left = tint(white_rounded_left, Palette.darkmain);
+        active_rounded_left = tint(white_rounded_left, Palette.active);
 
-        var rounded_right = (NinePatchDrawable) white_rounded_right;
-        main_rounded_right = rounded_right.tint(Palette.main);
-        darkmain_rounded_right = rounded_right.tint(Palette.darkmain);
-        active_rounded_right = rounded_right.tint(Palette.active);
+        main_rounded_right = tint(white_rounded_right, Palette.main);
+        darkmain_rounded_right = tint(white_rounded_right, Palette.darkmain);
+        active_rounded_right = tint(white_rounded_right, Palette.active);
 
-        var knob = (NinePatchDrawable) white_knob;
-        main_knob = knob.tint(Palette.main);
-        darkmain_knob = knob.tint(Palette.darkmain);
-        active_knob = knob.tint(Palette.active);
+        main_knob = tint(white_knob, Palette.main);
+        darkmain_knob = tint(white_knob, Palette.darkmain);
+        active_knob = tint(white_knob, Palette.active);
 
         alpha_chan = load("alpha-chan");
         alpha_chan_dizzy = load("alpha-chan-dizzy");
@@ -93,5 +89,9 @@ public class Drawables {
 
         var region = atlas.addRegion(name, texture, 0, 0, texture.width, texture.height);
         if (splits.has(name)) region.splits = splits.get(name).asIntArray();
+    }
+
+    public static Drawable tint(Drawable from, Color tint) {
+        return ((NinePatchDrawable) from).tint(tint);
     }
 }
