@@ -125,7 +125,7 @@ public enum EditTool {
 
         public Cell<TextField> field(int def, int min, int max, int step, Intc listener) {
             return field(String.valueOf(def), TextFieldFilter.digitsOnly, value -> listener.get(Strings.parseInt(value)))
-                    .with(field -> new SliderTable(field, min, max, step))
+                    .with(field -> new SliderTable(field, min, max, step, listener))
                     .valid(value -> {
                         int number = Strings.parseInt(value);
                         return number >= min && number <= max;

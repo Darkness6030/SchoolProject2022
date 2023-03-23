@@ -62,7 +62,7 @@ public class UI implements ApplicationListener {
 
         if ((input.keyTap(KeyCode.mouseLeft) || input.keyTap(KeyCode.mouseRight)) && scene.hasField()) {
             var element = scene.hit(input.mouseX(), input.mouseY(), true);
-            if (!(element instanceof TextField || element instanceof Slider || element instanceof SliderTable)) scene.setKeyboardFocus(null);
+            if (!(element instanceof TextField || element instanceof Slider)) scene.setKeyboardFocus(null);
         }
     }
 
