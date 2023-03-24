@@ -20,12 +20,12 @@ public class Field extends Table {
 
     public Field(String name, String def, Cons<String> listener) {
         this(name);
-        field(def, listener).width(50f);
+        field(def, listener).minWidth(50f).padRight(13f);
     }
 
     public Field(String name, int def, Intc listener) {
         this(name);
-        field(String.valueOf(def), TextFieldFilter.digitsOnly, value -> listener.get(Strings.parseInt(value))).valid(Strings::canParseInt).width(50f);
+        field(String.valueOf(def), TextFieldFilter.digitsOnly, value -> listener.get(Strings.parseInt(value))).valid(Strings::canParseInt).minWidth(50f).padRight(13f);
     }
 
     public TextField field() {
