@@ -11,7 +11,7 @@ import arc.util.Tmp;
 import dark.ui.Drawables;
 import dark.ui.Palette;
 
-import static arc.Core.*;
+import static arc.Core.input;
 
 public class UnderTable extends Table {
 
@@ -20,8 +20,8 @@ public class UnderTable extends Table {
 
     public UnderTable(Element parent, Cons<Table> cons) {
         super(Drawables.main_rounded);
-
         this.parent = parent;
+
         cons.get(this);
 
         update(() -> { // прячем элемент, если курсор уходит слишком далеко

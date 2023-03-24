@@ -106,17 +106,16 @@ public enum EditTool {
     }
 
     public static class Config extends Table {
-
         public int size = 16, alpha = 255;
         public float maxDifference = 0.2f;
 
         public boolean square, straight, pickRaw;
 
         public void buildBrushTable() {
-            defaults().padRight(8f);
+            defaults().padLeft(32f);
 
-            field("Size:", size, 1, 100, 1, value -> size = value).width(100f);
-            field("Alpha:", alpha, 0, 255, 1, value -> alpha = value).width(100f);
+            field("Size:", size, 1, 100, 1, value -> size = value).width(96f);
+            field("Alpha:", alpha, 0, 255, 1, value -> alpha = value).width(96f);
 
             toggle("@hud.square", value -> square = value);
         }
@@ -125,11 +124,12 @@ public enum EditTool {
             return add(new Field(name, def, listener)).with(field -> {
                 new SliderTable(field.field(), min, max, step, listener);
 
+                field.maxTextLength(3);
                 field.valid(value -> {
                     int number = Strings.parseInt(value);
                     return number >= min && number <= max;
                 });
-            });
+            }).padRight(48f);
         }
 
         public Cell<Switch> toggle(String text, Boolc listener) {

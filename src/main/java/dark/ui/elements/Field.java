@@ -6,6 +6,7 @@ import arc.scene.ui.TextField;
 import arc.scene.ui.TextField.TextFieldFilter;
 import arc.scene.ui.TextField.TextFieldValidator;
 import arc.scene.ui.layout.Table;
+import arc.util.Align;
 import arc.util.Strings;
 import dark.ui.Drawables;
 
@@ -20,16 +21,20 @@ public class Field extends Table {
 
     public Field(String name, String def, Cons<String> listener) {
         this(name);
-        field(def, listener).minWidth(50f).padRight(13f);
+        field(def, listener).minWidth(96f).get().setAlignment(Align.right);
     }
 
     public Field(String name, int def, Intc listener) {
         this(name);
-        field(String.valueOf(def), TextFieldFilter.digitsOnly, value -> listener.get(Strings.parseInt(value))).valid(Strings::canParseInt).minWidth(50f).padRight(13f);
+        field(String.valueOf(def), TextFieldFilter.digitsOnly, value -> listener.get(Strings.parseInt(value))).valid(Strings::canParseInt).minWidth(96f).get().setAlignment(Align.right);
     }
 
     public TextField field() {
         return (TextField) children.peek();
+    }
+
+    public void maxTextLength(int maxLength) {
+        field().setMaxLength(maxLength);
     }
 
     public void valid(TextFieldValidator validator) {
