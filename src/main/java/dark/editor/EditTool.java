@@ -106,14 +106,14 @@ public enum EditTool {
     }
 
     public static class Config extends Table {
-        public int size = 16, alpha = 20;
+        public int size = 16, alpha = 255;
         public float maxDifference = 0.2f;
 
         public boolean square, straight, pickRaw;
 
         public void buildBrushTable() {
             field("Size:", size, 1, 100, 1, value -> size = value).padRight(8f);
-            field("Alpha:", alpha, 1, 100, 1, value -> alpha = value);
+            field("Alpha:", alpha, 0, 255, 1, value -> alpha = value);
 
             toggle("@hud.square", value -> square = value).pad(0f, 8f, 0f, 8f);
         }
