@@ -7,7 +7,7 @@ import arc.util.Strings;
 public class SliderTable extends UnderTable {
 
     public SliderTable(TextField field, int min, int max, int step, Intc listener) {
-        super(field, cont -> cont.slider(min, max, step, value -> {
+        super(field, cont -> cont.slider(min, max, step, value -> { // Дарк, не пиши всё в одну строчку - это прочитать сложно
             listener.get((int) value);
 
             field.setText(String.valueOf((int) value));

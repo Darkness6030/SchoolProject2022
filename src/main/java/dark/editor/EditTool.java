@@ -2,8 +2,6 @@ package dark.editor;
 
 import arc.func.*;
 import arc.graphics.*;
-import arc.scene.ui.TextField;
-import arc.scene.ui.TextField.TextFieldFilter;
 import arc.scene.ui.layout.*;
 import arc.util.Strings;
 import dark.ui.*;
@@ -114,22 +112,21 @@ public enum EditTool {
         public boolean square, straight, pickRaw;
 
         public void buildBrushTable() {
-            image(Icons.circle).size(24f);
-            field(size, 1, 100, 1, value -> size = value).padRight(8f);
-
-            image(Icons.spray).size(24f);
-            field(alpha, 1, 100, 1, value -> alpha = value);
+            field("Size:", size, 1, 100, 1, value -> size = value).padRight(8f);
+            field("Alpha:", alpha, 1, 100, 1, value -> alpha = value);
 
             toggle("@hud.square", value -> square = value).pad(0f, 8f, 0f, 8f);
         }
 
-        public Cell<TextField> field(int def, int min, int max, int step, Intc listener) {
-            return field(String.valueOf(def), TextFieldFilter.digitsOnly, value -> listener.get(Strings.parseInt(value)))
-                    .with(field -> new SliderTable(field, min, max, step, listener))
-                    .valid(value -> {
-                        int number = Strings.parseInt(value);
-                        return number >= min && number <= max;
-                    });
+        public Cell<Field> field(String name, int def, int min, int max, int step, Intc listener) {
+            return add(new Field(name, def, listener)).with(field -> {
+                new SliderTable(field.field(), min, max, step, listener);
+
+                field.valid(value -> {
+                    int number = Strings.parseInt(value);
+                    return number >= min && number <= max;
+                });
+            });
         }
 
         public Cell<Switch> toggle(String text, Boolc listener) {
