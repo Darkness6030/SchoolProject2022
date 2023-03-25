@@ -19,14 +19,16 @@ public class Field extends Table {
         });
     }
 
-    public Field(String name, String def, Cons<String> listener) {
+    public Field(String name, float width, String def, Cons<String> listener) {
         this(name);
-        field(def, listener).minWidth(96f).get().setAlignment(Align.right);
+        field(def, listener).width(width).get().setAlignment(Align.right);
     }
 
-    public Field(String name, int def, Intc listener) {
+    public Field(String name, float width, int def, Intc listener) {
         this(name);
-        field(String.valueOf(def), TextFieldFilter.digitsOnly, value -> listener.get(Strings.parseInt(value))).valid(Strings::canParseInt).minWidth(96f).get().setAlignment(Align.right);
+        field(String.valueOf(def), TextFieldFilter.digitsOnly, value -> listener.get(Strings.parseInt(value))).valid(Strings::canParseInt)
+                .width(width).get().setAlignment(Align.right);
+
     }
 
     public TextField field() {
