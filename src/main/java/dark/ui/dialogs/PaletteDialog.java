@@ -12,18 +12,16 @@ import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.scene.ui.Image;
-import arc.scene.ui.TextField;
-import arc.scene.ui.TextField.TextFieldFilter;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Strings;
 import dark.ui.Drawables;
 import dark.ui.Icons;
 import dark.ui.Palette;
+import dark.ui.elements.Field;
 
-import static arc.Core.app;
-import static arc.Core.input;
-import static dark.Main.ui;
+import static arc.Core.*;
+import static dark.Main.*;
 
 public class PaletteDialog extends BaseDialog {
 
@@ -59,55 +57,50 @@ public class PaletteDialog extends BaseDialog {
 
             ctrl.row();
 
-            field(ctrl, "[red]R: ", 255, model::red, model::red);
-            field(ctrl, "[gray]H: ", 360, model::hue, model::hue);
+            field(ctrl, "[red]R:", 255, model::red, model::red);
+            field(ctrl, "[gray]H:", 360, model::hue, model::hue);
 
             ctrl.row();
 
-            field(ctrl, "[green]G: ", 255, model::green, model::green);
-            field(ctrl, "[gray]S: ", 100, model::saturation, model::saturation);
+            field(ctrl, "[green]G:", 255, model::green, model::green);
+            field(ctrl, "[gray]S:", 100, model::saturation, model::saturation);
 
             ctrl.row();
 
-            field(ctrl, "[blue]B: ", 255, model::blue, model::blue);
-            field(ctrl, "[gray]V: ", 100, model::value, model::value);
+            field(ctrl, "[blue]B:", 255, model::blue, model::blue);
+            field(ctrl, "[gray]V:", 100, model::value, model::value);
 
             ctrl.row();
 
-            field(ctrl, "[accent]HEX: ", model::hex, model::hex, field -> {
-                field.setFilter((f, c) -> validHexChars.contains(String.valueOf(c)));
-                field.setValidator(hex -> hex.length() == 6 || hex.length() == 8);
-                field.setMaxLength(8);
-
-                app.post(() -> ((Table) field.parent).getCells().peek().width(182f)); // увеличивает размер поля под hex
-            });
+            field(ctrl, "[accent]HEX:", model::hex, model::hex);
         }).growY();
     }
 
-    public void field(Table table, String name, Cons<String> cons, Prov<String> prov, Cons<TextField> with) {
-        table.table(cont -> {
-            cont.left();
+    public void field(Table table, String name, Cons<String> cons, Prov<String> prov) {
+        table.add(new Field(name, 181f, "", text -> {
+            cons.get(text);
+            rebuild();
+        })).with(field -> {
+            field.filter((f, c) -> validHexChars.contains(String.valueOf(c)));
+            field.valid(hex -> hex.length() == 6 || hex.length() == 8);
+            field.maxTextLength(8);
 
-            cont.add(name);
-            cont.field("", TextFieldFilter.digitsOnly, text -> {
-                cons.get(text);
-                rebuild();
-            }).with(field -> {
-                with.get(field);
-                rebuild.add(() -> {
-                    if (!field.hasKeyboard()) field.setText(prov.get());
-                });
-            }).width(80f);
-        }).marginLeft(6f);
+            rebuild.add(() -> field.setTextSafe(prov.get()));
+        });
     }
 
     public void field(Table table, String name, int max, Floatc cons, Floatp prov) {
-        field(table, name, t -> cons.get(Strings.parseInt(t)), () -> String.valueOf((int) prov.get()), field -> {
-            field.setMaxLength(3);
-            field.setValidator(text -> {
+        table.add(new Field(name, 80f, 0, (int value) -> {
+            cons.get(value);
+            rebuild();
+        })).with(field -> {
+            field.maxTextLength(3);
+            field.valid(text -> {
                 int number = Strings.parseInt(text);
                 return number >= 0 && number <= max;
             });
+
+            rebuild.add(() -> field.setTextSafe(String.valueOf((int) prov.get())));
         });
     }
 
