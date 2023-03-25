@@ -46,15 +46,16 @@ public class PaletteDialog extends BaseDialog {
             hide();
         });
 
-        cont.add(image).size(256f).padTop(8f).padRight(16f);
-        cont.add(slider).size(32f, 256f).padTop(8f).padRight(16f);
+        cont.marginTop(12f);
+        cont.add(image).size(256f).padRight(16f);
+        cont.add(slider).size(32f, 256f).padRight(16f);
 
         cont.table(ctrl -> {
             ctrl.top();
             ctrl.defaults().size(128f, 32f);
 
-            ctrl.image(Drawables.white_rounded_left).update(image -> image.setColor(callback)).padTop(8f);
-            ctrl.image(Drawables.white_rounded_right).update(image -> image.setColor(model.get())).padTop(8f);
+            ctrl.image(Drawables.white_rounded_left).update(image -> image.setColor(callback));
+            ctrl.image(Drawables.white_rounded_right).update(image -> image.setColor(model.get()));
 
             ctrl.row();
 
@@ -123,6 +124,7 @@ public class PaletteDialog extends BaseDialog {
     }
 
     public static abstract class ClickableImage extends Image {
+
         public Pixmap pixmap;
         public Texture texture;
 
@@ -171,7 +173,7 @@ public class PaletteDialog extends BaseDialog {
             super.draw();
 
             Lines.stroke(3f, Palette.active.cpy().a(parentAlpha));
-            Lines.poly(x + mouse.x, y + mouse.y, 96, 12f);
+            Lines.poly(x + mouse.x, y + mouse.y, 16, 9f);
         }
     }
 
@@ -207,6 +209,7 @@ public class PaletteDialog extends BaseDialog {
     }
 
     public static class ColorModel {
+
         public float hue, saturation, value;
 
         public void set(float hue, float saturation, float value) {
@@ -284,12 +287,12 @@ public class PaletteDialog extends BaseDialog {
         // endregion
         // region hex
 
-        public void hex(String hex) {
-            set(Color.valueOf(hex));
-        }
-
         public String hex() {
             return get().toString();
+        }
+
+        public void hex(String hex) {
+            set(Color.valueOf(hex));
         }
 
         // endregion
