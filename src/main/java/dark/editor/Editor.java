@@ -2,15 +2,13 @@ package dark.editor;
 
 import arc.ApplicationListener;
 import arc.files.Fi;
-import arc.graphics.Color;
-import arc.graphics.PixmapIO;
+import arc.graphics.*;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 import arc.math.geom.Bresenham2;
 import arc.util.Tmp;
-import dark.history.*;
-import dark.ui.Icons;
-import dark.ui.Palette;
+import dark.history.Operation;
+import dark.ui.*;
 import dark.utils.Clipboard;
 
 import java.awt.image.BufferedImage;
@@ -38,7 +36,8 @@ public class Editor implements ApplicationListener, GestureListener {
     @Override
     public void update() {
         if (!scene.hasDialog()) {
-            if (!scene.hasKeyboard()) canvas.move(Binding.move_x.axis() * canvas.zoom * -8f, Binding.move_y.axis() * canvas.zoom * -8f);
+            if (!scene.hasKeyboard())
+                canvas.move(Binding.move_x.axis() * canvas.zoom * -8f, Binding.move_y.axis() * canvas.zoom * -8f);
             if (!scene.hasScroll()) canvas.zoom(Binding.zoom.scroll() * canvas.zoom * .05f);
 
             input();
@@ -67,9 +66,12 @@ public class Editor implements ApplicationListener, GestureListener {
             operation.begin();
         }
 
-        if (Binding.draw1.down()) draw(first);
-        else if (Binding.draw2.down()) draw(second);
+        if (!scene.hasMouse()) {
+            draw(Binding.draw1, first);
+            draw(Binding.draw2, second);
+        }
 
+        // TODO это НЕПРАВИЛЬНАЯ ЛОГИКА вдруг чел сразу двумя рисует а отпустил только одно
         if ((Binding.draw1.release() || Binding.draw2.release()) && operation != null) {
             operation.end();
             if (!operation.data.isEmpty()) history.push(operation);
@@ -112,14 +114,11 @@ public class Editor implements ApplicationListener, GestureListener {
 
     // region actions
 
-    public void draw(Color color) {
-        if (scene.hasMouse()) return;
-
-        Tmp.c1.set(color).a(tool.config.alpha / 255f);
-        if (tool.draggable)
-            Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(renderer.current, x, y, Tmp.c1));
-        else
-            tool.touched(renderer.current, canvas.canvasX(), canvas.canvasY(), Tmp.c1);
+    public void draw(Binding binding, Color color) {
+        if (tool.draggable && binding.down())
+            Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(renderer.current, x, y, color.cpy().a(tool.config.alpha / 255f)));
+        else if (binding.tap())
+            tool.touched(renderer.current, canvas.canvasX(), canvas.canvasY(), color.cpy().a(tool.config.alpha / 255f));
     }
 
     public void reset(int width, int height) {
