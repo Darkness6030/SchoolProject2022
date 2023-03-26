@@ -6,10 +6,10 @@ import static dark.Main.*;
 
 public class History extends Seq<Operation> {
 
-    public int index = -1;
+    public int index;
 
     public void push(Operation op) {
-        if (index != size - 1) truncate(index + 1); // new operation added not to the end of the story
+        if (index != size) truncate(index); // new operation added not to the end of the story
 
         add(op);
         index++;
@@ -17,21 +17,23 @@ public class History extends Seq<Operation> {
         ui.hudFragment.updateHistory();
     }
 
+    public Operation selected() {
+        return index == 0 ? null : get(index - 1);
+    }
+
     public void undo() {
-        get(index).undo();
-        index--;
+        get(--index).undo();
     }
 
     public void redo() {
-        index++;
-        get(index).redo();
+        get(index++).redo();
     }
 
     public boolean hasUndo() {
-        return index >= 0;
+        return index >= 1;
     }
 
     public boolean hasRedo() {
-        return index < size - 1;
+        return index < size;
     }
 }

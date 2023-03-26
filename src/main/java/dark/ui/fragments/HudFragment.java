@@ -202,7 +202,7 @@ public class HudFragment {
                 ui.hudFragment.pane.scrollTo(0f, this.y - 446f);
             });
 
-            update(() -> setChecked(history.indexOf(operation) == history.index));
+            update(() -> setChecked(history.selected() == operation));
         }
     }
 

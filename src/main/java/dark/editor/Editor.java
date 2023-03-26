@@ -73,6 +73,7 @@ public class Editor implements ApplicationListener, GestureListener {
         if ((Binding.draw1.release() || Binding.draw2.release()) && operation != null) {
             operation.end();
             if (!operation.data.isEmpty()) history.push(operation);
+            operation = null;
         }
 
         if (Binding.pan.down())
