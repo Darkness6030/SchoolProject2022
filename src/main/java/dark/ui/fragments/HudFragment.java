@@ -199,6 +199,7 @@ public class HudFragment {
             label(() -> operation.data.size * 4 / 1024 + " Kb").growX();
 
             clicked(() -> {
+                history.moveTo(operation);
                 ui.hudFragment.pane.scrollTo(0f, this.y - 446f);
             });
 

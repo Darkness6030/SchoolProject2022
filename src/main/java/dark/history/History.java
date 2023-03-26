@@ -13,8 +13,16 @@ public class History extends Seq<Operation> {
 
         add(op);
         index++;
+        ui.hudFragment.updateHistory();
+    }
+
+    @Override
+    public Seq<Operation> clear() {
+        super.clear();
+        index = 0;
 
         ui.hudFragment.updateHistory();
+        return this;
     }
 
     public Operation selected() {
@@ -35,5 +43,23 @@ public class History extends Seq<Operation> {
 
     public boolean hasRedo() {
         return index < size;
+    }
+
+    public void undoTo(int opi) {
+        while (index != opi + 1) undo();
+    }
+
+    public void redoTo(int opi) {
+        while (index != opi + 1) redo();
+    }
+
+    public void moveTo(Operation op) {
+        int opi = indexOf(op);
+        if (opi == -1) return; // I'm sorry, what?
+
+        if (opi >= index)
+            redoTo(opi);
+        else
+            undoTo(opi);
     }
 }
