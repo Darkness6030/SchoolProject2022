@@ -1,13 +1,9 @@
 package dark;
 
 import arc.Files.FileType;
-import arc.backend.sdl.SdlApplication;
-import arc.backend.sdl.SdlConfig;
+import arc.backend.sdl.*;
 import arc.backend.sdl.jni.SDL;
-import arc.util.Log;
-import arc.util.OS;
-import arc.util.Strings;
-import arc.util.Threads;
+import arc.util.*;
 import arc.util.serialization.JsonReader;
 import dark.editor.Editor;
 import dark.history.History;
@@ -15,7 +11,6 @@ import dark.ui.UI;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.ExecutorService;
 
 public class Main {
 
@@ -27,7 +22,6 @@ public class Main {
     public static History history = new History();
 
     public static final JsonReader reader = new JsonReader();
-    public static final ExecutorService executor = Threads.executor(OS.cores);
 
     public static void main(String[] args) {
         Log.logger = (level, text) -> {

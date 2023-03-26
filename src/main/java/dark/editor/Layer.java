@@ -80,7 +80,7 @@ public class Layer extends Pixmap {
             y = Point2.y(pos);
 
             if (in(x, y) && compareColor(previous, get(x, y), maxDifference) && !hits.getAndSet(x + y * width)) {
-                set(x, y, color);
+                setRaw(x, y, color.rgba());
 
                 queue.addLast(Point2.pack(x, y - 1));
                 queue.addLast(Point2.pack(x, y + 1));
@@ -93,6 +93,6 @@ public class Layer extends Pixmap {
     }
 
     public boolean compareColor(int previous, int color, float maxDifference) {
-        return Tmp.c1.set(previous).diff(Tmp.c2.set(color)) <= maxDifference;
+        return Tmp.c2.set(previous).diff(Tmp.c3.set(color)) <= maxDifference;
     }
 }

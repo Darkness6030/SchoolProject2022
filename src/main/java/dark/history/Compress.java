@@ -27,7 +27,7 @@ public class Compress {
         return result;
     }
 
-    public static void read(IntSeq data, Intc3 cons) {
+    public static void read(IntSeq data, ColorConsumer cons) {
         for (int i = 0; i < data.size; i++) {
             int x = data.get(i++), y = data.get(i++), length = data.get(i++);
 
@@ -44,7 +44,7 @@ public class Compress {
         return write(before);
     }
 
-    public interface Intc3 {
+    public interface ColorConsumer {
         void get(int x, int y, int color);
     }
 }

@@ -139,9 +139,9 @@ public class HudFragment {
         if (layers == null) return;
         historyTab = true;
 
-        layers.clear(); // пока тут ставить нечего, ибо я не знаю откуда брать инфу
-        history.each(op -> {
-            layers.add(new OperationButton(op)).height(64f).growX().margin(8f).row();
+        layers.clear();
+        history.each(operation -> {
+            layers.add(new OperationButton(operation)).height(64f).growX().margin(8f).row();
         });
     }
 

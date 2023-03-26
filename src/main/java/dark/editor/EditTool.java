@@ -106,7 +106,6 @@ public enum EditTool {
     }
 
     public static class Config extends Table {
-
         public int size = 16, alpha = 255;
         public float maxDifference = 0.2f;
 

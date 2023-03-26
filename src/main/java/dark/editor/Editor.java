@@ -115,7 +115,7 @@ public class Editor implements ApplicationListener, GestureListener {
     public void draw(Color color) {
         if (scene.hasMouse()) return;
 
-        Tmp.c1.set(color).a(tool.config.alpha / 256f);
+        Tmp.c1.set(color).a(tool.config.alpha / 255f);
         if (tool.draggable)
             Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(renderer.current, x, y, Tmp.c1));
         else
@@ -123,11 +123,15 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void reset(int width, int height) {
+        history.clear();
+
         renderer.reset(width, height);
         canvas.reset(width, height);
     }
 
     public void reset(Layer layer) {
+        history.clear();
+
         renderer.reset(layer);
         canvas.reset(layer.width, layer.height);
     }
