@@ -7,22 +7,28 @@ import dark.editor.Layer;
 public class Operation {
 
     public static Pixmap before;
-    public static Layer after;
 
+    public Layer layer;
     public IntSeq data;
 
+    public Operation(Layer layer) {
+        this.layer = layer;
+    }
+
     /** Thread unsafe, do not call in multithreaded code! */
-    public void begin(Layer layer) {
+    public void begin() {
         before = layer.copy();
-        after = layer;
     }
 
-    /** Stores difference between {@link #before} and {@link #after} in {@link IntSeq}. */
+    /** Stores difference between {@link #before} and {@link #layer} in {@link IntSeq}. */
     public void end() {
-        data = Compress.difference(before, after);
+        data = Compress.difference(before, layer);
     }
 
-    public void undo() {}
+    public void undo() {
+        Compress.read(data, (x, y, color) -> layer.setRaw(x, y, layer.getRaw(x, y) - color));
+        layer.updateTexture();
+    }
 
     public void redo() {}
 }

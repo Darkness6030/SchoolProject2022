@@ -3,7 +3,6 @@ package dark.history;
 import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.struct.IntSeq;
-import dark.editor.Layer;
 
 public class Compress {
 
@@ -17,7 +16,7 @@ public class Compress {
 
                 int length = 1;
                 for (int i = y + 1; i < pixmap.height; i++)
-                    if (pixmap.getRaw(i, y) == raw) length++;
+                    if (pixmap.getRaw(x, i) == raw) length++;
                     else break;
 
                 result.addAll(x, y, length, raw);
@@ -28,10 +27,24 @@ public class Compress {
         return result;
     }
 
-    public static IntSeq difference(Pixmap before, Layer after) {
+    public static void read(IntSeq data, Intc3 cons) {
+        for (int i = 0; i < data.size; i++) {
+            int x = data.get(i++), y = data.get(i++), length = data.get(i++);
+
+            int raw = data.get(i);
+            for (int j = 0; j < length; j++)
+                cons.get(x, y + j, raw);
+        }
+    }
+
+    public static IntSeq difference(Pixmap before, Pixmap after) {
         before.each((x, y) -> {
-            if (before.getRaw(x, y) == after.getRaw(x, y)) before.set(x, y, Color.clearRgba);
+            before.set(x, y, after.getRaw(x, y) - before.getRaw(x, y));
         });
         return write(before);
+    }
+
+    public interface Intc3 {
+        void get(int x, int y, int color);
     }
 }
