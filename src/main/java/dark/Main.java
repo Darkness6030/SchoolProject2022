@@ -10,6 +10,7 @@ import arc.util.Strings;
 import arc.util.Threads;
 import arc.util.serialization.JsonReader;
 import dark.editor.Editor;
+import dark.history.History;
 import dark.ui.UI;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ public class Main {
 
     public static UI ui = new UI();
     public static Editor editor = new Editor();
+    public static History history = new History();
 
     public static final JsonReader reader = new JsonReader();
     public static final ExecutorService executor = Threads.executor(OS.cores);

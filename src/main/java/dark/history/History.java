@@ -6,12 +6,11 @@ public class History extends Seq<Operation> {
 
     public int index;
 
-    @Override
-    public Seq<Operation> add(Operation op) {
+    public void push(Operation op) {
         if (index != size) truncate(index); // new operation added not to the end of the story
 
+        add(op);
         index++;
-        return add(op);
     }
 
     public void undo() {
