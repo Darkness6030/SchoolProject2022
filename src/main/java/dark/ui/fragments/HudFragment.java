@@ -7,6 +7,7 @@ import arc.scene.ui.layout.WidgetGroup;
 import dark.editor.EditTool;
 import dark.editor.Layer;
 import dark.editor.Renderer;
+import dark.history.Operation;
 import dark.ui.Drawables;
 import dark.ui.Icons;
 import dark.ui.Styles;
@@ -19,7 +20,7 @@ public class HudFragment {
 
     public Table config, layers;
     public FocusScrollPane pane;
-    public boolean history;
+    public boolean historyTab;
 
     public void build(WidgetGroup parent) {
         parent.fill(cont -> { // tools config
@@ -61,8 +62,8 @@ public class HudFragment {
                 pad.table(tabs -> {
                     tabs.defaults().grow();
 
-                    tabs.button("@hud.layers", Styles.layersTab, this::buildLayers).checked(t -> !history);
-                    tabs.button("@hud.history", Styles.historyTab, this::buildHistory).checked(t -> history);
+                    tabs.button("@hud.layers", Styles.layersTab, this::buildLayers).checked(t -> !historyTab);
+                    tabs.button("@hud.history", Styles.historyTab, this::buildHistory).checked(t -> historyTab);
                 }).height(32f).growX().pad(0f, 8f, 10f, 8f).row();
 
                 pane = new FocusScrollPane(layers = new Table().top());
@@ -75,7 +76,7 @@ public class HudFragment {
                 updateLayers();
 
                 pad.table(act -> {
-                    act.visible(() -> !history); // во вкладке истории этих кнопок быть не должно
+                    act.visible(() -> !historyTab); // во вкладке истории этих кнопок быть не должно
                     act.defaults().size(32f).pad(8f, 8f, 8f, 0f); // кнопки движения
 
                     act.button(Icons.up, editor::moveUp)
@@ -118,12 +119,16 @@ public class HudFragment {
     }
 
     public void updateLayers() {
-        if (!history) buildLayers();
+        if (!historyTab) buildLayers();
+    }
+
+    public void updateHistory() {
+        if (historyTab) buildHistory();
     }
 
     public void buildLayers() {
         if (layers == null) return; // такое возможно?
-        history = false;
+        historyTab = false;
 
         layers.clear(); // цикл нужен для проходки в обратном порядке, т.к. в конце массива расположены верхние слои
         for (int i = editor.renderer.layers.size - 1; i >= 0; i--)
@@ -132,9 +137,12 @@ public class HudFragment {
 
     public void buildHistory() {
         if (layers == null) return;
-        history = true;
+        historyTab = true;
 
         layers.clear(); // пока тут ставить нечего, ибо я не знаю откуда брать инфу
+        history.each(op -> {
+            layers.add(new OperationButton(op)).height(64f).growX().margin(8f).row();
+        });
     }
 
     // region subclasses
@@ -162,11 +170,8 @@ public class HudFragment {
 
     public static class LayerButton extends ImageButton {
 
-        public Layer layer;
-
         public LayerButton(Layer layer) {
             super(layer.region, Styles.layer);
-            this.layer = layer;
 
             getImageCell().size(64f);
             defaults().padLeft(8f);
@@ -180,6 +185,24 @@ public class HudFragment {
             });
 
             update(() -> setChecked(editor.renderer.current == layer));
+        }
+    }
+
+    public static class OperationButton extends ImageButton {
+
+        public OperationButton(Operation operation) {
+            super(Drawables.alpha_chan, Styles.layer);
+
+            defaults().padLeft(8f);
+
+            label(() -> operation.data.size + " ints").growX();
+            label(() -> operation.data.size * 4 / 1024 + " Kb").growX();
+
+            clicked(() -> {
+                ui.hudFragment.pane.scrollTo(0f, this.y - 446f);
+            });
+
+            update(() -> setChecked(history.indexOf(operation) == history.index));
         }
     }
 
