@@ -8,6 +8,7 @@ import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 import arc.math.geom.Bresenham2;
 import arc.util.Tmp;
+import dark.history.*;
 import dark.ui.Icons;
 import dark.ui.Palette;
 import dark.utils.Clipboard;
@@ -26,6 +27,7 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public EditTool tool = EditTool.pencil, temp;
     public Color first = Color.white.cpy(), second = Color.black.cpy();
+    public Operation operation;
 
     @Override
     public void init() {
@@ -60,8 +62,18 @@ public class Editor implements ApplicationListener, GestureListener {
     public void input() {
         if (scene.hasKeyboard()) return;
 
+        if ((Binding.draw1.tap() || Binding.draw2.tap()) && !scene.hasMouse()) {
+            operation = new Operation(renderer.current);
+            operation.begin();
+        }
+
         if (Binding.draw1.down()) draw(first);
         else if (Binding.draw2.down()) draw(second);
+
+        if ((Binding.draw1.release() || Binding.draw2.release()) && operation != null) {
+            operation.end();
+            if (!operation.data.isEmpty()) history.push(operation);
+        }
 
         if (Binding.pan.down())
             canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
@@ -93,17 +105,20 @@ public class Editor implements ApplicationListener, GestureListener {
 
         if (Binding.copy.tap()) copy();
         if (Binding.paste.tap()) paste();
+        if (Binding.undo.tap() && history.hasUndo()) history.undo();
+        if (Binding.redo.tap() && history.hasRedo()) history.redo();
     }
 
     // region actions
 
     public void draw(Color color) {
-        var element = scene.hit(input.mouseX(), input.mouseY(), true);
-        if (element != null) return;
+        if (scene.hasMouse()) return;
 
+        Tmp.c1.set(color).a(tool.config.alpha / 256f);
         if (tool.draggable)
-            Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(renderer.current, x, y, Tmp.c1.set(color).a(tool.config.alpha / 256f)));
-        else tool.touched(renderer.current, canvas.canvasX(), canvas.canvasY(), Tmp.c1.set(color).a(tool.config.alpha / 256f));
+            Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(renderer.current, x, y, Tmp.c1));
+        else
+            tool.touched(renderer.current, canvas.canvasX(), canvas.canvasY(), Tmp.c1);
     }
 
     public void reset(int width, int height) {
