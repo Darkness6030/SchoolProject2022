@@ -61,7 +61,7 @@ public class Editor implements ApplicationListener, GestureListener {
     public void input() {
         if (scene.hasKeyboard()) return;
 
-        if ((Binding.draw1.tap() || Binding.draw2.tap()) && !scene.hasMouse()) {
+        if ((Binding.draw1.tap() || Binding.draw2.tap()) && operation == null) {
             operation = new Operation(renderer.current);
             operation.begin();
         }
@@ -71,8 +71,7 @@ public class Editor implements ApplicationListener, GestureListener {
             draw(Binding.draw2, second);
         }
 
-        // TODO это НЕПРАВИЛЬНАЯ ЛОГИКА вдруг чел сразу двумя рисует а отпустил только одно
-        if ((Binding.draw1.release() || Binding.draw2.release()) && operation != null) {
+        if (((Binding.draw1.release() && !Binding.draw2.down()) || (Binding.draw2.release() && !Binding.draw1.down())) && operation != null) {
             operation.end();
             if (!operation.data.isEmpty()) history.push(operation);
             operation = null;
