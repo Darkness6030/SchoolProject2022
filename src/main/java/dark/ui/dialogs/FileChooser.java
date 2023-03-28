@@ -11,9 +11,10 @@ import dark.ui.Icons;
 import dark.ui.Styles;
 import dark.ui.elements.FocusScrollPane;
 
-import static arc.Core.*;
-
 import java.util.Comparator;
+
+import static arc.Core.files;
+import static arc.Core.settings;
 
 public class FileChooser extends BaseDialog {
 
@@ -42,8 +43,8 @@ public class FileChooser extends BaseDialog {
             nav.defaults().size(48f).padRight(8f);
 
             nav.button(Icons.home, this::openHomeDirectory);
-            nav.button(Icons.left, history::back).disabled(button -> history.noBack());
-            nav.button(Icons.right, history::forward).disabled(button -> history.noForward());
+            nav.button(Icons.left, history::back).disabled(button -> !history.hasBack());
+            nav.button(Icons.right, history::forward).disabled(button -> !history.hasForward());
             nav.button(Icons.up, this::openParentDirectory);
         }).growX().row();
 
@@ -102,14 +103,13 @@ public class FileChooser extends BaseDialog {
         Cons<TextButton> labelAlign = b -> b.getLabelCell().padLeft(8f).labelAlign(Align.left);
         list.button(directory.toString(), Icons.up, this::openParentDirectory).with(labelAlign).row();
 
-        getAvailableFiles().each(file -> {
+        getAvailableFiles().each(file ->
             list.button(file.name(), file.isDirectory() ? Icons.folder : Icons.file, Styles.textButtonCheck, () -> {
                 if (file.isDirectory())
                     openChildDirectory(file.name());
                 else
                     field.setText(file.name());
-            }).checked(b -> field.getText().equals(file.name())).with(labelAlign).row();
-        });
+            }).checked(b -> field.getText().equals(file.name())).with(labelAlign).row());
 
         pane.setScrollY(0f);
         if (open) field.clearText();
@@ -156,12 +156,12 @@ public class FileChooser extends BaseDialog {
             updateFiles(false);
         }
 
-        public boolean noForward() {
-            return index >= size;
+        public boolean hasBack() {
+            return index > 1;
         }
 
-        public boolean noBack() {
-            return index <= 1;
+        public boolean hasForward() {
+            return index < size;
         }
     }
 }
