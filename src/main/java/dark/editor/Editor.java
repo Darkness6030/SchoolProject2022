@@ -62,7 +62,7 @@ public class Editor implements ApplicationListener, GestureListener {
         if (scene.hasKeyboard()) return;
 
         if ((Binding.draw1.tap() || Binding.draw2.tap()) && operation == null) {
-            operation = new Operation(renderer.current);
+            operation = new Operation(tool, renderer.current);
             operation.begin();
         }
 

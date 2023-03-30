@@ -2,16 +2,19 @@ package dark.history;
 
 import arc.graphics.Pixmap;
 import arc.struct.IntSeq;
+import dark.editor.EditTool;
 import dark.editor.Layer;
 
 public class Operation {
 
     public static Pixmap before;
 
+    public EditTool tool;
     public Layer layer;
     public IntSeq data;
 
-    public Operation(Layer layer) {
+    public Operation(EditTool tool, Layer layer) {
+        this.tool = tool;
         this.layer = layer;
     }
 
