@@ -17,7 +17,7 @@ public class Styles {
 
     public static ButtonStyle button;
     public static TextButtonStyle textButton, textButtonCheck, layersTab, historyTab;
-    public static ImageButtonStyle imageButton, imageButtonCheck, emptyImageButton, alpha, layer, visible;
+    public static ImageButtonStyle imageButton, imageButtonCheck, emptyImageButton, alpha, layer, visible, background;
 
     public static LabelStyle label;
     public static TextFieldStyle field;
@@ -119,6 +119,12 @@ public class Styles {
             imageUp = Icons.eyeOpen;
             imageDown = Icons.eyeClosed;
             imageChecked = Icons.eyeClosed;
+        }};
+
+        background = new ImageButtonStyle() {{
+            up = Drawables.white_rounded;
+            over = Drawables.tint(Drawables.white_rounded, Color.lightGray);
+            down = Drawables.tint(Drawables.white_rounded, Color.gray);
         }};
 
         scene.addStyle(LabelStyle.class, label = new LabelStyle() {{
