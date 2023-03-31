@@ -31,6 +31,7 @@ public class UI implements ApplicationListener {
 
     public PaletteDialog palette;
     public ResizeDialog resize;
+    public NewCanvasDialog newCanvas;
 
     public Table toast;
 
@@ -51,6 +52,7 @@ public class UI implements ApplicationListener {
 
         palette = new PaletteDialog();
         resize = new ResizeDialog();
+        newCanvas = new NewCanvasDialog();
     }
 
     @Override

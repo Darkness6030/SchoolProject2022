@@ -89,7 +89,7 @@ public class Editor implements ApplicationListener, GestureListener {
         if (Binding.swap.tap()) swap();
 
         if (Binding.resize_canvas.tap()) ui.resize.show();
-        if (Binding.new_canvas.tap()) ui.resize.show();
+        if (Binding.new_canvas.tap()) ui.newCanvas.show();
         if (Binding.new_layer.tap()) newLayer();
 
         if (Binding.wheel.tap() && temp == null) {
