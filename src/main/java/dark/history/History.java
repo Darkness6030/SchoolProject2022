@@ -11,8 +11,8 @@ public class History extends Seq<Operation> {
 
     public void push(Operation op) {
         if (index != size) truncate(index); // new operation added not to the end of the story
-
         add(op);
+
         if (size > maxSize) remove(0);
         else index++;
 

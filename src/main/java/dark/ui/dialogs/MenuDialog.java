@@ -20,6 +20,6 @@ public class MenuDialog extends BaseDialog {
 
         buttons.row();
 
-        buttons.buttonRow("@settings", Icons.plus, () -> ui.settings.show()).colspan(2).width(428f);
+        buttons.buttonRow("@settings", Icons.plus, () -> {}).colspan(2).width(428f);
     }
 }

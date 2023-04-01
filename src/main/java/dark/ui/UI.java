@@ -27,8 +27,6 @@ public class UI implements ApplicationListener {
     public final ColorWheel colorWheel = new ColorWheel();
 
     public MenuDialog menu;
-    public SettingsDialog settings;
-
     public PaletteDialog palette;
     public ResizeDialog resize;
     public NewCanvasDialog newCanvas;
@@ -48,8 +46,6 @@ public class UI implements ApplicationListener {
         UnderTable.build(hud);
 
         menu = new MenuDialog();
-        settings = new SettingsDialog();
-
         palette = new PaletteDialog();
         resize = new ResizeDialog();
         newCanvas = new NewCanvasDialog();
@@ -78,7 +74,7 @@ public class UI implements ApplicationListener {
     }
 
     public void showInfoToast(Drawable icon, String text) {
-        Sounds.play(Sounds.message);
+        Sounds.message.play();
 
         if (toast != null) toast.remove();
 

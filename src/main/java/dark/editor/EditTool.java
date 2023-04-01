@@ -21,9 +21,9 @@ public enum EditTool {
 
         public void touched(Layer current, int x, int y, Color color) {
             if (config.square)
-                current.drawSquare(x, y, config.size, color);
+                current.drawSquare(x, y, config.size, color.cpy().a(config.alpha / 255f));
             else
-                current.drawCircle(x, y, config.size, color);
+                current.drawCircle(x, y, config.size, color.cpy().a(config.alpha / 255f));
         }
     },
 
@@ -42,11 +42,11 @@ public enum EditTool {
 
     fill(false, Binding.fill) {
         public void build() {
-            config.slider(0f, 1f, 0.01f, value -> config.maxDifference = value).padRight(8f);
+            config.field("@hud.tolerance", config.tolerance, 0, 100, 1, value -> config.tolerance = value);
         }
 
         public void touched(Layer current, int x, int y, Color color) {
-            current.fill(x, y, config.maxDifference, color);
+            current.fill(x, y, config.tolerance / 100f, color.cpy().a(config.alpha / 255f));
         }
     },
 
@@ -63,7 +63,7 @@ public enum EditTool {
 
     pick(false, Binding.pick) {
         public void build() {
-            config.check("@hud.pick-raw", value -> config.pickRaw = value);
+            config.toggle("@hud.pick-raw", value -> config.pickRaw = value);
         }
 
         public void touched(Layer current, int x, int y, Color color) {
@@ -98,6 +98,8 @@ public enum EditTool {
     public void button(Table table) {
         table.button(Icons.drawable(name()), Styles.imageButtonCheck, 48f, () -> {
                     editor.tool = this;
+                    editor.flush();
+
                     ui.hudFragment.updateConfig();
                 })
                 .checked(button -> editor.tool == this)
@@ -106,16 +108,14 @@ public enum EditTool {
     }
 
     public static class Config extends Table {
-        public int size = 16, alpha = 255;
-        public float maxDifference = 0.2f;
-
+        public int size = 16, alpha = 255, tolerance = 16;
         public boolean square, straight, pickRaw;
 
         public void buildBrushTable() {
             defaults().padRight(8f);
 
-            field("Size:", size, 1, 100, 1, value -> size = value);
-            field("Alpha:", alpha, 0, 255, 1, value -> alpha = value);
+            field("@hud.size", size, 1, 100, 1, value -> size = value);
+            field("@hud.alpha", alpha, 0, 255, 1, value -> alpha = value);
 
             toggle("@hud.square", value -> square = value);
         }

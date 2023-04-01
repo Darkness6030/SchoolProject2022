@@ -26,11 +26,11 @@ public class SpriteX extends ApplicationCore {
         scene = new Scene();
         atlas = TextureAtlas.blankAtlas();
 
-        settings.defaults("locale", "en", "sfxvol", 100); // TODO locale для локализации, sfxvol для громкости звука
+        settings.defaults("locale", "en");
         settings.setAppName("SpriteX");
         settings.load();
 
-        bundle = I18NBundle.createBundle(files.internal("bundles/bundle"), Locale.ENGLISH); // TODO выбор языка
+        bundle = I18NBundle.createBundle(files.internal("bundles/bundle"), new Locale(settings.getString("locale")));
 
         Tooltips.getInstance().animations = true;
         Tooltips.getInstance().textProvider = text -> new Tooltip(table -> table.background(Drawables.gray).margin(4f).add(text));

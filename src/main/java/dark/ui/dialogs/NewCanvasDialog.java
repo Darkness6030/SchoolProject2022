@@ -55,8 +55,8 @@ public class NewCanvasDialog extends BaseDialog {
             });
 
             cont.button(Drawables.empty, Styles.background, () -> ui.palette.show(background))
-                    .update(b -> b.setColor(fill ? background : Color.clear))
-                    .disabled(b -> !fill);
+                    .update(button -> button.setColor(fill ? background : Color.clear))
+                    .disabled(button -> !fill);
         });
     }
 }

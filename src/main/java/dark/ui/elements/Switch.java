@@ -37,7 +37,7 @@ public class Switch extends CheckBox {
     public void draw() {
         super.draw();
 
-        Draw.color(Palette.main);
+        Draw.color(Palette.main.cpy().a(parentAlpha));
         Draw.rect("whiteui-rounded", knobX + x + 12f, y + 12f, 16f, 16f);
     }
 }

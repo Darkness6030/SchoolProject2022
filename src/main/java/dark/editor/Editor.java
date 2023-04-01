@@ -62,20 +62,15 @@ public class Editor implements ApplicationListener, GestureListener {
         if (scene.hasKeyboard()) return;
 
         if (!scene.hasMouse()) {
-            if ((Binding.draw1.tap() || Binding.draw2.tap()) && operation == null) {
-                operation = new Operation(tool, renderer.current);
-                operation.begin();
-            }
+            if ((Binding.draw1.down() || Binding.draw2.down()))
+                begin();
 
             draw(Binding.draw1, first);
             draw(Binding.draw2, second);
         }
 
-        if (((Binding.draw1.release() && !Binding.draw2.down()) || (Binding.draw2.release() && !Binding.draw1.down())) && operation != null) {
-            operation.end();
-            if (!operation.data.isEmpty()) history.push(operation);
-            operation = null;
-        }
+        if (((Binding.draw1.release() && !Binding.draw2.down()) || (Binding.draw2.release() && !Binding.draw1.down())))
+            flush();
 
         if (Binding.pan.down())
             canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
@@ -108,17 +103,32 @@ public class Editor implements ApplicationListener, GestureListener {
 
         if (Binding.copy.tap()) copy();
         if (Binding.paste.tap()) paste();
-        if (Binding.undo.tap() && history.hasUndo()) history.undo();
-        if (Binding.redo.tap() && history.hasRedo()) history.redo();
+        if (Binding.undo.tap() && history.hasUndo()) undo();
+        if (Binding.redo.tap() && history.hasRedo()) redo();
     }
 
     // region actions
 
+    public void begin() {
+        if (operation != null) return;
+
+        operation = new Operation(tool, renderer.current);
+        operation.begin();
+    }
+
+    public void flush() {
+        if (operation == null) return;
+
+        operation.end();
+        if (!operation.data.isEmpty()) history.push(operation);
+        operation = null;
+    }
+
     public void draw(Binding binding, Color color) {
         if (tool.draggable && binding.down())
-            Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(renderer.current, x, y, color.cpy().a(tool.config.alpha / 255f)));
+            Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(renderer.current, x, y, color));
         else if (binding.tap())
-            tool.touched(renderer.current, canvas.canvasX(), canvas.canvasY(), color.cpy().a(tool.config.alpha / 255f));
+            tool.touched(renderer.current, canvas.canvasX(), canvas.canvasY(), color);
     }
 
     public void reset(int width, int height) {
@@ -133,6 +143,16 @@ public class Editor implements ApplicationListener, GestureListener {
 
         renderer.reset(layer);
         canvas.reset(layer.width, layer.height);
+    }
+
+    public void undo() {
+        history.undo();
+        ui.showInfoToast(Icons.undo, "@undone");
+    }
+
+    public void redo() {
+        history.redo();
+        ui.showInfoToast(Icons.redo, "@redone");
     }
 
     public void copy() {
@@ -209,7 +229,7 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void copyLayer() {
-        renderer.addLayer(renderer.current.copy());
+        renderer.addLayer(renderer.current.copyLayer());
     }
 
     public void removeLayer() {

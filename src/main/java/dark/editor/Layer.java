@@ -35,7 +35,7 @@ public class Layer extends Pixmap {
         this.draw(pixmap);
     }
 
-    public Layer copy() {
+    public Layer copyLayer() {
         var copy = new Layer(width, height);
         copy.name = name;
 
@@ -67,7 +67,7 @@ public class Layer extends Pixmap {
         updateTexture();
     }
 
-    public void fill(int x, int y, float maxDifference, Color color) {
+    public void fill(int x, int y, float tolerance, Color color) {
         int previous = get(x, y);
         var hits = new Bits(width * height);
 
@@ -79,7 +79,7 @@ public class Layer extends Pixmap {
             x = Point2.x(pos);
             y = Point2.y(pos);
 
-            if (in(x, y) && compareColor(previous, get(x, y), maxDifference) && !hits.getAndSet(x + y * width)) {
+            if (in(x, y) && compareColor(previous, get(x, y), tolerance) && !hits.getAndSet(x + y * width)) {
                 setRaw(x, y, color.rgba());
 
                 queue.addLast(Point2.pack(x, y - 1));
@@ -92,7 +92,7 @@ public class Layer extends Pixmap {
         updateTexture();
     }
 
-    public boolean compareColor(int previous, int color, float maxDifference) {
-        return Tmp.c2.set(previous).diff(Tmp.c3.set(color)) <= maxDifference;
+    public boolean compareColor(int previous, int color, float tolerance) {
+        return Tmp.c2.set(previous).diff(Tmp.c3.set(color)) <= tolerance;
     }
 }
