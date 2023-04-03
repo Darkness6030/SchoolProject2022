@@ -22,7 +22,7 @@ public class Drawables {
             main_rounded_right, darkmain_rounded_right, active_rounded_right,
             main_knob, darkmain_knob, active_knob,
             alpha_chan, alpha_chan_dizzy,
-            underline, underline_red, cursor, selection,
+            field_main, field_focused, field_invalid, cursor, selection,
             corners, gray, color_blob, slider_knob, switch_bg, empty, error;
 
     public static void load() {
@@ -58,8 +58,11 @@ public class Drawables {
         alpha_chan = load("alpha-chan");
         alpha_chan_dizzy = load("alpha-chan-dizzy");
 
-        underline = load("underline");
-        underline_red = load("underline-red");
+        var field = load("field");
+        field_main = tint(field, Palette.darkmain);
+        field_focused = tint(field, Palette.active);
+        field_invalid = tint(field, Color.scarlet);
+
         cursor = load("cursor");
         selection = load("selection");
 

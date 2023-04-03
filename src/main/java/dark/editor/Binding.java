@@ -16,7 +16,7 @@ public enum Binding {
 
     draw1(KeyCode.mouseLeft),
     draw2(KeyCode.mouseRight),
-    wheel(KeyCode.controlLeft),
+    wheel(KeyCode.shiftLeft),
 
     move_x(KeyCode.a, KeyCode.d),
     move_y(KeyCode.s, KeyCode.w),

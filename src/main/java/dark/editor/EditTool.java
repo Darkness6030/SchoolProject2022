@@ -96,9 +96,7 @@ public enum EditTool {
 
     public void button(Table table) {
         table.button(Icons.drawable(name()), Styles.imageButtonCheck, 48f, () -> {
-                    editor.tool = this;
-                    editor.flush();
-
+                    editor.setTool(this);
                     ui.hudFragment.updateConfig();
                 })
                 .checked(button -> editor.tool == this)

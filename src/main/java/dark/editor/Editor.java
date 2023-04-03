@@ -76,8 +76,8 @@ public class Editor implements ApplicationListener, GestureListener {
             canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
 
         for (var tool : EditTool.values())
-            if (tool.hotkey.tap()) {
-                this.tool = tool;
+            if (this.tool != tool && tool.hotkey.tap()) {
+                this.setTool(tool);
                 ui.hudFragment.updateConfig();
             }
 
@@ -122,6 +122,11 @@ public class Editor implements ApplicationListener, GestureListener {
         operation.end();
         if (!operation.data.isEmpty()) history.push(operation);
         operation = null;
+    }
+
+    public void setTool(EditTool tool) {
+        this.flush();
+        this.tool = tool;
     }
 
     public void draw(Binding binding, Color color) {

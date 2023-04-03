@@ -1,7 +1,7 @@
 package dark.ui.elements;
 
 import arc.func.*;
-import arc.scene.ui.TextField;
+import arc.scene.ui.*;
 import arc.scene.ui.TextField.TextFieldFilter;
 import arc.scene.ui.TextField.TextFieldValidator;
 import arc.scene.ui.layout.Table;
@@ -9,13 +9,15 @@ import arc.util.Align;
 import arc.util.Strings;
 import dark.ui.Drawables;
 
+import static arc.Core.scene;
+
 public class Field extends Table {
 
     private Field(String name) {
         left();
         table(line -> {
-            line.add(name);
-            line.update(() -> line.setBackground(field().isValid() ? Drawables.underline : Drawables.underline_red));
+            line.add(name).with(label -> label.clicked(() -> scene.setKeyboardFocus(field())));
+            line.update(() -> line.setBackground(valid() ? focused() ? Drawables.field_focused : Drawables.field_main : Drawables.field_invalid));
         });
     }
 
@@ -26,15 +28,13 @@ public class Field extends Table {
 
     public Field(String name, float width, float def, Floatc listener) {
         this(name);
-        field(String.valueOf(def), value -> listener.get(Strings.parseFloat(value))).valid(Strings::canParseFloat)
-                .width(width).get().setAlignment(Align.right);
+        field(String.valueOf(def), value -> listener.get(Strings.parseFloat(value))).valid(Strings::canParseFloat).width(width).get().setAlignment(Align.right);
         floatsOnly();
     }
 
     public Field(String name, float width, int def, Intc listener) {
         this(name);
-        field(String.valueOf(def), value -> listener.get(Strings.parseInt(value))).valid(Strings::canParseInt)
-                .width(width).get().setAlignment(Align.right);
+        field(String.valueOf(def), value -> listener.get(Strings.parseInt(value))).valid(Strings::canParseInt).width(width).get().setAlignment(Align.right);
         digitsOnly();
     }
 
@@ -49,6 +49,14 @@ public class Field extends Table {
 
     public TextField field() {
         return (TextField) children.peek();
+    }
+
+    public boolean valid() {
+        return field().isValid();
+    }
+
+    public boolean focused() {
+        return scene.getKeyboardFocus() == field();
     }
 
     public void maxTextLength(int maxLength) {

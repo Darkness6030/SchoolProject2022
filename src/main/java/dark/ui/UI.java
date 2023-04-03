@@ -79,6 +79,8 @@ public class UI implements ApplicationListener {
         if (toast != null) toast.remove();
 
         toast = scene.table();
+        toast.touchable = Touchable.disabled;
+
         toast.table(Drawables.main_rounded, table -> {
             table.image(icon).size(32f);
             table.add(text).wrap().size(280f, 32f).labelAlign(Align.center);

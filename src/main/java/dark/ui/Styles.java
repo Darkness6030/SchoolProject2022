@@ -138,8 +138,10 @@ public class Styles {
             messageFontColor = Color.gray;
             disabledFontColor = Color.gray;
 
-            background = Drawables.underline;
-            invalidBackground = Drawables.underline_red;
+            background = Drawables.field_main;
+            focusedBackground = Drawables.field_focused;
+            invalidBackground = Drawables.field_invalid;
+
             cursor = Drawables.cursor;
             selection = Drawables.selection;
         }});
