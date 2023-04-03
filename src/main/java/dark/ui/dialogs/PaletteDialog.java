@@ -81,8 +81,8 @@ public class PaletteDialog extends BaseDialog {
             rebuild();
         })).with(field -> {
             field.filter((f, c) -> validHexChars.contains(String.valueOf(c)));
-            field.valid(hex -> hex.length() == 6 || hex.length() == 8);
-            field.maxTextLength(8);
+            field.valid(hex -> hex.length() == 6);
+            field.maxTextLength(6);
 
             rebuild.add(() -> field.setTextSafe(prov.get()));
         });
