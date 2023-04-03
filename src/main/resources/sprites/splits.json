@@ -4,6 +4,5 @@
     "whiteui-rounded-right": [0, 7, 7, 7],
     "whiteui-knob": [7, 7, 7, 7],
     "corners": [7, 7, 7, 7],
-    "underline": [4, 4, 4, 4],
-    "underline-red": [4, 4, 4, 4]
+    "field": [4, 4, 4, 4]
 }

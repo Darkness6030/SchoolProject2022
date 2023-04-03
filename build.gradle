@@ -18,7 +18,7 @@ repositories {
 }
 
 ext {
-    arcVersion = "v142"
+    arcVersion = "v143"
     jabelVersion = "0.4.2"
 }
 
