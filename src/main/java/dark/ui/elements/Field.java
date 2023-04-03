@@ -38,6 +38,15 @@ public class Field extends Table {
         digitsOnly();
     }
 
+    public Field(String name, float width, int def, int length, int min, int max, Intc listener) {
+        this(name, width, def, listener);
+        maxTextLength(length);
+        valid(value -> {
+            int number = Strings.parseInt(value);
+            return number >= min && number <= max;
+        });
+    }
+
     public TextField field() {
         return (TextField) children.peek();
     }

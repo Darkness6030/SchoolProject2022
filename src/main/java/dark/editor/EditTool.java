@@ -3,7 +3,6 @@ package dark.editor;
 import arc.func.*;
 import arc.graphics.*;
 import arc.scene.ui.layout.*;
-import arc.util.Strings;
 import dark.ui.*;
 import dark.ui.elements.*;
 
@@ -121,14 +120,8 @@ public enum EditTool {
         }
 
         public Cell<Field> field(String name, int def, int min, int max, int step, Intc listener) {
-            return add(new Field(name, 64f, def, listener)).with(field -> {
+            return add(new Field(name, 64f, def, 3, min, max, listener)).with(field -> {
                 new SliderTable(field.field(), min, max, step, listener);
-
-                field.maxTextLength(3);
-                field.valid(value -> {
-                    int number = Strings.parseInt(value);
-                    return number >= min && number <= max;
-                });
             });
         }
 

@@ -14,7 +14,6 @@ import arc.math.geom.Vec2;
 import arc.scene.ui.Image;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
-import arc.util.Strings;
 import dark.ui.Drawables;
 import dark.ui.Icons;
 import dark.ui.Palette;
@@ -90,16 +89,10 @@ public class PaletteDialog extends BaseDialog {
     }
 
     public void field(Table table, String name, int max, Floatc cons, Floatp prov) {
-        table.add(new Field(name, 80f, 0, (int value) -> {
+        table.add(new Field(name, 80f, 0, 3, 0, max, (int value) -> {
             cons.get(value);
             rebuild();
         })).with(field -> {
-            field.maxTextLength(3);
-            field.valid(text -> {
-                int number = Strings.parseInt(text);
-                return number >= 0 && number <= max;
-            });
-
             rebuild.add(() -> field.setTextSafe(String.valueOf((int) prov.get())));
         });
     }

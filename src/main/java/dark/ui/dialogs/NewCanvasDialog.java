@@ -1,7 +1,6 @@
 package dark.ui.dialogs;
 
 import arc.graphics.Color;
-import arc.util.Strings;
 import dark.ui.Drawables;
 import dark.ui.Icons;
 import dark.ui.Styles;
@@ -36,27 +35,15 @@ public class NewCanvasDialog extends BaseDialog {
             cont.clear();
             cont.defaults().width(196f).padTop(8f);
 
-            cont.add(new Field("@width", 96f, width, (int value) -> width = value)).with(field -> {
-                field.maxTextLength(4);
-                field.valid(value -> {
-                    int number = Strings.parseInt(value);
-                    return number >= 1 && number <= maxSize;
-                });
-            });
+            cont.add(new Field("@width", 96f, width, 4, 1, maxSize, (int value) -> width = value));
 
             cont.add(new Switch("@fill-background", value -> fill = value)).row();
 
-            cont.add(new Field("@height", 96f, height, (int value) -> height = value)).with(field -> {
-                field.maxTextLength(4);
-                field.valid(value -> {
-                    int number = Strings.parseInt(value);
-                    return number >= 1 && number <= maxSize;
-                });
-            });
+            cont.add(new Field("@height", 96f, height, 4, 1, maxSize, (int value) -> height = value));
 
             cont.button(Drawables.empty, Styles.background, () -> ui.palette.show(background))
-                    .update(button -> button.setColor(fill ? background : Color.clear))
-                    .disabled(button -> !fill);
+                    .update(b -> b.setColor(fill ? background : Color.clear))
+                    .disabled(b -> !fill);
         });
     }
 }
