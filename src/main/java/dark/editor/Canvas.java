@@ -1,6 +1,7 @@
 package dark.editor;
 
 import arc.math.Mathf;
+import arc.util.Tmp;
 
 import static arc.Core.*;
 
@@ -27,8 +28,17 @@ public class Canvas {
     }
 
     public void zoom(float zoom) {
+        if (zoom == 0f) return;
+        float old = this.zoom;
+
         this.zoom += zoom;
         this.zoom = Mathf.clamp(this.zoom, 0.2f, 20f);
+
+        if (this.zoom == old) return;
+
+        Tmp.v1.set(input.mouse()).sub(x, y);
+        Tmp.v2.set(Tmp.v1).scl(this.zoom / old);
+        move(Tmp.v1.x - Tmp.v2.x, Tmp.v1.y - Tmp.v2.y);
     }
 
     public int scaledWidth() {

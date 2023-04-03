@@ -13,6 +13,7 @@ public enum Binding {
 
     pan(KeyCode.mouseMiddle),
     zoom(KeyCode.scroll),
+    fastZoom(KeyCode.altLeft),
 
     draw1(KeyCode.mouseLeft),
     draw2(KeyCode.mouseRight),
