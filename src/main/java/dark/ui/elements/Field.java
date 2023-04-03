@@ -9,8 +9,6 @@ import arc.util.Align;
 import arc.util.Strings;
 import dark.ui.Drawables;
 
-import static arc.Core.*;
-
 public class Field extends Table {
 
     public Label label;

@@ -17,7 +17,7 @@ public class SliderTable extends UnderTable {
 
         field.onClicked(this::show);
         update(() -> {
-            if (!field.field.hasKeyboard()) root.clear();
+            if (!field.focused()) root.clear();
         });
     }
 }
