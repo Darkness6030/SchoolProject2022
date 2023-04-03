@@ -119,7 +119,7 @@ public enum EditTool {
 
         public Cell<Field> field(String name, int def, int min, int max, int step, Intc listener) {
             return add(new Field(name, 64f, def, 3, min, max, listener)).with(field -> {
-                new SliderTable(field.field(), min, max, step, listener);
+                new SliderTable(field, min, max, step, listener);
             });
         }
 
