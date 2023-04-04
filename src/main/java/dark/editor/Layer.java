@@ -35,6 +35,14 @@ public class Layer extends Pixmap {
         this.draw(pixmap);
     }
 
+    public Layer resize(int width, int height, boolean filter) {
+        var copy = new Layer(width, height);
+        copy.name = name;
+        copy.draw(this, 0, 0, this.width, this.height, 0, 0, width, height, filter);
+
+        return copy;
+    }
+
     public Layer copyLayer() {
         var copy = new Layer(width, height);
         copy.name = name;

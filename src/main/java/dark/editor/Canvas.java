@@ -9,12 +9,16 @@ public class Canvas {
     public float x, y, zoom;
     public int width, height;
 
-    public void reset(int width, int height) {
-        this.set(graphics.getWidth() / 2f, graphics.getHeight() / 2f);
-        this.zoom = 1f;
-
+    public void resize(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    public void reset(int width, int height) {
+        resize(width, height);
+
+        this.set(graphics.getWidth() / 2f, graphics.getHeight() / 2f);
+        this.zoom = 1f;
     }
 
     public void set(float x, float y) {

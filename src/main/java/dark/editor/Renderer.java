@@ -45,6 +45,14 @@ public class Renderer {
         ui.hudFragment.updateLayers();
     }
 
+    public void resize(int width, int height) {
+        int index = layers.indexOf(current);
+        layers.replace(layer -> layer.resize(width, height, true)); // TODO добавить switch в ResizeDialog для выключения фильтрации
+
+        current=layers.get(index);
+        ui.hudFragment.updateLayers();
+    }
+
     public void copy(Cons<Pixmap> cons) {
         var pixmap = new Pixmap(current.width, current.height);
         layers.each(layer -> pixmap.draw(layer, true));
