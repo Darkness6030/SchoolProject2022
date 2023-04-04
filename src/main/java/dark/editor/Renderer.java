@@ -7,9 +7,10 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
 import arc.struct.Seq;
+import dark.history.RemoveOperation;
 import dark.ui.Palette;
 
-import static dark.Main.ui;
+import static dark.Main.*;
 
 public class Renderer {
 
@@ -78,7 +79,7 @@ public class Renderer {
         int index = layers.indexOf(layer);
         layers.remove(index);
 
-        layer.dispose(); // Освобождаем ресурсы, связанные со слоем
+        history.push(new RemoveOperation(layer, index));
 
         // Был удален текущий слой, перемещаемся на один слой назад
         if (current == layer) current = layers.get(Math.max(index - 1, 0));
