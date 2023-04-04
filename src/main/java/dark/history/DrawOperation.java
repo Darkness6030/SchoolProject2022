@@ -1,11 +1,15 @@
 package dark.history;
 
 import arc.graphics.Pixmap;
+import arc.scene.style.Drawable;
 import arc.struct.IntSeq;
 import dark.editor.EditTool;
 import dark.editor.Layer;
+import dark.ui.Icons;
 
-public class DrawOperation {
+import static arc.Core.*;
+
+public class DrawOperation implements Operation {
 
     public static Pixmap before;
 
@@ -36,5 +40,17 @@ public class DrawOperation {
     public void redo() {
         Compress.read(data, (x, y, color) -> layer.setRaw(x, y, layer.getRaw(x, y) + color));
         layer.updateTexture();
+    }
+
+    public Drawable icon() {
+        return Icons.drawable(tool.name());
+    }
+
+    public String name() {
+        return "@history." + tool.name();
+    }
+
+    public String desc() {
+        return bundle.format("history.layer", layer.name);
     }
 }

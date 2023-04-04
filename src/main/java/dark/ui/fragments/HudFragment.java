@@ -191,13 +191,13 @@ public class HudFragment {
     public static class OperationButton extends ImageButton {
 
         public OperationButton(Operation operation) {
-            super(Icons.drawable(operation.tool.name()), Styles.layer);
+            super(operation.icon(), Styles.layer);
 
             defaults().padLeft(8f);
 
             table(info -> {
-                info.add("@history." + operation.tool.name()).growX().row();
-                info.add(bundle.format("history.layer", operation.layer.name)).growX().fontScale(.9f);
+                info.add(operation.name()).growX().row();
+                info.add(operation.desc()).growX().fontScale(.9f);
             }).growX();
 
             clicked(() -> {
