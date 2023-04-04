@@ -5,7 +5,7 @@ import arc.struct.IntSeq;
 import dark.editor.EditTool;
 import dark.editor.Layer;
 
-public class Operation {
+public class DrawOperation {
 
     public static Pixmap before;
 
@@ -13,7 +13,7 @@ public class Operation {
     public Layer layer;
     public IntSeq data;
 
-    public Operation(EditTool tool, Layer layer) {
+    public DrawOperation(EditTool tool, Layer layer) {
         this.tool = tool;
         this.layer = layer;
     }

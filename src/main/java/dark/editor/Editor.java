@@ -7,7 +7,7 @@ import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 import arc.math.geom.Bresenham2;
 import arc.util.Tmp;
-import dark.history.Operation;
+import dark.history.DrawOperation;
 import dark.ui.*;
 import dark.utils.Clipboard;
 
@@ -25,7 +25,7 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public EditTool tool = EditTool.pencil, temp;
     public Color first = Color.white.cpy(), second = Color.black.cpy();
-    public Operation operation;
+    public DrawOperation operation;
 
     @Override
     public void init() {
@@ -112,7 +112,7 @@ public class Editor implements ApplicationListener, GestureListener {
     public void begin() {
         if (operation != null) return;
 
-        operation = new Operation(tool, renderer.current);
+        operation = new DrawOperation(tool, renderer.current);
         operation.begin();
     }
 
