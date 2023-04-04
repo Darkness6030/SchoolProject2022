@@ -45,11 +45,11 @@ public class Renderer {
         ui.hudFragment.updateLayers();
     }
 
-    public void resize(int width, int height) {
+    public void resize(int width, int height, boolean scale, boolean filter, int align) {
         int index = layers.indexOf(current);
-        layers.replace(layer -> layer.resize(width, height, true)); // TODO добавить switch в ResizeDialog для выключения фильтрации
+        layers.replace(scale ? l -> l.resize(width, height, filter) : l -> l.resize(width, height, align));
 
-        current=layers.get(index);
+        current = layers.get(index);
         ui.hudFragment.updateLayers();
     }
 

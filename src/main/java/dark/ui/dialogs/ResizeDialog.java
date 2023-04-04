@@ -20,7 +20,7 @@ public class ResizeDialog extends BaseDialog {
         addCloseButton();
 
         buttons.buttonRow("@ok", Icons.ok, () -> {
-            editor.reset(width, height);
+            editor.resize(width, height, scale, true, align); // TODO добавить switch для выключения фильтрации
             hide();
         });
 

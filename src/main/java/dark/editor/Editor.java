@@ -150,12 +150,13 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.reset(layer.width, layer.height);
     }
 
-    public void resizeCanvas(int width, int height) { // а нужно ли наследовать AppListener?
+    public void resize(int width, int height, boolean scale, boolean filter, int align) {
         // TODO добавить в историю элемент ресайза, чтобы потом не мучаться со скейлом истории
 
-        renderer.resize(width, height);
+        renderer.resize(width, height, scale, filter, align);
         canvas.resize(width, height);
     }
+
     public void undo() {
         history.undo();
         ui.showInfoToast(Icons.undo, "@undone");

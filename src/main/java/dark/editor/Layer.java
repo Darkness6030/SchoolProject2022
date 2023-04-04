@@ -9,6 +9,7 @@ import arc.graphics.g2d.TextureRegion;
 import arc.math.geom.Point2;
 import arc.struct.Bits;
 import arc.struct.IntQueue;
+import arc.util.Align;
 import arc.util.Tmp;
 import dark.utils.Shapes;
 
@@ -39,6 +40,17 @@ public class Layer extends Pixmap {
         var copy = new Layer(width, height);
         copy.name = name;
         copy.draw(this, 0, 0, this.width, this.height, 0, 0, width, height, filter);
+
+        return copy;
+    }
+
+    public Layer resize(int width, int height, int align) {
+        var copy = new Layer(width, height);
+        copy.name = name;
+
+        int x = Align.isLeft(align) ? 0 : Align.isRight(align) ? this.width - width : (this.width - width) / 2;
+        int y = Align.isTop(align) ? 0 : Align.isBottom(align) ? this.height - height : (this.height - height) / 2;
+        copy.draw(this, 0, 0, x, y, width, height);
 
         return copy;
     }
