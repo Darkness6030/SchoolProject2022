@@ -19,8 +19,8 @@ import dark.ui.Icons;
 import dark.ui.Palette;
 import dark.ui.elements.Field;
 
-import static arc.Core.*;
-import static dark.Main.*;
+import static arc.Core.input;
+import static dark.Main.ui;
 
 public class PaletteDialog extends BaseDialog {
 
@@ -52,7 +52,7 @@ public class PaletteDialog extends BaseDialog {
             ctrl.defaults().size(128f, 32f);
 
             ctrl.image(Drawables.white_rounded_left).update(image -> image.setColor(callback));
-            ctrl.image(Drawables.white_rounded_right).update(image -> image.setColor(model.get()));
+            ctrl.image(Drawables.white_rounded_right).update(image -> image.setColor(model.get(image.color)));
 
             ctrl.row();
 
@@ -92,9 +92,7 @@ public class PaletteDialog extends BaseDialog {
         table.add(new Field(name, 80f, 0, 3, 0, max, (int value) -> {
             cons.get(value);
             rebuild();
-        })).with(field -> {
-            rebuild.add(() -> field.setTextSafe(String.valueOf((int) prov.get())));
-        });
+        })).with(field -> rebuild.add(() -> field.setTextSafe(String.valueOf((int) prov.get()))));
     }
 
     public void rebuild() {
@@ -110,7 +108,6 @@ public class PaletteDialog extends BaseDialog {
     }
 
     public static abstract class ClickableImage extends Image {
-
         public Pixmap pixmap;
         public Texture texture;
 
@@ -126,7 +123,9 @@ public class PaletteDialog extends BaseDialog {
             released(() -> clicked = false);
         }
 
-        /** Подтягивает изменения цвета, внесённые другими элементами. */
+        /**
+         * Подтягивает изменения цвета, внесённые другими элементами.
+         */
         public abstract void update();
     }
 
@@ -195,7 +194,6 @@ public class PaletteDialog extends BaseDialog {
     }
 
     public static class ColorModel {
-
         public float hue, saturation, value;
 
         public void set(float hue, float saturation, float value) {
@@ -205,31 +203,14 @@ public class PaletteDialog extends BaseDialog {
         }
 
         public void set(Color color) {
-            var hsv = Color.RGBtoHSV(color);
-            set(hsv[0], hsv[1], hsv[2]);
-        }
-
-        public Color get() {
-            return Color.HSVtoRGB(hue, saturation, value);
+            set(color.hue(), color.saturation() * 100f, color.value() * 100f);
         }
 
         public Color get(Color color) {
-            return Color.HSVtoRGB(hue, saturation, value, color);
+            return color.fromHsv(hue, saturation / 100f, value / 100f);
         }
 
         // region rgb
-
-        public float red() {
-            return (int) (Color.HSVtoRGB(hue, saturation, value).r * 255f);
-        }
-
-        public float green() {
-            return (int) (Color.HSVtoRGB(hue, saturation, value).g * 255f);
-        }
-
-        public float blue() {
-            return (int) (Color.HSVtoRGB(hue, saturation, value).b * 255f);
-        }
 
         public void red(float red) {
             set(Color.HSVtoRGB(hue, saturation, value).r(red / 255f));
@@ -243,20 +224,20 @@ public class PaletteDialog extends BaseDialog {
             set(Color.HSVtoRGB(hue, saturation, value).b(blue / 255f));
         }
 
+        public int red() {
+            return (int) (Color.HSVtoRGB(hue, saturation, value).r * 255f);
+        }
+
+        public int green() {
+            return (int) (Color.HSVtoRGB(hue, saturation, value).g * 255f);
+        }
+
+        public int blue() {
+            return (int) (Color.HSVtoRGB(hue, saturation, value).b * 255f);
+        }
+
         // endregion
         // region hsv
-
-        public float hue() {
-            return hue;
-        }
-
-        public float saturation() {
-            return saturation;
-        }
-
-        public float value() {
-            return value;
-        }
 
         public void hue(float hue) {
             this.hue = hue;
@@ -270,15 +251,33 @@ public class PaletteDialog extends BaseDialog {
             this.value = value;
         }
 
+        public float hue() {
+            return hue;
+        }
+
+        public float saturation() {
+            return saturation;
+        }
+
+        public float value() {
+            return value;
+        }
+
         // endregion
         // region hex
 
-        public String hex() {
-            return get().toString();
-        }
-
         public void hex(String hex) {
             set(Color.valueOf(hex));
+        }
+
+        public String hex() {
+            var builder = new StringBuilder();
+
+            builder.append(Integer.toHexString((red() << 24) | (green() << 16) | (blue() << 8)));
+            while (builder.length() < 6)
+                builder.insert(0, "0");
+
+            return builder.toString();
         }
 
         // endregion
