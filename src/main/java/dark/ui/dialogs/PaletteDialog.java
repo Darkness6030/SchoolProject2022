@@ -181,7 +181,7 @@ public class PaletteDialog extends BaseDialog {
         public void update() {
             if (!clicked) mouse.set(0f, model.hue / 1.40625f);
 
-            pixmap.each((x, y) -> pixmap.set(x, y, Color.HSVtoRGB(360f - y, model.saturation, model.value)));
+            pixmap.each((x, y) -> pixmap.set(x, y, Color.HSVtoRGB(360f - y, 100f, 100f)));
             texture.load(texture.getTextureData());
         }
 

@@ -6,10 +6,9 @@ import arc.graphics.Texture.TextureFilter;
 import arc.scene.style.Drawable;
 import arc.scene.style.NinePatchDrawable;
 import arc.scene.style.TextureRegionDrawable;
-import arc.util.serialization.JsonValue;
+import arc.util.serialization.*;
 
 import static arc.Core.*;
-import static dark.Main.*;
 
 public class Drawables {
 
@@ -26,7 +25,7 @@ public class Drawables {
             corners, gray, color_blob, slider_knob, switch_bg, empty, error;
 
     public static void load() {
-        splits = reader.parse(files.internal("sprites/splits.json"));
+        splits = new JsonReader().parse(files.internal("sprites/splits.json"));
 
         white_ui = load("whiteui", false);
         white_rounded = load("whiteui-rounded");

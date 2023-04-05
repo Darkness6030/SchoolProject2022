@@ -48,15 +48,15 @@ public class ResizeDialog extends BaseDialog {
                 type.table(align -> {
                     align.defaults().size(32f).pad(4f);
 
-                    for (int i : new int[] {
+                    for (int value : new int[] {
                             Align.topLeft, Align.top, Align.topRight,
                             Align.left, Align.center, Align.right,
                             Align.bottomLeft, Align.bottom, Align.bottomRight
                     }) {
-                        align.button(b -> {}, Styles.align, () -> this.align = i).checked(b -> this.align == i);
-                        if (i >= 16) align.row();
+                        align.button(button -> {}, Styles.align, () -> this.align = value).checked(button -> this.align == value);
+                        if (value >= 16) align.row();
                     }
-                }).top().right().visible(() -> !scale);
+                }).top().visible(() -> !scale);
             });
         });
     }

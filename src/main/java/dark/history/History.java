@@ -6,14 +6,14 @@ import static dark.Main.*;
 
 public class History extends Seq<Operation> {
 
-    public static final int maxSize = 64;
+    public static final int max = 64;
     public int index;
 
     public void push(Operation op) {
         if (index != size) truncate(index); // new operation added not to the end of the story
         add(op);
 
-        if (size > maxSize) remove(0);
+        if (size > max) remove(0);
         else index++;
 
         ui.hudFragment.updateHistory();

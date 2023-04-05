@@ -33,15 +33,15 @@ public class Canvas {
 
     public void zoom(float zoom) {
         if (zoom == 0f) return;
-        float old = this.zoom;
+        float before = this.zoom;
 
         this.zoom += zoom;
         this.zoom = Mathf.clamp(this.zoom, 0.2f, 20f);
 
-        if (this.zoom == old) return;
+        if (this.zoom == before) return;
 
         Tmp.v1.set(input.mouse()).sub(x, y);
-        Tmp.v2.set(Tmp.v1).scl(this.zoom / old);
+        Tmp.v2.set(Tmp.v1).scl(this.zoom / before);
         move(Tmp.v1.x - Tmp.v2.x, Tmp.v1.y - Tmp.v2.y);
     }
 

@@ -137,14 +137,14 @@ public class FileChooser extends BaseDialog {
 
     public class FileHistory extends Seq<Fi> {
 
-        public static final int maxSize = 64;
+        public static final int max = 64;
         public int index;
 
         public void push(Fi file) {
             if (index != size) truncate(index); // новая папка открыта не из конца истории
             add(file);
 
-            if (size > maxSize) remove(0);
+            if (size > max) remove(0);
             else index++;
         }
 

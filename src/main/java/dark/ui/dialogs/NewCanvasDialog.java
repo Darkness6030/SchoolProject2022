@@ -42,7 +42,7 @@ public class NewCanvasDialog extends BaseDialog {
             cont.add(new Field("@height", 96f, height, 4, 1, maxSize, (int value) -> height = value));
 
             cont.button(Drawables.empty, Styles.background, () -> ui.palette.show(background))
-                    .update(b -> b.setColor(fill ? background : Color.clear))
+                    .update(button -> button.setColor(fill ? background : Color.clear))
                     .disabled(b -> !fill);
         });
     }

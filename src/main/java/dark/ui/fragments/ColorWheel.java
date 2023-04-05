@@ -33,7 +33,7 @@ public class ColorWheel {
         if (colors.contains(color)) return;
 
         colors.add(color.cpy());
-        if (colors.size > max) colors.remove(0);
+        if (colors.size == max) colors.remove(0);
     }
 
     public void show(float x, float y, Cons<Color> callback) {

@@ -48,8 +48,8 @@ public class HudFragment {
 
                 pad.stack(
                         new SwapButton(18f, 18f),
-                        new ColorBlob(editor.second, 8f, -8f),
-                        new ColorBlob(editor.first, -8f, 8f)
+                        new ColorButton(editor.second, 8f, -8f),
+                        new ColorButton(editor.first, -8f, 8f)
                 ).size(32f).padTop(24f);
             }).width(64f).growY().padTop(64f);
         });
@@ -130,7 +130,7 @@ public class HudFragment {
         if (layers == null) return; // такое возможно?
         historyTab = false;
 
-        layers.clear(); // цикл нужен для проходки в обратном порядке, т.к. в конце массива расположены верхние слои
+        layers.clear(); // Цикл нужен для проходки в обратном порядке, т.к. в конце массива расположены верхние слои
         for (int i = editor.renderer.layers.size - 1; i >= 0; i--)
             layers.add(new LayerButton(editor.renderer.layers.get(i))).height(64f).growX().marginRight(8f).row();
     }
@@ -157,9 +157,9 @@ public class HudFragment {
         }
     }
 
-    public static class ColorBlob extends ImageButton {
+    public static class ColorButton extends ImageButton {
 
-        public ColorBlob(Color color, float x, float y) {
+        public ColorButton(Color color, float x, float y) {
             super(Drawables.color_blob, Styles.emptyImageButton);
             setTranslation(x, y);
 

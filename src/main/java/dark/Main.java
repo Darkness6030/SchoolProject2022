@@ -21,8 +21,6 @@ public class Main {
     public static Editor editor = new Editor();
     public static History history = new History();
 
-    public static final JsonReader reader = new JsonReader();
-
     public static void main(String[] args) {
         Log.logger = (level, text) -> {
             var result = Log.format("&lk&fb[" + dateTime.format(LocalDateTime.now()) + "]&fr " + tags[level.ordinal()] + " " + text + "&fr");
