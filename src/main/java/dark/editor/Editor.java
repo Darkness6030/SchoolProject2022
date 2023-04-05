@@ -36,9 +36,13 @@ public class Editor implements ApplicationListener, GestureListener {
     @Override
     public void update() {
         if (!scene.hasDialog()) {
-            if (!scene.hasKeyboard())
-                canvas.move(Binding.move_x.axis() * canvas.zoom * -8f, Binding.move_y.axis() * canvas.zoom * -8f);
-            if (!scene.hasScroll()) canvas.zoom(Binding.zoom.scroll() * canvas.zoom * (Binding.fastZoom.down() ? .15f : .05f));
+            if (!scene.hasKeyboard()) {
+                Tmp.v1.set(Binding.move_x.axis(), Binding.move_y.axis()).nor();
+                canvas.move(Tmp.v1.x * canvas.zoom * -8f, Tmp.v1.y * canvas.zoom * -8f);
+            }
+
+            if (!scene.hasScroll())
+                canvas.zoom(Binding.zoom.scroll() * canvas.zoom * (Binding.fastZoom.down() ? .15f : .05f));
 
             input();
         }

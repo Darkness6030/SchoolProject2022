@@ -120,9 +120,7 @@ public class PaletteDialog extends BaseDialog {
             released(() -> clicked = false);
         }
 
-        /**
-         * Подтягивает изменения цвета, внесённые другими элементами.
-         */
+        /** Подтягивает изменения цвета, внесённые другими элементами. */
         public abstract void update();
     }
 
