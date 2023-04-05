@@ -21,8 +21,9 @@ public class Drawables {
             main_rounded_right, darkmain_rounded_right, active_rounded_right,
             main_knob, darkmain_knob, active_knob,
             alpha_chan, alpha_chan_dizzy,
+            color_blob, color_wheel_blob,
             field_main, field_focused, field_invalid, cursor, selection,
-            corners, gray, color_blob, slider_knob, switch_bg, empty, error;
+            corners, gray, slider_knob, switch_bg, empty, error;
 
     public static void load() {
         splits = new JsonReader().parse(files.internal("sprites/splits.json"));
@@ -56,6 +57,8 @@ public class Drawables {
 
         alpha_chan = load("alpha-chan");
         alpha_chan_dizzy = load("alpha-chan-dizzy");
+        color_blob = load("color-blob");
+        color_wheel_blob = load("color-wheel-blob");
 
         var field = load("field");
         field_main = tint(field, Palette.darkmain);
@@ -67,7 +70,6 @@ public class Drawables {
 
         corners = load("corners");
         gray = white.tint(0f, 0f, 0f, .5f);
-        color_blob = load("color-blob");
         slider_knob = load("slider-knob");
         switch_bg = load("switch-bg");
         empty = load("empty");

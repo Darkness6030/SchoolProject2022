@@ -42,11 +42,11 @@ public class ColorWheel {
 
         colors.each(color -> stack.add(new Table(table -> {
             table.defaults().size(32f);
-            table.button(Drawables.color_blob, Styles.emptyImageButton, 24f, () -> {
+            table.button(Drawables.color_wheel_blob, Styles.emptyImageButton, () -> {
                 callback.get(color);
                 hide();
             }).with(button -> {
-                button.setTranslation(Mathf.cosDeg(deg += 15f) * radius, Mathf.sinDeg(deg) * radius);
+                button.setTranslation(Mathf.round(Mathf.cosDeg(deg += 15f) * radius), Mathf.round(Mathf.sinDeg(deg) * radius));
                 button.getImage().setColor(color);
             });
         })));

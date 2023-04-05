@@ -10,7 +10,7 @@ import arc.scene.event.Touchable;
 import arc.scene.style.Drawable;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
-import arc.util.*;
+import arc.util.Align;
 import dark.ui.dialogs.*;
 import dark.ui.elements.*;
 import dark.ui.fragments.*;

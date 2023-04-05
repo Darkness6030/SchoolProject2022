@@ -4,7 +4,6 @@ import arc.Files.FileType;
 import arc.backend.sdl.*;
 import arc.backend.sdl.jni.SDL;
 import arc.util.*;
-import arc.util.serialization.JsonReader;
 import dark.editor.Editor;
 import dark.history.History;
 import dark.ui.UI;
