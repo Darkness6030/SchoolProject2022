@@ -1,9 +1,6 @@
 package dark.ui.dialogs;
 
-import arc.func.Cons;
-import arc.func.Floatc;
-import arc.func.Floatp;
-import arc.func.Prov;
+import arc.func.*;
 import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.graphics.Texture;
@@ -224,16 +221,16 @@ public class PaletteDialog extends BaseDialog {
             set(Color.HSVtoRGB(hue, saturation, value).b(blue / 255f));
         }
 
-        public int red() {
-            return (int) (Color.HSVtoRGB(hue, saturation, value).r * 255f);
+        public float red() {
+            return Color.HSVtoRGB(hue, saturation, value).r * 255f;
         }
 
-        public int green() {
-            return (int) (Color.HSVtoRGB(hue, saturation, value).g * 255f);
+        public float green() {
+            return Color.HSVtoRGB(hue, saturation, value).g * 255f;
         }
 
-        public int blue() {
-            return (int) (Color.HSVtoRGB(hue, saturation, value).b * 255f);
+        public float blue() {
+            return Color.HSVtoRGB(hue, saturation, value).b * 255f;
         }
 
         // endregion
@@ -273,7 +270,7 @@ public class PaletteDialog extends BaseDialog {
         public String hex() {
             var builder = new StringBuilder();
 
-            builder.append(Integer.toHexString((red() << 24) | (green() << 16) | (blue() << 8)));
+            builder.append(Integer.toHexString(((int) red() << 24) | ((int) green() << 16) | ((int) blue() << 8)));
             while (builder.length() < 6)
                 builder.insert(0, "0");
 
