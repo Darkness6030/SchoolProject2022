@@ -8,7 +8,7 @@ import static dark.Main.*;
 
 public class MenuDialog extends BaseDialog {
 
-    public boolean english = settings.getString("locale").equals("en"), changed;
+    public String locale = settings.getString("locale");
 
     public MenuDialog() {
         super("@menu");
@@ -23,19 +23,14 @@ public class MenuDialog extends BaseDialog {
 
         buttons.row();
 
-        buttons.button("English", Styles.layersTab, () -> {
-            settings.put("locale", "en");
-            english = changed = true;
-        }).checked(b -> english);
-
-        buttons.button("Русский", Styles.historyTab, () -> {
-            settings.put("locale", "ru");
-            english = !(changed = true);
-        }).checked(b -> !english);
+        buttons.button("English", Styles.layersTab, () -> locale = "en").checked(button -> locale.equals("en"));
+        buttons.button("Русский", Styles.historyTab, () -> locale = "ru").checked(button -> locale.equals("ru"));
 
         hidden(() -> {
-            if (changed) ui.showInfoToast(Icons.home, "@restart-required");
-            changed = false;
+            if (!locale.equals(settings.getString("locale"))) ui.showInfoToast(Icons.home, "@restart-required");
+
+            settings.put("locale", locale);
+            settings.forceSave();
         });
     }
 }
