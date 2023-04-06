@@ -29,8 +29,8 @@ public class NewCanvasDialog extends BaseDialog {
         });
 
         shown(() -> {
-            width = editor.canvas.width;
-            height = editor.canvas.height;
+            width = canvas.width;
+            height = canvas.height;
 
             cont.clear();
             cont.defaults().width(196f).padTop(8f);

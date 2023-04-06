@@ -21,7 +21,6 @@ public class Editor implements ApplicationListener, GestureListener {
     public int mouseX, mouseY, canvasX, canvasY;
 
     public Renderer renderer = new Renderer();
-    public Canvas canvas = new Canvas();
 
     public EditTool tool = EditTool.pencil, temp;
     public Color first = Color.white.cpy(), second = Color.black.cpy();

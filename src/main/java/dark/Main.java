@@ -4,7 +4,7 @@ import arc.Files.FileType;
 import arc.backend.sdl.*;
 import arc.backend.sdl.jni.SDL;
 import arc.util.*;
-import dark.editor.Editor;
+import dark.editor.*;
 import dark.history.History;
 import dark.ui.UI;
 
@@ -18,6 +18,8 @@ public class Main {
 
     public static UI ui = new UI();
     public static Editor editor = new Editor();
+
+    public static Canvas canvas = new Canvas();
     public static History history = new History();
 
     public static void main(String[] args) {

@@ -25,8 +25,8 @@ public class ResizeDialog extends BaseDialog {
         });
 
         shown(() -> {
-            width = editor.canvas.width;
-            height = editor.canvas.height;
+            width = canvas.width;
+            height = canvas.height;
 
             cont.clear();
 

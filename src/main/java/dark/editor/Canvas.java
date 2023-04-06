@@ -6,6 +6,7 @@ import arc.util.Tmp;
 import static arc.Core.*;
 
 public class Canvas {
+
     public float x, y, zoom;
     public int width, height;
 
