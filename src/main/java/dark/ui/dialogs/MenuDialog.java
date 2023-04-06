@@ -32,5 +32,10 @@ public class MenuDialog extends BaseDialog {
             settings.put("locale", "ru");
             english = !(changed = true);
         }).checked(b -> !english);
+
+        hidden(() -> {
+            if (changed) ui.showInfoToast(Icons.home, "@restart-required");
+            changed = false;
+        });
     }
 }
