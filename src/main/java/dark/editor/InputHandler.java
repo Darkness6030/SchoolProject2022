@@ -1,6 +1,9 @@
 package dark.editor;
 
 import arc.ApplicationListener;
+import arc.graphics.Color;
+import arc.math.geom.Bresenham2;
+import dark.history.DrawOperation;
 
 import static arc.Core.*;
 import static dark.Main.*;
@@ -18,6 +21,7 @@ public class InputHandler implements ApplicationListener {
 
     /** Selected edit tool to be used for drawing. */
     public EditTool tool = EditTool.pencil, temp;
+    public DrawOperation operation;
 
     @Override
     public void update() {
@@ -46,15 +50,13 @@ public class InputHandler implements ApplicationListener {
         // region draw
 
         if (!scene.hasMouse()) {
-            if ((Binding.draw1.down() || Binding.draw2.down()))
-                editor.begin();
+            if ((Binding.draw1.down() || Binding.draw2.down())) begin();
 
-            editor.draw(Binding.draw1, editor.first);
-            editor.draw(Binding.draw2, editor.second);
+            draw(Binding.draw1, editor.first);
+            draw(Binding.draw2, editor.second);
         }
 
-        if (((Binding.draw1.release() && !Binding.draw2.down()) || (Binding.draw2.release() && !Binding.draw1.down())))
-            editor.flush();
+        if ((Binding.draw1.release() && !Binding.draw2.down()) || (Binding.draw2.release() && !Binding.draw1.down())) flush();
 
         // endregion
         // region color wheel
@@ -85,8 +87,7 @@ public class InputHandler implements ApplicationListener {
         // region tools
 
         for (var tool : EditTool.values())
-            if (this.tool != tool && tool.hotkey.tap())
-                editor.setTool(tool);
+            if (this.tool != tool && tool.hotkey.tap()) tool(tool);
 
         if (Binding.swap.tap()) editor.swap();
 
@@ -101,7 +102,32 @@ public class InputHandler implements ApplicationListener {
         // endregion
     }
 
-    public void tool(EditTool tool) {
+    public void begin() {
+        if (operation != null) return;
 
+        operation = new DrawOperation(tool, editor.renderer.current);
+        operation.begin();
+    }
+
+    public void flush() {
+        if (operation == null) return;
+
+        operation.end();
+        if (!operation.data.isEmpty()) history.push(operation);
+        operation = null;
+    }
+
+    public void draw(Binding binding, Color color) {
+        if (tool.draggable && binding.down())
+            Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(editor.renderer.current, x, y, color));
+        else if (binding.tap())
+            tool.touched(editor.renderer.current, canvas.canvasX(), canvas.canvasY(), color);
+    }
+
+    public void tool(EditTool tool) {
+        this.flush();
+        this.tool = tool;
+
+        ui.hudFragment.updateConfig();
     }
 }

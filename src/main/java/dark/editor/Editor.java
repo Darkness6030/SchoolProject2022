@@ -6,7 +6,6 @@ import arc.graphics.*;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
 import arc.util.Tmp;
-import dark.history.DrawOperation;
 import dark.ui.*;
 import dark.utils.Clipboard;
 
@@ -17,12 +16,8 @@ import static dark.Main.*;
 
 public class Editor implements ApplicationListener, GestureListener {
 
-    public int mouseX, mouseY, canvasX, canvasY;
-
     public Renderer renderer = new Renderer();
-
     public Color first = Color.white.cpy(), second = Color.black.cpy();
-    public DrawOperation operation;
 
     @Override
     public void init() {
@@ -42,33 +37,6 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     // region actions
-
-    public void begin() {
-        if (operation != null) return;
-
-        operation = new DrawOperation(tool, renderer.current);
-        operation.begin();
-    }
-
-    public void flush() {
-        if (operation == null) return;
-
-        operation.end();
-        if (!operation.data.isEmpty()) history.push(operation);
-        operation = null;
-    }
-
-    public void setTool(EditTool tool) {
-        this.flush();
-        this.tool = tool;
-    }
-
-    public void draw(Binding binding, Color color) {
-        if (tool.draggable && binding.down())
-            Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(renderer.current, x, y, color));
-        else if (binding.tap())
-            tool.touched(renderer.current, canvas.canvasX(), canvas.canvasY(), color);
-    }
 
     public void reset(int width, int height) {
         history.clear();
