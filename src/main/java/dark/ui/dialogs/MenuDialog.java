@@ -2,7 +2,7 @@ package dark.ui.dialogs;
 
 import dark.ui.Icons;
 
-import static arc.Core.app;
+import static arc.Core.*;
 import static dark.Main.*;
 
 public class MenuDialog extends BaseDialog {
@@ -17,9 +17,5 @@ public class MenuDialog extends BaseDialog {
 
         buttons.buttonRow("@save", Icons.save, () -> ui.showFileChooser("@file.save", false, "png", editor::save));
         buttons.buttonRow("@load", Icons.load, () -> ui.showFileChooser("@file.load", true, "png", editor::load));
-
-        buttons.row();
-
-        buttons.buttonRow("@settings", Icons.plus, () -> {}).colspan(2).width(428f);
     }
 }
