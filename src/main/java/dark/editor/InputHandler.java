@@ -3,6 +3,7 @@ package dark.editor;
 import arc.ApplicationListener;
 import arc.graphics.Color;
 import arc.math.geom.Bresenham2;
+import arc.util.Tmp;
 import dark.history.DrawOperation;
 
 import static arc.Core.*;
@@ -34,7 +35,8 @@ public class InputHandler implements ApplicationListener {
             canvas.zoom(Binding.zoom.scroll() * canvas.zoom * (Binding.fastZoom.down() ? .15f : .05f));
 
         if (!scene.hasKeyboard()) {
-            canvas.move(Binding.move_x.axis() * canvas.zoom * -8f, Binding.move_y.axis() * canvas.zoom * -8f);
+            Tmp.v1.set(Binding.move_x.axis(), Binding.move_y.axis()).nor().scl(canvas.zoom * -8f);
+            canvas.move(Tmp.v1.x, Tmp.v1.y);
 
             input();
         }
