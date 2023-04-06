@@ -15,7 +15,7 @@ import static arc.Core.*;
 
 public class Styles {
 
-    public static ButtonStyle button, align;
+    public static ButtonStyle button, align, locale;
     public static TextButtonStyle textButton, textButtonCheck, layersTab, historyTab;
     public static ImageButtonStyle imageButton, imageButtonCheck, emptyImageButton, alpha, layer, visible, background;
 
@@ -34,6 +34,12 @@ public class Styles {
             over = Drawables.darkmain_rounded;
             down = Drawables.active_rounded;
             checked = Drawables.active_rounded;
+        }};
+
+        locale = new ButtonStyle() {{
+            up = Drawables.main_rounded;
+            over = Drawables.darkmain_rounded;
+            down = Drawables.active_rounded;
         }};
 
         scene.addStyle(TextButtonStyle.class, textButton = new TextButtonStyle() {{
