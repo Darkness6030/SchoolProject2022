@@ -7,7 +7,7 @@ import arc.struct.IntSeq;
 public class Compress {
 
     public static IntSeq write(Pixmap pixmap) {
-        IntSeq result = new IntSeq();
+        var result = new IntSeq();
 
         for (int x = 0; x < pixmap.width; x++) {
             for (int y = 0; y < pixmap.height; y++) {
@@ -38,9 +38,7 @@ public class Compress {
     }
 
     public static IntSeq difference(Pixmap before, Pixmap after) {
-        before.each((x, y) -> {
-            before.set(x, y, after.getRaw(x, y) - before.getRaw(x, y));
-        });
+        before.each((x, y) -> before.set(x, y, after.getRaw(x, y) - before.getRaw(x, y)));
         return write(before);
     }
 
