@@ -5,7 +5,6 @@ import arc.files.Fi;
 import arc.graphics.*;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
-import arc.math.geom.Bresenham2;
 import arc.util.Tmp;
 import dark.history.DrawOperation;
 import dark.ui.*;
@@ -22,7 +21,6 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public Renderer renderer = new Renderer();
 
-    public EditTool tool = EditTool.pencil, temp;
     public Color first = Color.white.cpy(), second = Color.black.cpy();
     public DrawOperation operation;
 
@@ -34,20 +32,6 @@ public class Editor implements ApplicationListener, GestureListener {
 
     @Override
     public void update() {
-        if (!scene.hasDialog()) {
-            if (!scene.hasKeyboard())
-                canvas.move(Binding.move_x.axis() * canvas.zoom * -8f, Binding.move_y.axis() * canvas.zoom * -8f);
-            if (!scene.hasScroll()) canvas.zoom(Binding.zoom.scroll() * canvas.zoom * (Binding.fastZoom.down() ? .15f : .05f));
-
-            input();
-        }
-
-        mouseX = input.mouseX();
-        mouseY = input.mouseY();
-
-        canvasX = canvas.canvasX();
-        canvasY = canvas.canvasY();
-
         graphics.clear(Palette.darkmain);
         renderer.draw(canvas.x, canvas.y, canvas.scaledWidth(), canvas.scaledHeight());
     }
@@ -55,55 +39,6 @@ public class Editor implements ApplicationListener, GestureListener {
     @Override
     public void resize(int width, int height) {
         canvas.set(width / 2f, height / 2f);
-    }
-
-    public void input() {
-        if (scene.hasKeyboard()) return;
-
-        if (!scene.hasMouse()) {
-            if ((Binding.draw1.down() || Binding.draw2.down()))
-                begin();
-
-            draw(Binding.draw1, first);
-            draw(Binding.draw2, second);
-        }
-
-        if (((Binding.draw1.release() && !Binding.draw2.down()) || (Binding.draw2.release() && !Binding.draw1.down())))
-            flush();
-
-        if (Binding.pan.down())
-            canvas.move(input.mouseX() - mouseX, input.mouseY() - mouseY);
-
-        for (var tool : EditTool.values())
-            if (this.tool != tool && tool.hotkey.tap()) {
-                this.setTool(tool);
-                ui.hudFragment.updateConfig();
-            }
-
-        if (Binding.swap.tap()) swap();
-
-        if (Binding.resize_canvas.tap()) ui.resize.show();
-        if (Binding.new_canvas.tap()) ui.newCanvas.show();
-        if (Binding.new_layer.tap()) newLayer();
-
-        if (Binding.wheel.tap() && temp == null) {
-            temp = tool;
-            tool = EditTool.pick;
-
-            ui.colorWheel.show(input.mouseX(), input.mouseY(), first::set);
-        }
-
-        if ((Binding.wheel.release() || Binding.draw1.release()) && temp != null) {
-            tool = temp;
-            temp = null;
-
-            ui.colorWheel.hide();
-        }
-
-        if (Binding.copy.tap()) copy();
-        if (Binding.paste.tap()) paste();
-        if (Binding.undo.tap() && history.hasUndo()) undo();
-        if (Binding.redo.tap() && history.hasRedo()) redo();
     }
 
     // region actions

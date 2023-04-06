@@ -115,7 +115,7 @@ public class HudFragment {
 
     public void updateConfig() {
         config.clear();
-        config.left().add(editor.tool.config);
+        config.left().add(handler.tool.config);
     }
 
     public void updateLayers() {

@@ -18,6 +18,7 @@ public class Main {
 
     public static UI ui = new UI();
     public static Editor editor = new Editor();
+    public static InputHandler handler = new InputHandler();
 
     public static Canvas canvas = new Canvas();
     public static History history = new History();

@@ -42,6 +42,7 @@ public class SpriteX extends ApplicationCore {
         Sounds.load();
         Styles.load();
 
+        add(handler);
         add(editor);
         add(ui);
 

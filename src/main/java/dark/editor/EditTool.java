@@ -96,10 +96,10 @@ public enum EditTool {
 
     public void button(Table table) {
         table.button(Icons.drawable(name()), Styles.imageButtonCheck, 48f, () -> {
-                    editor.setTool(this);
+                    handler.tool(this);
                     ui.hudFragment.updateConfig();
                 })
-                .checked(button -> editor.tool == this)
+                .checked(button -> handler.tool == this)
                 .tooltip("@" + name() + ".tooltip")
                 .size(48f).pad(8f, 8f, 0f, 8f).row();
     }
