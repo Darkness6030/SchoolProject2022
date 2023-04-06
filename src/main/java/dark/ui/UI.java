@@ -54,8 +54,6 @@ public class UI implements ApplicationListener {
         scene.act();
         scene.draw();
 
-        if (input.keyTap(KeyCode.escape) && !scene.hasDialog() && !menu.isShown()) menu.show();
-
         if ((input.keyTap(KeyCode.mouseLeft) || input.keyTap(KeyCode.mouseRight)) && scene.hasField()) {
             var element = scene.hit(input.mouseX(), input.mouseY(), true);
             if (!(element instanceof TextField || (element instanceof Slider slider && slider.parent instanceof SliderTable) || (element instanceof Label label && label.parent instanceof Table table && table.parent instanceof Field)))

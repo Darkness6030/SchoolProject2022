@@ -76,6 +76,7 @@ public class InputHandler implements ApplicationListener {
         // endregion
         // region dialogs
 
+        if (Binding.menu.tap() && !scene.hasDialog() && !ui.menu.isShown()) ui.menu.show();
         if (Binding.resize_canvas.tap()) ui.resize.show();
         if (Binding.new_canvas.tap()) ui.newCanvas.show();
         if (Binding.new_layer.tap()) editor.newLayer(); // idk where to put it

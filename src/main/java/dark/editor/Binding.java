@@ -22,6 +22,7 @@ public enum Binding {
     move_x(KeyCode.a, KeyCode.d),
     move_y(KeyCode.s, KeyCode.w),
 
+    menu(KeyCode.escape),
     resize_canvas(KeyCode.r, () -> input.ctrl()),
     new_canvas(KeyCode.n, () -> input.ctrl()),
     new_layer(KeyCode.plus),
