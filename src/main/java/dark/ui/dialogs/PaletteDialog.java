@@ -266,13 +266,7 @@ public class PaletteDialog extends BaseDialog {
         }
 
         public String hex() {
-            var builder = new StringBuilder();
-
-            builder.append(Integer.toHexString(((int) red() << 24) | ((int) green() << 16) | ((int) blue() << 8)));
-            while (builder.length() < 6)
-                builder.insert(0, "0");
-
-            return builder.toString();
+            return String.format("%02x%02x%02x", (int) red(), (int) green(), (int) blue());
         }
 
         // endregion
