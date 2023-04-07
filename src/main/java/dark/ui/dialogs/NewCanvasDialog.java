@@ -37,7 +37,7 @@ public class NewCanvasDialog extends BaseDialog {
 
             cont.add(new Field("@width", 96f, width, 4, 1, maxSize, (int value) -> width = value));
 
-            cont.add(new Switch("@fill-background", value -> fill = value)).row();
+            cont.add(new Switch("@fill-background", value -> fill = value).left()).row();
 
             cont.add(new Field("@height", 96f, height, 4, 1, maxSize, (int value) -> height = value));
 
