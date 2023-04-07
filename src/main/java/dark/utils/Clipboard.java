@@ -1,8 +1,11 @@
 package dark.utils;
 
+import arc.files.Fi;
 import arc.func.Cons;
+import arc.graphics.*;
 import com.github.bsideup.jabel.Desugar;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -12,18 +15,32 @@ import java.io.IOException;
 
 public class Clipboard {
 
-    public static void paste(Cons<BufferedImage> cons) throws IOException, UnsupportedFlavorException {
+    public static Pixmap paste() throws IOException, UnsupportedFlavorException {
         var contents = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
-        if (contents == null || !contents.isDataFlavorSupported(DataFlavor.imageFlavor)) return;
+        if (contents == null || !contents.isDataFlavorSupported(DataFlavor.imageFlavor)) return null;
 
         var image = (BufferedImage) contents.getTransferData(DataFlavor.imageFlavor);
-        cons.get(image);
+        return convert(image);
     }
 
-    public static void copy(BufferedImage image) {
+    public static void copy(Pixmap pixmap) throws IOException {
         Toolkit.getDefaultToolkit()
                 .getSystemClipboard()
-                .setContents(new ImageTransferable(image), null);
+                .setContents(new ImageTransferable(convert(pixmap)), null);
+    }
+
+    public static BufferedImage convert(Pixmap pixmap) throws IOException {
+        var file = Fi.tempFile("temp");
+        PixmapIO.writePng(file, pixmap);
+
+        return ImageIO.read(file.file());
+    }
+
+    public static Pixmap convert(BufferedImage image) throws IOException {
+        var file = Fi.tempFile("temp");
+        ImageIO.write(image, "png", file.file());
+
+        return PixmapIO.readPNG(file);
     }
 
     @Desugar

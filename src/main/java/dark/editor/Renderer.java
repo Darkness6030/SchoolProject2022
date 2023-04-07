@@ -1,11 +1,7 @@
 package dark.editor;
 
-import arc.func.Cons;
-import arc.graphics.Color;
-import arc.graphics.Pixmap;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
 import arc.struct.Seq;
 import dark.history.RemoveOperation;
 import dark.ui.Palette;
@@ -48,18 +44,17 @@ public class Renderer {
 
     public void resize(int width, int height, boolean scale, boolean filter, int align) {
         int index = layers.indexOf(current);
-        layers.replace(scale ? l -> l.resize(width, height, filter) : l -> l.resize(width, height, align));
+        layers.replace(scale ? layer -> layer.resize(width, height, filter) : layer -> layer.resize(width, height, align));
 
         current = layers.get(index);
         ui.hudFragment.updateLayers();
     }
 
-    public void copy(Cons<Pixmap> cons) {
+    public Pixmap copy() {
         var pixmap = new Pixmap(current.width, current.height);
         layers.each(layer -> pixmap.draw(layer, true));
 
-        cons.get(pixmap);
-        pixmap.dispose();
+        return pixmap;
     }
 
     public void addLayer(Layer layer) {

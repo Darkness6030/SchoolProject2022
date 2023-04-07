@@ -1,16 +1,10 @@
 package dark.editor;
 
-import arc.files.Fi;
-import arc.graphics.Color;
-import arc.graphics.Pixmap;
-import arc.graphics.Texture;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
 import arc.math.geom.Point2;
-import arc.struct.Bits;
-import arc.struct.IntQueue;
-import arc.util.Align;
-import arc.util.Tmp;
+import arc.struct.*;
+import arc.util.*;
 import dark.utils.Shapes;
 
 import static arc.Core.bundle;
@@ -25,10 +19,6 @@ public class Layer extends Pixmap {
 
     public Layer(int width, int height) {
         super(width, height);
-    }
-
-    public Layer(Fi file) {
-        super(file);
     }
 
     public Layer(Pixmap pixmap) {

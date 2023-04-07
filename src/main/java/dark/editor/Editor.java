@@ -9,8 +9,6 @@ import arc.util.Tmp;
 import dark.ui.*;
 import dark.utils.Clipboard;
 
-import java.awt.image.BufferedImage;
-
 import static arc.Core.*;
 import static dark.Main.*;
 
@@ -71,13 +69,12 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void copy() {
         try {
-            renderer.copy(pixmap -> {
-                var image = new BufferedImage(pixmap.width, pixmap.height, BufferedImage.TYPE_INT_RGB);
-                pixmap.each((x, y) -> image.setRGB(x, y, Tmp.c1.set(pixmap.get(x, y)).argb8888()));
+            var pixmap = renderer.copy();
 
-                Clipboard.copy(image);
-                ui.showInfoToast(Icons.copy, "@copied");
-            });
+            Clipboard.copy(pixmap);
+            pixmap.dispose();
+
+            ui.showInfoToast(Icons.copy, "@copied");
         } catch (Exception e) {
             // ui.showException("Failed to copy", e);
         }
@@ -85,13 +82,13 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void paste() {
         try {
-            Clipboard.paste(image -> {
-                var layer = new Layer(image.getWidth(), image.getHeight());
-                layer.each((x, y) -> layer.set(x, y, Tmp.c1.argb8888(image.getRGB(x, y)).rgba8888()));
+            var pixmap = Clipboard.paste();
+            if (pixmap == null) return;
 
-                reset(layer);
-                ui.showInfoToast(Icons.paste, "@pasted");
-            });
+            reset(new Layer(pixmap));
+            pixmap.dispose();
+
+            ui.showInfoToast(Icons.copy, "@pasted");
         } catch (Exception e) {
             // ui.showException("Failed to paste", e);
         }
@@ -99,7 +96,10 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void save(Fi file) {
         try {
-            renderer.copy(pixmap -> PixmapIO.writePng(file, pixmap));
+            var pixmap = renderer.copy();
+
+            PixmapIO.writePng(file, pixmap);
+            pixmap.dispose();
 
             ui.showInfoToast(Icons.save, bundle.format("saved", file.name()));
             ui.menu.hide();
@@ -110,7 +110,10 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void load(Fi file) {
         try {
-            reset(new Layer(file));
+            var pixmap = PixmapIO.readPNG(file);
+
+            reset(new Layer(pixmap));
+            pixmap.dispose();
 
             ui.showInfoToast(Icons.load, bundle.format("loaded", file.name()));
             ui.menu.hide();
