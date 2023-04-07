@@ -49,14 +49,17 @@ public enum EditTool {
         }
     },
 
-    line(false) {
+    line(false, true, Binding.line) {
         public void build() {
             config.buildBrushTable();
             config.toggle("@hud.straight", value -> config.straight = value); // всегда прямой угол
         }
 
-        public void touched(Layer layer, int x, int y, Color color) {
-
+        public void touched(Layer current, int x, int y, Color color) {
+            if (config.square)
+                current.drawSquare(x, y, config.size, color.cpy().a(config.alpha / 255f));
+            else
+                current.drawCircle(x, y, config.size, color.cpy().a(config.alpha / 255f));
         }
     },
 
@@ -76,17 +79,18 @@ public enum EditTool {
         }
     };
 
-    public final boolean draggable;
+    public final boolean draggable, drawOnRelease;
     public final Binding hotkey;
 
     public final Config config = new Config();
 
-    EditTool(boolean draggable) {
-        this(draggable, Binding.unknown);
+    EditTool(boolean draggable, Binding hotkey) {
+        this(draggable, false, hotkey);
     }
 
-    EditTool(boolean draggable, Binding hotkey) {
+    EditTool(boolean draggable, boolean drawOnRelease, Binding hotkey) {
         this.draggable = draggable;
+        this.drawOnRelease = drawOnRelease;
         this.hotkey = hotkey;
     }
 

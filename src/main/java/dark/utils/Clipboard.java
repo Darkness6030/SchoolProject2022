@@ -1,7 +1,6 @@
 package dark.utils;
 
 import arc.files.Fi;
-import arc.func.Cons;
 import arc.graphics.*;
 import com.github.bsideup.jabel.Desugar;
 

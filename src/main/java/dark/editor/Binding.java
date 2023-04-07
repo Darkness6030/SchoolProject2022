@@ -30,6 +30,7 @@ public enum Binding {
     pencil(KeyCode.b),
     eraser(KeyCode.e),
     fill(KeyCode.f),
+    line(KeyCode.l),
     pick(KeyCode.p),
     swap(KeyCode.x),
 

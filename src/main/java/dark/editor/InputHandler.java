@@ -52,13 +52,16 @@ public class InputHandler implements ApplicationListener {
         // region draw
 
         if (!scene.hasMouse()) {
-            if ((Binding.draw1.down() || Binding.draw2.down())) begin();
+            if ((Binding.draw1.tap() || Binding.draw2.tap())) begin();
 
             draw(Binding.draw1, editor.first);
             draw(Binding.draw2, editor.second);
         }
 
-        if ((Binding.draw1.release() && !Binding.draw2.down()) || (Binding.draw2.release() && !Binding.draw1.down())) flush();
+        if ((Binding.draw1.release() && !Binding.draw2.down()) || (Binding.draw2.release() && !Binding.draw1.down())) {
+            dragX = dragY = -1;
+            flush();
+        }
 
         // endregion
         // region color wheel
@@ -109,6 +112,9 @@ public class InputHandler implements ApplicationListener {
 
         operation = new DrawOperation(tool, editor.renderer.current);
         operation.begin();
+
+        dragX = canvasX; // for line
+        dragY = canvasY;
     }
 
     public void flush() {
@@ -122,6 +128,10 @@ public class InputHandler implements ApplicationListener {
     public void draw(Binding binding, Color color) {
         if (tool.draggable && binding.down())
             Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(editor.renderer.current, x, y, color));
+
+        else if (tool.drawOnRelease && binding.release())
+            Bresenham2.line(dragX, dragY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(editor.renderer.current, x, y, color));
+
         else if (binding.tap())
             tool.touched(editor.renderer.current, canvas.canvasX(), canvas.canvasY(), color);
     }
