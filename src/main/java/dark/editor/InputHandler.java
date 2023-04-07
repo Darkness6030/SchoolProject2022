@@ -3,7 +3,7 @@ package dark.editor;
 import arc.ApplicationListener;
 import arc.graphics.Color;
 import arc.math.geom.Bresenham2;
-import arc.util.Tmp;
+import arc.util.*;
 import dark.history.DrawOperation;
 
 import static arc.Core.*;
@@ -96,8 +96,8 @@ public class InputHandler implements ApplicationListener {
         // endregion
         // region actions
 
-        if (Binding.copy.tap()) editor.copy();
-        if (Binding.paste.tap()) editor.paste();
+        if (Binding.copy.tap()) Threads.daemon(editor::copy);
+        if (Binding.paste.tap()) Threads.daemon(editor::paste);
         if (Binding.undo.tap() && history.hasUndo()) editor.undo();
         if (Binding.redo.tap() && history.hasRedo()) editor.redo();
 
