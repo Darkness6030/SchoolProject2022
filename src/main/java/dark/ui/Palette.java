@@ -9,7 +9,7 @@ public class Palette {
 
     main = Color.valueOf("#1e1e28"),
 
-    darkmain = Color.valueOf("#14141e"),
+    darkmain = Color.valueOf("#101019"),
 
     active = Color.valueOf("#1ec864"),
 
