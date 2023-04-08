@@ -3,6 +3,7 @@ package dark.editor;
 import arc.func.*;
 import arc.graphics.*;
 import arc.scene.ui.layout.*;
+import arc.util.Tmp;
 import dark.ui.*;
 import dark.ui.elements.*;
 
@@ -20,9 +21,9 @@ public enum EditTool {
 
         public void touched(Layer current, int x, int y, Color color) {
             if (config.square)
-                current.drawSquare(x, y, config.size, color.cpy().a(config.alpha / 255f));
+                current.drawSquare(x, y, config.size, Tmp.c1.set(color).a(config.alpha / 255f));
             else
-                current.drawCircle(x, y, config.size, color.cpy().a(config.alpha / 255f));
+                current.drawCircle(x, y, config.size, Tmp.c1.set(color).a(config.alpha / 255f));
         }
     },
 
@@ -41,11 +42,12 @@ public enum EditTool {
 
     fill(false, Binding.fill) {
         public void build() {
+            config.field("@hud.alpha", config.alpha, 0, 255, 1, value -> config.alpha = value);
             config.field("@hud.tolerance", config.tolerance, 0, 100, 1, value -> config.tolerance = value);
         }
 
         public void touched(Layer current, int x, int y, Color color) {
-            current.fill(x, y, config.tolerance / 100f, color.cpy().a(config.alpha / 255f));
+            current.fill(x, y, config.tolerance / 100f, Tmp.c1.set(color).a(config.alpha / 255f));
         }
     },
 
@@ -57,9 +59,9 @@ public enum EditTool {
 
         public void touched(Layer current, int x, int y, Color color) {
             if (config.square)
-                current.drawSquare(x, y, config.size, color.cpy().a(config.alpha / 255f));
+                current.drawSquare(x, y, config.size, Tmp.c1.set(color).a(config.alpha / 255f));
             else
-                current.drawCircle(x, y, config.size, color.cpy().a(config.alpha / 255f));
+                current.drawCircle(x, y, config.size, Tmp.c1.set(color).a(config.alpha / 255f));
         }
     },
 
@@ -99,10 +101,7 @@ public enum EditTool {
     public abstract void touched(Layer layer, int x, int y, Color color);
 
     public void button(Table table) {
-        table.button(Icons.drawable(name()), Styles.imageButtonCheck, 48f, () -> {
-                    handler.tool(this);
-                    ui.hudFragment.updateConfig();
-                })
+        table.button(Icons.drawable(name()), Styles.imageButtonCheck, 48f, () -> handler.tool(this))
                 .checked(button -> handler.tool == this)
                 .tooltip("@" + name() + ".tooltip")
                 .size(48f).pad(8f, 8f, 0f, 8f).row();
@@ -112,9 +111,11 @@ public enum EditTool {
         public int size = 16, alpha = 255, tolerance = 16;
         public boolean square, straight, pickRaw;
 
-        public void buildBrushTable() {
+        public Config() {
             defaults().padRight(8f);
+        }
 
+        public void buildBrushTable() {
             field("@hud.size", size, 1, 100, 1, value -> size = value);
             field("@hud.alpha", alpha, 0, 255, 1, value -> alpha = value);
 

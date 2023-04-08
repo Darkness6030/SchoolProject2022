@@ -1,10 +1,15 @@
 package dark.editor;
 
-import arc.graphics.*;
-import arc.graphics.g2d.*;
+import arc.graphics.Color;
+import arc.graphics.Pixmap;
+import arc.graphics.Texture;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.geom.Point2;
-import arc.struct.*;
-import arc.util.*;
+import arc.struct.Bits;
+import arc.struct.IntQueue;
+import arc.util.Align;
+import arc.util.Tmp;
 import dark.utils.Shapes;
 
 import static arc.Core.bundle;
@@ -103,6 +108,13 @@ public class Layer extends Pixmap {
     }
 
     public boolean compareColor(int previous, int color, float tolerance) {
-        return Tmp.c2.set(previous).diff(Tmp.c3.set(color)) <= tolerance;
+        return difference(Tmp.c2.set(previous), Tmp.c3.set(color)) <= tolerance;
+    }
+
+    public float difference(Color first, Color second) {
+            return (Math.abs(first.r - second.r)
+                    + Math.abs(first.b - second.b)
+                    + Math.abs(first.b - second.b)
+                    + Math.abs(first.a - second.a)) / 4f;
     }
 }
