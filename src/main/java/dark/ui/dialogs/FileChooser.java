@@ -35,7 +35,7 @@ public class FileChooser extends BaseDialog {
         super(title);
 
         addCloseButton();
-        addConfirmButton(() -> {
+        addConfirmButton(() -> { // TODO должен быть способ получше чем передавать Boolp
             var file = directory.child(field.getText());
             cons.get(open ? file : file.sibling(file.nameWithoutExtension() + "." + extension));
 

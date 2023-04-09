@@ -34,12 +34,12 @@ public class DrawOperation implements Operation {
 
     public void undo() {
         Compress.read(data, (x, y, color) -> layer.setRaw(x, y, layer.getRaw(x, y) - color));
-        layer.unchange();
+        layer.change();
     }
 
     public void redo() {
         Compress.read(data, (x, y, color) -> layer.setRaw(x, y, layer.getRaw(x, y) + color));
-        layer.unchange();
+        layer.change();
     }
 
     public Drawable icon() {

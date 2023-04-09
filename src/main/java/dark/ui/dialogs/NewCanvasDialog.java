@@ -2,7 +2,6 @@ package dark.ui.dialogs;
 
 import arc.graphics.Color;
 import dark.ui.Drawables;
-import dark.ui.Icons;
 import dark.ui.Styles;
 import dark.ui.elements.Field;
 import dark.ui.elements.Switch;
