@@ -19,9 +19,9 @@ public class NewCanvasDialog extends BaseDialog {
 
     public NewCanvasDialog() {
         super("@new-canvas");
-        addCloseButton();
 
-        buttons.buttonRow("@ok", Icons.ok, () -> {
+        addCloseButton();
+        addConfirmButton(() -> {
             editor.reset(width, height);
             hide();
 
@@ -31,6 +31,7 @@ public class NewCanvasDialog extends BaseDialog {
         shown(() -> {
             width = canvas.width;
             height = canvas.height;
+            fill = false;
 
             cont.clear();
             cont.defaults().width(196f).padTop(8f);
@@ -43,7 +44,7 @@ public class NewCanvasDialog extends BaseDialog {
 
             cont.button(Drawables.empty, Styles.background, () -> ui.palette.show(background))
                     .update(button -> button.setColor(fill ? background : Color.clear))
-                    .disabled(b -> !fill);
+                    .disabled(button -> !fill);
         });
     }
 }

@@ -42,6 +42,7 @@ public enum EditTool {
 
     fill(false, Binding.fill) {
         public void build() {
+            config.defaults().padRight(8f);
             config.field("@hud.alpha", config.alpha, 0, 255, 1, value -> config.alpha = value);
             config.field("@hud.tolerance", config.tolerance, 0, 100, 1, value -> config.tolerance = value);
         }
@@ -67,6 +68,7 @@ public enum EditTool {
 
     pick(false, Binding.pick) {
         public void build() {
+            config.defaults().padRight(8f);
             config.toggle("@hud.pick-raw", value -> config.pickRaw = value);
         }
 
@@ -111,11 +113,9 @@ public enum EditTool {
         public int size = 16, alpha = 255, tolerance = 16;
         public boolean square, straight, pickRaw;
 
-        public Config() {
-            defaults().padRight(8f);
-        }
-
         public void buildBrushTable() {
+            defaults().padRight(8f);
+
             field("@hud.size", size, 1, 100, 1, value -> size = value);
             field("@hud.alpha", alpha, 0, 255, 1, value -> alpha = value);
 

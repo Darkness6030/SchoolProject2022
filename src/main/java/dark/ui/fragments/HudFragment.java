@@ -31,7 +31,8 @@ public class HudFragment {
                 pad.left();
                 pad.button(Drawables.alpha_chan, Styles.alpha, 40f, () -> ui.menu.show()).checked(b -> ui.menu.isShown()).size(48f).pad(8f);
 
-                for (EditTool tool : EditTool.values()) tool.build();
+                for (EditTool tool : EditTool.values())
+                    tool.build();
 
                 config = pad.table().grow().get();
                 updateConfig();

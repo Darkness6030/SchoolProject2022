@@ -1,11 +1,13 @@
 package dark.ui.dialogs;
 
+import arc.func.Boolp;
+import arc.input.KeyCode;
 import arc.scene.ui.Dialog;
 import arc.util.Align;
 import dark.ui.Drawables;
 import dark.ui.Icons;
 
-import static arc.Core.*;
+import static arc.Core.scene;
 
 public class BaseDialog extends Dialog {
 
@@ -22,8 +24,8 @@ public class BaseDialog extends Dialog {
         add(buttons).fillX();
 
         this.title.setAlignment(Align.center);
-        titleTable.marginLeft(28f); // center the title
-        titleTable.button(Icons.cancel, this::hide);
+        this.titleTable.marginLeft(28f); // center the title
+        this.titleTable.button(Icons.cancel, this::hide);
     }
 
     public BaseDialog(String title) {
@@ -32,9 +34,26 @@ public class BaseDialog extends Dialog {
 
     @Override
     public void addCloseButton() {
+        closeOnBack();
+
         buttons.defaults().size(200f, 64f);
         buttons.buttonRow("@back", Icons.back, this::hide);
+    }
 
-        closeOnBack();
+    public void addConfirmButton(Runnable runnable) {
+        keyDown(KeyCode.enter, runnable);
+
+        buttons.defaults().size(200f, 64f);
+        buttons.buttonRow("@ok", Icons.ok, runnable);
+    }
+
+    public void addConfirmButton(Runnable runnable, Boolp disabled) {
+        keyDown(KeyCode.enter, () -> {
+            if (!disabled.get())
+                runnable.run();
+        });
+
+        buttons.defaults().size(200f, 64f);
+        buttons.buttonRow("@ok", Icons.ok, runnable).disabled(button -> disabled.get());
     }
 }

@@ -12,7 +12,6 @@ import arc.scene.ui.Image;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import dark.ui.Drawables;
-import dark.ui.Icons;
 import dark.ui.Palette;
 import dark.ui.elements.Field;
 
@@ -33,9 +32,9 @@ public class PaletteDialog extends BaseDialog {
 
     public PaletteDialog() {
         super("@palette");
-        addCloseButton();
 
-        buttons.buttonRow("@ok", Icons.ok, () -> {
+        addCloseButton();
+        addConfirmButton(() -> {
             ui.colorWheel.add(model.get(callback));
             hide();
         });

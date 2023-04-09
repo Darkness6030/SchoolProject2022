@@ -61,25 +61,27 @@ public class Layer extends Pixmap {
         return copy;
     }
 
-    public void draw(float x, float y, float width, float height) {
-        if (changed) region.texture.load(region.texture.getTextureData());
-        changed = false;
-
-        Draw.rect(region, x, y, width, height);
+    public void change() {
+        changed = true;
     }
 
-    public void updateTexture() {
-        changed = true;
+    public void unchange() {
+        region.texture.load(region.texture.getTextureData());
+        changed = false;
+    }
+
+    public void draw(float x, float y, float width, float height) {
+        Draw.rect(region, x, y, width, height);
     }
 
     public void drawSquare(int x, int y, int size, Color color) {
         Shapes.square(x, y, size, (cx, cy) -> set(cx, cy, color));
-        updateTexture();
+        change();
     }
 
     public void drawCircle(int x, int y, int size, Color color) {
         Shapes.circle(x, y, size, (cx, cy) -> set(cx, cy, color));
-        updateTexture();
+        change();
     }
 
     public void fill(int x, int y, float tolerance, Color color) {
@@ -104,7 +106,7 @@ public class Layer extends Pixmap {
             }
         }
 
-        updateTexture();
+        change();
     }
 
     public boolean compareColor(int previous, int color, float tolerance) {
@@ -112,9 +114,9 @@ public class Layer extends Pixmap {
     }
 
     public float difference(Color first, Color second) {
-            return (Math.abs(first.r - second.r)
-                    + Math.abs(first.b - second.b)
-                    + Math.abs(first.b - second.b)
-                    + Math.abs(first.a - second.a)) / 4f;
+        return (Math.abs(first.r - second.r)
+                + Math.abs(first.g - second.g)
+                + Math.abs(first.b - second.b)
+                + Math.abs(first.a - second.a)) / 4f;
     }
 }

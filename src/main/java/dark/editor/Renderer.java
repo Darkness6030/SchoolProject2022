@@ -26,6 +26,8 @@ public class Renderer {
         Fill.rect(x, y, width, height);
 
         Draw.reset();
+
+        layers.each(layer -> layer.changed, Layer::unchange);
         layers.each(layer -> layer.visible, layer -> layer.draw(x, y, width, height)); // Рисуем слои
 
         Draw.flush();

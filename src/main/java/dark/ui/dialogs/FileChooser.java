@@ -33,7 +33,17 @@ public class FileChooser extends BaseDialog {
 
     public FileChooser(String title, boolean open, String extension, Cons<Fi> cons) {
         super(title);
+
         addCloseButton();
+        addConfirmButton(() -> {
+            var file = directory.child(field.getText());
+            cons.get(open ? file : file.sibling(file.nameWithoutExtension() + "." + extension));
+
+            hide();
+        }, () -> {
+            String name = field.getText(); // если заменишь на var, я тебя зарежу
+            return open ? !directory.child(name).exists() || directory.child(name).isDirectory() : name.trim().isEmpty();
+        });
 
         this.open = open;
         this.extension = extension;
@@ -68,16 +78,6 @@ public class FileChooser extends BaseDialog {
             name.add("@file.name");
             name.add(field).grow().padLeft(8f);
         }).growX();
-
-        buttons.buttonRow("@ok", Icons.ok, () -> {
-            var file = directory.child(field.getText());
-            cons.get(open ? file : file.sibling(file.nameWithoutExtension() + "." + extension));
-
-            hide();
-        }).disabled(button -> {
-            String name = field.getText(); // если заменишь на var, я тебя зарежу
-            return open ? !directory.child(name).exists() || directory.child(name).isDirectory() : name.trim().isEmpty();
-        });
 
         if (!directory.exists()) directory = homeDirectory;
         updateFiles(true);

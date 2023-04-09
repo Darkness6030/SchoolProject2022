@@ -149,7 +149,6 @@ public class Styles {
             fontColor = Color.white;
             messageFont = Fonts.def;
             messageFontColor = Color.gray;
-            disabledFontColor = Color.gray;
 
             background = Drawables.field_main;
             focusedBackground = Drawables.field_focused;
