@@ -1,7 +1,6 @@
 package dark.ui.dialogs;
 
 import arc.util.Align;
-import dark.ui.Icons;
 import dark.ui.Styles;
 import dark.ui.elements.Field;
 

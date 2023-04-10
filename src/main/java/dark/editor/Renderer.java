@@ -3,7 +3,7 @@ package dark.editor;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.struct.Seq;
-import dark.history.RemoveOperation;
+import dark.history.*;
 import dark.ui.Palette;
 
 import static dark.Main.*;
@@ -64,6 +64,8 @@ public class Renderer {
 
         layers.add(current = layer);
         ui.hudFragment.updateLayers();
+
+        history.push(new CreateOperation(layer, layers.size - 1));
     }
 
     public boolean canAdd() {
