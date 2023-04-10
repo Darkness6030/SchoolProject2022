@@ -5,6 +5,7 @@ import arc.files.Fi;
 import arc.graphics.*;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
+import arc.util.Log;
 import arc.util.Tmp;
 import dark.ui.*;
 import dark.utils.Clipboard;
@@ -104,6 +105,7 @@ public class Editor implements ApplicationListener, GestureListener {
             ui.showInfoToast(Icons.save, bundle.format("saved", file.name()));
             ui.menu.hide();
         } catch (Exception e) {
+            Log.err(e);
             // ui.showException("Failed to save", e);
         }
     }
@@ -118,6 +120,7 @@ public class Editor implements ApplicationListener, GestureListener {
             ui.showInfoToast(Icons.load, bundle.format("loaded", file.name()));
             ui.menu.hide();
         } catch (Exception e) {
+            Log.err(e);
             // ui.showException("Failed to load", e);
         }
     }

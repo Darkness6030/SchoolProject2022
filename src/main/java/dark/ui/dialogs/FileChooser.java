@@ -7,6 +7,7 @@ import arc.scene.ui.TextField;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Align;
+import arc.util.Structs;
 import dark.ui.Icons;
 import dark.ui.Styles;
 import dark.ui.elements.FocusScrollPane;
@@ -35,9 +36,9 @@ public class FileChooser extends BaseDialog {
         super(title);
 
         addCloseButton();
-        addConfirmButton(() -> { // TODO должен быть способ получше чем передавать Boolp
+        addConfirmButton(() -> {
             var file = directory.child(field.getText());
-            cons.get(open ? file : file.sibling(file.nameWithoutExtension() + "." + extension));
+            cons.get(file.sibling(file.nameWithoutExtension() + "." + extension));
 
             hide();
         }, () -> {
@@ -87,10 +88,9 @@ public class FileChooser extends BaseDialog {
 
     public Seq<Fi> getAvailableFiles() {
         return directory.seq()
-                .filter(file -> !file.name().startsWith(".")) // убирает скрытые файлы
+                .filter(file -> !file.file().isHidden()) // убираем скрытые файлы
                 .filter(file -> file.isDirectory() || file.extEquals(extension))
-                .sort(Comparator.comparing(Fi::isDirectory))
-                .sort(Comparator.comparing(file -> file.name().toLowerCase()));
+                .sort(Structs.comps(Comparator.comparing(file -> !file.isDirectory()), Comparator.comparing(file -> file.name().toLowerCase())));
     }
 
     public void updateFiles(boolean push) {
@@ -100,7 +100,7 @@ public class FileChooser extends BaseDialog {
         list.clear();
         list.defaults().height(48f).growX();
 
-        Cons<TextButton> labelAlign = b -> b.getLabelCell().padLeft(8f).labelAlign(Align.left);
+        Cons<TextButton> labelAlign = button -> button.getLabelCell().padLeft(8f).labelAlign(Align.left);
         list.button(directory.toString(), Icons.up, this::openParentDirectory).with(labelAlign).row();
 
         getAvailableFiles().each(file ->
