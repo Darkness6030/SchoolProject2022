@@ -20,6 +20,9 @@ public class InputHandler implements ApplicationListener {
     /** Mouse position where user start dragging a line. */
     public int dragX, dragY;
 
+    /** Whether the drag started from a UI element. */
+    public boolean fromUI;
+
     /** Selected edit tool to be used for drawing. */
     public EditTool tool = EditTool.pencil, temp;
     public DrawOperation operation;
@@ -51,9 +54,12 @@ public class InputHandler implements ApplicationListener {
     public void input() {
         // region draw
 
-        if (!scene.hasMouse()) {
-            if ((Binding.draw1.tap() || Binding.draw2.tap())) begin();
+        if (Binding.draw1.tap() || Binding.draw2.tap()) {
+            fromUI = mouseX < 64 || mouseX > graphics.getWidth() - 256 || mouseY > graphics.getHeight() - 64 || scene.hasMouse();
+            if (!fromUI) begin();
+        }
 
+        if (!fromUI) {
             draw(Binding.draw1, editor.first);
             draw(Binding.draw2, editor.second);
         }
