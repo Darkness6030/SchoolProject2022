@@ -12,13 +12,13 @@ import static dark.Main.*;
 public class InputHandler implements ApplicationListener {
 
     /** Last known mouse position on the screen. */
-    public static int mouseX, mouseY;
+    public int mouseX, mouseY;
 
     /** Last known mouse position on the canvas. */
-    public static int canvasX, canvasY;
+    public int canvasX, canvasY;
 
     /** Mouse position where user start dragging a line. */
-    public static int dragX, dragY;
+    public int dragX, dragY;
 
     /** Selected edit tool to be used for drawing. */
     public EditTool tool = EditTool.pencil, temp;
