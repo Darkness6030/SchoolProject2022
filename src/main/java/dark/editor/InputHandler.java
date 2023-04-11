@@ -128,7 +128,9 @@ public class InputHandler implements ApplicationListener {
 
         operation.end();
         if (!operation.data.isEmpty()) history.push(operation);
+
         operation = null;
+        fromUI = true; // to prevent further changes
     }
 
     public void draw(Binding binding, Color color) {

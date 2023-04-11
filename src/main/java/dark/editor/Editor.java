@@ -59,11 +59,13 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void undo() {
+        handler.flush();
         history.undo();
         ui.showInfoToast(Icons.undo, "@undone");
     }
 
     public void redo() {
+        if (handler.operation != null) return;
         history.redo();
         ui.showInfoToast(Icons.redo, "@redone");
     }
