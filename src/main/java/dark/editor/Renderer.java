@@ -3,8 +3,10 @@ package dark.editor;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.struct.Seq;
+import arc.util.Time;
 import dark.history.*;
 import dark.ui.Palette;
+import dark.ui.Shaders;
 
 import static dark.Main.*;
 
@@ -29,6 +31,9 @@ public class Renderer {
 
         layers.each(layer -> layer.changed, Layer::unchange);
         layers.each(layer -> layer.visible, layer -> layer.draw(x, y, width, height)); // Рисуем слои
+
+        Time.update(); // Нужен для шейдера
+        Shaders.renderer(() -> current.draw(x, y, width, height), Shaders.drawOverlay);
 
         Draw.flush();
     }
