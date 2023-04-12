@@ -101,7 +101,7 @@ public class Editor implements ApplicationListener, GestureListener {
         try {
             var pixmap = renderer.copy();
 
-            PixmapIO.writePng(file, pixmap);
+            file.writePng(pixmap);
             pixmap.dispose();
 
             ui.showInfoToast(Icons.save, bundle.format("saved", file.name()));
@@ -114,7 +114,7 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void load(Fi file) {
         try {
-            var pixmap = PixmapIO.readPNG(file);
+            var pixmap = new Pixmap(file);
 
             reset(new Layer(pixmap));
             pixmap.dispose();

@@ -26,7 +26,7 @@ public class MenuDialog extends BaseDialog {
         buttons.button("Русский", Styles.textButtonCheck, () -> locale = "ru").checked(button -> locale.equals("ru"));
 
         hidden(() -> {
-            if (!locale.equals(settings.getString("locale"))) ui.showInfoToast(Icons.home, "@restart-required");
+            if (!locale.equals(settings.getString("locale"))) ui.showInfoToast(Drawables.alpha_chan, "@restart-required");
 
             settings.put("locale", locale);
             settings.forceSave();

@@ -14,7 +14,11 @@ import static dark.Main.*;
 import static dark.editor.Renderer.background;
 
 public enum EditTool {
-    pencil(true, Binding.pencil) {
+    pencil(Binding.pencil) {
+        {
+            draggable = true;
+        }
+
         public void build() {
             config.buildBrushTable();
         }
@@ -27,7 +31,11 @@ public enum EditTool {
         }
     },
 
-    eraser(true, Binding.eraser) {
+    eraser(Binding.eraser) {
+        {
+            draggable = true;
+        }
+
         public void build() {
             config.buildBrushTable();
         }
@@ -40,7 +48,7 @@ public enum EditTool {
         }
     },
 
-    fill(false, Binding.fill) {
+    fill( Binding.fill) {
         public void build() {
             config.defaults().padRight(8f);
             config.field("@hud.alpha", config.alpha, 0, 255, 1, value -> config.alpha = value);
@@ -57,7 +65,11 @@ public enum EditTool {
         }
     },
 
-    line(false, true, Binding.line) {
+    line(Binding.line) {
+        {
+            drawOnRelease = true;
+        }
+
         public void build() {
             config.buildBrushTable();
             config.toggle("@hud.straight", value -> config.straight = value); // всегда прямой угол
@@ -71,7 +83,7 @@ public enum EditTool {
         }
     },
 
-    pick(false, Binding.pick) {
+    pick(Binding.pick) {
         public void build() {
             config.defaults().padRight(8f);
             config.toggle("@hud.pick-raw", value -> config.pickRaw = value);
@@ -91,18 +103,13 @@ public enum EditTool {
         public void drawOverlay(int x, int y) {}
     };
 
-    public final boolean draggable, drawOnRelease;
-    public final Binding hotkey;
+    public boolean draggable;
+    public boolean drawOnRelease;
 
+    public final Binding hotkey;
     public final Config config = new Config();
 
-    EditTool(boolean draggable, Binding hotkey) {
-        this(draggable, false, hotkey);
-    }
-
-    EditTool(boolean draggable, boolean drawOnRelease, Binding hotkey) {
-        this.draggable = draggable;
-        this.drawOnRelease = drawOnRelease;
+    EditTool(Binding hotkey) {
         this.hotkey = hotkey;
     }
 
