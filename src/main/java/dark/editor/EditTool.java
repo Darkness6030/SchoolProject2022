@@ -50,6 +50,11 @@ public enum EditTool {
         public void touched(Layer current, int x, int y, Color color) {
             current.fill(x, y, config.tolerance / 100f, Tmp.c1.set(color).a(config.alpha / 255f));
         }
+
+        @Override
+        public void drawOverlay(int x, int y) {
+            editor.renderer.current.fill(x, y, config.tolerance / 100f, Palette.active, editor.renderer.overlay, 300000);
+        }
     },
 
     line(false, true, Binding.line) {
@@ -101,6 +106,10 @@ public enum EditTool {
     public abstract void build();
 
     public abstract void touched(Layer layer, int x, int y, Color color);
+
+    public void drawOverlay(int x, int y) {
+        touched(editor.renderer.overlay, x, y, Palette.active);
+    }
 
     public void button(Table table) {
         table.button(Icons.drawable(name()), Styles.imageButtonCheck, 48f, () -> handler.tool(this))

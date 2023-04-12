@@ -85,19 +85,23 @@ public class Layer extends Pixmap {
     }
 
     public void fill(int x, int y, float tolerance, Color color) {
+        fill(x, y, tolerance, color, this, Integer.MAX_VALUE);
+    }
+
+    public void fill(int x, int y, float tolerance, Color color, Layer to, int max) {
         int previous = get(x, y);
         var hits = new Bits(width * height);
 
         var queue = new IntQueue();
         queue.addLast(Point2.pack(x, y));
 
-        while (!queue.isEmpty()) {
+        while (!queue.isEmpty() && max-- > 0) {
             int pos = queue.removeFirst();
             x = Point2.x(pos);
             y = Point2.y(pos);
 
             if (in(x, y) && compareColor(previous, get(x, y), tolerance) && !hits.getAndSet(x + y * width)) {
-                setRaw(x, y, color.rgba());
+                to.setRaw(x, y, color.rgba());
 
                 queue.addLast(Point2.pack(x, y - 1));
                 queue.addLast(Point2.pack(x, y + 1));
@@ -106,7 +110,7 @@ public class Layer extends Pixmap {
             }
         }
 
-        change();
+        to.change();
     }
 
     public boolean compareColor(int previous, int color, float tolerance) {
