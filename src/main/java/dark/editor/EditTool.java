@@ -86,6 +86,9 @@ public enum EditTool {
             if (result.get() == background) return;
             ui.colorWheel.add(color.set(result.get()));
         }
+
+        @Override
+        public void drawOverlay(int x, int y) {}
     };
 
     public final boolean draggable, drawOnRelease;
