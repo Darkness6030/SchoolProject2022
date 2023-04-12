@@ -5,6 +5,7 @@ import arc.graphics.Color;
 import arc.math.geom.Bresenham2;
 import arc.util.*;
 import dark.history.DrawOperation;
+import dark.ui.Palette;
 
 import static arc.Core.*;
 import static dark.Main.*;
@@ -42,6 +43,13 @@ public class InputHandler implements ApplicationListener {
             canvas.move(Tmp.v1.x, Tmp.v1.y);
 
             input();
+        }
+
+        if (canvasX != canvas.canvasX() || canvasY != canvas.canvasY()) {
+            editor.renderer.overlay.fill(Color.clear);
+            drawOverlay();
+
+            editor.renderer.overlay.unchange();
         }
 
         mouseX = input.mouseX();
@@ -142,6 +150,13 @@ public class InputHandler implements ApplicationListener {
 
         else if (!tool.drawOnRelease && binding.tap())
             tool.touched(editor.renderer.current, canvas.canvasX(), canvas.canvasY(), color);
+    }
+
+    public void drawOverlay() {
+        if (tool.drawOnRelease && dragX != -1 && dragY != -1)
+            Bresenham2.line(dragX, dragY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(editor.renderer.overlay, x, y, Palette.active));
+        else
+            tool.touched(editor.renderer.overlay, canvas.canvasX(), canvas.canvasY(), Palette.active);
     }
 
     public void tool(EditTool tool) {

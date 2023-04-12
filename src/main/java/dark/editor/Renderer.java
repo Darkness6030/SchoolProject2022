@@ -18,7 +18,7 @@ public class Renderer {
     public static final int maxLayers = 32; // Максимальное количество слоёв
 
     public final Seq<Layer> layers = new Seq<>();
-    public Layer current;
+    public Layer current, overlay;
 
     public void draw(float x, float y, float width, float height) {
         Lines.stroke(border, Palette.main); // Рисуем границу холста
@@ -33,7 +33,7 @@ public class Renderer {
         layers.each(layer -> layer.visible, layer -> layer.draw(x, y, width, height)); // Рисуем слои
 
         Time.update(); // Нужен для шейдера
-        Shaders.renderer(() -> current.draw(x, y, width, height), Shaders.drawOverlay);
+        Shaders.renderer(() -> overlay.draw(x, y, width, height), Shaders.drawOverlay);
 
         Draw.flush();
     }
@@ -46,6 +46,7 @@ public class Renderer {
         layers.each(Layer::dispose);
         layers.clear().add(current = layer);
 
+        overlay = new Layer(layer.width, layer.height);
         ui.hudFragment.updateLayers();
     }
 
@@ -54,6 +55,7 @@ public class Renderer {
         layers.replace(scale ? layer -> layer.resize(width, height, filter) : layer -> layer.resize(width, height, align));
 
         current = layers.get(index);
+        overlay = new Layer(width, height);
         ui.hudFragment.updateLayers();
     }
 
