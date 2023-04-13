@@ -25,6 +25,7 @@ public class UI implements ApplicationListener {
     public final ColorWheel colorWheel = new ColorWheel();
 
     public MenuDialog menu;
+    public SaveFormatDialog format;
     public PaletteDialog palette;
     public ResizeDialog resize;
     public NewCanvasDialog newCanvas;
@@ -44,6 +45,7 @@ public class UI implements ApplicationListener {
         UnderTable.build(hud);
 
         menu = new MenuDialog();
+        format = new SaveFormatDialog();
         palette = new PaletteDialog();
         resize = new ResizeDialog();
         newCanvas = new NewCanvasDialog();
