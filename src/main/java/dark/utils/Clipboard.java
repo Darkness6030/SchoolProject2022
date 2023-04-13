@@ -19,27 +19,13 @@ public class Clipboard {
         if (contents == null || !contents.isDataFlavorSupported(DataFlavor.imageFlavor)) return null;
 
         var image = (BufferedImage) contents.getTransferData(DataFlavor.imageFlavor);
-        return convert(image);
+        return Files.convert(image);
     }
 
     public static void copy(Pixmap pixmap) throws IOException {
         Toolkit.getDefaultToolkit()
                 .getSystemClipboard()
-                .setContents(new ImageTransferable(convert(pixmap)), null);
-    }
-
-    public static BufferedImage convert(Pixmap pixmap) throws IOException {
-        var file = Fi.tempFile("temp");
-        file.writePng(pixmap);
-
-        return ImageIO.read(file.file());
-    }
-
-    public static Pixmap convert(BufferedImage image) throws IOException {
-        var file = Fi.tempFile("temp");
-        ImageIO.write(image, "png", file.file());
-
-        return new Pixmap(file);
+                .setContents(new ImageTransferable(Files.convert(pixmap)), null);
     }
 
     @Desugar

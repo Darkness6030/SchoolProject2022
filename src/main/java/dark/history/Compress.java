@@ -1,8 +1,9 @@
 package dark.history;
 
-import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.struct.IntSeq;
+
+import static arc.graphics.Color.clearRgba;
 
 public class Compress {
 
@@ -12,7 +13,7 @@ public class Compress {
         for (int x = 0; x < pixmap.width; x++) {
             for (int y = 0; y < pixmap.height; y++) {
                 int raw = pixmap.getRaw(x, y);
-                if (raw == Color.clearRgba) continue; // skip empty pixels
+                if (raw == clearRgba) continue; // skip empty pixels
 
                 int length = 1;
                 for (int i = y + 1; i < pixmap.height; i++)

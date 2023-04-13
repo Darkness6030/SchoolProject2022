@@ -17,8 +17,8 @@ public class InputHandler implements ApplicationListener {
     /** Last known mouse position on the canvas. */
     public int canvasX, canvasY;
 
-    /** Mouse position where user starts dragging a line. */
-    public int dragX, dragY;
+    /** Mouse position where user started dragging a line. */
+    public int dragX = -1, dragY = -1;
 
     /** Whether the drag started from a UI element. */
     public boolean fromUI;
@@ -139,6 +139,9 @@ public class InputHandler implements ApplicationListener {
 
         operation = null;
         fromUI = true; // to prevent further changes
+
+        dragX = -1; // for line
+        dragY = -1;
     }
 
     public void draw(Binding binding, Color color) {
@@ -148,7 +151,7 @@ public class InputHandler implements ApplicationListener {
         else if (tool.drawOnRelease && binding.release())
             Bresenham2.line(dragX, dragY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(editor.renderer.current, x, y, color));
 
-        else if (binding.tap())
+        else if (!tool.drawOnRelease && binding.tap())
             tool.touched(editor.renderer.current, canvas.canvasX(), canvas.canvasY(), color);
     }
 

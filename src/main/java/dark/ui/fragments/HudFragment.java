@@ -128,10 +128,10 @@ public class HudFragment {
     }
 
     public void buildLayers() {
-        if (layers == null) return; // такое возможно?
+        if (layers == null) return;
         historyTab = false;
 
-        layers.clear(); // Цикл нужен для проходки в обратном порядке, т.к. в конце массива расположены верхние слои
+        layers.clear(); // Цикл нужен для итерации в обратном порядке, т.к. в конце массива расположены верхние слои
         for (int i = editor.renderer.layers.size - 1; i >= 0; i--)
             layers.add(new LayerButton(editor.renderer.layers.get(i))).height(64f).growX().marginRight(8f).row();
     }
@@ -141,9 +141,7 @@ public class HudFragment {
         historyTab = true;
 
         layers.clear();
-        history.each(operation -> {
-            layers.add(new OperationButton(operation)).height(64f).growX().margin(8f).row();
-        });
+        history.each(operation -> layers.add(new OperationButton(operation)).height(64f).growX().margin(8f).row());
     }
 
     // region subclasses

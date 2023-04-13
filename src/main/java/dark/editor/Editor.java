@@ -8,7 +8,7 @@ import arc.input.GestureDetector.GestureListener;
 import arc.util.Log;
 import arc.util.Tmp;
 import dark.ui.*;
-import dark.utils.Clipboard;
+import dark.utils.*;
 
 import static arc.Core.*;
 import static dark.Main.*;
@@ -101,7 +101,7 @@ public class Editor implements ApplicationListener, GestureListener {
         try {
             var pixmap = renderer.copy();
 
-            file.writePng(pixmap);
+            Files.write(pixmap, file);
             pixmap.dispose();
 
             ui.showInfoToast(Icons.save, bundle.format("saved", file.name()));

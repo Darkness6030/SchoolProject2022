@@ -10,6 +10,7 @@ import dark.ui.elements.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static arc.Core.scene;
+import static arc.graphics.Color.clearRgba;
 import static dark.Main.*;
 import static dark.editor.Renderer.background;
 
@@ -60,9 +61,7 @@ public enum EditTool {
         }
 
         @Override
-        public void drawOverlay(int x, int y) {
-            editor.renderer.current.fill(x, y, config.tolerance / 100f, Palette.active, editor.renderer.overlay, 300000);
-        }
+        public void drawOverlay(int x, int y) {}
     },
 
     line(Binding.line) {
@@ -92,11 +91,21 @@ public enum EditTool {
         public void touched(Layer current, int x, int y, Color color) {
             if (scene.hasMouse()) return;
 
-            var result = new AtomicInteger(background);
-            editor.renderer.layers.each(layer -> result.set(Pixmap.blend(layer.get(x, y), result.get())));
+            if (config.pickRaw) {
+                for (int i = editor.renderer.layers.size - 1; i >= 0; i--) {
+                    int raw = editor.renderer.layers.get(i).get(x, y);
+                    if (raw != clearRgba) {
+                        ui.colorWheel.add(color.set(raw));
+                        return;
+                    }
+                }
+            } else {
+                var result = new AtomicInteger(background);
+                editor.renderer.layers.each(layer -> result.set(Pixmap.blend(layer.get(x, y), result.get())));
 
-            if (result.get() == background) return;
-            ui.colorWheel.add(color.set(result.get()));
+                if (result.get() == background) return;
+                ui.colorWheel.add(color.set(result.get()));
+            }
         }
 
         @Override

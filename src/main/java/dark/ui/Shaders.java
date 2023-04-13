@@ -1,25 +1,23 @@
 package dark.ui;
 
-import arc.files.Fi;
 import arc.graphics.Color;
-import arc.graphics.gl.FrameBuffer;
-import arc.graphics.gl.Shader;
+import arc.graphics.gl.*;
 import arc.util.Time;
 
 import static arc.Core.*;
-import static dark.Main.*;
+import static dark.Main.canvas;
 
 public class Shaders {
 
-    public static Shader drawOverlay;
+    public static Shader overlay;
     public static FrameBuffer buffer;
 
     public static void load() {
-        drawOverlay = new OverlayShader();
+        overlay = new OverlayShader();
         buffer = new FrameBuffer();
     }
 
-    public static void renderer(Runnable draw, Shader shader) {
+    public static void render(Runnable draw, Shader shader) {
         buffer.resize(graphics.getWidth(), graphics.getHeight());
         buffer.begin(Color.clear);
 
@@ -32,7 +30,7 @@ public class Shaders {
     public static class OverlayShader extends Shader {
 
         public OverlayShader() {
-            super(getShader("screenspace.vert"), getShader("overlay.frag"));
+            super(files.internal("shaders/screenspace.vert"), files.internal("shaders/overlay.frag"));
         }
 
         @Override
@@ -42,9 +40,5 @@ public class Shaders {
             setUniformf("u_texsize", canvas.width, canvas.height);
             setUniformf("u_invsize", 1f / canvas.width, 1f / canvas.height);
         }
-    }
-
-    public static Fi getShader(String file) {
-        return files.internal("shaders/" + file);
     }
 }
