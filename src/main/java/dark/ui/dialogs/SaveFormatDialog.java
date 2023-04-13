@@ -2,6 +2,8 @@ package dark.ui.dialogs;
 
 import arc.func.Cons;
 import arc.scene.ui.layout.Table;
+import dark.ui.Drawables;
+import dark.ui.Styles;
 import dark.ui.elements.*;
 
 public class SaveFormatDialog extends BaseDialog {
@@ -20,6 +22,16 @@ public class SaveFormatDialog extends BaseDialog {
             callback.get(selected);
             hide();
         });
+
+        getCells().get(2).height(300f);
+        cont.top();
+
+        for (Format format : Format.values()) {
+            cont.button(format.name().toUpperCase(), Styles.textButtonCheck, () -> selected = format).checked(b -> selected == format).with(button -> {
+                button.row();
+                button.collapser(format.settings::get, true, button::isChecked).grow().pad(4f);
+            }).width(300f).top().row();
+        }
     }
 
     public void show(Cons<Format> callback) {
@@ -28,7 +40,7 @@ public class SaveFormatDialog extends BaseDialog {
     }
 
     public enum Format {
-        spx(cont -> {}),
+        spx(cont -> {}), // TODO Adi, добавь сохранение во внутренний формат с поддержкой слоёв, это изи
 
         png(cont -> {
             cont.add(new Switch("@transparent", value -> transparent = value));
@@ -37,15 +49,20 @@ public class SaveFormatDialog extends BaseDialog {
         jpg(cont -> {
             cont.add(new Switch("@transparent", value -> transparent = value)).row();
 
-            cont.add(new Field("@quality", 64f, quality, 1, 0, 10, value -> quality = value)).with(field -> {
-                new SliderTable(field, 0, 10, 1, value -> quality = value);
-            });
-        });
+            cont.add(new Field("@quality", 64f, quality, 1, 0, 9, value -> quality = value));
+        }),
+
+        bmp(cont -> {});
 
         public final Cons<Table> settings;
 
         Format(Cons<Table> settings) {
-            this.settings = settings;
+            this.settings = cont -> {
+                cont.background(Drawables.darkmain_rounded);
+                cont.margin(4f).left();
+
+                settings.get(cont);
+            };
         }
     }
 }
