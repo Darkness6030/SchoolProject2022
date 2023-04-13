@@ -127,7 +127,7 @@ public class InputHandler implements ApplicationListener {
         operation = new DrawOperation(tool, editor.renderer.current);
         operation.begin();
 
-        dragX = canvas.canvasX(); // for line
+        dragX = canvas.canvasX();
         dragY = canvas.canvasY();
     }
 
@@ -140,16 +140,19 @@ public class InputHandler implements ApplicationListener {
         operation = null;
         fromUI = true; // to prevent further changes
 
-        dragX = -1; // for line
-        dragY = -1;
+        dragX = dragY = -1;
     }
 
     public void draw(Binding binding, Color color) {
         if (tool.draggable && binding.down())
             Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(editor.renderer.current, x, y, color));
 
-        else if (tool.drawOnRelease && binding.release())
+        else if (tool.drawOnRelease && binding.release() && dragX != -1 && dragY != -1) {
             Bresenham2.line(dragX, dragY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(editor.renderer.current, x, y, color));
+
+            dragX = canvas.canvasX();
+            dragY = canvas.canvasY();
+        }
 
         else if (!tool.drawOnRelease && binding.tap())
             tool.touched(editor.renderer.current, canvas.canvasX(), canvas.canvasY(), color);

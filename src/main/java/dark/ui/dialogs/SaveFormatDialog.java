@@ -29,7 +29,7 @@ public class SaveFormatDialog extends BaseDialog {
         for (Format format : Format.values()) {
             cont.button(format.name().toUpperCase(), Styles.textButtonCheck, () -> selected = format).checked(b -> selected == format).with(button -> {
                 button.row();
-                button.collapser(format.settings::get, true, button::isChecked).grow().pad(4f);
+                button.collapser(format.settings, true, button::isChecked).grow().pad(4f);
             }).width(300f).top().row();
         }
     }
@@ -40,19 +40,18 @@ public class SaveFormatDialog extends BaseDialog {
     }
 
     public enum Format {
-        spx(cont -> {}), // TODO Adi, добавь сохранение во внутренний формат с поддержкой слоёв, это изи
+        spx(table -> {}), // TODO Adi, добавь сохранение во внутренний формат с поддержкой слоёв, это изи
 
-        png(cont -> {
-            cont.add(new Switch("@transparent", value -> transparent = value));
+        png(table -> {
+            table.add(new Switch("@transparent", value -> transparent = value));
         }),
 
-        jpg(cont -> {
-            cont.add(new Switch("@transparent", value -> transparent = value)).row();
-
-            cont.add(new Field("@quality", 64f, quality, 1, 0, 9, value -> quality = value));
+        jpg(table -> {
+            table.add(new Switch("@transparent", value -> transparent = value)).row();
+            table.add(new Field("@quality", 64f, quality, 1, 0, 9, value -> quality = value));
         }),
 
-        bmp(cont -> {});
+        bmp(table -> {});
 
         public final Cons<Table> settings;
 
