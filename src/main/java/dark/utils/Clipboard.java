@@ -1,10 +1,8 @@
 package dark.utils;
 
-import arc.files.Fi;
 import arc.graphics.*;
 import com.github.bsideup.jabel.Desugar;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -32,7 +30,7 @@ public class Clipboard {
     public record ImageTransferable(BufferedImage image) implements Transferable {
         @Override
         public DataFlavor[] getTransferDataFlavors() {
-            return new DataFlavor[] {DataFlavor.imageFlavor};
+            return new DataFlavor[] { DataFlavor.imageFlavor };
         }
 
         @Override

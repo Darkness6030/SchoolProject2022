@@ -9,8 +9,7 @@ import dark.ui.elements.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static arc.Core.scene;
-import static arc.graphics.Color.clearRgba;
+import static arc.Core.*;
 import static dark.Main.*;
 import static dark.editor.Renderer.background;
 
@@ -94,7 +93,7 @@ public enum EditTool {
             if (config.pickRaw) {
                 for (int i = editor.renderer.layers.size - 1; i >= 0; i--) {
                     int raw = editor.renderer.layers.get(i).get(x, y);
-                    if (raw != clearRgba) {
+                    if (raw != Color.clearRgba) {
                         ui.colorWheel.add(color.set(raw));
                         return;
                     }
