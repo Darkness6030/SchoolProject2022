@@ -30,7 +30,7 @@ public class Clipboard {
 
     public static BufferedImage convert(Pixmap pixmap) throws IOException {
         var file = Fi.tempFile("temp");
-        PixmapIO.writePng(file, pixmap);
+        file.writePng(pixmap);
 
         return ImageIO.read(file.file());
     }
@@ -39,7 +39,7 @@ public class Clipboard {
         var file = Fi.tempFile("temp");
         ImageIO.write(image, "png", file.file());
 
-        return PixmapIO.readPNG(file);
+        return new Pixmap(file);
     }
 
     @Desugar

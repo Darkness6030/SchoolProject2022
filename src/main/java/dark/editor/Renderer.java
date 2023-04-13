@@ -32,7 +32,7 @@ public class Renderer {
         layers.each(layer -> layer.changed, Layer::unchange);
         layers.each(layer -> layer.visible, layer -> layer.draw(x, y, width, height)); // Рисуем слои
 
-        Time.update(); // Нужен для шейдера
+        Time.update(); // Нужно для шейдера
         Shaders.renderer(() -> overlay.draw(x, y, width, height), Shaders.drawOverlay);
 
         Draw.flush();
