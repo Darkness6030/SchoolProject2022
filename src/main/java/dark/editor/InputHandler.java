@@ -44,7 +44,10 @@ public class InputHandler implements ApplicationListener {
             input();
         }
 
-        if (canvasX != canvas.canvasX() || canvasY != canvas.canvasY()) {
+        if (canvasX != canvas.canvasX() || canvasY != canvas.canvasY()
+                || Binding.draw1.tap() || Binding.draw2.tap()
+                || Binding.draw1.release() || Binding.draw2.release()) {
+
             editor.renderer.overlay.fill(Color.clear);
             drawOverlay();
 
