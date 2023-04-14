@@ -40,7 +40,7 @@ public class SaveFormatDialog extends BaseDialog {
     }
 
     public enum Format {
-        spx(table -> {}), // TODO Adi, добавь сохранение во внутренний формат с поддержкой слоёв, это изи
+        spx(table -> {}),
 
         png(table -> {
             table.add(new Switch("@transparent", value -> transparent = value));

@@ -10,7 +10,10 @@ import java.io.IOException;
 public class Files {
 
     public static void write(Pixmap pixmap, Fi file) throws IOException {
-        ImageIO.write(convert(pixmap), file.extension(), file.file());
+        if (file.extension().equals("spx"))
+            SpxFormat.write(file.write());
+        else
+            ImageIO.write(convert(pixmap), file.extension(), file.file());
     }
 
     public static BufferedImage convert(Pixmap pixmap) throws IOException {
