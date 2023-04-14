@@ -46,6 +46,13 @@ public enum EditTool {
             else
                 current.drawCircle(x, y, config.size, Color.clear);
         }
+
+        public void drawOverlay(int x, int y) {
+            if (config.square)
+                editor.renderer.overlay.drawSquare(x, y, config.size, Palette.active);
+            else
+                editor.renderer.overlay.drawCircle(x, y, config.size, Palette.active);
+        }
     },
 
     fill( Binding.fill) {
@@ -59,7 +66,6 @@ public enum EditTool {
             current.fill(x, y, config.tolerance / 100f, Tmp.c1.set(color).a(config.alpha / 255f));
         }
 
-        @Override
         public void drawOverlay(int x, int y) {}
     },
 
@@ -107,7 +113,6 @@ public enum EditTool {
             }
         }
 
-        @Override
         public void drawOverlay(int x, int y) {}
     };
 
@@ -150,9 +155,7 @@ public enum EditTool {
         }
 
         public Cell<Field> field(String name, int def, int min, int max, int step, Intc listener) {
-            return add(new Field(name, 64f, def, 3, min, max, listener)).with(field -> {
-                new SliderTable(field, min, max, step, listener);
-            });
+            return add(new Field(name, 64f, def, 3, min, max, listener)).with(field -> new SliderTable(field, min, max, step, listener));
         }
 
         public Cell<Switch> toggle(String text, Boolc listener) {

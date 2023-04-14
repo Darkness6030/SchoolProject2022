@@ -6,6 +6,8 @@ import dark.ui.Drawables;
 import dark.ui.Styles;
 import dark.ui.elements.*;
 
+import java.util.Arrays;
+
 public class SaveFormatDialog extends BaseDialog {
 
     public static boolean transparent;
@@ -56,11 +58,11 @@ public class SaveFormatDialog extends BaseDialog {
         public final Cons<Table> settings;
 
         Format(Cons<Table> settings) {
-            this.settings = cont -> {
-                cont.background(Drawables.darkmain_rounded);
-                cont.margin(4f).left();
+            this.settings = table -> {
+                table.background(Drawables.main_rounded);
+                table.margin(4f).left();
 
-                settings.get(cont);
+                settings.get(table);
             };
         }
     }

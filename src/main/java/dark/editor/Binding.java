@@ -8,9 +8,6 @@ import static arc.Core.*;
 
 public enum Binding {
 
-    unknown(KeyCode.unknown),
-    any(KeyCode.anyKey),
-
     pan(KeyCode.mouseMiddle),
     zoom(KeyCode.scroll),
     fastZoom(KeyCode.altLeft),

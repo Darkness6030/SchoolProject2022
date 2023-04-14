@@ -43,9 +43,11 @@ public class Renderer {
 
     public void reset(Layer layer) {
         layers.each(Layer::dispose);
-        layers.clear().add(current = layer);
+        layers.clear().add(layer);
 
+        current = layer;
         overlay = new Layer(layer.width, layer.height);
+
         ui.hudFragment.updateLayers();
     }
 
@@ -55,6 +57,7 @@ public class Renderer {
 
         current = layers.get(index);
         overlay = new Layer(width, height);
+
         ui.hudFragment.updateLayers();
     }
 

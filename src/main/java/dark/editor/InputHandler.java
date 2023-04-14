@@ -113,8 +113,8 @@ public class InputHandler implements ApplicationListener {
         // endregion
         // region actions
 
-        if (Binding.copy.tap()) Threads.daemon(editor::copy);
-        if (Binding.paste.tap()) Threads.daemon(editor::paste);
+        if (Binding.copy.tap()) editor.copy();
+        if (Binding.paste.tap()) editor.paste();
         if (Binding.undo.tap() && history.hasUndo()) editor.undo();
         if (Binding.redo.tap() && history.hasRedo()) editor.redo();
 

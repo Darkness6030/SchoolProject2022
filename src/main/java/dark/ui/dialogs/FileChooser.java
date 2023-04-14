@@ -25,29 +25,35 @@ public class FileChooser extends BaseDialog {
     public FileHistory history = new FileHistory();
     public Fi directory = files.absolute(settings.getString("last-dir", externalStorage));
 
-    public boolean open;
-    public String extension;
+    public final boolean open;
+    public final Seq<String> extensions;
 
     public Table list;
     public FocusScrollPane pane;
     public TextField field;
 
-    public FileChooser(String title, boolean open, String extension, Cons<Fi> cons) {
+    public FileChooser(String title, Seq<String> extensions, Cons<Fi> cons) {
+        this(title, true, extensions, cons);
+    }
+
+    public FileChooser(String title, String extension, Cons<Fi> cons) {
+        this(title, false, Seq.with(extension), file -> cons.get(file.sibling(file.nameWithoutExtension() + "." + extension)));
+    }
+
+    public FileChooser(String title, boolean open, Seq<String> extensions, Cons<Fi> cons) {
         super(title);
+
+        this.open = open;
+        this.extensions = extensions;
 
         addCloseButton();
         addConfirmButton(() -> {
-            var file = directory.child(field.getText());
-            cons.get(file.sibling(file.nameWithoutExtension() + "." + extension));
-
+            cons.get(directory.child(field.getText()));
             hide();
         }, () -> {
             String name = field.getText(); // если заменишь на var, я тебя зарежу
             return open ? !directory.child(name).exists() || directory.child(name).isDirectory() : name.trim().isEmpty();
         });
-
-        this.open = open;
-        this.extension = extension;
 
         cont.table(nav -> {
             nav.left();
@@ -89,7 +95,7 @@ public class FileChooser extends BaseDialog {
     public Seq<Fi> getAvailableFiles() {
         return directory.seq()
                 .filter(file -> !file.file().isHidden()) // убираем скрытые файлы
-                .filter(file -> file.isDirectory() || file.extEquals(extension))
+                .filter(file -> file.isDirectory() || extensions.contains(file::extEquals))
                 .sort(Structs.comps(Comparator.comparing(file -> !file.isDirectory()), Comparator.comparing(file -> file.name().toLowerCase())));
     }
 
