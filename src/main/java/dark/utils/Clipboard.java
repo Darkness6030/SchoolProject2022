@@ -1,6 +1,7 @@
 package dark.utils;
 
 import arc.graphics.*;
+import arc.graphics.Color;
 import com.github.bsideup.jabel.Desugar;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ public class Clipboard {
     public static void copy(Pixmap pixmap) throws IOException {
         Toolkit.getDefaultToolkit()
                 .getSystemClipboard()
-                .setContents(new ImageTransferable(Files.convert(pixmap)), null);
+                .setContents(new ImageTransferable(Files.convert(pixmap, BufferedImage.TYPE_INT_ARGB, Color::argb8888)), null);
     }
 
     @Desugar

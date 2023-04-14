@@ -13,24 +13,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class SpxFormat {
+public class SPXFormat {
 
-    public static final byte[] header = { 's', 'p', 'r', 'i', 't', 'e', 'x' };
+    public static final byte[] header = { 'S', 'P', 'R', 'I', 'T', 'E', 'X' };
 
     public static void write(Seq<Layer> layers, OutputStream output) throws IOException {
-        try (DataOutputStream stream = new DataOutputStream(output)) {
+        try (var stream = new DataOutputStream(output)) {
             stream.write(header);
 
             stream.writeInt(layers.peek().width);
             stream.writeInt(layers.peek().height);
             stream.writeInt(layers.size);
 
-            for (Layer layer : layers) {
+            for (var layer : layers) {
                 stream.writeUTF(layer.name);
 
                 var data = Compress.write(layer);
-
                 stream.writeInt(data.size);
+
                 for (int i = 0; i < data.size; i++)
                     stream.writeInt(data.get(i));
             }
@@ -42,23 +42,23 @@ public class SpxFormat {
     }
 
     public static Layer[] read(InputStream input) throws IOException {
-        try (DataInputStream stream = new DataInputStream(input)) {
+        try (var stream = new DataInputStream(input)) {
             for (byte b : header)
-                if (stream.read() != b) throw new IOException("Not a spx file: missing header.");
+                if (stream.read() != b) throw new IOException("Not a SPX file: missing header.");
 
             int width = stream.readInt();
             int height = stream.readInt();
             int amount = stream.readInt();
 
-            Layer[] layers = new Layer[amount];
+            var layers = new Layer[amount];
 
             for (int i = 0; i < amount; i++) {
                 layers[i] = new Layer(width, height);
                 layers[i].name = stream.readUTF();
 
                 var data = new IntSeq();
-
                 int size = stream.readInt();
+
                 for (int j = 0; j < size; j++)
                     data.add(stream.readInt());
 

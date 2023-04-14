@@ -1,5 +1,6 @@
 package dark.editor;
 
+import arc.files.Fi;
 import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.graphics.Texture;
@@ -26,6 +27,10 @@ public class Layer extends Pixmap {
 
     public Layer(int width, int height) {
         super(width, height);
+    }
+
+    public Layer(Fi file) {
+        super(file);
     }
 
     public Layer(Pixmap pixmap) {

@@ -1,6 +1,7 @@
 package dark.ui.dialogs;
 
 import dark.ui.*;
+import dark.utils.Files;
 
 import static arc.Core.*;
 import static dark.Main.*;
@@ -17,8 +18,8 @@ public class MenuDialog extends BaseDialog {
 
         buttons.row();
 
-        buttons.buttonRow("@save", Icons.save, () -> ui.format.show(format -> ui.showFileChooser("@file.save", false, format.name(), editor::save)));
-        buttons.buttonRow("@load", Icons.load, () -> ui.showFileChooser("@file.load", true, "png", editor::load));
+        buttons.buttonRow("@save", Icons.save, () -> ui.format.show(format -> ui.showFileChooser("@file.save", format.name(), editor::save)));
+        buttons.buttonRow("@load", Icons.load, () -> ui.showFileChooser("@file.load", Files.extensions, editor::load));
 
         buttons.row();
 

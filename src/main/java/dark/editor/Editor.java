@@ -99,10 +99,7 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void save(Fi file) {
         try {
-            var pixmap = renderer.copy();
-
-            Files.write(pixmap, file);
-            pixmap.dispose();
+            Files.write(file);
 
             ui.showInfoToast(Icons.save, bundle.format("saved", file.name()));
             ui.menu.hide();
@@ -114,10 +111,7 @@ public class Editor implements ApplicationListener, GestureListener {
 
     public void load(Fi file) {
         try {
-            var pixmap = new Pixmap(file);
-
-            reset(new Layer(pixmap));
-            pixmap.dispose();
+            Files.read(file);
 
             ui.showInfoToast(Icons.load, bundle.format("loaded", file.name()));
             ui.menu.hide();

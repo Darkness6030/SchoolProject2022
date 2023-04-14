@@ -10,6 +10,7 @@ import arc.scene.event.Touchable;
 import arc.scene.style.Drawable;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
+import arc.struct.Seq;
 import arc.util.Align;
 import dark.ui.dialogs.*;
 import dark.ui.elements.*;
@@ -68,8 +69,12 @@ public class UI implements ApplicationListener {
         scene.resize(width, height);
     }
 
-    public void showFileChooser(String title, boolean open, String extension, Cons<Fi> cons) {
-        new FileChooser(title, open, extension, cons).show();
+    public void showFileChooser(String title, Seq<String> extensions, Cons<Fi> cons) {
+        new FileChooser(title, extensions, cons).show();
+    }
+
+    public void showFileChooser(String title, String extension, Cons<Fi> cons) {
+        new FileChooser(title, extension, cons).show();
     }
 
     public void showInfoToast(Drawable icon, String text) {
