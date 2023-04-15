@@ -1,7 +1,8 @@
 package dark.utils;
 
 import arc.files.Fi;
-import arc.graphics.Pixmap;
+import arc.func.Intf;
+import arc.graphics.*;
 import arc.struct.Seq;
 import arc.util.Tmp;
 import dark.editor.Layer;

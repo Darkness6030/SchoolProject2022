@@ -26,9 +26,9 @@ public class SaveFormatDialog extends BaseDialog {
                 button.row();
                 button.collapser(table -> {
                     table.background(Drawables.main_rounded);
-                    table.margin(4f).left();
+                    table.margin(8f).left();
 
-                    table.labelWrap("@extension." + format.name() + ".description");
+                    table.labelWrap("@extension." + format.name() + ".description").width(240f);
                 }, true, button::isChecked).grow().pad(4f);
             }).width(300f).top().row();
         }
