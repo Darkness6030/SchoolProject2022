@@ -141,15 +141,15 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void newLayer() {
-        renderer.addLayer(new Layer(canvas.width, canvas.height));
+        renderer.addLayer(new Layer(canvas.width, canvas.height), true);
     }
 
     public void copyLayer() {
-        renderer.addLayer(renderer.current.copyLayer());
+        renderer.addLayer(renderer.current.copyLayer(), true);
     }
 
     public void removeLayer() {
-        renderer.removeLayer(renderer.current);
+        renderer.removeLayer(renderer.current, true);
     }
 
     public void swap() {

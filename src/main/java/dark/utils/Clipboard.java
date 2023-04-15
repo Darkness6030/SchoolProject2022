@@ -24,7 +24,7 @@ public class Clipboard {
     public static void copy(Pixmap pixmap) throws IOException {
         Toolkit.getDefaultToolkit()
                 .getSystemClipboard()
-                .setContents(new ImageTransferable(Files.convert(pixmap, BufferedImage.TYPE_INT_ARGB, Color::argb8888)), null);
+                .setContents(new ImageTransferable(Files.convert(pixmap, true)), null);
     }
 
     @Desugar

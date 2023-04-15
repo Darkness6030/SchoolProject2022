@@ -18,7 +18,7 @@ public class CreateOperation implements Operation {
     }
 
     public void undo() {
-        editor.renderer.layers.remove(layer);
+        editor.renderer.removeLayer(layer, false);
         ui.hudFragment.updateLayers();
     }
 

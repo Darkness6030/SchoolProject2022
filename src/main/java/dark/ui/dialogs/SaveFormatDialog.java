@@ -1,17 +1,10 @@
 package dark.ui.dialogs;
 
 import arc.func.Cons;
-import arc.scene.ui.layout.Table;
 import dark.ui.Drawables;
 import dark.ui.Styles;
-import dark.ui.elements.*;
-
-import java.util.Arrays;
 
 public class SaveFormatDialog extends BaseDialog {
-
-    public static boolean transparent;
-    public static int quality = 5;
 
     public Cons<Format> callback;
     public Format selected = Format.png;
@@ -28,10 +21,15 @@ public class SaveFormatDialog extends BaseDialog {
         getCells().get(2).height(300f);
         cont.top();
 
-        for (Format format : Format.values()) {
+        for (var format : Format.values()) {
             cont.button(format.name().toUpperCase(), Styles.textButtonCheck, () -> selected = format).checked(b -> selected == format).with(button -> {
                 button.row();
-                button.collapser(format.settings, true, button::isChecked).grow().pad(4f);
+                button.collapser(table -> {
+                    table.background(Drawables.main_rounded);
+                    table.margin(4f).left();
+
+                    table.labelWrap("@extension." + format.name() + ".description");
+                }, true, button::isChecked).grow().pad(4f);
             }).width(300f).top().row();
         }
     }
@@ -42,28 +40,10 @@ public class SaveFormatDialog extends BaseDialog {
     }
 
     public enum Format {
-        spx(table -> {}),
-
-        png(table -> {
-            table.add(new Switch("@transparent", value -> transparent = value));
-        }),
-
-        jpg(table -> {
-            table.add(new Switch("@transparent", value -> transparent = value)).row();
-            table.add(new Field("@quality", 64f, quality, 1, 0, 9, value -> quality = value));
-        }),
-
-        bmp(table -> {});
-
-        public final Cons<Table> settings;
-
-        Format(Cons<Table> settings) {
-            this.settings = table -> {
-                table.background(Drawables.main_rounded);
-                table.margin(4f).left();
-
-                settings.get(table);
-            };
-        }
+        spx,
+        png,
+        jpg,
+        jpeg,
+        bmp;
     }
 }

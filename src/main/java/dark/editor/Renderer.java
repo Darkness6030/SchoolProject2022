@@ -68,30 +68,32 @@ public class Renderer {
         return pixmap;
     }
 
-    public void addLayer(Layer layer) {
+    public void addLayer(Layer layer, boolean push) {
         if (!canAdd()) return;
 
         layers.add(current = layer);
         ui.hudFragment.updateLayers();
 
-        history.push(new CreateOperation(layer, layers.size - 1));
+        if (push)
+            history.push(new CreateOperation(layer, layers.size - 1));
     }
 
     public boolean canAdd() {
         return layers.size < maxLayers;
     }
 
-    public void removeLayer(Layer layer) {
+    public void removeLayer(Layer layer, boolean push) {
         if (!canRemove()) return;
 
         int index = layers.indexOf(layer);
         layers.remove(index);
 
-        history.push(new RemoveOperation(layer, index));
-
         // Был удален текущий слой, перемещаемся на один слой назад
         if (current == layer) current = layers.get(Math.max(index - 1, 0));
         ui.hudFragment.updateLayers();
+
+        if (push)
+            history.push(new RemoveOperation(layer, index));
     }
 
     public boolean canRemove() {

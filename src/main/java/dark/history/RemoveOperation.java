@@ -23,7 +23,7 @@ public class RemoveOperation implements Operation {
     }
 
     public void redo() {
-        editor.renderer.layers.remove(layer);
+        editor.renderer.removeLayer(layer, false);
         ui.hudFragment.updateLayers();
     }
 
