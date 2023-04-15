@@ -51,6 +51,13 @@ public class Editor implements ApplicationListener, GestureListener {
         canvas.reset(layer.width, layer.height);
     }
 
+    public void reset(Layer[] layers) {
+        history.clear();
+
+        renderer.reset(layers);
+        canvas.reset(layers[0].width, layers[0].height);
+    }
+
     public void resize(int width, int height, boolean scale, boolean filter, int align) {
         // TODO добавить в историю элемент ресайза, чтобы потом не мучаться со скейлом истории
 

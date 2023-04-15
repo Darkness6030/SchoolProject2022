@@ -1,7 +1,6 @@
 package dark.utils;
 
 import arc.files.Fi;
-import arc.func.Intf;
 import arc.graphics.*;
 import arc.struct.Seq;
 import arc.util.Tmp;
@@ -21,9 +20,7 @@ public class Files {
 
     public static void read(Fi file) throws IOException {
         switch (file.extension()) {
-            case "spx" -> {
-                var layers = SPXFormat.read(file.read());
-            }
+            case "spx" -> editor.reset(SPXFormat.read(file.read()));
             case "png", "jpg", "jpeg", "bmp" -> editor.reset(new Layer(file));
         }
     }
