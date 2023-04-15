@@ -13,8 +13,6 @@ import arc.util.Align;
 import arc.util.Tmp;
 import dark.utils.Shapes;
 
-import java.util.Stack;
-
 import static arc.Core.bundle;
 
 public class Layer extends Pixmap {

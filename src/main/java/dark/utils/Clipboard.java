@@ -1,7 +1,6 @@
 package dark.utils;
 
 import arc.graphics.*;
-import arc.graphics.Color;
 import com.github.bsideup.jabel.Desugar;
 
 import java.awt.*;

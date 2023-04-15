@@ -18,7 +18,7 @@ public class SaveFormatDialog extends BaseDialog {
             hide();
         });
 
-        getCells().get(2).height(300f);
+        getCells().get(2).height(350f);
         cont.top();
 
         for (var format : Format.values()) {
@@ -28,9 +28,9 @@ public class SaveFormatDialog extends BaseDialog {
                     table.background(Drawables.main_rounded);
                     table.margin(8f).left();
 
-                    table.labelWrap("@format." + format.name()).width(240f);
+                    table.labelWrap("@format." + format.name()).width(320f);
                 }, true, button::isChecked).grow().pad(4f);
-            }).width(300f).top().row();
+            }).width(350f).top().row();
         }
     }
 
@@ -40,10 +40,6 @@ public class SaveFormatDialog extends BaseDialog {
     }
 
     public enum Format {
-        spx,
-        png,
-        jpg,
-        jpeg,
-        bmp;
+        spx, png, jpg, jpeg, bmp;
     }
 }
