@@ -22,13 +22,13 @@ public class SaveFormatDialog extends BaseDialog {
         cont.top();
 
         for (var format : Format.values()) {
-            cont.button(format.name().toUpperCase(), Styles.textButtonCheck, () -> selected = format).checked(b -> selected == format).with(button -> {
+            cont.button(format.name().toUpperCase(), Styles.textButtonCheck, () -> selected = format).checked(button -> selected == format).with(button -> {
                 button.row();
                 button.collapser(table -> {
                     table.background(Drawables.main_rounded);
                     table.margin(8f).left();
 
-                    table.labelWrap("@extension." + format.name() + ".description").width(240f);
+                    table.labelWrap("@format." + format.name()).width(240f);
                 }, true, button::isChecked).grow().pad(4f);
             }).width(300f).top().row();
         }
