@@ -2,7 +2,7 @@ package dark.history;
 
 import arc.struct.Seq;
 
-import static dark.Main.*;
+import static dark.Main.ui;
 
 public class History extends Seq<Operation> {
 

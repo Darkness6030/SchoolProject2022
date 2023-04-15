@@ -3,7 +3,7 @@ package dark.ui.elements;
 import arc.scene.Element;
 import arc.scene.ui.ScrollPane;
 
-import static arc.Core.*;
+import static arc.Core.scene;
 
 public class FocusScrollPane extends ScrollPane {
 

@@ -1,7 +1,7 @@
 package dark.utils;
 
 import arc.files.Fi;
-import arc.graphics.*;
+import arc.graphics.Pixmap;
 import arc.struct.Seq;
 import arc.util.Tmp;
 import dark.editor.Layer;
@@ -21,7 +21,15 @@ public class Files {
     public static void read(Fi file) throws IOException {
         switch (file.extension()) {
             case "spx" -> editor.reset(SPXFormat.read(file.read()));
-            case "png", "jpg", "jpeg", "bmp" -> editor.reset(new Layer(file));
+            case "png" -> editor.reset(new Layer(file));
+            case "jpg", "jpeg", "bmp" -> {
+                var image = ImageIO.read(file.file());
+
+                var pixmap = convert(image, false);
+                editor.reset(new Layer(pixmap));
+
+                pixmap.dispose();
+            }
         }
     }
 
@@ -54,9 +62,9 @@ public class Files {
         return image;
     }
 
-    public static Pixmap convert(BufferedImage image) {
+    public static Pixmap convert(BufferedImage image, boolean transparent) {
         var pixmap = new Pixmap(image.getWidth(), image.getHeight());
-        pixmap.each((x, y) -> pixmap.set(x, y, Tmp.c1.argb8888(image.getRGB(x, y)).rgba()));
+        pixmap.each((x, y) -> pixmap.set(x, y, transparent ? Tmp.c1.argb8888(image.getRGB(x, y)).rgba() : Tmp.c1.rgb888(image.getRGB(x, y)).rgba()));
 
         return pixmap;
     }

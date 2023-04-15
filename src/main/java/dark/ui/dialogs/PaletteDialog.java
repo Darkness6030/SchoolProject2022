@@ -1,18 +1,14 @@
 package dark.ui.dialogs;
 
 import arc.func.*;
-import arc.graphics.Color;
-import arc.graphics.Pixmap;
-import arc.graphics.Texture;
-import arc.graphics.g2d.Lines;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.scene.ui.Image;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
-import dark.ui.Drawables;
-import dark.ui.Palette;
+import dark.ui.*;
 import dark.ui.elements.Field;
 
 import static arc.Core.input;

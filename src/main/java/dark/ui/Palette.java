@@ -1,7 +1,6 @@
 package dark.ui;
 
-import arc.graphics.Color;
-import arc.graphics.Colors;
+import arc.graphics.*;
 
 public class Palette {
 

@@ -3,11 +3,10 @@ package dark.history;
 import arc.graphics.Pixmap;
 import arc.scene.style.Drawable;
 import arc.struct.IntSeq;
-import dark.editor.EditTool;
-import dark.editor.Layer;
+import dark.editor.*;
 import dark.ui.Icons;
 
-import static arc.Core.*;
+import static arc.Core.bundle;
 
 public class DrawOperation implements Operation {
 

@@ -2,10 +2,9 @@ package dark.editor;
 
 import arc.ApplicationListener;
 import arc.files.Fi;
-import arc.graphics.*;
+import arc.graphics.Color;
 import arc.input.GestureDetector;
 import arc.input.GestureDetector.GestureListener;
-import arc.util.Log;
 import arc.util.Tmp;
 import dark.ui.*;
 import dark.utils.*;
@@ -59,8 +58,6 @@ public class Editor implements ApplicationListener, GestureListener {
     }
 
     public void resize(int width, int height, boolean scale, boolean filter, int align) {
-        // TODO добавить в историю элемент ресайза, чтобы потом не мучаться со скейлом истории
-
         renderer.resize(width, height, scale, filter, align);
         canvas.resize(width, height);
     }
@@ -111,7 +108,6 @@ public class Editor implements ApplicationListener, GestureListener {
             ui.showInfoToast(Icons.save, bundle.format("saved", file.name()));
             ui.menu.hide();
         } catch (Exception e) {
-            Log.err(e);
             // ui.showException("Failed to save", e);
         }
     }
@@ -123,7 +119,6 @@ public class Editor implements ApplicationListener, GestureListener {
             ui.showInfoToast(Icons.load, bundle.format("loaded", file.name()));
             ui.menu.hide();
         } catch (Exception e) {
-            Log.err(e);
             // ui.showException("Failed to load", e);
         }
     }

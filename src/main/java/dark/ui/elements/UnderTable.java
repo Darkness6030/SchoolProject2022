@@ -1,17 +1,13 @@
 package dark.ui.elements;
 
 import arc.func.Cons;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
+import arc.graphics.g2d.*;
 import arc.scene.Element;
-import arc.scene.ui.layout.Table;
-import arc.scene.ui.layout.WidgetGroup;
-import arc.util.Align;
-import arc.util.Tmp;
-import dark.ui.Drawables;
-import dark.ui.Palette;
+import arc.scene.ui.layout.*;
+import arc.util.*;
+import dark.ui.*;
 
-import static arc.Core.*;
+import static arc.Core.input;
 
 public class UnderTable extends Table {
 

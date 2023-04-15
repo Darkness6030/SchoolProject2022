@@ -1,17 +1,12 @@
 package dark.utils;
 
-import arc.struct.IntSeq;
-import arc.struct.Seq;
+import arc.struct.*;
 import dark.editor.Layer;
 import dark.history.Compress;
 
-import static dark.Main.*;
+import java.io.*;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import static dark.Main.editor;
 
 public class SPXFormat {
 

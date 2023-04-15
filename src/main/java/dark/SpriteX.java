@@ -1,20 +1,17 @@
 package dark;
 
 import arc.ApplicationCore;
-import arc.graphics.g2d.SortedSpriteBatch;
-import arc.graphics.g2d.TextureAtlas;
+import arc.graphics.g2d.*;
 import arc.scene.Scene;
 import arc.scene.ui.Tooltip;
 import arc.scene.ui.Tooltip.Tooltips;
-import arc.util.I18NBundle;
-import arc.util.Log;
-import arc.util.Time;
+import arc.util.*;
 import dark.ui.*;
+
+import java.util.Locale;
 
 import static arc.Core.*;
 import static dark.Main.*;
-
-import java.util.Locale;
 
 public class SpriteX extends ApplicationCore {
 

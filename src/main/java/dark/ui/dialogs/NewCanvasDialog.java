@@ -1,10 +1,8 @@
 package dark.ui.dialogs;
 
 import arc.graphics.Color;
-import dark.ui.Drawables;
-import dark.ui.Styles;
-import dark.ui.elements.Field;
-import dark.ui.elements.Switch;
+import dark.ui.*;
+import dark.ui.elements.*;
 
 import static dark.Main.*;
 

@@ -4,8 +4,7 @@ import arc.func.Boolp;
 import arc.input.KeyCode;
 import arc.scene.ui.Dialog;
 import arc.util.Align;
-import dark.ui.Drawables;
-import dark.ui.Icons;
+import dark.ui.*;
 
 import static arc.Core.scene;
 

@@ -1,12 +1,10 @@
 package dark.utils;
 
-import arc.graphics.*;
+import arc.graphics.Pixmap;
 import com.github.bsideup.jabel.Desugar;
 
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.datatransfer.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -17,7 +15,7 @@ public class Clipboard {
         if (contents == null || !contents.isDataFlavorSupported(DataFlavor.imageFlavor)) return null;
 
         var image = (BufferedImage) contents.getTransferData(DataFlavor.imageFlavor);
-        return Files.convert(image);
+        return Files.convert(image, true);
     }
 
     public static void copy(Pixmap pixmap) throws IOException {

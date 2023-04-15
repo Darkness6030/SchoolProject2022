@@ -4,7 +4,7 @@ import arc.KeyBinds.Axis;
 import arc.func.Boolp;
 import arc.input.KeyCode;
 
-import static arc.Core.*;
+import static arc.Core.input;
 
 public enum Binding {
 
@@ -34,7 +34,8 @@ public enum Binding {
     copy(KeyCode.c, () -> input.ctrl()),
     paste(KeyCode.v, () -> input.ctrl()),
     undo(KeyCode.z, () -> input.ctrl()),
-    redo(KeyCode.y, () -> input.ctrl());
+    redo(KeyCode.y, () -> input.ctrl()),
+    save(KeyCode.s, () -> input.ctrl());
 
     private final Axis axis;
     private final Boolp alt;

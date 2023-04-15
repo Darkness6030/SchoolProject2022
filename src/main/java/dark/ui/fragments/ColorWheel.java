@@ -5,8 +5,7 @@ import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.scene.ui.layout.*;
 import arc.struct.Seq;
-import dark.ui.Drawables;
-import dark.ui.Styles;
+import dark.ui.*;
 
 public class ColorWheel {
 

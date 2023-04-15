@@ -1,11 +1,11 @@
 package dark.ui;
 
-import arc.freetype.*;
+import arc.freetype.FreeTypeFontGenerator;
 import arc.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import arc.graphics.Color;
 import arc.graphics.g2d.Font;
 
-import static arc.Core.*;
+import static arc.Core.files;
 
 public class Fonts {
 

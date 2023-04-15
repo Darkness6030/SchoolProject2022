@@ -4,7 +4,7 @@ import arc.scene.style.Drawable;
 import dark.editor.Layer;
 import dark.ui.Icons;
 
-import static arc.Core.*;
+import static arc.Core.bundle;
 import static dark.Main.*;
 
 public class RemoveOperation implements Operation {

@@ -2,11 +2,9 @@ package dark.ui.elements;
 
 import arc.func.*;
 import arc.scene.ui.*;
-import arc.scene.ui.TextField.TextFieldFilter;
-import arc.scene.ui.TextField.TextFieldValidator;
+import arc.scene.ui.TextField.*;
 import arc.scene.ui.layout.Table;
-import arc.util.Align;
-import arc.util.Strings;
+import arc.util.*;
 import dark.ui.Drawables;
 
 public class Field extends Table {

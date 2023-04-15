@@ -2,20 +2,16 @@ package dark.ui.dialogs;
 
 import arc.files.Fi;
 import arc.func.Cons;
-import arc.scene.ui.TextButton;
-import arc.scene.ui.TextField;
+import arc.scene.ui.*;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
-import arc.util.Align;
-import arc.util.Structs;
-import dark.ui.Icons;
-import dark.ui.Styles;
+import arc.util.*;
+import dark.ui.*;
 import dark.ui.elements.FocusScrollPane;
 
 import java.util.Comparator;
 
-import static arc.Core.files;
-import static arc.Core.settings;
+import static arc.Core.*;
 
 public class FileChooser extends BaseDialog {
 

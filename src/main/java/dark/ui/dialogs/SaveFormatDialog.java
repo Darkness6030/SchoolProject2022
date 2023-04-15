@@ -1,8 +1,7 @@
 package dark.ui.dialogs;
 
 import arc.func.Cons;
-import dark.ui.Drawables;
-import dark.ui.Styles;
+import dark.ui.*;
 
 public class SaveFormatDialog extends BaseDialog {
 

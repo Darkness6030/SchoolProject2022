@@ -9,7 +9,7 @@ import dark.ui.elements.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static arc.Core.*;
+import static arc.Core.scene;
 import static dark.Main.*;
 import static dark.editor.Renderer.background;
 

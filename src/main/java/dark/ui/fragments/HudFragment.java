@@ -2,18 +2,13 @@ package dark.ui.fragments;
 
 import arc.graphics.Color;
 import arc.scene.ui.ImageButton;
-import arc.scene.ui.layout.Table;
-import arc.scene.ui.layout.WidgetGroup;
-import dark.editor.EditTool;
-import dark.editor.Layer;
-import dark.editor.Renderer;
+import arc.scene.ui.layout.*;
+import dark.editor.*;
 import dark.history.Operation;
-import dark.ui.Drawables;
-import dark.ui.Icons;
-import dark.ui.Styles;
+import dark.ui.*;
 import dark.ui.elements.FocusScrollPane;
 
-import static arc.Core.*;
+import static arc.Core.bundle;
 import static dark.Main.*;
 
 public class HudFragment {

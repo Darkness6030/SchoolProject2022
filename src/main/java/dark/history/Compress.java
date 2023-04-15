@@ -1,7 +1,6 @@
 package dark.history;
 
-import arc.graphics.Color;
-import arc.graphics.Pixmap;
+import arc.graphics.*;
 import arc.struct.IntSeq;
 
 public class Compress {

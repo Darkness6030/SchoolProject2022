@@ -1,10 +1,7 @@
 package dark.ui;
 
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Font;
-import arc.graphics.g2d.TextureRegion;
-import arc.scene.style.Drawable;
-import arc.scene.style.TextureRegionDrawable;
+import arc.graphics.g2d.*;
+import arc.scene.style.*;
 import arc.struct.ObjectMap;
 import arc.util.Tmp;
 

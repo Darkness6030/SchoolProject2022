@@ -3,7 +3,7 @@ package dark.editor;
 import arc.ApplicationListener;
 import arc.graphics.Color;
 import arc.math.geom.Bresenham2;
-import arc.util.*;
+import arc.util.Tmp;
 import dark.history.DrawOperation;
 
 import static arc.Core.*;
@@ -38,8 +38,10 @@ public class InputHandler implements ApplicationListener {
             canvas.zoom(Binding.zoom.scroll() * canvas.zoom * (Binding.fastZoom.down() ? .15f : .05f));
 
         if (!scene.hasKeyboard()) {
-            Tmp.v1.set(Binding.move_x.axis(), Binding.move_y.axis()).nor().scl(canvas.zoom * -8f);
-            canvas.move(Tmp.v1.x, Tmp.v1.y);
+            if (!input.ctrl()) {
+                Tmp.v1.set(Binding.move_x.axis(), Binding.move_y.axis()).nor().scl(canvas.zoom * -8f);
+                canvas.move(Tmp.v1.x, Tmp.v1.y);
+            }
 
             input();
         }
@@ -100,7 +102,10 @@ public class InputHandler implements ApplicationListener {
         if (Binding.menu.tap() && !scene.hasDialog() && !ui.menu.isShown()) ui.menu.show();
         if (Binding.resize_canvas.tap()) ui.resize.show();
         if (Binding.new_canvas.tap()) ui.newCanvas.show();
-        if (Binding.new_layer.tap()) editor.newLayer(); // IDK where to put it
+        if (Binding.new_layer.tap()) editor.newLayer();
+
+        if (Binding.save.tap())
+            ui.format.show(format -> ui.showFileChooser("@file.save", format.name(), editor::save));
 
         // endregion
         // region tools
