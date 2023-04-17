@@ -6,7 +6,7 @@ import arc.struct.IntSeq;
 import dark.editor.*;
 import dark.ui.Icons;
 
-import static arc.Core.bundle;
+import static arc.Core.*;
 
 public class DrawOperation implements Operation {
 

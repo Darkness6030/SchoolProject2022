@@ -11,8 +11,8 @@ import arc.struct.Seq;
 import dark.ui.*;
 import dark.ui.elements.Field;
 
-import static arc.Core.input;
-import static dark.Main.ui;
+import static arc.Core.*;
+import static dark.Main.*;
 
 public class PaletteDialog extends BaseDialog {
 

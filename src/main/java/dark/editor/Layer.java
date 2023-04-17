@@ -8,7 +8,7 @@ import arc.struct.*;
 import arc.util.*;
 import dark.utils.Shapes;
 
-import static arc.Core.bundle;
+import static arc.Core.*;
 
 public class Layer extends Pixmap {
 

@@ -11,7 +11,7 @@ import arc.scene.ui.Slider.SliderStyle;
 import arc.scene.ui.TextButton.TextButtonStyle;
 import arc.scene.ui.TextField.TextFieldStyle;
 
-import static arc.Core.scene;
+import static arc.Core.*;
 
 public class Styles {
 

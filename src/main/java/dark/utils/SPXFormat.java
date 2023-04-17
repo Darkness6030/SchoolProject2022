@@ -6,7 +6,7 @@ import dark.history.Compress;
 
 import java.io.*;
 
-import static dark.Main.editor;
+import static dark.Main.*;
 
 public class SPXFormat {
 

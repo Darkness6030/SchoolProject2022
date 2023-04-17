@@ -5,7 +5,7 @@ import arc.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import arc.graphics.Color;
 import arc.graphics.g2d.Font;
 
-import static arc.Core.files;
+import static arc.Core.*;
 
 public class Fonts {
 

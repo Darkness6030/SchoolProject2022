@@ -7,7 +7,7 @@ import arc.scene.ui.layout.*;
 import arc.util.*;
 import dark.ui.*;
 
-import static arc.Core.input;
+import static arc.Core.*;
 
 public class UnderTable extends Table {
 

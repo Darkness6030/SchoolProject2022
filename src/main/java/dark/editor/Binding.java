@@ -4,7 +4,7 @@ import arc.KeyBinds.Axis;
 import arc.func.Boolp;
 import arc.input.KeyCode;
 
-import static arc.Core.input;
+import static arc.Core.*;
 
 public enum Binding {
 

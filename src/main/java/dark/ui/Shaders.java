@@ -5,7 +5,7 @@ import arc.graphics.gl.*;
 import arc.util.Time;
 
 import static arc.Core.*;
-import static dark.Main.canvas;
+import static dark.Main.*;
 
 public class Shaders {
 

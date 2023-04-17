@@ -2,7 +2,7 @@ package dark.ui;
 
 import arc.audio.Sound;
 
-import static arc.Core.files;
+import static arc.Core.*;
 
 public class Sounds {
 

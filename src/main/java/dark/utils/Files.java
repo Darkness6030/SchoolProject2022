@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import static dark.Main.editor;
+import static dark.Main.*;
 
 public class Files {
 

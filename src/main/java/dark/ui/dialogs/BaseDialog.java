@@ -6,7 +6,7 @@ import arc.scene.ui.Dialog;
 import arc.util.Align;
 import dark.ui.*;
 
-import static arc.Core.scene;
+import static arc.Core.*;
 
 public class BaseDialog extends Dialog {
 

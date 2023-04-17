@@ -8,7 +8,7 @@ import dark.history.Operation;
 import dark.ui.*;
 import dark.ui.elements.FocusScrollPane;
 
-import static arc.Core.bundle;
+import static arc.Core.*;
 import static dark.Main.*;
 
 public class HudFragment {

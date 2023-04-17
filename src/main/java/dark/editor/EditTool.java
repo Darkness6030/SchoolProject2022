@@ -9,9 +9,9 @@ import dark.ui.elements.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static arc.Core.scene;
+import static arc.Core.*;
 import static dark.Main.*;
-import static dark.editor.Renderer.background;
+import static dark.editor.Renderer.*;
 
 public enum EditTool {
     pencil(Binding.pencil) {
