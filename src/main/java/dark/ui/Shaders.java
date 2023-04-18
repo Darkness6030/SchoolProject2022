@@ -30,7 +30,7 @@ public class Shaders {
     public static class OverlayShader extends Shader {
 
         public OverlayShader() {
-            super(files.internal("shaders/screenspace.vert"), files.internal("shaders/overlay.frag"));
+            super(files.internal("shaders/overlay.vert"), files.internal("shaders/overlay.frag"));
         }
 
         @Override
