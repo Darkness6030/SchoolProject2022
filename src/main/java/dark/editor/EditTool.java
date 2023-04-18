@@ -76,7 +76,7 @@ public enum EditTool {
 
         public void build() {
             config.buildBrushTable();
-            config.toggle("@hud.straight", value -> config.straight = value); // всегда прямой угол
+            config.toggle("@hud.orthogonal", value -> config.orthogonal = value); // всегда прямой угол
         }
 
         public void touched(Layer current, int x, int y, Color color) {
@@ -143,7 +143,7 @@ public enum EditTool {
 
     public static class Config extends Table {
         public int size = 16, alpha = 255, tolerance = 16;
-        public boolean square, straight, pickRaw;
+        public boolean square, orthogonal, pickRaw;
 
         public void buildBrushTable() {
             defaults().padRight(8f);

@@ -5,6 +5,7 @@ import arc.graphics.Color;
 import arc.math.geom.Bresenham2;
 import arc.util.Tmp;
 import dark.history.DrawOperation;
+import dark.utils.Shapes;
 
 import static arc.Core.*;
 import static dark.Main.*;
@@ -153,7 +154,7 @@ public class InputHandler implements ApplicationListener {
             Bresenham2.line(canvasX, canvasY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(editor.renderer.current, x, y, color));
 
         else if (tool.drawOnRelease && binding.release() && dragX != -1 && dragY != -1) {
-            Bresenham2.line(dragX, dragY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.touched(editor.renderer.current, x, y, color));
+            Shapes.line(dragX, dragY, canvas.canvasX(), canvas.canvasY(), tool.config.orthogonal, (x, y) -> tool.touched(editor.renderer.current, x, y, color));
 
             dragX = canvas.canvasX();
             dragY = canvas.canvasY();
@@ -165,7 +166,7 @@ public class InputHandler implements ApplicationListener {
 
     public void drawOverlay() {
         if (tool.drawOnRelease && dragX != -1 && dragY != -1)
-            Bresenham2.line(dragX, dragY, canvas.canvasX(), canvas.canvasY(), (x, y) -> tool.drawOverlay(x, y));
+            Shapes.line(dragX, dragY, canvas.canvasX(), canvas.canvasY(), tool.config.orthogonal, (x, y) -> tool.drawOverlay(x, y));
         else
             tool.drawOverlay(canvas.canvasX(), canvas.canvasY());
     }
